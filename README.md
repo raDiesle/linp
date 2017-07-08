@@ -15,6 +15,10 @@ linq clone app
    1. https://git-for-windows.github.io/
    1. https://tortoisegit.org/download/
 
+1. Checkout Linp
+	1. Register Github account
+	1. Right click in folder: tortoisegit - Git Clone (checkout) - https://github.com/raDiesle/linp.git
+	
 1. Install nodejs with npm
 https://nodejs.org/en/
 
