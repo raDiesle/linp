@@ -1,6 +1,14 @@
 # linp
 linq clone app
 
+# Helpful documentations
+* http://valor-software.com/ngx-bootstrap/#/
+* https://v4-alpha.getbootstrap.com/
+* https://angular.io/
+* https://cli.angular.io/
+
+
+
 # Install git, tortoisegit
 * https://git-for-windows.github.io/
 * https://tortoisegit.org/download/
