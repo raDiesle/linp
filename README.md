@@ -29,6 +29,8 @@ https://nodejs.org/en/
 * npm install -g @angular/cli
 
 # Run webserver
-ng serve
+* ng serve
+* open http://localhost:4200
+
 
 
