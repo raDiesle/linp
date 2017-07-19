@@ -10,19 +10,19 @@ import * as firebase from 'firebase/app';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-   title = 'app';
-   items: FirebaseListObservable<any[]>;
-   user: Observable<firebase.User>;
-   
-   
-   constructor(
-		public db: AngularFireDatabase,
-		public afAuth: AngularFireAuth
-   ) {
-	this.user = afAuth.authState;
-	this.items = db.list('/items');
+  title = 'app';
+  items: FirebaseListObservable<any[]>;
+  user: Observable<firebase.User>;
+
+
+  constructor(
+    public db: AngularFireDatabase,
+    public afAuth: AngularFireAuth
+  ) {
+    this.user = afAuth.authState;
+    this.items = db.list('/items');
   }
-  
+
   login() {
     this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
   }
@@ -30,5 +30,5 @@ export class AppComponent {
   logout() {
     this.afAuth.auth.signOut();
   }
-  
+
 }
