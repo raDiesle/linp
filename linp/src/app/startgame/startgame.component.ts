@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
+
+
+import * as firebase from 'firebase/app';
 
 @Component({
   selector: 'app-startgame',
@@ -7,7 +11,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StartgameComponent implements OnInit {
 
-  constructor() { }
+  items: FirebaseListObservable<any[]>;
+
+
+  constructor(
+    public db: AngularFireDatabase
+  ) {
+
+    this.items = db.list('/items');
+  }
 
   ngOnInit() {
   }
