@@ -1,3 +1,47 @@
-<p>
-  startgame works!
-</p>
+<div>
+  <h2>Join Game</h2>
+
+  <div class="form-group">
+    <div class="input-group">
+      <input type="text" [(ngModel)]="gameFilter" (input)="resetFilterResults()" class="form-control" placeholder="Game Name" value="">
+      <span class="input-group-addon">
+        <svg style="height:15px;width:15px"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#search">&nbsp;</use></svg>
+      </span>
+    </div>
+  </div>
+  <div class="list-group">
+    <div *ngFor="let game of games | slice:currentPage*2-2:currentPage*2">
+      <button
+              *ngIf="hasGameFilterHitEntries(game)"
+              type="button"
+              (click)="onSelect(game)"
+              [ngClass]="{'active' : selectedGame === game}"
+              class="list-group-item list-group-item-action"
+      >
+        {{game.name}}
+      </button>
+    </div>
+    <div [hidden]="hasAnyFilterHitted">
+      NO ENTRIES
+    </div>
+  </div>
+  <div>
+    {{totalItems}}__
+    <pagination [totalItems]="games.length" itemsPerPage="2" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)"></pagination>
+  </div>
+
+  <h2>Create New Game</h2>
+  <div class="input-group">
+    <input type="text"
+           class="form-control"
+           placeholder="Player Name"
+           [(ngModel)]="playerName"
+    />
+    <input type="text"
+           class="form-control"
+           placeholder="Name of Game"
+           value="{{playerName}}"
+           (focus)="$event.target.select()"
+    />
+  </div>
+</div>

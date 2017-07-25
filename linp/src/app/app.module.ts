@@ -1,7 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import {FormsModule}   from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 import { AlertModule } from 'ngx-bootstrap';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
@@ -10,9 +13,9 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
-import { RouterModule } from '@angular/router';
+
 import { WelcomeComponent } from './welcome/welcome.component';
-import { StartgameComponent } from './startgame/startgame.component';
+import { StartgameComponent} from './startgame/startgame.component';
 import { FirsttipComponent } from './firsttip/firsttip.component';
 import { FirstguessComponent } from './firstguess/firstguess.component';
 import { SecondtipComponent } from './secondtip/secondtip.component';
@@ -27,6 +30,7 @@ import { SecondtipComponent } from './secondtip/secondtip.component';
   FirsttipComponent,
   FirstguessComponent,
   SecondtipComponent
+
 ],
   imports: [
   RouterModule.forRoot([
@@ -56,11 +60,12 @@ import { SecondtipComponent } from './secondtip/secondtip.component';
       pathMatch: 'full'
     },
     ]),
-  AlertModule.forRoot(),
+  FormsModule,
+  PaginationModule.forRoot(),
   BrowserModule,
   AngularFireModule.initializeApp(environment.firebase),
   AngularFireDatabaseModule, // imports firebase/database, only needed for database features
-  AngularFireAuthModule,
+  AngularFireAuthModule
 ],
   providers: [],
   bootstrap: [AppComponent]

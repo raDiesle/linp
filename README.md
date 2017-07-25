@@ -2,6 +2,7 @@
 linq clone app
 
 # Helpful documentations
+* https://material.io/icons/
 * http://valor-software.com/ngx-bootstrap/#/
 * https://v4-alpha.getbootstrap.com/
 * https://angular.io/
