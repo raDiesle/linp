@@ -1,3 +1,27 @@
 <div>
-  Welcome
+
+  <ul class="nav">
+    <li class="nav-item">
+      <a class="nav-link active" href="#">Active</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">Link</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">Link</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link disabled" href="#">Disabled</a>
+    </li>
+  </ul>
+
+  <div>
+
+
+
+    <div> {{ (user | async)?.uid }}</div>
+    <button (click)="login()">Login</button>
+    <button (click)="logout()">Logout</button>
+    <a routerLink="/startgame">Start Game</a>
+  </div>
 </div>

@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import { SlicePipe } from '@angular/common';
+import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 
 interface Game {
   name: String;
@@ -24,13 +25,17 @@ const GAMES: Game[] =
     }
   ];
 
+
+import * as firebase from 'firebase/app';
+
 @Component({
   selector: 'app-startgame',
   templateUrl: './startgame.component.html',
   styleUrls: ['./startgame.component.css']
 })
-
 export class StartgameComponent implements OnInit {
+
+  items: FirebaseListObservable<any[]>;
 
   gameFilter : string = "";
   hasAnyFilterHitted : boolean = true;
@@ -39,7 +44,11 @@ export class StartgameComponent implements OnInit {
   currentPage : number = 1;
   totalItems : number = 64;
 
-  constructor() {
+  constructor(
+    public db: AngularFireDatabase
+  ) {
+
+    this.items = db.list('/items');
   }
 
   ngOnInit() {
