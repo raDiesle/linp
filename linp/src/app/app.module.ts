@@ -19,6 +19,7 @@ import { StartgameComponent} from './startgame/startgame.component';
 import { FirsttipComponent } from './firsttip/firsttip.component';
 import { FirstguessComponent } from './firstguess/firstguess.component';
 import { SecondtipComponent } from './secondtip/secondtip.component';
+import {SearchFilterPipe} from "./startgame/gamelistsearch.pipe";
 
 
 
@@ -29,7 +30,8 @@ import { SecondtipComponent } from './secondtip/secondtip.component';
   StartgameComponent,
   FirsttipComponent,
   FirstguessComponent,
-  SecondtipComponent
+  SecondtipComponent,
+  SearchFilterPipe
 
 ],
   imports: [
@@ -43,7 +45,7 @@ import { SecondtipComponent } from './secondtip/secondtip.component';
       component: StartgameComponent
     },
     {
-      path: 'firstip',
+      path: 'firsttip',
       component: FirsttipComponent
     },
     {

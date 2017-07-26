@@ -1,36 +1,33 @@
-<div class="container">
-  <div class="row justify-content-center">
-    <div class="col-1">
-      <h1>
-        LINP
-      </h1>
-    </div>
-  </div>
-
-  <div style="height: 100px">
-  </div>
-
-  <div>
-    <router-outlet></router-outlet>
-  </div>
-
-  <div style="height: 100px">
-  </div>
-
-  <nav class="navbar fixed-bottom navbar-light bg-faded navbar-toggleable-md">
-
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" routerLink="/welcome">Welcome</a>
+<nav class="navbar navbar-toggleable-md navbar-light bg-faded fixed-top">
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" href="#">LINP</a>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="#" routerLink="/welcome">Welcome!</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" routerLink="/startgame">Start Game</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/firsttip">First Tip</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/firstguess">First Guess</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/secondtip">Second Tip</a>
+      </li>
     </ul>
-  </nav>
+  </div>
+</nav>
 
-  <a class="navbar-brand" routerLink="/firsttip">First Tip</a>
-  <a class="navbar-brand" routerLink="/firstguess">First Guess</a>
-  <a class="navbar-brand"  routerLink="/secondtip">Second Tip</a>
+<div class="container">
+
+  <div>
+    <router-outlet></router-outlet>
+  </div>
 
 </div>
