@@ -6,21 +6,27 @@
 
 <div class="card">
   <div class="card-block">
-  <h4 class="card-title">Login</h4>
-  <h6 class="card-subtitle mb-2 text-muted">To play Linp, please login first.</h6>
-    <p class="card-text">Here are the rules ...</p>
-    <div [hidden]="user === null">
-      <a class="card-link" href="#" (click)="login()">Login by Google</a>
-    </div>
+    <h4 class="card-title">Dashboard</h4>
+    <h6 class="card-subtitle mb-2 text-muted">Status</h6>
 
-    <div [hidden]="user !== null">
+    <div *ngIf="!user">
+      <a class="card-link" class="btn btn-primary" (click)="login()">Login by Google</a>
+    </div>
+    <div *ngIf="user">
       <div>
-        Already logged in with <strong>{{(user | async)?.displayName}}</strong>
+        Logged in with <strong>{{(user)?.displayName}}</strong>
       </div>
+      <p class="card-text">
+        0 Total Game --- 0 MMR
+      </p>
       <div>
         <button type="button" class="btn btn-primary" routerLink="/startgame">Start Game</button>
         <button type="button" class="btn btn-secondary" (click)="logout()">Logout</button>
       </div>
     </div>
+
+    <p class="card-text">
+      Here are the rules ...
+    </p>
   </div>
 </div>

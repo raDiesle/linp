@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import { SlicePipe } from '@angular/common';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import * as firebase from 'firebase/app';
+import { AngularFireAuth } from 'angularfire2/auth';
+import {Observable} from "rxjs/Observable";
 
 interface Game {
   name: String;
@@ -23,6 +25,22 @@ const GAMES: Game[] =
     },
     {
       name: "Ogre"
+    },
+    {
+      name : "Peter"
+    },
+    ,
+    {
+      name : "Junior"
+    },
+    {
+      name : "Georg"
+    },
+    {
+      name : "Heinz"
+    },
+    {
+      name : "Patrick"
     }
   ];
 
@@ -34,6 +52,9 @@ const GAMES: Game[] =
 export class StartgameComponent implements OnInit {
 
   items: FirebaseListObservable<any[]>;
+  user: Observable<firebase.User>;
+
+  gamesOffset :number = 5;
 
   gameFilter : string = "";
   hasAnyFilterHitted : boolean = true;
@@ -43,9 +64,11 @@ export class StartgameComponent implements OnInit {
   totalItems : number = 64;
 
   constructor(
+    public afAuth: AngularFireAuth,
     public db: AngularFireDatabase
   ) {
     this.items = db.list('/items');
+    this.user = afAuth.authState;
   }
 
   ngOnInit() {
@@ -62,6 +85,4 @@ export class StartgameComponent implements OnInit {
   pageChanged() : void{
 
   }
-
-
 }

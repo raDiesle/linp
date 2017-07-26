@@ -9,11 +9,13 @@ import * as firebase from 'firebase/app';
   styleUrls: ['./welcome.component.css']
 })
 export class WelcomeComponent implements OnInit {
-  user: Observable<firebase.User>;
+  user: firebase.User;
 
-  constructor(
-    public afAuth: AngularFireAuth) {
-    this.user = afAuth.authState;
+  constructor(public afAuth: AngularFireAuth) {
+    afAuth.authState.subscribe(data =>{
+      console.log(data);
+      this.user = data;
+    });
   }
 
   ngOnInit() {
