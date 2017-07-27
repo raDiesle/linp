@@ -20,6 +20,7 @@ import { FirsttipComponent } from './firsttip/firsttip.component';
 import { FirstguessComponent } from './firstguess/firstguess.component';
 import { SecondtipComponent } from './secondtip/secondtip.component';
 import {SearchFilterPipe} from "./startgame/gamelistsearch.pipe";
+import { GamelobbyComponent } from './gamelobby/gamelobby.component';
 
 
 
@@ -31,7 +32,8 @@ import {SearchFilterPipe} from "./startgame/gamelistsearch.pipe";
   FirsttipComponent,
   FirstguessComponent,
   SecondtipComponent,
-  SearchFilterPipe
+  SearchFilterPipe,
+  GamelobbyComponent
 
 ],
   imports: [
@@ -43,6 +45,10 @@ import {SearchFilterPipe} from "./startgame/gamelistsearch.pipe";
     {
       path: 'startgame',
       component: StartgameComponent
+    },
+    {
+      path: 'gamelobby',
+      component: GamelobbyComponent
     },
     {
       path: 'firsttip',
@@ -64,6 +70,7 @@ import {SearchFilterPipe} from "./startgame/gamelistsearch.pipe";
     ]),
   FormsModule,
   PaginationModule.forRoot(),
+  AlertModule.forRoot(),
   BrowserModule,
   AngularFireModule.initializeApp(environment.firebase),
   AngularFireDatabaseModule, // imports firebase/database, only needed for database features

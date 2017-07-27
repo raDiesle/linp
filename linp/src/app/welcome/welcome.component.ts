@@ -13,7 +13,6 @@ export class WelcomeComponent implements OnInit {
 
   constructor(public afAuth: AngularFireAuth) {
     afAuth.authState.subscribe(data =>{
-      console.log(data);
       this.user = data;
     });
   }

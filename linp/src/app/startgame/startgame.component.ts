@@ -52,7 +52,6 @@ const GAMES: Game[] =
 export class StartgameComponent implements OnInit {
 
   items: FirebaseListObservable<any[]>;
-  user: Observable<firebase.User>;
 
   gamesOffset :number = 5;
 
@@ -63,12 +62,20 @@ export class StartgameComponent implements OnInit {
   currentPage : number = 1;
   totalItems : number = 64;
 
+//@Input
+  playerName : string = "";
+  gameName : string = "";
+
   constructor(
     public afAuth: AngularFireAuth,
     public db: AngularFireDatabase
   ) {
     this.items = db.list('/items');
-    this.user = afAuth.authState;
+    afAuth.authState.subscribe(data =>{
+      const firstName = data.displayName.split(" ")[0];
+      this.playerName = firstName;
+      this.gameName = firstName;
+    });
   }
 
   ngOnInit() {
