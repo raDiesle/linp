@@ -1,3 +1,52 @@
-<p>
-  firsttip works!
-</p>
+<div class="row">
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-block">
+        <h4 class="card-title">
+          <span>First synonym for </span>
+          <span>{{yourRoleWordAnimation}}</span>
+        </h4>
+        <h6 class="card-subtitle mb-2 text-muted">Express your word</h6>
+        <div class="form-group row"
+            [ngClass]="{'has-danger' : firstSynonymInput.invalid, 'has-success' : firstSynonymInput.valid}"
+        >
+
+
+          <form novalidate #giveSynonymForm="ngForm">
+            <label class="col-3 col-form-label" for="firstExplanation">Synonym</label>
+            <div class="col-9">
+              <input type="text"
+                     class="form-control"
+                     [ngClass]="{'form-control-danger' : firstSynonymInput.invalid, 'form-control-success' : firstSynonymInput.valid}"
+                     id="firstExplanation"
+                     [(ngModel)]="firstSynonym"
+                     #firstSynonymInput="ngModel"
+                     name="firstSynonym"
+                     required
+              >
+              <div *ngIf="firstSynonymInput.errors?.required">
+                Enter your synonym
+              </div>
+              <button class="btn btn-primary" [disabled]="firstSynonymInput.invalid">Send</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-title">
+        Status of players
+      </div>
+      <div class="card-block">
+        <ul class="list-group">
+          <li class="list-group-item list-group-item-success">David</li>
+          <li class="list-group-item list-group-item-warning">Peter  {{dots}}</li>
+          <li class="list-group-item list-group-item-warning">Lina  {{dots}}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

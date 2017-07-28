@@ -21,6 +21,7 @@ import { FirstguessComponent } from './firstguess/firstguess.component';
 import { SecondtipComponent } from './secondtip/secondtip.component';
 import {SearchFilterPipe} from "./startgame/gamelistsearch.pipe";
 import { GamelobbyComponent } from './gamelobby/gamelobby.component';
+import { SinglewordonlyvalidatorDirective } from './firsttip/singlewordonlyvalidator.directive';
 
 
 
@@ -33,7 +34,8 @@ import { GamelobbyComponent } from './gamelobby/gamelobby.component';
   FirstguessComponent,
   SecondtipComponent,
   SearchFilterPipe,
-  GamelobbyComponent
+  GamelobbyComponent,
+  SinglewordonlyvalidatorDirective
 
 ],
   imports: [
