@@ -49,7 +49,7 @@ import { SinglewordonlyvalidatorDirective } from './firsttip/singlewordonlyvalid
       component: StartgameComponent
     },
     {
-      path: 'gamelobby',
+      path: 'gamelobby/:gamename',
       component: GamelobbyComponent
     },
     {

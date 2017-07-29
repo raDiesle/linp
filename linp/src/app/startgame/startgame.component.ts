@@ -4,45 +4,11 @@ import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/databa
 import * as firebase from 'firebase/app';
 import { AngularFireAuth } from 'angularfire2/auth';
 import {Observable} from "rxjs/Observable";
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 interface Game {
   name: String;
 }
-
-const GAMES: Game[] =
-  [
-    {
-      name: "Peter"
-    },
-    {
-      name: "Heinz"
-    },
-    {
-      name: "David"
-    },
-    {
-      name: "Lina"
-    },
-    {
-      name: "Ogre"
-    },
-    {
-      name : "Peter"
-    },
-    ,
-    {
-      name : "Junior"
-    },
-    {
-      name : "Georg"
-    },
-    {
-      name : "Heinz"
-    },
-    {
-      name : "Patrick"
-    }
-  ];
 
 @Component({
   selector: 'app-startgame',
@@ -55,7 +21,7 @@ export class StartgameComponent implements OnInit {
 
   gameFilter : string = "";
   hasAnyFilterHitted : boolean = true;
-  games: any = GAMES;
+  games: any = [];
   selectedGame: Game;
 
 //@Input
@@ -64,7 +30,8 @@ export class StartgameComponent implements OnInit {
 
   constructor(
     public afAuth: AngularFireAuth,
-    public db: AngularFireDatabase
+    public db: AngularFireDatabase,
+    public router: Router
   ) {
 
     //this.items
@@ -92,9 +59,17 @@ export class StartgameComponent implements OnInit {
   createGameAction(playerName : string, gameName : string) : void{
     let dbGames = this.db.database.ref("games/" + gameName);
     dbGames.set({
-      playerName : playerName,
-      name : gameName
+      host : playerName,
+      name : gameName,
+      players : [
+        {
+          name : playerName,
+          status : "waiting"
+        }
+      ]
     });
+
+    this.router.navigate(['/gamelobby', gameName]);
   }
 
   resetFilterResults(){

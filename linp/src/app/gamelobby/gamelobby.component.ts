@@ -1,16 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Observable} from "rxjs/Observable";
 import {TimerObservable} from "rxjs/observable/TimerObservable";
-
-
-const PLAYERS = [
-  {
-    name : "David"
-  },
-  {
-    name : "Georg"
-  }
-];
+import {Router, ActivatedRoute, ParamMap} from '@angular/router';
+import {AngularFireDatabase} from "angularfire2/database";
 
 @Component({
   selector: 'app-gamelobby',
@@ -18,19 +10,33 @@ const PLAYERS = [
   styleUrls: ['./gamelobby.component.css']
 })
 export class GamelobbyComponent implements OnInit {
+  gamename: string;
 
-  players = PLAYERS;
-  numberOfWaitingDots :number = 3;
-  waitingDots : number[] = [0, 1, 2];
+  players = [];
+  numberOfWaitingDots: number = 3;
+  waitingDots: number[] = [0, 1, 2];
 
-  constructor() {
-    TimerObservable.create(0 , 500).subscribe(t=>{
-      this.numberOfWaitingDots = this.numberOfWaitingDots + 1;
-      this.waitingDots = Array.from(Array(this.numberOfWaitingDots  % 4),(x,i)=>i);
-    });
+
+  constructor(private router: Router,
+              private route: ActivatedRoute,
+              public db: AngularFireDatabase
+              ) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.gamename = this.route.snapshot.paramMap.get("gamename");
+
+    let pathOrRef = "/games/" + this.gamename + "/players";
+    console.log(pathOrRef);
+    let dbPlayers = this.db.list(pathOrRef).subscribe(data =>{
+      this.players = data;
+    });
+
+    TimerObservable.create(0, 500).subscribe(t => {
+      this.numberOfWaitingDots = this.numberOfWaitingDots + 1;
+      this.waitingDots = Array.from(Array(this.numberOfWaitingDots % 4), (x, i) => i);
+    });
+
   }
 
 }
