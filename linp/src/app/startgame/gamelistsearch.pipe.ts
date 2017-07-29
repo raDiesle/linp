@@ -11,9 +11,7 @@ import { Injectable, Pipe, PipeTransform } from '@angular/core';
 export class SearchFilterPipe implements PipeTransform {
   transform(items: any[], field: string, value: string): any[] {
     const filteredItems = items.filter(it => it[field].toLowerCase().startsWith(value.toLowerCase()));
-
     const noResultsFlag = [-1];
-    console.log(filteredItems);
     return (filteredItems.length === 0) ? noResultsFlag : filteredItems;
   }
 }

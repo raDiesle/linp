@@ -28,7 +28,6 @@ export class GamelobbyComponent implements OnInit {
       this.numberOfWaitingDots = this.numberOfWaitingDots + 1;
       this.waitingDots = Array.from(Array(this.numberOfWaitingDots  % 4),(x,i)=>i);
     });
-
   }
 
   ngOnInit() {

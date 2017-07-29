@@ -51,16 +51,12 @@ const GAMES: Game[] =
 })
 export class StartgameComponent implements OnInit {
 
-  items: FirebaseListObservable<any[]>;
-
   gamesOffset :number = 5;
 
   gameFilter : string = "";
   hasAnyFilterHitted : boolean = true;
-  games: Game[] = GAMES;
+  games: any = GAMES;
   selectedGame: Game;
-  currentPage : number = 1;
-  totalItems : number = 64;
 
 //@Input
   playerName : string = "";
@@ -70,7 +66,19 @@ export class StartgameComponent implements OnInit {
     public afAuth: AngularFireAuth,
     public db: AngularFireDatabase
   ) {
-    this.items = db.list('/items');
+
+    //this.items
+    /*
+    db.object('/games').subscribe(data => {
+      this.games = data.value;
+      console.log("__");
+      console.log(data);
+    });
+    */
+    let dbGames = this.db.list("/games").subscribe(data =>{
+      this.games = data;
+    });
+
     afAuth.authState.subscribe(data =>{
       const firstName = data.displayName.split(" ")[0];
       this.playerName = firstName;
@@ -79,6 +87,14 @@ export class StartgameComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  createGameAction(playerName : string, gameName : string) : void{
+    let dbGames = this.db.database.ref("games/" + gameName);
+    dbGames.set({
+      playerName : playerName,
+      name : gameName
+    });
   }
 
   resetFilterResults(){

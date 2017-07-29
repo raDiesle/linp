@@ -1,3 +1,52 @@
-<p>
-  firstguess works!
-</p>
+<div class="row">
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-block">
+        <h4 class="card-title">
+          <span>Who?</span>
+          <span>{{yourRoleWordAnimation}}</span>
+        </h4>
+        <h6 class="card-subtitle mb-2 text-muted">Gues who is in a team</h6>
+        <div class="list-group">
+          <button *ngFor="let player of players"
+                  (click)="onSelect(player)"
+                  class="list-group-item list-group-item-action"
+                  [ngClass]="{'active' : selectedPlayers.indexOf(player) !== -1}"
+          >
+            {{player.name}}
+          </button>
+        </div>
+
+        <div class="card-text" *ngIf="selectedPlayers.length === 0">
+          Start to select a player
+        </div>
+        <div class="card-text" *ngIf="selectedPlayers.length === 1">
+          Select the second player
+        </div>
+        <div class="card-text" *ngIf="selectedPlayers.length === 2">
+          Are you sure these players belong to each other?
+        </div>
+        <button class="card-link btn"
+                [disabled]="selectedPlayers.length < 2"
+        >
+          Send
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-title">
+        Status of players
+      </div>
+      <div class="card-block">
+        <ul class="list-group">
+          <li class="list-group-item list-group-item-success">David</li>
+          <li class="list-group-item list-group-item-warning">Peter {{dots}}</li>
+          <li class="list-group-item list-group-item-success">Lina</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
