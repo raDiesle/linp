@@ -1,5 +1,15 @@
+
 export interface Game {
-  name: String;
+  host : string;
+  name: string;
+  players? : {[uid : string] :  GamePlayer};
 }
 
-export type GameStatus = "joining" | "waiting";
+interface GamePlayer {
+  uid : string;
+  name : string;
+  status : string;
+  firstWord? : string;
+}
+
+export type GameStatus = "joining" | "waiting" | "FIRST_WORD_GIVEN";

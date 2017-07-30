@@ -1,9 +1,10 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs/Rx';
-import {nextTick} from "q";
 import {ActivatedRoute} from "@angular/router";
 import {AngularFireDatabase} from "angularfire2/database";
 import {Player} from "../models/player";
+import {AngularFireAuth} from "angularfire2/auth";
+import * as firebase from 'firebase/app';
 
 @Component({
   selector: 'app-firsttip',
@@ -11,17 +12,24 @@ import {Player} from "../models/player";
   styleUrls: ['./firsttip.component.css']
 })
 export class FirsttipComponent implements OnInit {
+  user: firebase.User;
   players: Player[];
   gamename: string;
 
-  yourRoleWordAnimationPos: number = 0;
   yourRoleWordAnimation: string;
   dots: string = "";
+  //@input
+  private firstSynonym: string;
 
   constructor(private changeDetectorRef: ChangeDetectorRef,
               private route: ActivatedRoute,
-              public db: AngularFireDatabase
+              public db: AngularFireDatabase,
+              public afAuth: AngularFireAuth
               ) {
+
+    afAuth.authState.subscribe(data => {
+      this.user = data;
+    });
 
     var yourWordAnimation = ["your", "word", "to", "explain", "is", "_"];
 //TODO      var yourRoleAnimation = ["YOU", "ARE", "THE", "? QUESTIONMARK ?"];
@@ -56,13 +64,12 @@ export class FirsttipComponent implements OnInit {
   }
 
   sendWord(){
-    let dbGames = this.db.database.ref("games/" + this.gamename);
-    /*
-    dbGames.set({
-
+    let dbGames = this.db.database.ref("games/" + this.gamename + "/players/" + this.user.uid);
+    dbGames.update({
+      status : "FIRST_WORD_GIVEN",
+      firstWord : this.firstSynonym
     });
-    this.firstSynonym
-  */
+
   }
 
 }

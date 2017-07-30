@@ -35,7 +35,7 @@ export class StartgameComponent implements OnInit {
       this.user = data;
       const firstName = data.displayName.split(" ")[0];
       this.playerName = firstName;
-      this.gameName = firstName;
+      this.gameName = firstName + "Game";
     });
   }
 
@@ -44,19 +44,18 @@ export class StartgameComponent implements OnInit {
 
   createGameAction(playerName: string, gameName: string): void {
     let dbGames = this.db.database.ref("games/" + gameName);
-
-    let request = {
+    let request: Game = {
       host: playerName,
       name: gameName,
-      players : {}
+      players: {}
     };
     request.players[this.user.uid] = {
-      uid : this.user.uid,
+      uid: this.user.uid,
       name: playerName,
-          status: "waiting"
+      status: "waiting"
     };
 
-    dbGames.set(request);
+    dbGames.set(<Game>request);
 
     this.router.navigate(['/gamelobby', gameName]);
   }
@@ -69,18 +68,17 @@ export class StartgameComponent implements OnInit {
     this.selectedGame = game;
 
     let playersRef = this.db.database.ref("games/" + game.name + "/players");
-    let newPlayersKey = playersRef.push().key;
 
-    let testSpieler : Player = {
+    let testSpieler: Player = {
+      uid: this.user.uid,
       "name": this.playerName,
-      "status": "Joined"
+      "status": "JOINED"
     };
 
     let updatePlayer = {};
-    updatePlayer[newPlayersKey] = testSpieler;
+    updatePlayer[this.user.uid] = testSpieler;
 
     playersRef.update(updatePlayer);
-
     this.router.navigate(['/gamelobby', game.name]);
   }
 
