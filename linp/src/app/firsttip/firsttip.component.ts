@@ -14,7 +14,7 @@ import {GamePlayer} from "../models/game";
 })
 export class FirsttipComponent implements OnInit {
   user: firebase.User;
-  players: Player[];
+  players: GamePlayer[];
   gamename: string;
 
   yourRoleWordAnimation: string;
