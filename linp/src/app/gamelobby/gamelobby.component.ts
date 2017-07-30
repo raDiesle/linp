@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {Observable} from "rxjs/Observable";
 import {TimerObservable} from "rxjs/observable/TimerObservable";
 import {Router, ActivatedRoute, ParamMap} from '@angular/router';
+import {Player} from "app/models/player";
 import {AngularFireDatabase} from "angularfire2/database";
 
 @Component({
@@ -12,15 +12,14 @@ import {AngularFireDatabase} from "angularfire2/database";
 export class GamelobbyComponent implements OnInit {
   gamename: string;
 
-  players = [];
+  players: Player[]; // null
   numberOfWaitingDots: number = 3;
   waitingDots: number[] = [0, 1, 2];
 
 
   constructor(private router: Router,
               private route: ActivatedRoute,
-              public db: AngularFireDatabase
-              ) {
+              public db: AngularFireDatabase) {
   }
 
   ngOnInit(): void {
@@ -28,15 +27,18 @@ export class GamelobbyComponent implements OnInit {
 
     let pathOrRef = "/games/" + this.gamename + "/players";
     console.log(pathOrRef);
-    let dbPlayers = this.db.list(pathOrRef).subscribe(data =>{
-      this.players = data;
+    let dbPlayers = this.db.list(pathOrRef).subscribe(data => {
+      this.players = <Player[]>data;
     });
 
     TimerObservable.create(0, 500).subscribe(t => {
       this.numberOfWaitingDots = this.numberOfWaitingDots + 1;
       this.waitingDots = Array.from(Array(this.numberOfWaitingDots % 4), (x, i) => i);
     });
+  }
 
+  startGame(): void {
+    this.router.navigate(['/firsttip', this.gamename]);
   }
 
 }

@@ -3,10 +3,12 @@
     <div class="card">
       <div class="card-block">
         <h4 class="card-title">
-          <span>First synonym for </span>
-          <span>{{yourRoleWordAnimation}}</span>
+          {{gamename}}
         </h4>
-        <h6 class="card-subtitle mb-2 text-muted">Express your word</h6>
+        <h6 class="card-subtitle mb-2 text-muted">
+          <span>Express your word: First synonym for </span>
+          <span>{{yourRoleWordAnimation}}</span>
+        </h6>
         <div class="form-group row"
             [ngClass]="{'has-danger' : firstSynonymInput.invalid, 'has-success' : firstSynonymInput.valid}"
         >
@@ -27,7 +29,10 @@
               <div *ngIf="firstSynonymInput.errors?.required">
                 Enter your synonym
               </div>
-              <button class="btn btn-primary" [disabled]="firstSynonymInput.invalid">Send</button>
+              <button class="btn btn-primary"
+                      [disabled]="firstSynonymInput.invalid"
+                      (click)="sendWord()"
+              >Send</button>
             </div>
           </form>
         </div>
@@ -42,9 +47,9 @@
       </div>
       <div class="card-block">
         <ul class="list-group">
-          <li class="list-group-item list-group-item-success">1. David | Affe </li>
-          <li class="list-group-item list-group-item-danger">2. Peter  {{dots}}</li>
-          <li class="list-group-item list-group-item-text">3. Lina </li>
+          <li class="list-group-item list-group-item-success"
+              *ngFor="let player of players"
+          >{{$index}} {{player.name}} - {{player.status}} {{dots}}</li>
         </ul>
       </div>
     </div>
