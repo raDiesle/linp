@@ -1,10 +1,11 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs/Rx';
-import {ActivatedRoute} from "@angular/router";
-import {AngularFireDatabase} from "angularfire2/database";
+import {ActivatedRoute, Router} from "@angular/router";
+import {AngularFireDatabase, FirebaseListObservable} from "angularfire2/database";
 import {Player} from "../models/player";
 import {AngularFireAuth} from "angularfire2/auth";
 import * as firebase from 'firebase/app';
+import {GamePlayer} from "../models/game";
 
 @Component({
   selector: 'app-firsttip',
@@ -23,9 +24,10 @@ export class FirsttipComponent implements OnInit {
 
   constructor(private changeDetectorRef: ChangeDetectorRef,
               private route: ActivatedRoute,
+              private router: Router,
               public db: AngularFireDatabase,
-              public afAuth: AngularFireAuth
-              ) {
+              public afAuth: AngularFireAuth) {
+
 
     afAuth.authState.subscribe(data => {
       this.user = data;
@@ -52,24 +54,34 @@ export class FirsttipComponent implements OnInit {
       this.dots = dotSymbolList[counter.value % dotSymbolList.length];
       this.changeDetectorRef.markForCheck();
     });
+
   }
 
   ngOnInit() {
+
     this.gamename = this.route.snapshot.paramMap.get("gamename");
 
     let pathOrRef = "/games/" + this.gamename + "/players";
-    let dbPlayers = this.db.list(pathOrRef).subscribe(data => {
+    let firebaseListObservable: FirebaseListObservable<GamePlayer[]> = this.db.list(pathOrRef);
+    let dbPlayers = firebaseListObservable.subscribe(data => {
+      //console.log(data);
       this.players = data;
+
+      Observable.from(data)
+        .flatMap(p => Observable.of(p))
+        .pluck("status")
+        .every(status=>status === "FIRST_WORD_GIVEN")
+        .subscribe(allGivenFirstWord =>
+            allGivenFirstWord ? this.router.navigate(["/firstguess", this.gamename]) : null
+        );
     });
   }
 
-  sendWord(){
+  sendWord() {
     let dbGames = this.db.database.ref("games/" + this.gamename + "/players/" + this.user.uid);
     dbGames.update({
-      status : "FIRST_WORD_GIVEN",
-      firstWord : this.firstSynonym
+      status: "FIRST_WORD_GIVEN",
+      firstWord: this.firstSynonym
     });
-
   }
-
 }

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {TimerObservable} from "rxjs/observable/TimerObservable";
-import {Router, ActivatedRoute, ParamMap} from '@angular/router';
+import {Router, ActivatedRoute} from '@angular/router';
 import {Player} from "app/models/player";
 import {AngularFireDatabase} from "angularfire2/database";
 

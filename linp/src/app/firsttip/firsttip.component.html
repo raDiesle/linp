@@ -10,10 +10,8 @@
           <span>{{yourRoleWordAnimation}}</span>
         </h6>
         <div class="form-group row"
-            [ngClass]="{'has-danger' : firstSynonymInput.invalid, 'has-success' : firstSynonymInput.valid}"
+             [ngClass]="{'has-danger' : firstSynonymInput.invalid, 'has-success' : firstSynonymInput.valid}"
         >
-
-
           <form novalidate #giveSynonymForm="ngForm">
             <label class="col-3 col-form-label" for="firstExplanation">Synonym</label>
             <div class="col-9">
@@ -32,7 +30,8 @@
               <button class="btn btn-primary"
                       [disabled]="firstSynonymInput.invalid"
                       (click)="sendWord()"
-              >Send</button>
+              >Send
+              </button>
             </div>
           </form>
         </div>
@@ -49,7 +48,8 @@
         <ul class="list-group">
           <li class="list-group-item list-group-item-success"
               *ngFor="let player of players"
-          >{{$index}} {{player.name}} - {{player.status}} {{dots}}</li>
+          >{{$index}} {{player.name}} - {{player.status}} {{dots}}
+          </li>
         </ul>
       </div>
     </div>

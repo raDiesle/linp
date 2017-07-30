@@ -11,16 +11,17 @@
 
     <div *ngIf="!user">
       <button class="btn btn-primary" class="btn btn-primary" (click)="login()">Login by Google</button>
+      <button class="btn btn-primary" class="btn btn-secondary" (click)="loginAnonymous()">Login anonymous</button>
     </div>
     <div *ngIf="user">
       <div>
-        Logged in with <strong>{{(user)?.displayName}}</strong>
+        Logged in with <strong>{{(user)?.displayName}}</strong> - {{(user)?.uid}}
       </div>
       <p class="card-text">
         0 Total Game --- 0 MMR
       </p>
       <div>
-        <button type="button" class="btn btn-primary" routerLink="/startgame">Start Game</button>
+        <button type="button" class="btn btn-primary" routerLink="/startgame">Go to lobby</button>
         <button type="button" class="btn btn-secondary" (click)="logout()">Logout</button>
       </div>
     </div>

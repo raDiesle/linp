@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {ChangeDetectorRef, Component} from '@angular/core';
+import {ActivatedRoute, NavigationEnd, Router, UrlSegment} from "@angular/router";
 
 
 @Component({
@@ -7,16 +8,25 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  gamename: string;
   title = 'app';
 
-  constructor(
+  constructor(private router: Router,
+              private route: ActivatedRoute,
+              private changeDetectorRef: ChangeDetectorRef) {
 
-  ) {
 
   }
 
-
-
-
-
+  ngOnInit() {
+    this.router.events.subscribe(s => {
+      if (s instanceof NavigationEnd) {
+        let fullUrl = s.urlAfterRedirects;
+        if (fullUrl.split("/").length >= 3) {
+          this.gamename = fullUrl.split("/")[2];
+          this.changeDetectorRef.markForCheck();
+        }
+      }
+    });
+  }
 }

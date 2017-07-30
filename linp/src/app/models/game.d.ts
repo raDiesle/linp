@@ -5,7 +5,7 @@ export interface Game {
   players? : {[uid : string] :  GamePlayer};
 }
 
-interface GamePlayer {
+export interface GamePlayer {
   uid : string;
   name : string;
   status : string;

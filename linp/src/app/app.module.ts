@@ -57,7 +57,7 @@ import { SinglewordonlyvalidatorDirective } from './firsttip/singlewordonlyvalid
       component: FirsttipComponent
     },
     {
-      path: 'firstguess',
+      path: 'firstguess/:gamename',
       component: FirstguessComponent
     },
     {
