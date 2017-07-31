@@ -9,7 +9,8 @@ export interface GamePlayer {
   uid : string;
   name : string;
   status : string;
-  firstWord? : string;
+  firstSynonym? : string;
+  wordOrRole? : string;
 }
 
-export type GameStatus = "joining" | "waiting" | "FIRST_WORD_GIVEN";
+export type GameStatus = "joining" | "waiting" | "ROLE_OR_WORD_GIVEN" | "FIRST_WORD_GIVEN";

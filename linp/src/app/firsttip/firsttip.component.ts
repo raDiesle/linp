@@ -27,11 +27,10 @@ export class FirsttipComponent implements OnInit {
               private router: Router,
               public db: AngularFireDatabase,
               public afAuth: AngularFireAuth) {
-
-
     afAuth.authState.subscribe(data => {
       this.user = data;
     });
+
 
     var yourWordAnimation = ["your", "word", "to", "explain", "is", "_"];
 //TODO      var yourRoleAnimation = ["YOU", "ARE", "THE", "? QUESTIONMARK ?"];
@@ -58,7 +57,6 @@ export class FirsttipComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this.gamename = this.route.snapshot.paramMap.get("gamename");
 
     let pathOrRef = "/games/" + this.gamename + "/players";
@@ -71,8 +69,8 @@ export class FirsttipComponent implements OnInit {
         .flatMap(p => Observable.of(p))
         .pluck("status")
         .every(status=>status === "FIRST_WORD_GIVEN")
-        .subscribe(allGivenFirstWord =>
-            allGivenFirstWord ? this.router.navigate(["/firstguess", this.gamename]) : null
+        .subscribe(allGivenFirstSynonym =>
+            allGivenFirstSynonym ? this.router.navigate(["/firstguess", this.gamename]) : null
         );
     });
   }
@@ -81,7 +79,7 @@ export class FirsttipComponent implements OnInit {
     let dbGames = this.db.database.ref("games/" + this.gamename + "/players/" + this.user.uid);
     dbGames.update({
       status: "FIRST_WORD_GIVEN",
-      firstWord: this.firstSynonym
+      firstSynonym: this.firstSynonym
     });
   }
 }

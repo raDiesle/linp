@@ -5,8 +5,8 @@ import {AngularFireDatabase, FirebaseListObservable} from "angularfire2/database
 import {GamePlayer} from "../models/game";
 import {AngularFireAuth} from "angularfire2/auth";
 
-interface Player{
-  name :string;
+interface Player {
+  name: string;
 }
 
 @Component({
@@ -22,12 +22,11 @@ export class FirstguessComponent implements OnInit {
 
   players = [];
 
-  constructor(private changeDetectorRef : ChangeDetectorRef,
-              private route : ActivatedRoute,
+  constructor(private changeDetectorRef: ChangeDetectorRef,
+              private route: ActivatedRoute,
               private router: Router,
               public db: AngularFireDatabase,
-              public afAuth: AngularFireAuth
-              ) {
+              public afAuth: AngularFireAuth) {
     let sourceLoading = Observable
       .interval(500)
       .timeInterval();
@@ -49,19 +48,22 @@ export class FirstguessComponent implements OnInit {
 
     firebaseListObservable
       .every(player => player.status === "FIRST_WORD_GIVEN")
-      .subscribe(allGivenFirstWord =>
-        this.router.navigate(["/firstguess", this.gamename])
+      .subscribe(allGivenFirstSynonym => {
+          if (allGivenFirstSynonym) {
+            this.router.navigate(["/firstguess", this.gamename])
+          }
+        }
       );
   }
 
-  onSelect(player) : void {
+  onSelect(player): void {
     let wasSelectedBefore = this.selectedPlayers.indexOf(player) === -1;
-    if(wasSelectedBefore){
-      if(this.selectedPlayers.length >= 2){
+    if (wasSelectedBefore) {
+      if (this.selectedPlayers.length >= 2) {
         return;
       }
       this.selectedPlayers.push(player);
-    }else{
+    } else {
       this.selectedPlayers.splice(this.selectedPlayers.indexOf(player), 1);
     }
   }
