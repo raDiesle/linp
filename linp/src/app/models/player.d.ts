@@ -1,5 +1,5 @@
 export interface Player {
-  uid : string,
+  uid? : string,
   name: string;
   status: string;
 }

@@ -16,11 +16,12 @@ import {FirebaseListFactoryOpts} from "angularfire2/interfaces";
   styleUrls: ['./gamelobby.component.css']
 })
 export class GamelobbyComponent implements OnInit {
+  playersKeys: string[] = [];
   totalSizeOfWordCatalogue: any;
 
   gamename: string;
 
-  players: Player[]; // null
+  players: any; // null
   numberOfWaitingDots: number = 3;
   waitingDots: number[] = [0, 1, 2];
   private user: firebase.User;
@@ -38,11 +39,13 @@ export class GamelobbyComponent implements OnInit {
   ngOnInit(): void {
     this.gamename = this.route.snapshot.paramMap.get("gamename");
 
+
     let pathOrRef = "/games/" + this.gamename + "/players";
     console.log(pathOrRef);
-    let dbPlayers = this.db.list(pathOrRef)
+    let dbPlayers = this.db.object(pathOrRef)
       .subscribe(data => {
-        this.players = <Player[]>data;
+        this.players = data;
+        this.playersKeys = Object.keys(this.players);
       });
 
     TimerObservable.create(0, 500)
@@ -83,26 +86,25 @@ export class GamelobbyComponent implements OnInit {
 
           roleOrWordPool = roleOrWordPool.concat(words);
 
-          let shuffledPlayers = this.shuffle(this.players);
-          for (let pos = 0; pos < shuffledPlayers.length; pos++) {
-            // TODO not nice, because lengths have to exactly match
-            shuffledPlayers[pos].word = roleOrWordPool[pos]["value"]; // fix value accessor
+          let shuffledWordPool = this.shuffle(roleOrWordPool);
+          // TODO not nice, because lengths have to exactly match
+          for (let pos = 0; pos < this.playersKeys.length; pos++) {
+            this.players[this.playersKeys[pos]].word = shuffledWordPool[pos]["value"]; // fix value accessor
           }
           console.log("Afterswards to update back players to db:");
-          console.log(shuffledPlayers);
-    // TODO
+          console.log(this.players);
+
+          this.assignWordOrRoleToUserDB(this.players);
+          // TODO
 //    this.router.navigate(['/firsttip', this.gamename]);
           return null;
         });
       });
   }
 
-  private assignWordOrRoleToUserDB(userId: string, wordOrRole: string) {
-    let dbGames = this.db.database.ref("games/" + this.gamename + "/players/" + userId);
-    dbGames.update({
-      status: "ROLE_OR_WORD_GIVEN",
-      word: wordOrRole
-    });
+  private assignWordOrRoleToUserDB(players) {
+    let dbGames = this.db.database.ref("games/" + this.gamename + "/players");
+    dbGames.set(players);
   }
 
   private shuffle(arrayToSort: any[]): any[] {

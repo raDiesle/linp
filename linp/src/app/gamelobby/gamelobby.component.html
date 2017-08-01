@@ -9,11 +9,11 @@
     </h6>
     <div class="card-text">
       <div class="list-group">
-        <div *ngFor="let player of players">
+        <div *ngFor="let key of playersKeys">
           <button
             type="button"
             class="list-group-item list-group-item-action"
-          >{{player.name}}</button>
+          >{{players[key].name}}</button>
         </div>
       </div>
     </div>
