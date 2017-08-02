@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {TimerObservable} from "rxjs/observable/TimerObservable";
 import {Router, ActivatedRoute} from '@angular/router';
-import {Player} from "app/models/player";
 import {AngularFireDatabase} from "angularfire2/database";
 import {AngularFireAuth} from "angularfire2/auth";
 import * as firebase from 'firebase/app';

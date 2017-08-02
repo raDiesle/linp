@@ -2,7 +2,6 @@ import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs/Rx';
 import {ActivatedRoute, Router} from "@angular/router";
 import {AngularFireDatabase, FirebaseListObservable} from "angularfire2/database";
-import {Player} from "../models/player";
 import {AngularFireAuth} from "angularfire2/auth";
 import * as firebase from 'firebase/app';
 import {GamePlayer} from "../models/game";
@@ -68,9 +67,9 @@ export class FirsttipComponent implements OnInit {
       Observable.from(data)
         .flatMap(p => Observable.of(p))
         .pluck("status")
-        .every(status=>status === "FIRST_WORD_GIVEN")
+        .every(status => status === "FIRST_WORD_GIVEN")
         .subscribe(allGivenFirstSynonym =>
-            allGivenFirstSynonym ? this.router.navigate(["/firstguess", this.gamename]) : null
+          allGivenFirstSynonym ? this.router.navigate(["/firstguess", this.gamename]) : null
         );
     });
   }

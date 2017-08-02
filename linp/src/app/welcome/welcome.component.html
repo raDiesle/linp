@@ -4,30 +4,47 @@
   </h1>
 </div>
 
-<div class="card">
-  <div class="card-block">
-    <h4 class="card-title">Dashboard</h4>
-    <h6 class="card-subtitle mb-2 text-muted">Status</h6>
+<div>
+  <div class="card">
+    <div class="card-block">
+      <h4 class="card-title">Dashboard</h4>
+      <h6 class="card-subtitle mb-2 text-muted">Status</h6>
 
-    <div *ngIf="!user">
-      <button class="btn btn-primary" class="btn btn-primary" (click)="login()">Login by Google</button>
-      <button class="btn btn-primary" class="btn btn-secondary" (click)="loginAnonymous()">Login anonymous</button>
+      <div *ngIf="user; then isLoggedIn else isNotLoggedIn"></div>
+
+      <ng-template #isNotLoggedIn>
+        <button class="btn btn-primary" class="btn btn-primary" (click)="login()">Login by Google</button>
+        <button class="btn btn-primary" class="btn btn-secondary" (click)="loginAnonymous()">Login anonymous</button>
+      </ng-template>
+
+      <ng-template #isLoggedIn>
+        <div>
+          Logged in with <strong>{{(user)?.displayName}}</strong> - {{(user)?.uid}}
+        </div>
+        <div>
+          <button type="button" class="btn btn-primary" routerLink="/startgame">Start Playing</button>
+          <button type="button" class="btn btn-secondary" (click)="logout()">Logout</button>
+        </div>
+      </ng-template>
+
+
     </div>
-    <div *ngIf="user">
-      <div>
-        Logged in with <strong>{{(user)?.displayName}}</strong> - {{(user)?.uid}}
-      </div>
+  </div>
+
+  <div class="card">
+    <div class="card-block">
+      <h4 class="card-title">Game Rules</h4>
       <p class="card-text">
-        0 Total Game --- 0 MMR
+        Linq is a party of game of bluffing and
+        collusion for 4-8 players, ages 10 and up.
+        In Linq, two players assume the role of spies
+        who are attempting to identify one another
+        via secret code words. All other players take
+        on the role of double agents, whose goal is
+        to identify and confuse the spies by
+        deciphering their secret code.
       </p>
-      <div>
-        <button type="button" class="btn btn-primary" routerLink="/startgame">Go to lobby</button>
-        <button type="button" class="btn btn-secondary" (click)="logout()">Logout</button>
-      </div>
+      <a href="#">Show more ...</a>
     </div>
-
-    <p class="card-text">
-      Here are the rules ...
-    </p>
   </div>
 </div>

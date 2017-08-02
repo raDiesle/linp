@@ -11,8 +11,8 @@ export class WelcomeComponent implements OnInit {
   user: firebase.User;
 
   constructor(public afAuth: AngularFireAuth) {
-    afAuth.authState.subscribe(data =>{
-      this.user = data;
+    afAuth.authState.subscribe(responseData =>{
+      this.user = responseData;
     });
   }
 

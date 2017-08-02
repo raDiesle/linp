@@ -2,8 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AngularFireDatabase, FirebaseListObservable} from 'angularfire2/database';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {Router, ActivatedRoute, ParamMap} from '@angular/router';
-import {Player} from "app/models/player";
-import {Game} from "../models/game";
+import {Game, GamePlayer} from "../models/game";
 import * as firebase from 'firebase/app';
 
 @Component({
@@ -35,7 +34,7 @@ export class StartgameComponent implements OnInit {
       this.user = data;
       const firstLastName = data.displayName.split(" ");
       // TODO use inside of html only
-      if(firstLastName.length > 0){
+      if (firstLastName.length > 0) {
         const firstName = firstLastName[0];
         this.playerName = firstName;
         this.gameName = firstName + "Game";
@@ -54,6 +53,7 @@ export class StartgameComponent implements OnInit {
       name: gameName,
       players: {}
     };
+
     request.players[this.user.uid] = {
       uid: this.user.uid,
       name: playerName,
@@ -74,10 +74,10 @@ export class StartgameComponent implements OnInit {
 
     let playersRef = this.db.database.ref("games/" + game.name + "/players");
 
-    let testSpieler: Player = {
+    let testSpieler: GamePlayer = {
       uid: this.user.uid,
-      "name": this.playerName,
-      "status": "JOINED"
+      name: this.playerName,
+      status: "JOINED"
     };
 
     let updatePlayer = {};
@@ -85,9 +85,5 @@ export class StartgameComponent implements OnInit {
 
     playersRef.update(updatePlayer);
     this.router.navigate(['/gamelobby', game.name]);
-  }
-
-  pageChanged(): void {
-
   }
 }
