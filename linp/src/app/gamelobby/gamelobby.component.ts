@@ -31,6 +31,7 @@ export class GamelobbyComponent implements OnInit {
               private route: ActivatedRoute,
               public db: AngularFireDatabase,
               public afAuth: AngularFireAuth) {
+
     afAuth.authState.subscribe(data => {
       this.user = data;
     });
@@ -41,7 +42,6 @@ export class GamelobbyComponent implements OnInit {
 
 
     let pathOrRef = "/games/" + this.gamename + "/players";
-    console.log(pathOrRef);
     let dbPlayers = this.db.object(pathOrRef)
       .subscribe(data => {
         this.players = data;
@@ -96,7 +96,8 @@ export class GamelobbyComponent implements OnInit {
 
           this.assignWordOrRoleToUserDB(this.players);
           // TODO
-//    this.router.navigate(['/firsttip', this.gamename]);
+
+          this.router.navigate(['/firsttip', this.gamename]);
           return null;
         });
       });

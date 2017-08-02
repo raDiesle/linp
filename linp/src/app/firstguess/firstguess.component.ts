@@ -4,10 +4,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {AngularFireDatabase, FirebaseListObservable} from "angularfire2/database";
 import {GamePlayer} from "../models/game";
 import {AngularFireAuth} from "angularfire2/auth";
+import * as firebase from 'firebase/app';
 
-interface Player {
-  name: string;
-}
 
 @Component({
   selector: 'app-firstguess',
@@ -15,18 +13,25 @@ interface Player {
   styleUrls: ['./firstguess.component.css']
 })
 export class FirstguessComponent implements OnInit {
+  user: firebase.User;
   gamename: any;
   dots: string;
 
-  selectedPlayers: Player[] = [];
+  selectedPlayers: GamePlayer[] = [];
 
   players = [];
+  private playersKeys: string[];
 
   constructor(private changeDetectorRef: ChangeDetectorRef,
               private route: ActivatedRoute,
               private router: Router,
               public db: AngularFireDatabase,
               public afAuth: AngularFireAuth) {
+
+    afAuth.authState.subscribe(data => {
+      this.user = data;
+    });
+
     let sourceLoading = Observable
       .interval(500)
       .timeInterval();
@@ -41,31 +46,40 @@ export class FirstguessComponent implements OnInit {
     this.gamename = this.route.snapshot.paramMap.get("gamename");
 
     let pathOrRef = "/games/" + this.gamename + "/players";
-    let firebaseListObservable: FirebaseListObservable<GamePlayer[]> = this.db.list(pathOrRef);
-    let dbPlayers = firebaseListObservable.subscribe(data => {
-      this.players = data;
-    });
-
-    firebaseListObservable
-      .every(player => player.status === "FIRST_WORD_GIVEN")
-      .subscribe(allGivenFirstSynonym => {
-          if (allGivenFirstSynonym) {
-            this.router.navigate(["/firstguess", this.gamename])
-          }
-        }
-      );
+    let dbPlayers = this.db.object(pathOrRef)
+      .subscribe(data => {
+        this.players = data;
+        this.playersKeys = Object.keys(this.players);
+      });
   }
 
   onSelect(player): void {
-    let wasSelectedBefore = this.selectedPlayers.indexOf(player) === -1;
-    if (wasSelectedBefore) {
-      if (this.selectedPlayers.length >= 2) {
+    let isPlayerSelectedNew = this.selectedPlayers.indexOf(player) === -1;
+    if (isPlayerSelectedNew) {
+      const wasMaxPlayersForTeamSelectedAlready = this.selectedPlayers.length >= 2;
+      if (wasMaxPlayersForTeamSelectedAlready) {
         return;
       }
       this.selectedPlayers.push(player);
     } else {
       this.selectedPlayers.splice(this.selectedPlayers.indexOf(player), 1);
     }
+  }
+
+  onSave() : void{
+    const path = "games/" + this.gamename + "/players/" + this.user.uid + "/firstTeamTip";
+    let dbGames = this.db.database.ref(path);
+
+    const firstTeamTip = {
+      firstPartner : {
+        uid : this.selectedPlayers[0].uid,
+      },
+      secondPartner : {
+        uid : this.selectedPlayers[1].uid,
+      }
+    };
+
+    dbGames.set(firstTeamTip);
   }
 
 }

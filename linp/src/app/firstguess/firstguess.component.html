@@ -8,12 +8,12 @@
         </h4>
         <h6 class="card-subtitle mb-2 text-muted">Gues who is in a team</h6>
         <div class="list-group">
-          <button *ngFor="let player of players"
-                  (click)="onSelect(player)"
+          <button *ngFor="let key of playersKeys"
+                  (click)="onSelect(players[key])"
                   class="list-group-item list-group-item-action"
-                  [ngClass]="{'active' : selectedPlayers.indexOf(player) !== -1}"
+                  [ngClass]="{'active' : selectedPlayers.indexOf(players[key]) !== -1}"
           >
-            {{player.name}}
+            {{players[key].name}}
           </button>
         </div>
 
@@ -28,6 +28,7 @@
         </div>
         <button class="card-link btn"
                 [disabled]="selectedPlayers.length < 2"
+                (click)="onSave()"
         >
           Send
         </button>
@@ -43,8 +44,8 @@
       <div class="card-block">
         <ul class="list-group">
           <li class="list-group-item list-group-item-success"
-              *ngFor="let player of players"
-          >{{$index}} {{player.name}} - {{player.status}} {{dots}}
+              *ngFor="let key of playersKeys"
+          >{{$index}} {{players[key].name}} - {{players[key].status}} {{dots}}
         </ul>
       </div>
     </div>
