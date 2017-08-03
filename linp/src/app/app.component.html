@@ -1,34 +1,36 @@
-<nav class="navbar navbar-toggleable-md navbar-light bg-faded fixed-top">
-  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <a class="navbar-brand" href="#">LINP</a>
-  <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" href="#" routerLink="/welcome">Welcome</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/startgame">Start Game</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/gamelobby/{{gamename}}">Gamelobby</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/firsttip/{{gamename}}">First Tip</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/firstguess/{{gamename}}">First Guess</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/secondtip/{{gamename}}">Second Tip</a>
-      </li>
-    </ul>
-  </div>
-</nav>
+<div>
+  <nav class="navbar navbar-toggleable-md navbar-light bg-faded sticky-top">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="#">LINP</a>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="#" routerLink="/welcome">Welcome</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/startgame">Start Game</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/gamelobby/{{gamename}}">Gamelobby</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/firsttip/{{gamename}}">First Tip</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/firstguess/{{gamename}}">First Guess</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/secondtip/{{gamename}}">Second Tip</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
 
-<div class="container">
-  <div>
-    <router-outlet></router-outlet>
+  <div class="container" style="padding-top:2.5em;">
+      <router-outlet></router-outlet>
   </div>
 </div>
+

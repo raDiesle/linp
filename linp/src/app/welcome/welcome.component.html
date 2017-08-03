@@ -2,49 +2,92 @@
   <h1>
     Welcome to <strong>LINP</strong>
   </h1>
-</div>
 
-<div>
-  <div class="card">
-    <div class="card-block">
-      <h4 class="card-title">Dashboard</h4>
-      <h6 class="card-subtitle mb-2 text-muted">Status</h6>
 
-      <div *ngIf="user; then isLoggedIn else isNotLoggedIn"></div>
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-block">
+          <h4 class="card-title">Dashboard</h4>
+          <h6 class="card-subtitle mb-2 text-muted">Status</h6>
 
-      <ng-template #isNotLoggedIn>
-        <button class="btn btn-primary" class="btn btn-primary" (click)="login()">Login by Google</button>
-        <button class="btn btn-primary" class="btn btn-secondary" (click)="loginAnonymous()">Login anonymous</button>
-      </ng-template>
+          <div *ngIf="user; then isLoggedIn else isNotLoggedIn"></div>
 
-      <ng-template #isLoggedIn>
-        <div>
-          Logged in with <strong>{{(user)?.displayName}}</strong> - {{(user)?.uid}}
+          <ng-template #isNotLoggedIn>
+            <button class="btn btn-primary" class="btn btn-primary" (click)="login()">Login by Google</button>
+            <button class="btn btn-primary" class="btn btn-secondary" (click)="loginAnonymous()">Login anonymous
+            </button>
+          </ng-template>
+
+          <ng-template #isLoggedIn>
+            <div>
+              Logged in with <strong>{{(user)?.displayName}}</strong> - {{(user)?.uid}}
+            </div>
+            <div>
+              <button *ngIf="!firstTimeLoggedInEver"
+                      type="button"
+                      class="btn btn-primary"
+                      routerLink="/startgame">Start Playing</button>
+              <button type="button" class="btn btn-secondary" (click)="logout()">Logout</button>
+            </div>
+          </ng-template>
+
+
         </div>
-        <div>
-          <button type="button" class="btn btn-primary" routerLink="/startgame">Start Playing</button>
-          <button type="button" class="btn btn-secondary" (click)="logout()">Logout</button>
-        </div>
-      </ng-template>
-
-
+      </div>
     </div>
-  </div>
 
-  <div class="card">
-    <div class="card-block">
-      <h4 class="card-title">Game Rules</h4>
-      <p class="card-text">
-        Linq is a party of game of bluffing and
-        collusion for 4-8 players, ages 10 and up.
-        In Linq, two players assume the role of spies
-        who are attempting to identify one another
-        via secret code words. All other players take
-        on the role of double agents, whose goal is
-        to identify and confuse the spies by
-        deciphering their secret code.
-      </p>
-      <a href="#">Show more ...</a>
+    <div class="col-sm-6">
+      <div class="card card-outline-danger">
+        <div class="card-block">
+          <h3 class="card-title">
+            Player Profile
+          </h3>
+          <div class="card-block">
+            <div class="form-group has-success row">
+              <label for="playername" class="col-3 col-form-label">Player Name</label>
+              <div class="col-9">
+                <input
+                  id="playername"
+                  type="text"
+                  class="form-control form-control-success"
+                  name="playerName"
+                  [(ngModel)]="playerName"
+                  (ngModelChange)="playerName"
+                  required
+                  value="user.displayName"
+                />
+                <div class="form-control-feedback">Your username is not not taken yet</div>
+                <small *ngIf="firstTimeLoggedInEver" class="form-text text-muted">Save suggestion as player name?</small>
+                <button (click)="savePlayerName()" class="btn btn-warning">Save</button>
+
+                <div *ngIf="firstTimeLoggedInEver">Successful saved name</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-block">
+          <h4 class="card-title">Game Rules</h4>
+          <p class="card-text">
+            Linq is a party of game of bluffing and
+            collusion for 4-8 players, ages 10 and up.
+            In Linq, two players assume the role of spies
+            who are attempting to identify one another
+            via secret code words. All other players take
+            on the role of double agents, whose goal is
+            to identify and confuse the spies by
+            deciphering their secret code.
+          </p>
+          <a href="#">Show more ...</a>
+        </div>
+      </div>
     </div>
   </div>
 </div>

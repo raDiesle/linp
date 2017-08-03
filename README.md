@@ -12,7 +12,7 @@ linq clone app
 * https://github.com/angular/angularfire2/blob/master/docs/1-install-and-setup.md
 * https://coryrylan.com/blog/deploy-angular-cli-apps-to-firebase
 * 9fwPJ3l8KYIv
-
+* Gamerules of french https://boardgamegeek.com/thread/557251/scoring-newest-version
 1. Install git, tortoisegit
    1. https://git-for-windows.github.io/
    1. https://tortoisegit.org/download/
@@ -34,3 +34,23 @@ https://nodejs.org/en/
 
 
 
+* Auth examples
+{
+"rules": {
+"users": {
+"$uid": {
+".write": "$uid === auth.uid",
+".read": true
+}
+}
+}
+}
+
+* Validate
+{
+"rules": {
+"foo": {
+".validate": "newData.isString()"
+}
+}
+}

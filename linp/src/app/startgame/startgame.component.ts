@@ -18,7 +18,6 @@ export class StartgameComponent implements OnInit {
   selectedGame: Game;
 
 //@Input
-  playerName: string = "";
   gameName: string = "";
   private user: firebase.User;
 
@@ -32,14 +31,7 @@ export class StartgameComponent implements OnInit {
 
     afAuth.authState.subscribe(data => {
       this.user = data;
-      const firstLastName = data.displayName.split(" ");
-      // TODO use inside of html only
-      if (firstLastName.length > 0) {
-        const firstName = firstLastName[0];
-        this.playerName = firstName;
-        this.gameName = firstName + "Game";
-        return;
-      }
+      this.gameName = data.displayName + "Game";
     });
   }
 
@@ -74,9 +66,11 @@ export class StartgameComponent implements OnInit {
 
     let playersRef = this.db.database.ref("games/" + game.name + "/players");
 
+    // extract to model
     let testSpieler: GamePlayer = {
       uid: this.user.uid,
-      name: this.playerName,
+      // TODO copy player name from players
+      name: this.user.displayName,
       status: "JOINED"
     };
 
