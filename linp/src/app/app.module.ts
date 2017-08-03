@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule}   from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AlertModule } from 'ngx-bootstrap';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
@@ -22,6 +23,7 @@ import { SecondtipComponent } from './secondtip/secondtip.component';
 import {SearchFilterPipe} from "./startgame/gamelistsearch.pipe";
 import { GamelobbyComponent } from './gamelobby/gamelobby.component';
 import { SinglewordonlyvalidatorDirective } from './firsttip/singlewordonlyvalidator.directive';
+import { FadeComponent } from './widgets/fade/fade.component';
 
 
 
@@ -35,7 +37,8 @@ import { SinglewordonlyvalidatorDirective } from './firsttip/singlewordonlyvalid
   SecondtipComponent,
   SearchFilterPipe,
   GamelobbyComponent,
-  SinglewordonlyvalidatorDirective
+  SinglewordonlyvalidatorDirective,
+  FadeComponent
 
 ],
   imports: [
@@ -74,6 +77,7 @@ import { SinglewordonlyvalidatorDirective } from './firsttip/singlewordonlyvalid
   PaginationModule.forRoot(),
   AlertModule.forRoot(),
   BrowserModule,
+  BrowserAnimationsModule,
   AngularFireModule.initializeApp(environment.firebase),
   AngularFireDatabaseModule, // imports firebase/database, only needed for database features
   AngularFireAuthModule

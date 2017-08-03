@@ -1,5 +1,4 @@
 <div class="row">
-
   <div class="col-sm-6">
     <div class="card">
       <div class="card-block">
@@ -41,9 +40,6 @@
     </div>
   </div>
 
-</div>
-
-<div class="row">
   <div class="col-sm-6">
     <div class="card">
       <div class="card-block">
@@ -59,7 +55,7 @@
                 (focus)="$event.target.select()"
                 name="gameName"
                 #gameNames
-                [(ngModel)]="gameName"
+                [(ngModel)]="name"
                 required
               />
               <div class="form-control-feedback">Sorry, that gamename is taken. Try another?</div>
@@ -78,9 +74,6 @@
         </form>
       </div>
     </div>
-  </div>
-
-  <div class="col-sm-6">
   </div>
 
 </div>

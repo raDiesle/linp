@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {AngularFireAuth} from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
 import {AngularFireDatabase} from "angularfire2/database";
@@ -10,8 +10,12 @@ import {PlayerProfile} from "../models/player";
   styleUrls: ['./welcome.component.css']
 })
 export class WelcomeComponent implements OnInit {
-  firstTimeLoggedInEver: boolean = true;
+  firstTimeLoggedInEver: boolean = false;
+  successfulSavedPlayername : boolean = false;
+
   playerProfile: PlayerProfile;
+
+
 
   user: firebase.User;
   playerName: string = "";
@@ -33,6 +37,7 @@ export class WelcomeComponent implements OnInit {
         this.playerProfile = playerResponse;
 
         this.firstTimeLoggedInEver = playerResponse.$value === null;
+
         if(this.firstTimeLoggedInEver){
           this.playerName = this.extractFirstName(this.user.displayName);
 
@@ -70,7 +75,8 @@ export class WelcomeComponent implements OnInit {
         .ref(playerPath)
         .update(newPlayerProfile)
         .then(a => {
-          this.firstTimeLoggedInEver = false;
+          this.successfulSavedPlayername = true;
+          setTimeout(()=>this.successfulSavedPlayername = false, 1500);
       });
   }
 

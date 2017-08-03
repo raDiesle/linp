@@ -4,6 +4,7 @@ import {AngularFireAuth} from 'angularfire2/auth';
 import {Router, ActivatedRoute, ParamMap} from '@angular/router';
 import {Game, GamePlayer} from "../models/game";
 import * as firebase from 'firebase/app';
+import {PlayerProfile} from "../models/player";
 
 @Component({
   selector: 'app-startgame',
@@ -25,13 +26,18 @@ export class StartgameComponent implements OnInit {
               public db: AngularFireDatabase,
               public router: Router) {
 
-    let dbGames = this.db.list("/games").subscribe(data => {
+
+    this.db.list("/games").subscribe(data => {
       this.games = data;
     });
 
     afAuth.authState.subscribe(data => {
       this.user = data;
-      this.gameName = data.displayName + "Game";
+
+      const uid = data.uid;
+      this.db.object("/players/" + uid).subscribe(playerResponse => {
+        this.gameName = playerResponse.name;
+      });
     });
   }
 
@@ -64,8 +70,6 @@ export class StartgameComponent implements OnInit {
   onSelect(game: Game): void {
     this.selectedGame = game;
 
-    let playersRef = this.db.database.ref("games/" + game.name + "/players");
-
     // extract to model
     let testSpieler: GamePlayer = {
       uid: this.user.uid,
@@ -73,11 +77,11 @@ export class StartgameComponent implements OnInit {
       name: this.user.displayName,
       status: "JOINED"
     };
-
     let updatePlayer = {};
     updatePlayer[this.user.uid] = testSpieler;
 
-    playersRef.update(updatePlayer);
+    this.db.database.ref("games/" + game.name + "/players")
+      .update(updatePlayer);
     this.router.navigate(['/gamelobby', game.name]);
   }
 }

@@ -27,7 +27,8 @@
               <button *ngIf="!firstTimeLoggedInEver"
                       type="button"
                       class="btn btn-primary"
-                      routerLink="/startgame">Start Playing</button>
+                      routerLink="/startgame">Start Playing
+              </button>
               <button type="button" class="btn btn-secondary" (click)="logout()">Logout</button>
             </div>
           </ng-template>
@@ -38,31 +39,51 @@
     </div>
 
     <div class="col-sm-6">
-      <div class="card card-outline-danger">
+      <div class="card">
         <div class="card-block">
           <h3 class="card-title">
             Player Profile
           </h3>
           <div class="card-block">
-            <div class="form-group has-success row">
-              <label for="playername" class="col-3 col-form-label">Player Name</label>
-              <div class="col-9">
+            <div class="form-group row"
+                 [ngClass]="{'has-success' : successfulSavedPlayername}"
+            >
+              <label for="playername" class="col-4 col-form-label">Player Name</label>
+              <div class="col-8">
                 <input
                   id="playername"
                   type="text"
-                  class="form-control form-control-success"
+                  class="form-control"
+                  [ngClass]="{'form-control-success' : successfulSavedPlayername}"
                   name="playerName"
                   [(ngModel)]="playerName"
+                  #playerNameInput="ngModel"
                   (ngModelChange)="playerName"
                   required
                   value="user.displayName"
                 />
-                <div class="form-control-feedback">Your username is not not taken yet</div>
-                <small *ngIf="firstTimeLoggedInEver" class="form-text text-muted">Save suggestion as player name?</small>
-                <button (click)="savePlayerName()" class="btn btn-warning">Save</button>
+                <div class="form-control-feedback">
+                  <span>
+                    <fade [isVisible]="successfulSavedPlayername">Succesful saved</fade>
+                    &nbsp;
+                  </span>
+                  <span class="form-control-feedback" [hidden]="playerNameInput.valid">
+                    Name is required
+                  </span>
+                </div>
+                <div>
 
-                <div *ngIf="firstTimeLoggedInEver">Successful saved name</div>
+                </div>
               </div>
+
+              <button (click)="savePlayerName()"
+                      class="btn card-b"
+                      [ngClass]="[!successfulSavedPlayername ? 'btn-primary' : 'btn-success']"
+                      [disabled]="!playerNameInput.valid"
+              >
+                Save
+              </button>
+
             </div>
           </div>
         </div>
