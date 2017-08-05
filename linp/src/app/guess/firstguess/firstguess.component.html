@@ -4,30 +4,30 @@
       <div class="card-block">
         <h4 class="card-title">
           <span>Who?</span>
-          <span>{{yourRoleWordAnimation}}</span>
+          <span>_yourRoleWordAnimation_</span>
         </h4>
-        <h6 class="card-subtitle mb-2 text-muted">Gues who is in a team</h6>
+        <h6 class="card-subtitle mb-2 text-muted">Guess who is in a team</h6>
         <div class="list-group">
-          <button *ngFor="let key of playersKeys"
-                  (click)="onTeamPlayerGuessSelected(players[key])"
+          <button *ngFor="let key of gamePlayerKeys"
+                  (click)="onTeamPlayerGuessSelected(gamePlayers[key])"
                   class="list-group-item list-group-item-action"
-                  [ngClass]="{'active' : selectedPlayers.indexOf(players[key]) !== -1}"
+                  [ngClass]="{'active' : selectedGamePlayers.indexOf(gamePlayers[key]) !== -1}"
           >
-            {{players[key].name}} - {{players[key].firstSynonym}}
+            {{gamePlayers[key].name}} - {{gamePlayers[key].firstSynonym}}
           </button>
         </div>
 
-        <div class="card-text" *ngIf="selectedPlayers.length === 0">
+        <div class="card-text" *ngIf="selectedGamePlayers.length === 0">
           Start to select a player
         </div>
-        <div class="card-text" *ngIf="selectedPlayers.length === 1">
+        <div class="card-text" *ngIf="selectedGamePlayers.length === 1">
           Select the second player
         </div>
-        <div class="card-text" *ngIf="selectedPlayers.length === 2">
+        <div class="card-text" *ngIf="selectedGamePlayers.length === 2">
           Are you sure these players belong to each other?
         </div>
         <button class="card-link btn"
-                [disabled]="selectedPlayers.length < 2"
+                [disabled]="selectedGamePlayers.length < 2"
                 (click)="saveFirstTeamTip()"
         >
           Send
@@ -48,10 +48,10 @@
 
         <ul class="list-group">
           <li class="list-group-item list-group-item-success"
-              *ngFor="let key of playersKeys"
+              *ngFor="let key of gamePlayerKeys"
           >
-            {{players[key].name}} - {{players[key].status}}
-              - <strong>{{players[key].firstSynonym}}</strong>
+            {{gamePlayers[key].name}} - {{gamePlayers[key].status}}
+            - <strong>{{gamePlayers[key].firstSynonym}}</strong>
             _dots_
         </ul>
         </div>

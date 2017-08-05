@@ -12,14 +12,12 @@ import {FirebaseListFactoryOpts} from "angularfire2/interfaces";
   styleUrls: ['./gamelobby.component.css']
 })
 export class GamelobbyComponent implements OnInit {
-  playersKeys: string[] = [];
+  gamePlayerKeys: string[] = [];
   totalSizeOfWordCatalogue: any;
 
-  gamename: string;
+  gameName: string;
 
-  players: any; // null
-  numberOfWaitingDots: number = 3;
-  waitingDots: number[] = [0, 1, 2];
+  gamePlayers: any; // null
   private user: firebase.User;
 
 
@@ -34,20 +32,12 @@ export class GamelobbyComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.gamename = this.route.snapshot.paramMap.get("gamename");
+    this.gameName = this.route.snapshot.paramMap.get("gamename");
 
-
-    const pathOrRef = "/games/" + this.gamename + "/players";
-    this.db.object(pathOrRef)
-      .subscribe(data => {
-        this.players = data;
-        this.playersKeys = Object.keys(this.players);
-      });
-
-    TimerObservable.create(0, 500)
-      .subscribe(t => {
-        this.numberOfWaitingDots = this.numberOfWaitingDots + 1;
-        this.waitingDots = Array.from(Array(this.numberOfWaitingDots % 4), (x, i) => i);
+    this.db.object("/games/" + this.gameName + "/players")
+      .subscribe(gamePlayers => {
+        this.gamePlayers = gamePlayers;
+        this.gamePlayerKeys = Object.keys(this.gamePlayers);
       });
   }
 
@@ -57,15 +47,16 @@ export class GamelobbyComponent implements OnInit {
     let numberOfQuestionMarks: number;
 
     // expecting minimum 4
+    const gamePlayerSize = this.gamePlayerKeys.length;
     switch (true) {
-      case (this.players.length <= 5):
+      case (gamePlayerSize <= 5):
         numberOfQuestionMarks = 1;
         numberOfWordsNeeded = 2;
         break;
       // for later refactoring explicit
-      case(this.players.length > 5 && this.players.length <= 8):
+      case(gamePlayerSize > 5 && gamePlayerSize <= 8):
         numberOfQuestionMarks = 2;
-        numberOfWordsNeeded = this.players.length - numberOfQuestionMarks;
+        numberOfWordsNeeded = gamePlayerSize / 2 - numberOfQuestionMarks;
         break;
       default:
         alert("Player size not expected");
@@ -74,7 +65,7 @@ export class GamelobbyComponent implements OnInit {
       value: "?"
     };
 
-    let roleOrWordPool: string[] = Array(numberOfQuestionMarks).fill(QUESTIONMARK_ROLE);
+    let questionmarkOrWordPool: string[] = Array(numberOfQuestionMarks).fill(QUESTIONMARK_ROLE);
 
     const language = 'en';
     const pathOrRef = '/words/size/' + language;
@@ -84,7 +75,7 @@ export class GamelobbyComponent implements OnInit {
 
         const max = this.totalSizeOfWordCatalogue - numberOfWordsNeeded;
         const startPickWordsAtPos = Math.floor((Math.random() * max) + 1);
-        const endPickWordsAtPos = startPickWordsAtPos + numberOfWordsNeeded;
+        const endPickWordsAtPos = startPickWordsAtPos + numberOfWordsNeeded - 1;
 
         const query: FirebaseListFactoryOpts = {
           query: {
@@ -94,27 +85,30 @@ export class GamelobbyComponent implements OnInit {
         };
 
 // query
-        this.db.list("/words/en").subscribe(data => {
-          let words = data.splice(startPickWordsAtPos, endPickWordsAtPos);
+        this.db.list("/words/en").subscribe(wordsFullLibrary => {
+          // optimize
+          let wordsChosenFromLibrary = wordsFullLibrary.splice(startPickWordsAtPos, endPickWordsAtPos);
+          let wordsDuplicatedForTeams = wordsChosenFromLibrary.concat(wordsChosenFromLibrary);
+          //TODO duplicate words * 2 for every player
+          questionmarkOrWordPool = questionmarkOrWordPool.concat(wordsDuplicatedForTeams);
 
-          roleOrWordPool = roleOrWordPool.concat(words);
-
-          let shuffledWordPool = this.shuffle(roleOrWordPool);
+          let shuffledWordPool = this.shuffle(questionmarkOrWordPool);
           // TODO not nice, because lengths have to exactly match
-          for (let pos = 0; pos < this.playersKeys.length; pos++) {
-            this.players[this.playersKeys[pos]].word = shuffledWordPool[pos]["value"]; // fix value accessor
+          for (let pos = 0; pos < this.gamePlayerKeys.length; pos++) {
+            this.gamePlayers[this.gamePlayerKeys[pos]].word = shuffledWordPool[pos]["value"]; // fix value accessor
           }
-          this.assignWordOrRoleToUserDB(this.players);
-          // TODO
+          console.log(this.gamePlayers);
+          this.assignWordOrRoleToUserDB(this.gamePlayers);
+          // TODO animation
 
-          this.router.navigate(['/firsttip', this.gamename]);
+          this.router.navigate(['/firsttip', this.gameName]);
           return null;
         });
       });
   }
 
   private assignWordOrRoleToUserDB(players): void {
-    let dbGames = this.db.database.ref("games/" + this.gamename + "/players");
+    let dbGames = this.db.database.ref("games/" + this.gameName + "/players");
     dbGames.set(players);
   }
 

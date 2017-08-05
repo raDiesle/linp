@@ -1,19 +1,16 @@
 <div class="card">
   <div class="card-block">
-    <h4 class="card-title">{{gamename}}</h4>
+    <h4 class="card-title">{{gameName}}</h4>
     <h6 class="card-subtitle mb-2 text-muted">
-      waiting for players to join
-      <span *ngFor="let dot of waitingDots">
-        .
-      </span>
+      waiting for players to join _dots_
     </h6>
     <div class="card-text">
       <div class="list-group">
-        <div *ngFor="let key of playersKeys">
+        <div *ngFor="let gamePlayerKey of gamePlayerKeys">
           <button
             type="button"
             class="list-group-item list-group-item-action"
-          >{{players[key].name}}</button>
+          >{{gamePlayers[gamePlayerKey].name}}</button>
         </div>
       </div>
     </div>
@@ -21,8 +18,8 @@
     <div>
       <strong>1 ?</strong> with <strong>2 <i class="material-icons">group</i></strong>
     </div>
-    <alert type="danger">
-      <strong>Players missing</strong> Not enough players to start game.
+    <alert type="success">
+      Enough players to start game.
     </alert>
     <button (click)="startGame()" class="btn btn-primary">Start Game</button>
   </div>

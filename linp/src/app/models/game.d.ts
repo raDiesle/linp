@@ -2,6 +2,7 @@
 export interface Game {
   name: string;
   host : string;
+  // alternative type possible?
   players? : {[uid : string] :  GamePlayer};
 }
 

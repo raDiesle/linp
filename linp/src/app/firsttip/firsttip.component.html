@@ -3,11 +3,11 @@
     <div class="card">
       <div class="card-block">
         <h4 class="card-title">
-          {{gamename}}
+          {{gameName}}
         </h4>
         <h6 class="card-subtitle mb-2 text-muted">
-          <span>Express your word: First synonym for </span>
-          <span>_yourRoleWordAnimation_</span>
+          <span>Express your word: First synonym for</span>
+          <span>_yourRoleWordAnimation_ {{gamePlayers && gamePlayers[authUser.uid].wordOrRole}}</span>
         </h6>
         <div class="form-group row"
              [ngClass]="{'has-danger' : firstSynonymInput.invalid, 'has-success' : firstSynonymInput.valid}"
@@ -47,8 +47,8 @@
       <div class="card-block">
         <ul class="list-group">
           <li class="list-group-item list-group-item-success"
-              *ngFor="let player of players"
-          >{{$index}} {{player.name}} - {{player.status}} _dots_
+              *ngFor="let gamePlayerKey of gamePlayerKeys"
+          >{{$index}} {{gamePlayers[gamePlayerKey].name}} - {{gamePlayers[gamePlayerKey].status}} _dots_
           </li>
         </ul>
       </div>

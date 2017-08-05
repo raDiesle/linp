@@ -12,10 +12,10 @@ import {GamePlayer} from "../models/game";
   styleUrls: ['./firsttip.component.css']
 })
 export class FirsttipComponent implements OnInit {
-  user: firebase.User;
-  players: GamePlayer[];
-  gamename: string;
-
+  gamePlayerKeys: string[];
+  authUser: firebase.User;
+  gamePlayers : {[uid : string] :  GamePlayer};
+  gameName: string;
 
   //@input
   private firstSynonym: string;
@@ -24,33 +24,36 @@ export class FirsttipComponent implements OnInit {
               private router: Router,
               public db: AngularFireDatabase,
               public afAuth: AngularFireAuth) {
-    afAuth.authState.subscribe(data => {
-      this.user = data;
+    afAuth.authState.subscribe(authUser => {
+      this.authUser = authUser;
     });
   }
 
   ngOnInit() {
-    this.gamename = this.route.snapshot.paramMap.get("gamename");
+    this.gameName = this.route.snapshot.paramMap.get("gamename");
 
     const statusToCheck = "FIRST_WORD_GIVEN";
     const nextPositiveRoute = "/firstguess";
-    this.db.list("/games/" + this.gamename + "/players")
+    this.db.object("/games/" + this.gameName + "/players")
     // <GamePlayer[]>
-      .subscribe(gamePlayerResponse => {
-        this.players = gamePlayerResponse;
-        this.observeGamePlayerStatus(gamePlayerResponse, statusToCheck, nextPositiveRoute);
+      .subscribe(gamePlayers => {
+        this.gamePlayers = gamePlayers;
+        this.gamePlayerKeys = Object.keys(this.gamePlayers);
+        this.observeGamePlayerStatus(gamePlayers, statusToCheck, nextPositiveRoute);
       });
   }
 
-  private observeGamePlayerStatus(gamePlayers, statusToCheck: string, nextPositiveRoute: string) {
-    // change
-    const doNothing = null;
-    Observable.from(gamePlayers)
+  private observeGamePlayerStatus(gamePlayers : {[uid : string] :  GamePlayer}, statusToCheck: string, nextPositiveRoute: string) {
+    Observable.pairs(gamePlayers)
       .flatMap(p => Observable.of(p))
       .pluck("status")
       .every(status => status === statusToCheck)
-      .subscribe(allGivenFirstSynonym =>
-        allGivenFirstSynonym ? this.router.navigate([nextPositiveRoute, this.gamename]) : doNothing
+      .subscribe(allGivenFirstSynonym =>{
+        console.log(allGivenFirstSynonym);
+        // change
+        const doNothing = null;
+        allGivenFirstSynonym ? this.router.navigate([nextPositiveRoute, this.gameName]) : doNothing;
+      }
       );
   }
 
@@ -59,7 +62,7 @@ export class FirsttipComponent implements OnInit {
       status: "FIRST_WORD_GIVEN",
       firstSynonym: this.firstSynonym
     };
-    this.db.database.ref("games/" + this.gamename + "/players/" + this.user.uid)
+    this.db.database.ref("games/" + this.gameName + "/players/" + this.authUser.uid)
       .update(requestGamePlayerModel);
   }
 }

@@ -13,12 +13,12 @@ import {GuessService} from "../guess.service";
   styleUrls: ['./firstguess.component.css']
 })
 export class FirstguessComponent implements OnInit {
-  user: firebase.User;
-  gamename: any;
+  authUser: firebase.User;
+  gameName: any;
 
-  selectedPlayers: GamePlayer[] = [];
-  players = [];
-  private playersKeys: string[];
+  selectedGamePlayers: GamePlayer[] = [];
+  gamePlayers : {[uid : string] :  GamePlayer};
+  private gamePlayerKeys: string[];
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -26,43 +26,41 @@ export class FirstguessComponent implements OnInit {
               public afAuth: AngularFireAuth,
               public guessService : GuessService
               ) {
-
     afAuth.authState.subscribe(data => {
-      this.user = data;
+      this.authUser = data;
     });
   }
 
   ngOnInit() {
-    this.gamename = this.route.snapshot.paramMap.get("gamename");
-    this.db.object("/games/" + this.gamename + "/players")
-      .subscribe(gamePlayerResponse => {
-        this.players = gamePlayerResponse;
-        this.playersKeys = Object.keys(this.players);
+    this.gameName = this.route.snapshot.paramMap.get("gamename");
+    this.db.object("/games/" + this.gameName + "/players")
+      .subscribe(gamePlayers => {
+        this.gamePlayers = gamePlayers;
+        this.gamePlayerKeys = Object.keys(this.gamePlayers);
       });
   }
 
   onTeamPlayerGuessSelected(clickedGamePlayer): void {
     //  TODO make it non modifyable with rxjs
-    this.selectedPlayers = this.guessService.onTeamPlayerGuessSelected( { ...this.selectedPlayers}, clickedGamePlayer);
+    this.selectedGamePlayers = this.guessService.onTeamPlayerGuessSelected( { ...this.selectedGamePlayers}, clickedGamePlayer);
   }
 
   saveFirstTeamTip(): void {
-    let createGuessModel = function (selectedPlayers) {
+    let createGuessModel = function (selectedGamePlayers) {
       const firstTeamTip = {
         firstPartner: {
-          uid: this.selectedPlayers[0].uid,
+          uid: selectedGamePlayers[0].uid,
         },
         secondPartner: {
-          uid: this.selectedPlayers[1].uid,
+          uid: selectedGamePlayers[1].uid,
         }
       };
       return firstTeamTip;
     };
 // move to model
-    const firstTeamTip = createGuessModel.call(this.selectedPlayers);
-
+    const firstTeamTip = createGuessModel.call(this.selectedGamePlayers);
     const tipDBkey = "/firstTeamTip";
-    this.db.database.ref("games/" + this.gamename + "/players/" + this.user.uid + tipDBkey)
+    this.db.database.ref("games/" + this.gameName + "/players/" + this.authUser.uid + tipDBkey)
       .set(firstTeamTip);
   }
 
