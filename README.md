@@ -12,7 +12,13 @@ linq clone app
 * https://github.com/angular/angularfire2/blob/master/docs/1-install-and-setup.md
 * https://coryrylan.com/blog/deploy-angular-cli-apps-to-firebase
 * 9fwPJ3l8KYIv
+
+LINQ gamerules
+* see pdf
 * Gamerules of french https://boardgamegeek.com/thread/557251/scoring-newest-version
+* http://www.spielkult.de/linq.htm
+* https://www.hall9000.de/rubriken/spiele/kurzspielregeln/linq.pdf
+
 1. Install git, tortoisegit
    1. https://git-for-windows.github.io/
    1. https://tortoisegit.org/download/

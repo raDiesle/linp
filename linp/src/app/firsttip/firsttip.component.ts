@@ -16,69 +16,50 @@ export class FirsttipComponent implements OnInit {
   players: GamePlayer[];
   gamename: string;
 
-  yourRoleWordAnimation: string;
-  dots: string = "";
+
   //@input
   private firstSynonym: string;
 
-  constructor(private changeDetectorRef: ChangeDetectorRef,
-              private route: ActivatedRoute,
+  constructor(private route: ActivatedRoute,
               private router: Router,
               public db: AngularFireDatabase,
               public afAuth: AngularFireAuth) {
     afAuth.authState.subscribe(data => {
       this.user = data;
     });
-
-
-    var yourWordAnimation = ["your", "word", "to", "explain", "is", "_"];
-//TODO      var yourRoleAnimation = ["YOU", "ARE", "THE", "? QUESTIONMARK ?"];
-
-    yourWordAnimation.push("'House'");
-    let source = Observable
-      .interval(500)
-      .timeInterval()
-      .take(yourWordAnimation.length);
-    source.subscribe((listItem) => {
-      this.yourRoleWordAnimation = yourWordAnimation[listItem.value];
-      this.changeDetectorRef.markForCheck();
-    });
-
-    let sourceLoading = Observable
-      .interval(500)
-      .timeInterval();
-    sourceLoading.subscribe((counter) => {
-      const dotSymbolList = [" ", ".", "..", "...", "...."];
-      this.dots = dotSymbolList[counter.value % dotSymbolList.length];
-      this.changeDetectorRef.markForCheck();
-    });
-
   }
 
   ngOnInit() {
     this.gamename = this.route.snapshot.paramMap.get("gamename");
 
-    let pathOrRef = "/games/" + this.gamename + "/players";
-    let firebaseListObservable: FirebaseListObservable<GamePlayer[]> = this.db.list(pathOrRef);
-    let dbPlayers = firebaseListObservable.subscribe(data => {
-      //console.log(data);
-      this.players = data;
-
-      Observable.from(data)
-        .flatMap(p => Observable.of(p))
-        .pluck("status")
-        .every(status => status === "FIRST_WORD_GIVEN")
-        .subscribe(allGivenFirstSynonym =>
-          allGivenFirstSynonym ? this.router.navigate(["/firstguess", this.gamename]) : null
-        );
-    });
+    const statusToCheck = "FIRST_WORD_GIVEN";
+    const nextPositiveRoute = "/firstguess";
+    this.db.list("/games/" + this.gamename + "/players")
+    // <GamePlayer[]>
+      .subscribe(gamePlayerResponse => {
+        this.players = gamePlayerResponse;
+        this.observeGamePlayerStatus(gamePlayerResponse, statusToCheck, nextPositiveRoute);
+      });
   }
 
-  sendWord() {
-    let dbGames = this.db.database.ref("games/" + this.gamename + "/players/" + this.user.uid);
-    dbGames.update({
+  private observeGamePlayerStatus(gamePlayers, statusToCheck: string, nextPositiveRoute: string) {
+    // change
+    const doNothing = null;
+    Observable.from(gamePlayers)
+      .flatMap(p => Observable.of(p))
+      .pluck("status")
+      .every(status => status === statusToCheck)
+      .subscribe(allGivenFirstSynonym =>
+        allGivenFirstSynonym ? this.router.navigate([nextPositiveRoute, this.gamename]) : doNothing
+      );
+  }
+
+  sendFirstSynonym() {
+    const requestGamePlayerModel = {
       status: "FIRST_WORD_GIVEN",
       firstSynonym: this.firstSynonym
-    });
+    };
+    this.db.database.ref("games/" + this.gamename + "/players/" + this.user.uid)
+      .update(requestGamePlayerModel);
   }
 }

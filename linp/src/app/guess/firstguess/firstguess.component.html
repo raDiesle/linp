@@ -9,11 +9,11 @@
         <h6 class="card-subtitle mb-2 text-muted">Gues who is in a team</h6>
         <div class="list-group">
           <button *ngFor="let key of playersKeys"
-                  (click)="onSelect(players[key])"
+                  (click)="onTeamPlayerGuessSelected(players[key])"
                   class="list-group-item list-group-item-action"
                   [ngClass]="{'active' : selectedPlayers.indexOf(players[key]) !== -1}"
           >
-            {{players[key].name}}
+            {{players[key].name}} - {{players[key].firstSynonym}}
           </button>
         </div>
 
@@ -28,7 +28,7 @@
         </div>
         <button class="card-link btn"
                 [disabled]="selectedPlayers.length < 2"
-                (click)="onSave()"
+                (click)="saveFirstTeamTip()"
         >
           Send
         </button>
@@ -42,12 +42,19 @@
         Status of players
       </div>
       <div class="card-block">
+
+        <!-- this is dirty, we need a hoverable-responsive table with only one *ngFor
+        https://v4-alpha.getbootstrap.com/content/tables/#hoverable-rows -->
+
         <ul class="list-group">
           <li class="list-group-item list-group-item-success"
               *ngFor="let key of playersKeys"
-          >{{$index}} {{players[key].name}} - {{players[key].status}} {{dots}}
+          >
+            {{players[key].name}} - {{players[key].status}}
+              - <strong>{{players[key].firstSynonym}}</strong>
+            _dots_
         </ul>
-      </div>
+        </div>
     </div>
   </div>
 </div>

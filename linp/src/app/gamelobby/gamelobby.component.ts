@@ -4,9 +4,6 @@ import {Router, ActivatedRoute} from '@angular/router';
 import {AngularFireDatabase} from "angularfire2/database";
 import {AngularFireAuth} from "angularfire2/auth";
 import * as firebase from 'firebase/app';
-import {Observable} from "rxjs/Observable";
-import {max} from "rxjs/operator/max";
-import {min} from "rxjs/operator/min";
 import {FirebaseListFactoryOpts} from "angularfire2/interfaces";
 
 @Component({
@@ -40,8 +37,8 @@ export class GamelobbyComponent implements OnInit {
     this.gamename = this.route.snapshot.paramMap.get("gamename");
 
 
-    let pathOrRef = "/games/" + this.gamename + "/players";
-    let dbPlayers = this.db.object(pathOrRef)
+    const pathOrRef = "/games/" + this.gamename + "/players";
+    this.db.object(pathOrRef)
       .subscribe(data => {
         this.players = data;
         this.playersKeys = Object.keys(this.players);
@@ -56,15 +53,32 @@ export class GamelobbyComponent implements OnInit {
 
   startGame(): void {
 
-    const numberOfWordsNeeded = 1;
-    const numberOfQuestionMarks = 1;
+    let numberOfWordsNeeded: number;
+    let numberOfQuestionMarks: number;
+
+    // expecting minimum 4
+    switch (true) {
+      case (this.players.length <= 5):
+        numberOfQuestionMarks = 1;
+        numberOfWordsNeeded = 2;
+        break;
+      // for later refactoring explicit
+      case(this.players.length > 5 && this.players.length <= 8):
+        numberOfQuestionMarks = 2;
+        numberOfWordsNeeded = this.players.length - numberOfQuestionMarks;
+        break;
+      default:
+        alert("Player size not expected");
+    }
     const QUESTIONMARK_ROLE = {
       value: "?"
     };
 
     let roleOrWordPool: string[] = Array(numberOfQuestionMarks).fill(QUESTIONMARK_ROLE);
 
-    this.db.object('/words/size/en', {preserveSnapshot: true})
+    const language = 'en';
+    const pathOrRef = '/words/size/' + language;
+    this.db.object(pathOrRef, {preserveSnapshot: true})
       .subscribe(totalSizeOfWordsDuplicatedReference => {
         this.totalSizeOfWordCatalogue = totalSizeOfWordsDuplicatedReference.val();
 
@@ -80,7 +94,7 @@ export class GamelobbyComponent implements OnInit {
         };
 
 // query
-        var wordsRef = this.db.list("/words/en").subscribe(data => {
+        this.db.list("/words/en").subscribe(data => {
           let words = data.splice(startPickWordsAtPos, endPickWordsAtPos);
 
           roleOrWordPool = roleOrWordPool.concat(words);
@@ -90,9 +104,6 @@ export class GamelobbyComponent implements OnInit {
           for (let pos = 0; pos < this.playersKeys.length; pos++) {
             this.players[this.playersKeys[pos]].word = shuffledWordPool[pos]["value"]; // fix value accessor
           }
-          console.log("Afterswards to update back players to db:");
-          console.log(this.players);
-
           this.assignWordOrRoleToUserDB(this.players);
           // TODO
 
@@ -102,7 +113,7 @@ export class GamelobbyComponent implements OnInit {
       });
   }
 
-  private assignWordOrRoleToUserDB(players) {
+  private assignWordOrRoleToUserDB(players): void {
     let dbGames = this.db.database.ref("games/" + this.gamename + "/players");
     dbGames.set(players);
   }

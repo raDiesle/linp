@@ -14,7 +14,7 @@ export interface GamePlayer {
   firstTeamTip? : TeamTip;
 }
 
-export type GameStatus = "joining" | "waiting" | "ROLE_OR_WORD_GIVEN" | "FIRST_WORD_GIVEN";
+export type GameStatus = "CREATED" | "JOINED" | "ROLE_OR_WORD_GIVEN" | "FIRST_WORD_GIVEN";
 
 export interface TeamTip{
   firstPartner : TeamPartner;

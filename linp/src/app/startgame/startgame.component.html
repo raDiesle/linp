@@ -1,79 +1,74 @@
-<div class="row">
-  <div class="col-sm-6">
-    <div class="card">
-      <div class="card-block">
-        <h3 class="card-title">Join Game</h3>
-        <div class="form-group">
-          <div class="input-group">
+<div class="card-deck">
+  <div class="card">
+    <div class="card-block">
+      <h3 class="card-title">Join Game</h3>
+      <div class="form-group">
+        <div class="input-group">
             <span class="input-group-addon">
               <i class="material-icons">search</i>
             </span>
-            <input type="text"
-                   [(ngModel)]="gameFilter"
-                   (input)="resetFilterResults()"
-                   class="form-control"
-                   placeholder="Filter by Name"
-                   value="">
-            <span class="input-group-addon">
+          <input type="text"
+                 [(ngModel)]="gameFilter"
+                 (input)="resetFilterResults()"
+                 class="form-control"
+                 placeholder="Filter by Name"
+                 value="">
+          <span class="input-group-addon">
               {{games.length}} Lobby Games
             </span>
+        </div>
+      </div>
+
+      <div class="list-group">
+        <div *ngFor="let game of games | searchfilter: 'name' : gameFilter">
+          <button
+            *ngIf="game !== -1"
+            type="button"
+            (click)="onSelect(game)"
+            [ngClass]="{'active' : selectedGame === game}"
+            class="list-group-item list-group-item-action"
+          >
+            {{game.name}}
+          </button>
+          <div [hidden]="game !== -1">
+            NO ENTRIES
           </div>
         </div>
+      </div>
+    </div>
+  </div>
 
-        <div class="list-group">
-          <div *ngFor="let game of games | searchfilter: 'name' : gameFilter">
-            <button
-              *ngIf="game !== -1"
-              type="button"
-              (click)="onSelect(game)"
-              [ngClass]="{'active' : selectedGame === game}"
-              class="list-group-item list-group-item-action"
-            >
-              {{game.name}}
+  <div class="card">
+    <div class="card-block">
+      <h3 class="card-title">Create New Game</h3>
+      <form #createGameForm="ngForm">
+        <div class="form-group has-danger row">
+          <label for="gamename" class="col-3 col-form-label">Game Name</label>
+          <div class="col-9">
+            <input
+              id="gamename"
+              type="text"
+              class="form-control form-control-danger"
+              (focus)="$event.target.select()"
+              name="gameName"
+              #gameNames
+              [(ngModel)]="name"
+              required
+            />
+            <div class="form-control-feedback">Sorry, that gamename is taken. Try another?</div>
+            <small class="form-text text-muted">Example help text that remains unchanged.</small>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-3">
+            <button class="btn btn-primary"
+                    [disabled]="!createGameForm.form.valid"
+                    (click)="createGameAction()"
+            >Create
             </button>
-            <div [hidden]="game !== -1">
-              NO ENTRIES
-            </div>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   </div>
-
-  <div class="col-sm-6">
-    <div class="card">
-      <div class="card-block">
-        <h3 class="card-title">Create New Game</h3>
-        <form #createGameForm="ngForm">
-          <div class="form-group has-danger row">
-            <label for="gamename" class="col-3 col-form-label">Game Name</label>
-            <div class="col-9">
-              <input
-                id="gamename"
-                type="text"
-                class="form-control form-control-danger"
-                (focus)="$event.target.select()"
-                name="gameName"
-                #gameNames
-                [(ngModel)]="name"
-                required
-              />
-              <div class="form-control-feedback">Sorry, that gamename is taken. Try another?</div>
-              <small class="form-text text-muted">Example help text that remains unchanged.</small>
-            </div>
-          </div>
-          <div class="form-group row">
-            <div class="col-3">
-              <button class="btn btn-primary"
-                      [disabled]="!createGameForm.form.valid"
-                      (click)="createGameAction(playerName, gameName)"
-              >Create
-              </button>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-
 </div>

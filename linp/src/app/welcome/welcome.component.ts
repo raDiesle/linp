@@ -20,6 +20,8 @@ export class WelcomeComponent implements OnInit {
   user: firebase.User;
   playerName: string = "";
 
+  isExpandInstructions : boolean = false;
+
   constructor(public afAuth: AngularFireAuth,
               public db: AngularFireDatabase) {
 
@@ -93,5 +95,7 @@ export class WelcomeComponent implements OnInit {
       return displayName;
     }
   }
+
+
 
 }

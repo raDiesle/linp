@@ -18,12 +18,15 @@ import { AppComponent } from './app.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { StartgameComponent} from './startgame/startgame.component';
 import { FirsttipComponent } from './firsttip/firsttip.component';
-import { FirstguessComponent } from './firstguess/firstguess.component';
+import { FirstguessComponent } from './guess/firstguess/firstguess.component';
 import { SecondtipComponent } from './secondtip/secondtip.component';
 import {SearchFilterPipe} from "./startgame/gamelistsearch.pipe";
 import { GamelobbyComponent } from './gamelobby/gamelobby.component';
 import { SinglewordonlyvalidatorDirective } from './firsttip/singlewordonlyvalidator.directive';
 import { FadeComponent } from './widgets/fade/fade.component';
+import { WaitingdotsComponent } from './widgets/waitingdots/waitingdots.component';
+import { WordsdrumrollComponent } from './widgets/wordsdrumroll/wordsdrumroll.component';
+import {GuessService} from "./guess/guess.service";
 
 
 
@@ -38,7 +41,9 @@ import { FadeComponent } from './widgets/fade/fade.component';
   SearchFilterPipe,
   GamelobbyComponent,
   SinglewordonlyvalidatorDirective,
-  FadeComponent
+  FadeComponent,
+  WaitingdotsComponent,
+  WordsdrumrollComponent
 
 ],
   imports: [
@@ -64,7 +69,7 @@ import { FadeComponent } from './widgets/fade/fade.component';
       component: FirstguessComponent
     },
     {
-      path: 'secondtip',
+      path: 'secondtip/:gamename',
       component: SecondtipComponent
     },
     {
@@ -79,10 +84,10 @@ import { FadeComponent } from './widgets/fade/fade.component';
   BrowserModule,
   BrowserAnimationsModule,
   AngularFireModule.initializeApp(environment.firebase),
-  AngularFireDatabaseModule, // imports firebase/database, only needed for database features
+  AngularFireDatabaseModule,
   AngularFireAuthModule
 ],
-  providers: [],
+  providers: [GuessService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

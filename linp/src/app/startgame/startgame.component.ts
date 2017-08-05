@@ -20,6 +20,8 @@ export class StartgameComponent implements OnInit {
 
 //@Input
   gameName: string = "";
+  playerName : string;
+
   private user: firebase.User;
 
   constructor(public afAuth: AngularFireAuth,
@@ -35,8 +37,9 @@ export class StartgameComponent implements OnInit {
       this.user = data;
 
       const uid = data.uid;
-      this.db.object("/players/" + uid).subscribe(playerResponse => {
-        this.gameName = playerResponse.name;
+      this.db.object("/players/" + uid).subscribe(playerProfileResponse => {
+        this.gameName = playerProfileResponse.name;
+        this.playerName = playerProfileResponse.name;
       });
     });
   }
@@ -44,18 +47,23 @@ export class StartgameComponent implements OnInit {
   ngOnInit() {
   }
 
+
+  // To be extracted to service
   createGameAction(playerName: string, gameName: string): void {
     let dbGames = this.db.database.ref("games/" + gameName);
+
+    // extract to model
     let request: Game = {
       host: playerName,
       name: gameName,
       players: {}
     };
 
+    // extract to mdoel
     request.players[this.user.uid] = {
       uid: this.user.uid,
       name: playerName,
-      status: "waiting"
+      status: "CREATED"
     };
 
     dbGames.set(<Game>request);
@@ -73,8 +81,7 @@ export class StartgameComponent implements OnInit {
     // extract to model
     let testSpieler: GamePlayer = {
       uid: this.user.uid,
-      // TODO copy player name from players
-      name: this.user.displayName,
+      name: this.playerName,
       status: "JOINED"
     };
     let updatePlayer = {};
