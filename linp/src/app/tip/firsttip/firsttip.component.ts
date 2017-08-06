@@ -55,7 +55,7 @@ export class FirsttipComponent implements OnInit {
       );
   }
 
-  sendSecondSynonym() {
+  sendSynonym() {
     const requestGamePlayerModel = {
       status: "FIRST_WORD_GIVEN",
       firstSynonym: this.synonym

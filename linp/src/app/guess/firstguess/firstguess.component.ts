@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {AngularFireDatabase} from "angularfire2/database";
-import {GamePlayer} from "../../models/game";
+import {GamePlayer, TeamPartner, TeamTip} from "../../models/game";
 import {AngularFireAuth} from "angularfire2/auth";
 import * as firebase from 'firebase/app';
 import {GuessService} from "../guess.service";
@@ -46,12 +46,14 @@ export class FirstguessComponent implements OnInit {
 
   saveFirstTeamTip(): void {
     let createGuessModel = function (selectedGamePlayers) {
-      const firstTeamTip = {
+      const firstTeamTip : TeamTip= {
         firstPartner: {
           uid: selectedGamePlayers[0].uid,
+          name: selectedGamePlayers[0].name
         },
         secondPartner: {
           uid: selectedGamePlayers[1].uid,
+          name : selectedGamePlayers[0]
         }
       };
       return firstTeamTip;

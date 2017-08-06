@@ -56,7 +56,7 @@ export class SecondtipComponent implements OnInit {
       );
   }
 
-  sendSecondSynonym() {
+  sendSynonym() {
     const requestGamePlayerModel = {
       status: GAME_STATUS,
       secondSynonym: this.synonym

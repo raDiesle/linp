@@ -49,8 +49,9 @@ export class StartgameComponent implements OnInit {
 
 
   // To be extracted to service
-  createGameAction(playerName: string, gameName: string): void {
-    let dbGames = this.db.database.ref("games/" + gameName);
+  createGameAction(): void {
+    const playerName = this.playerName;
+    const gameName = this.gameName;
 
     // extract to model
     let request: Game = {
@@ -66,7 +67,8 @@ export class StartgameComponent implements OnInit {
       status: "CREATED"
     };
 
-    dbGames.set(<Game>request);
+    this.db.database.ref("games/" + gameName)
+      .set(<Game>request);
 
     this.router.navigate(['/gamelobby', gameName]);
   }

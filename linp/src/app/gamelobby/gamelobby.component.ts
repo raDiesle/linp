@@ -106,8 +106,8 @@ export class GamelobbyComponent implements OnInit {
   }
 
   private assignWordOrRoleToUserDB(players): void {
-    let dbGames = this.db.database.ref("games/" + this.gameName + "/players");
-    dbGames.set(players);
+    this.db.database.ref("games/" + this.gameName + "/players")
+      .set(players);
   }
 
   private shuffle(arrayToSort: any[]): any[] {

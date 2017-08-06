@@ -1,6 +1,7 @@
 import {ChangeDetectorRef, Component, ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute, NavigationEnd, Router, UrlSegment} from "@angular/router";
-
+import {AngularFireAuth} from "angularfire2/auth";
+import * as firebase from 'firebase/app';
 
 @Component({
   selector: 'app-root',
@@ -11,12 +12,14 @@ import {ActivatedRoute, NavigationEnd, Router, UrlSegment} from "@angular/router
 export class AppComponent {
   gamename: string;
   title = 'app';
+  private authUser: firebase.User;
 
   constructor(private router: Router,
-              private route: ActivatedRoute,
-              private changeDetectorRef: ChangeDetectorRef) {
-
-
+              private changeDetectorRef: ChangeDetectorRef,
+              public afAuth: AngularFireAuth) {
+    afAuth.authState.subscribe(authUser => {
+      this.authUser = authUser;
+    });
   }
 
   ngOnInit() {

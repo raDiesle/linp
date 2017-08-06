@@ -15,6 +15,7 @@ export interface GamePlayer {
   firstTeamTip? : TeamTip;
   secondSynonym? : string;
   secondTeamTip? : TeamTip;
+  pointsScored? : number;
 }
 
 export type GameStatus = "CREATED" | "JOINED" | "ROLE_OR_WORD_GIVEN" | "FIRST_WORD_GIVEN" | "SECOND_WORD_GIVEN";
@@ -26,4 +27,5 @@ export interface TeamTip{
 
 export interface TeamPartner{
   uid : string;
+  name : string;
 }

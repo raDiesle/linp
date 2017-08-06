@@ -1,3 +1,30 @@
-<p>
-  evaluation works!
-</p>
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>#</th>
+    <th>GamePlayerName</th>
+    <th>First Tip</th>
+    <th>Second Tip</th>
+    <th>First Guess</th>
+    <th>Second Guess</th>
+    <th>Points Scored in Game</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let gamePlayerKey of gamePlayerKeys; let $index=index;">
+    <th scope="row">{{$index}}</th>
+    <td>{{gamePlayers[gamePlayerKey].name}}</td>
+    <td>{{gamePlayers[gamePlayerKey].firstSynonym}}</td>
+    <td>{{gamePlayers[gamePlayerKey].secondSynonym}}</td>
+    <td>{{gamePlayers[gamePlayerKey].firstTeamTip?.firstPartner?.name}}
+      & {{gamePlayers[gamePlayerKey].firstTeamTip?.secondPartner?.name}}
+    </td>
+    <td>{{gamePlayers[gamePlayerKey].secondTeamTip?.firstPartner?.name}}
+      & {{gamePlayers[gamePlayerKey].secondTeamTip?.secondPartner?.name}}
+    </td>
+    <td>
+      {{gamePlayers[gamePlayerKey].pointsScored}}
+    </td>
+  </tr>
+  </tbody>
+</table>
