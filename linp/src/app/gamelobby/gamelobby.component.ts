@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {TimerObservable} from "rxjs/observable/TimerObservable";
 import {Router, ActivatedRoute} from '@angular/router';
 import {AngularFireDatabase} from "angularfire2/database";
 import {AngularFireAuth} from "angularfire2/auth";
 import * as firebase from 'firebase/app';
 import {FirebaseListFactoryOpts} from "angularfire2/interfaces";
+import {GamePlayer} from "../models/game";
 
 @Component({
   selector: 'app-gamelobby',
@@ -17,7 +17,7 @@ export class GamelobbyComponent implements OnInit {
 
   gameName: string;
 
-  gamePlayers: any; // null
+  gamePlayers: {[uid : string] : GamePlayer}; // null
   private user: firebase.User;
 
 
@@ -42,7 +42,6 @@ export class GamelobbyComponent implements OnInit {
   }
 
   startGame(): void {
-
     let numberOfWordsNeeded: number;
     let numberOfQuestionMarks: number;
 
@@ -84,7 +83,7 @@ export class GamelobbyComponent implements OnInit {
           }
         };
 
-// query
+// query // might change to object. what if player adds word to database at same time with wrong primary key pos?
         this.db.list("/words/en").subscribe(wordsFullLibrary => {
           // optimize
           let wordsChosenFromLibrary = wordsFullLibrary.splice(startPickWordsAtPos, endPickWordsAtPos);
@@ -95,9 +94,8 @@ export class GamelobbyComponent implements OnInit {
           let shuffledWordPool = this.shuffle(questionmarkOrWordPool);
           // TODO not nice, because lengths have to exactly match
           for (let pos = 0; pos < this.gamePlayerKeys.length; pos++) {
-            this.gamePlayers[this.gamePlayerKeys[pos]].word = shuffledWordPool[pos]["value"]; // fix value accessor
+            this.gamePlayers[this.gamePlayerKeys[pos]].questionmarkOrWord = shuffledWordPool[pos]["value"]; // fix value accessor
           }
-          console.log(this.gamePlayers);
           this.assignWordOrRoleToUserDB(this.gamePlayers);
           // TODO animation
 

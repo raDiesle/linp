@@ -7,11 +7,12 @@ import * as firebase from 'firebase/app';
 import {GuessService} from "../guess.service";
 
 @Component({
-  selector: 'app-firstguess',
-  templateUrl: './firstguess.component.html',
-  styleUrls: ['./firstguess.component.css']
+  selector: 'app-secondguess',
+  templateUrl: './secondguess.component.html',
+  styleUrls: ['./secondguess.component.css']
 })
-export class FirstguessComponent implements OnInit {
+export class SecondguessComponent implements OnInit {
+
   authUser: firebase.User;
   gameName: string;
 
@@ -24,7 +25,7 @@ export class FirstguessComponent implements OnInit {
               public db: AngularFireDatabase,
               public afAuth: AngularFireAuth,
               public guessService : GuessService
-              ) {
+  ) {
     afAuth.authState.subscribe(data => {
       this.authUser = data;
     });
@@ -44,9 +45,9 @@ export class FirstguessComponent implements OnInit {
     this.selectedGamePlayers = this.guessService.onTeamPlayerGuessSelected( this.selectedGamePlayers, clickedGamePlayer);
   }
 
-  saveFirstTeamTip(): void {
+  savesecondTeamTip(): void {
     let createGuessModel = function (selectedGamePlayers) {
-      const firstTeamTip = {
+      const secondTeamTip = {
         firstPartner: {
           uid: selectedGamePlayers[0].uid,
         },
@@ -54,14 +55,14 @@ export class FirstguessComponent implements OnInit {
           uid: selectedGamePlayers[1].uid,
         }
       };
-      return firstTeamTip;
+      return secondTeamTip;
     };
 // move to model
-    const firstTeamTip = createGuessModel(this.selectedGamePlayers);
-    const tipDBkey = "/firstTeamTip";
+    const secondTeamTip = createGuessModel(this.selectedGamePlayers);
+    const tipDBkey = "/secondTeamTip";
     this.db.database.ref("games/" + this.gameName + "/players/" + this.authUser.uid + tipDBkey)
-      .set(firstTeamTip)
-      .then(firstTeamTip=> {
+      .set(secondTeamTip)
+      .then(secondTeamTip=> {
         alert("Successful saved choice");
       });
   }

@@ -7,29 +7,29 @@
         </h4>
         <h6 class="card-subtitle mb-2 text-muted">
           <span>Express your word: First synonym for</span>
-          <span>_yourRoleWordAnimation_ {{gamePlayers && gamePlayers[authUser.uid].wordOrRole}}</span>
+          <span>_yourRoleWordAnimation_ {{gamePlayers && gamePlayers[authUser.uid].questionmarkOrWord}}</span>
         </h6>
         <div class="form-group row"
-             [ngClass]="{'has-danger' : firstSynonymInput.invalid, 'has-success' : firstSynonymInput.valid}"
+             [ngClass]="{'has-danger' : synonymInput.invalid, 'has-success' : synonymInput.valid}"
         >
           <form novalidate #giveSynonymForm="ngForm">
-            <label class="col-3 col-form-label" for="firstExplanation">Synonym</label>
+            <label class="col-3 col-form-label" for="synonym">Synonym</label>
             <div class="col-9">
               <input type="text"
                      class="form-control"
-                     [ngClass]="{'form-control-danger' : firstSynonymInput.invalid, 'form-control-success' : firstSynonymInput.valid}"
-                     id="firstExplanation"
-                     [(ngModel)]="firstSynonym"
-                     #firstSynonymInput="ngModel"
-                     name="firstSynonym"
+                     [ngClass]="{'form-control-danger' : synonymInput.invalid, 'form-control-success' : synonymInput.valid}"
+                     id="synonym"
+                     [(ngModel)]="synonym"
+                     #synonymInput="ngModel"
+                     name="synonym"
                      required
               >
-              <div *ngIf="firstSynonymInput.errors?.required">
+              <div *ngIf="synonymInput.errors?.required">
                 Enter your synonym
               </div>
               <button class="btn btn-primary"
-                      [disabled]="firstSynonymInput.invalid"
-                      (click)="sendFirstSynonym()"
+                      [disabled]="synonymInput.invalid"
+                      (click)="sendSynonym()"
               >Send
               </button>
             </div>
@@ -48,7 +48,9 @@
         <ul class="list-group">
           <li class="list-group-item list-group-item-success"
               *ngFor="let gamePlayerKey of gamePlayerKeys"
-          >{{$index}} {{gamePlayers[gamePlayerKey].name}} - {{gamePlayers[gamePlayerKey].status}} _dots_
+          >{{$index}} {{gamePlayers[gamePlayerKey].name}}
+            - <strong>{{gamePlayers[gamePlayerKey].firstSynonym}}</strong>
+            - {{gamePlayers[gamePlayerKey].status}} _dots_
           </li>
         </ul>
       </div>

@@ -9,13 +9,15 @@ export interface Game {
 export interface GamePlayer {
   uid : string;
   name : string;
-  wordOrRole? : string;
+  questionmarkOrWord? : string;
   status : string;
   firstSynonym? : string;
   firstTeamTip? : TeamTip;
+  secondSynonym? : string;
+  secondTeamTip? : TeamTip;
 }
 
-export type GameStatus = "CREATED" | "JOINED" | "ROLE_OR_WORD_GIVEN" | "FIRST_WORD_GIVEN";
+export type GameStatus = "CREATED" | "JOINED" | "ROLE_OR_WORD_GIVEN" | "FIRST_WORD_GIVEN" | "SECOND_WORD_GIVEN";
 
 export interface TeamTip{
   firstPartner : TeamPartner;

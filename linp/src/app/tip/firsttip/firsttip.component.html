@@ -1,0 +1,57 @@
+<div class="row">
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-block">
+        <h4 class="card-title">
+          {{gameName}}
+        </h4>
+        <h6 class="card-subtitle mb-2 text-muted">
+          <span>Express your word: First synonym for</span>
+          <span>_yourRoleWordAnimation_ {{gamePlayers && gamePlayers[authUser.uid].questionmarkOrWord}}</span>
+        </h6>
+        <div class="form-group row"
+             [ngClass]="{'has-danger' : synonymInput.invalid, 'has-success' : synonymInput.valid}"
+        >
+          <form novalidate #giveSynonymForm="ngForm">
+            <label class="col-3 col-form-label" for="synonym">Synonym</label>
+            <div class="col-9">
+              <input type="text"
+                     class="form-control"
+                     [ngClass]="{'form-control-danger' : synonymInput.invalid, 'form-control-success' : synonymInput.valid}"
+                     id="synonym"
+                     [(ngModel)]="synonym"
+                     #synonymInput="ngModel"
+                     name="synonym"
+                     required
+              >
+              <div *ngIf="synonymInput.errors?.required">
+                Enter your synonym
+              </div>
+              <button class="btn btn-primary"
+                      [disabled]="synonymInput.invalid"
+                      (click)="sendSynonym()"
+              >Send
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-title">
+        Status of players
+      </div>
+      <div class="card-block">
+        <ul class="list-group">
+          <li class="list-group-item list-group-item-success"
+              *ngFor="let gamePlayerKey of gamePlayerKeys"
+          >{{$index}} {{gamePlayers[gamePlayerKey].name}} - {{gamePlayers[gamePlayerKey].status}} _dots_
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

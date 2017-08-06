@@ -13,7 +13,7 @@
                   class="list-group-item list-group-item-action"
                   [ngClass]="{'active' : selectedGamePlayers.indexOf(gamePlayers[key]) !== -1}"
           >
-            {{gamePlayers[key].name}} - {{gamePlayers[key].firstSynonym}}
+            {{gamePlayers[key].name}} - {{gamePlayers[key].firstSynonym}} - {{gamePlayers[key].secondSynonym}}
           </button>
         </div>
 
@@ -28,7 +28,7 @@
         </div>
         <button class="card-link btn"
                 [disabled]="selectedGamePlayers.length < 2"
-                (click)="saveFirstTeamTip()"
+                (click)="savesecondTeamTip()"
         >
           Send
         </button>
@@ -52,9 +52,10 @@
           >
             {{gamePlayers[key].name}} - {{gamePlayers[key].status}}
             - <strong>{{gamePlayers[key].firstSynonym}}</strong>
+            - <strong>{{gamePlayers[key].secondSynonym}}</strong>
             _dots_
         </ul>
-        </div>
+      </div>
     </div>
   </div>
 </div>

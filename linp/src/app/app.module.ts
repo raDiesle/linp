@@ -17,16 +17,18 @@ import { AppComponent } from './app.component';
 
 import { WelcomeComponent } from './welcome/welcome.component';
 import { StartgameComponent} from './startgame/startgame.component';
-import { FirsttipComponent } from './firsttip/firsttip.component';
+import { FirsttipComponent } from './tip/firsttip/firsttip.component';
 import { FirstguessComponent } from './guess/firstguess/firstguess.component';
-import { SecondtipComponent } from './secondtip/secondtip.component';
 import {SearchFilterPipe} from "./startgame/gamelistsearch.pipe";
 import { GamelobbyComponent } from './gamelobby/gamelobby.component';
-import { SinglewordonlyvalidatorDirective } from './firsttip/singlewordonlyvalidator.directive';
+import { SinglewordonlyvalidatorDirective } from './widgets/singlewordonly_depre/singlewordonlyvalidator.directive';
 import { FadeComponent } from './widgets/fade/fade.component';
 import { WaitingdotsComponent } from './widgets/waitingdots/waitingdots.component';
 import { WordsdrumrollComponent } from './widgets/wordsdrumroll/wordsdrumroll.component';
 import {GuessService} from "./guess/guess.service";
+import {SecondtipComponent} from "./tip/secondtip/secondtip.component";
+import { SecondguessComponent } from './guess/secondguess/secondguess.component';
+import { EvaluationComponent } from './evaluation/evaluation.component';
 
 
 
@@ -43,7 +45,9 @@ import {GuessService} from "./guess/guess.service";
   SinglewordonlyvalidatorDirective,
   FadeComponent,
   WaitingdotsComponent,
-  WordsdrumrollComponent
+  WordsdrumrollComponent,
+  SecondguessComponent,
+  EvaluationComponent
 
 ],
   imports: [
@@ -71,6 +75,14 @@ import {GuessService} from "./guess/guess.service";
     {
       path: 'secondtip/:gamename',
       component: SecondtipComponent
+    },
+    {
+      path: 'secondguess/:gamename',
+      component: SecondguessComponent
+    },
+    {
+      path: 'evaluation/:gamename',
+      component: EvaluationComponent
     },
     {
       path: '',

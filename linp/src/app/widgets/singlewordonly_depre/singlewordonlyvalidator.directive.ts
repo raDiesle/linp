@@ -10,7 +10,6 @@ export function Singlewordonlyvalidator(): ValidatorFn {
     if(!control.value){
       return null;
     }
-    debugger;
     return control.value.split(" ").length <= 1 ? null : {'noSingleWord' : 'must be one word only'};
   };
 }
