@@ -42,7 +42,7 @@
     <div class="card-block">
       <h3 class="card-title">Create New Game</h3>
       <form #createGameForm="ngForm">
-        <div class="form-group has-danger row">
+        <div class="form-group row"> <!-- has-danger  -->
           <label for="gamename" class="col-3 col-form-label">Game Name</label>
           <div class="col-9">
             <input
@@ -55,13 +55,17 @@
               [(ngModel)]="gameName"
               required
             />
+            <!--
             <div class="form-control-feedback">Sorry, that gamename is taken. Try another?</div>
+
             <small class="form-text text-muted">Example help text that remains unchanged.</small>
+            -->
           </div>
         </div>
         <div class="form-group row">
           <div class="col-3">
-            <button class="btn btn-primary"
+            <button id="createGameButton"
+                    class="btn btn-primary"
                     [disabled]="!createGameForm.form.valid"
                     (click)="createGameAction()"
             >Create

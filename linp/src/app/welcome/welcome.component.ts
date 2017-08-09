@@ -1,8 +1,8 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {AngularFireAuth} from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
-import {AngularFireDatabase} from "angularfire2/database";
-import {PlayerProfile} from "../models/player";
+import {AngularFireDatabase} from 'angularfire2/database';
+import {PlayerProfile} from '../models/player';
 
 @Component({
   selector: 'app-welcome',
@@ -18,7 +18,7 @@ export class WelcomeComponent implements OnInit {
 
 
   user: firebase.User;
-  playerName: string = "";
+  playerName: string = '';
 
   isExpandInstructions : boolean = false;
 
@@ -35,7 +35,7 @@ export class WelcomeComponent implements OnInit {
       }
 
       const uid = responseData.uid;
-      this.db.object("/players/" + uid).subscribe(playerResponse => {
+      this.db.object('/players/' + uid).subscribe(playerResponse => {
         this.playerProfile = playerResponse;
 
         this.firstTimeLoggedInEver = playerResponse.$value === null;
@@ -68,7 +68,7 @@ export class WelcomeComponent implements OnInit {
   }
 
   savePlayerName(){
-      const playerPath = "/players/" + this.user.uid;
+      const playerPath = '/players/' + this.user.uid;
       const newPlayerProfile = {
         uid : this.user.uid,
         name : this.playerName
@@ -84,9 +84,9 @@ export class WelcomeComponent implements OnInit {
 
   extractFirstName(displayName: string): string {
     // TODO use inside of html only
-    displayName = displayName ? displayName : "Bugs Bunny";
+    displayName = displayName ? displayName : 'Bugs Bunny';
 
-    const firstLastName = displayName.split(" ");
+    const firstLastName = displayName.split(' ');
     // TODO use inside of html only
     if (firstLastName.length > 0) {
       const firstName = firstLastName[0];
@@ -95,7 +95,4 @@ export class WelcomeComponent implements OnInit {
       return displayName;
     }
   }
-
-
-
 }

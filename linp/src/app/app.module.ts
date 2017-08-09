@@ -29,6 +29,7 @@ import {GuessService} from "./guess/guess.service";
 import {SecondtipComponent} from "./tip/secondtip/secondtip.component";
 import { SecondguessComponent } from './guess/secondguess/secondguess.component';
 import { EvaluationComponent } from './evaluation/evaluation.component';
+import { SimulationComponent } from './simulation/simulation.component';
 
 
 
@@ -47,7 +48,8 @@ import { EvaluationComponent } from './evaluation/evaluation.component';
   WaitingdotsComponent,
   WordsdrumrollComponent,
   SecondguessComponent,
-  EvaluationComponent
+  EvaluationComponent,
+  SimulationComponent
 
 ],
   imports: [
@@ -83,6 +85,10 @@ import { EvaluationComponent } from './evaluation/evaluation.component';
     {
       path: 'evaluation/:gamename',
       component: EvaluationComponent
+    },
+    {
+      path: 'simulation',
+      component: SimulationComponent
     },
     {
       path: '',

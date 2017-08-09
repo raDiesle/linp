@@ -1,5 +1,5 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {Observable} from "rxjs/Observable";
+import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'app-waitingdots',
@@ -8,14 +8,14 @@ import {Observable} from "rxjs/Observable";
 })
 export class WaitingdotsComponent implements OnInit {
 
-  dots: string = "";
+  dots: string = '';
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {
     let sourceLoading = Observable
       .interval(500)
       .timeInterval()
       .subscribe((counter) => {
-        const dotSymbolList = [" ", ".", "..", "...", "...."];
+        const dotSymbolList = [' ', '.', '..', '...', '....'];
         this.dots = dotSymbolList[counter.value % dotSymbolList.length];
         this.changeDetectorRef.markForCheck();
       });

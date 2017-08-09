@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, Component, ViewEncapsulation} from '@angular/core';
-import {ActivatedRoute, NavigationEnd, Router, UrlSegment} from "@angular/router";
-import {AngularFireAuth} from "angularfire2/auth";
+import {ActivatedRoute, NavigationEnd, Router, UrlSegment} from '@angular/router';
+import {AngularFireAuth} from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
 
 @Component({
@@ -25,9 +25,9 @@ export class AppComponent {
   ngOnInit() {
     this.router.events.subscribe(s => {
       if (s instanceof NavigationEnd) {
-        let fullUrl = s.urlAfterRedirects;
-        if (fullUrl.split("/").length >= 3) {
-          this.gamename = fullUrl.split("/")[2];
+        const fullUrl = s.urlAfterRedirects;
+        if (fullUrl.split('/').length >= 3) {
+          this.gamename = fullUrl.split('/')[2];
           this.changeDetectorRef.markForCheck();
         }
       }

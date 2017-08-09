@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
-import {AngularFireDatabase} from "angularfire2/database";
-import {AngularFireAuth} from "angularfire2/auth";
+import {AngularFireDatabase} from 'angularfire2/database';
+import {AngularFireAuth} from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
-import {FirebaseListFactoryOpts} from "angularfire2/interfaces";
-import {GamePlayer} from "../models/game";
+import {FirebaseListFactoryOpts} from 'angularfire2/interfaces';
+import {GamePlayer} from '../models/game';
 
 @Component({
   selector: 'app-gamelobby',
@@ -17,7 +17,7 @@ export class GamelobbyComponent implements OnInit {
 
   gameName: string;
 
-  gamePlayers: {[uid : string] : GamePlayer}; // null
+  gamePlayers: { [uid: string]: GamePlayer }; // null
   private user: firebase.User;
 
 
@@ -32,9 +32,9 @@ export class GamelobbyComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.gameName = this.route.snapshot.paramMap.get("gamename");
+    this.gameName = this.route.snapshot.paramMap.get('gamename');
 
-    this.db.object("/games/" + this.gameName + "/players")
+    this.db.object('/games/' + this.gameName + '/players')
       .subscribe(gamePlayers => {
         this.gamePlayers = gamePlayers;
         this.gamePlayerKeys = Object.keys(this.gamePlayers);
@@ -58,10 +58,10 @@ export class GamelobbyComponent implements OnInit {
         numberOfWordsNeeded = gamePlayerSize / 2 - numberOfQuestionMarks;
         break;
       default:
-        alert("Player size not expected");
+        alert('Player size not expected');
     }
     const QUESTIONMARK_ROLE = {
-      value: "?"
+      value: '?'
     };
 
     let questionmarkOrWordPool: string[] = Array(numberOfQuestionMarks).fill(QUESTIONMARK_ROLE);
@@ -72,10 +72,11 @@ export class GamelobbyComponent implements OnInit {
       .subscribe(totalSizeOfWordsDuplicatedReference => {
         this.totalSizeOfWordCatalogue = totalSizeOfWordsDuplicatedReference.val();
 
-        const max = this.totalSizeOfWordCatalogue - numberOfWordsNeeded;
-        const startPickWordsAtPos = Math.floor((Math.random() * max) + 1);
-        const endPickWordsAtPos = startPickWordsAtPos + numberOfWordsNeeded - 1;
+        const maxPosForStartPick = this.totalSizeOfWordCatalogue - numberOfWordsNeeded -1;
+        const startPickWordsAtPos = Math.floor((Math.random() * maxPosForStartPick) + 1);
 
+        // TODO unused atm because not working
+        const endPickWordsAtPos = startPickWordsAtPos + numberOfWordsNeeded - 1;
         const query: FirebaseListFactoryOpts = {
           query: {
             startAt: startPickWordsAtPos,
@@ -84,17 +85,20 @@ export class GamelobbyComponent implements OnInit {
         };
 
 // query // might change to object. what if player adds word to database at same time with wrong primary key pos?
-        this.db.list("/words/en").subscribe(wordsFullLibrary => {
+        this.db.list('/words/en').subscribe(wordsFullLibrary => {
           // optimize
-          let wordsChosenFromLibrary = wordsFullLibrary.splice(startPickWordsAtPos, endPickWordsAtPos);
-          let wordsDuplicatedForTeams = wordsChosenFromLibrary.concat(wordsChosenFromLibrary);
-          //TODO duplicate words * 2 for every player
+          const wordsChosenFromLibrary = wordsFullLibrary.splice(startPickWordsAtPos, numberOfWordsNeeded);
+          const wordsDuplicatedForTeams = wordsChosenFromLibrary.concat(wordsChosenFromLibrary);
           questionmarkOrWordPool = questionmarkOrWordPool.concat(wordsDuplicatedForTeams);
 
-          let shuffledWordPool = this.shuffle(questionmarkOrWordPool);
+          const shuffledWordPool = this.shuffle(questionmarkOrWordPool);
           // TODO not nice, because lengths have to exactly match
+          if (this.gamePlayerKeys.length !== shuffledWordPool.length) {
+            alert('Unexpected error. Should match ' + this.gamePlayerKeys.length + '_' + shuffledWordPool.length);
+            debugger;
+          }
           for (let pos = 0; pos < this.gamePlayerKeys.length; pos++) {
-            this.gamePlayers[this.gamePlayerKeys[pos]].questionmarkOrWord = shuffledWordPool[pos]["value"]; // fix value accessor
+            this.gamePlayers[this.gamePlayerKeys[pos]].questionmarkOrWord = shuffledWordPool[pos]['value']; // fix value accessor
           }
           this.assignWordOrRoleToUserDB(this.gamePlayers);
           // TODO animation
@@ -106,7 +110,7 @@ export class GamelobbyComponent implements OnInit {
   }
 
   private assignWordOrRoleToUserDB(players): void {
-    this.db.database.ref("games/" + this.gameName + "/players")
+    this.db.database.ref('games/' + this.gameName + '/players')
       .set(players);
   }
 

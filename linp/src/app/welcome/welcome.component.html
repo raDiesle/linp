@@ -74,7 +74,8 @@
             </div>
 
             <button (click)="savePlayerName()"
-                    class="btn card-b"
+                    class="btn"
+                    id="savePlayerName"
                     [ngClass]="[!successfulSavedPlayername ? 'btn-primary' : 'btn-success']"
                     [disabled]="!playerNameInput.valid"
             >
