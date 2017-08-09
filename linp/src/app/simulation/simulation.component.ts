@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {Game} from '../models/game';
-import {PlayerProfile} from "../models/player";
+import {PlayerProfile} from '../models/player';
 
 const players: { [uid: string]: PlayerProfile } = {
   playerA: {
@@ -40,7 +40,6 @@ export class SimulationComponent implements OnInit {
 
   constructor(public afAuth: AngularFireAuth,
               public db: AngularFireDatabase) {
-
   }
 
   ngOnInit() {
@@ -73,7 +72,7 @@ export class SimulationComponent implements OnInit {
           name :  players.playerB.name
         }
       },
-      secondSynonym: 'SecondSynB',
+      secondSynonym: 'SecondSynA',
       // correct
       secondTeamTip: {
         firstPartner: {
@@ -92,7 +91,30 @@ export class SimulationComponent implements OnInit {
       name: players.playerB.name,
       status: 'JOINED',
       questionmarkOrWord: 'Wort1',
-      firstSynonym: 'FirstSynB'
+      firstSynonym: 'FirstSynB',
+      firstTeamTip: {
+        firstPartner: {
+          // ?
+          uid : players.playerA.uid,
+          name : players.playerA.name
+        },
+        secondPartner: {
+          uid : players.playerC.uid,
+          name :  players.playerC.name
+        }
+      },
+      secondSynonym: 'SecondSynB',
+      // correct
+      secondTeamTip: {
+        firstPartner: {
+          uid : players.playerD.uid,
+          name : players.playerD.name
+        },
+        secondPartner: {
+          uid : players.playerE.uid,
+          name : players.playerE.name
+        }
+      }
     };
 
     request.players[players.playerC.uid] = {
@@ -100,7 +122,29 @@ export class SimulationComponent implements OnInit {
       name: players.playerC.name,
       status: 'JOINED',
       questionmarkOrWord: 'Wort1',
-      firstSynonym: 'FirstSynC'
+      firstSynonym: 'FirstSynC',
+      firstTeamTip: {
+        firstPartner: {
+          uid : players.playerC.uid,
+          name : players.playerC.name
+        },
+        secondPartner: {
+          uid : players.playerB.uid,
+          name :  players.playerB.name
+        }
+      },
+      secondSynonym: 'SecondSynC',
+      // correct
+      secondTeamTip: {
+        firstPartner: {
+          uid : players.playerD.uid,
+          name : players.playerD.name
+        },
+        secondPartner: {
+          uid : players.playerE.uid,
+          name : players.playerE.name
+        }
+      }
     };
 
     request.players[players.playerD.uid] = {
@@ -108,7 +152,29 @@ export class SimulationComponent implements OnInit {
       name: players.playerD.name,
       status: 'JOINED',
       questionmarkOrWord: 'Wort2',
-      firstSynonym: 'FirstSynD'
+      firstSynonym: 'FirstSynD',
+      firstTeamTip: {
+        firstPartner: {
+          uid : players.playerD.uid,
+          name : players.playerD.name
+        },
+        secondPartner: {
+          uid : players.playerE.uid,
+          name :  players.playerE.name
+        }
+      },
+      secondSynonym: 'SecondSynD',
+      // correct
+      secondTeamTip: {
+        firstPartner: {
+          uid : players.playerA.uid,
+          name : players.playerA.name
+        },
+        secondPartner: {
+          uid : players.playerB.uid,
+          name : players.playerB.name
+        }
+      }
     };
 
     request.players[players.playerE.uid] = {
@@ -116,7 +182,29 @@ export class SimulationComponent implements OnInit {
       name: players.playerE.name,
       status: 'JOINED',
       questionmarkOrWord: 'Wort2',
-      firstSynonym: 'FirstSynE'
+      firstSynonym: 'FirstSynE',
+      firstTeamTip: {
+        firstPartner: {
+          uid : players.playerC.uid,
+          name : players.playerC.name
+        },
+        secondPartner: {
+          uid : players.playerB.uid,
+          name :  players.playerB.name
+        }
+      },
+      secondSynonym: 'SecondSynE',
+      // correct
+      secondTeamTip: {
+        firstPartner: {
+          uid : players.playerD.uid,
+          name : players.playerD.name
+        },
+        secondPartner: {
+          uid : players.playerE.uid,
+          name : players.playerE.name
+        }
+      }
     };
 
     request.players[players.playerF.uid] = {
@@ -124,7 +212,29 @@ export class SimulationComponent implements OnInit {
       name: players.playerF.name,
       status: 'JOINED',
       questionmarkOrWord: '?',
-      firstSynonym: 'FirstSynF'
+      firstSynonym: 'FirstSynF',
+      firstTeamTip: {
+        firstPartner: {
+          uid : players.playerC.uid,
+          name : players.playerC.name
+        },
+        secondPartner: {
+          uid : players.playerB.uid,
+          name :  players.playerB.name
+        }
+      },
+      secondSynonym: 'SecondSynF',
+      // correct
+      secondTeamTip: {
+        firstPartner: {
+          uid : players.playerA.uid,
+          name : players.playerA.name
+        },
+        secondPartner: {
+          uid : players.playerB.uid,
+          name : players.playerB.name
+        }
+      }
     };
 
     this.db.database.ref('games/' + gamename)
