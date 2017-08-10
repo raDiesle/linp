@@ -5,6 +5,7 @@ import * as firebase from 'firebase/app';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {GamePlayer} from '../models/game';
 import {Observable} from 'rxjs/Observable';
+import {current} from "codelyzer/util/syntaxKind";
 
 @Component({
   selector: 'app-evaluation',
@@ -35,6 +36,7 @@ export class EvaluationComponent implements OnInit {
 
   evaluate(): void {
 
+    // Rewrite to not manipulate outer objects
     Observable.pairs(this.gamePlayers)
       .flatMap(p => Observable.of(p))
       .map(gamePlayer => {
@@ -45,7 +47,7 @@ export class EvaluationComponent implements OnInit {
         const firstGuessFirstUidPartner = gamePlayerObject['firstTeamTip']['firstPartner']['uid'];
         const firstGuessSecondUidPartner = gamePlayerObject['firstTeamTip']['secondPartner']['uid'];
         this.calculateScoresOfGuess(currentPlayerUid, firstGuessFirstUidPartner, firstGuessSecondUidPartner);
-
+        // reuse
         const secondGuessFirstUidPartner = gamePlayerObject['secondTeamTip']['firstPartner']['uid'];
         const secondGuessSecondUidPartner = gamePlayerObject['secondTeamTip']['secondPartner']['uid'];
         this.calculateScoresOfGuess(currentPlayerUid, secondGuessFirstUidPartner, secondGuessSecondUidPartner);
@@ -57,9 +59,9 @@ export class EvaluationComponent implements OnInit {
   }
 
   private calculateScoresOfGuess(currentPlayerUid: any, firstGuessUID: string, secondGuessUID: string) {
-    const isInitialValueSet = this.gamePlayers[currentPlayerUid].pointsScored;
+    const isInitialValueSet = this.gamePlayers[currentPlayerUid].pointsScored.total;
     if (!isInitialValueSet) {
-      this.gamePlayers[currentPlayerUid].pointsScored = 0;
+      this.gamePlayers[currentPlayerUid].pointsScored.total = 0;
     }
 
     const QUESTION_MARK = '?';
@@ -68,22 +70,59 @@ export class EvaluationComponent implements OnInit {
 
     const isWordsEqual = this.gamePlayers[firstGuessUID].questionmarkOrWord === this.gamePlayers[secondGuessUID].questionmarkOrWord;
     const isCorrectGuessOfTeamPartners = !isFirstQuestionmark && isWordsEqual;
+    const himselfIncludedInGuess = currentPlayerUid === firstGuessUID || currentPlayerUid === secondGuessUID;
+
+// Rewrite
+    if (isCorrectGuessOfTeamPartners && !himselfIncludedInGuess) {
+      this.gamePlayers[firstGuessUID].pointsScored.total -= 1;
+      this.gamePlayers[currentPlayerUid].pointsScored.total += 1;
+      this.gamePlayers[secondGuessUID].pointsScored.total -= 1;
+      this.gamePlayers[currentPlayerUid].pointsScored.total += 1;
+    }
+
+    if (isCorrectGuessOfTeamPartners && himselfIncludedInGuess) {
+      // actually useless
+      const guessedHimselfAsFirstPartner = currentPlayerUid === firstGuessUID;
+      const guessedHimselfAsSecondPartner = currentPlayerUid === secondGuessUID;
+      const otherPartnerUid = guessedHimselfAsFirstPartner ? firstGuessUID : secondGuessUID;
+      if (!guessedHimselfAsFirstPartner && !guessedHimselfAsSecondPartner) {
+        throw Error('unexpected');
+      }
+
+      const thePartnerAlsoSelectedHimInFirstTeamguess = this.gamePlayers[otherPartnerUid].firstTeamTip.firstPartner.uid === currentPlayerUid;
+      const andHimToBeHisPartnerInFirstTeamGuess = currentPlayerUid === this.gamePlayers[otherPartnerUid].firstTeamTip.firstPartner.uid
+        || currentPlayerUid === this.gamePlayers[otherPartnerUid].firstTeamTip.secondPartner.uid;
+      const andHimselfInFirstTeamGuess = otherPartnerUid === this.gamePlayers[otherPartnerUid].firstTeamTip.firstPartner.uid
+        || otherPartnerUid === this.gamePlayers[otherPartnerUid].firstTeamTip.secondPartner.uid;
+
+      const thePartnerAlsoSelectedHimInSecondTeamguess = this.gamePlayers[otherPartnerUid].secondTeamTip.firstPartner.uid === currentPlayerUid;
+      const andHimToBeHisPartnerInSecondTeamGuess = currentPlayerUid === this.gamePlayers[otherPartnerUid].secondTeamTip.firstPartner.uid
+        || currentPlayerUid === this.gamePlayers[otherPartnerUid].secondTeamTip.secondPartner.uid;
+      const andHimselfInSecondTeamGuess = otherPartnerUid === this.gamePlayers[otherPartnerUid].secondTeamTip.firstPartner.uid
+        || otherPartnerUid === this.gamePlayers[otherPartnerUid].secondTeamTip.secondPartner.uid;
 
 
-    if (isCorrectGuessOfTeamPartners) {
-      this.gamePlayers[firstGuessUID].pointsScored -= 1;
-      this.gamePlayers[currentPlayerUid].pointsScored += 1;
-      this.gamePlayers[secondGuessUID].pointsScored -= 1;
-      this.gamePlayers[currentPlayerUid].pointsScored += 1;
+      if (thePartnerAlsoSelectedHimInFirstTeamguess
+        && andHimToBeHisPartnerInFirstTeamGuess
+        && andHimselfInFirstTeamGuess) {
+        this.gamePlayers[currentPlayerUid].pointsScored.total += 5;
+      } else if (thePartnerAlsoSelectedHimInSecondTeamguess
+        && andHimToBeHisPartnerInSecondTeamGuess
+        && andHimselfInSecondTeamGuess) {
+        this.gamePlayers[currentPlayerUid].pointsScored.total += 5;
+      } else {
+        // no points
+      }
+      return;
     }
 
     if (isFirstQuestionmark) {
-      this.gamePlayers[currentPlayerUid].pointsScored -= 1;
-      this.gamePlayers[firstGuessUID].pointsScored += 1;
+      this.gamePlayers[currentPlayerUid].pointsScored.total -= 1;
+      this.gamePlayers[firstGuessUID].pointsScored.total += 1;
     }
     if (isSecondQuestionmark) {
-      this.gamePlayers[currentPlayerUid].pointsScored -= 1;
-      this.gamePlayers[secondGuessUID].pointsScored += 1;
+      this.gamePlayers[currentPlayerUid].pointsScored.total -= 1;
+      this.gamePlayers[secondGuessUID].pointsScored.total += 1;
     }
   }
 }

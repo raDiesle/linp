@@ -2,9 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {AngularFireDatabase, FirebaseListObservable} from 'angularfire2/database';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {Router, ActivatedRoute, ParamMap} from '@angular/router';
-import {Game, GamePlayer} from "../models/game";
+import {Game, GamePlayer} from '../models/game';
 import * as firebase from 'firebase/app';
-import {PlayerProfile} from "../models/player";
+import {PlayerProfile} from '../models/player';
 
 @Component({
   selector: 'app-startgame',
@@ -13,14 +13,14 @@ import {PlayerProfile} from "../models/player";
 })
 export class StartgameComponent implements OnInit {
 
-  gameFilter: string = "";
+  gameFilter: string = '';
   hasAnyFilterHitted: boolean = true;
   games: any = [];
   selectedGame: Game;
 
 //@Input
-  gameName: string = "";
-  playerName : string;
+  gameName: string = '';
+  playerName: string;
 
   private user: firebase.User;
 
@@ -29,7 +29,7 @@ export class StartgameComponent implements OnInit {
               public router: Router) {
 
 
-    this.db.list("/games").subscribe(data => {
+    this.db.list('/games').subscribe(data => {
       this.games = data;
     });
 
@@ -37,7 +37,7 @@ export class StartgameComponent implements OnInit {
       this.user = data;
 
       const uid = data.uid;
-      this.db.object("/players/" + uid).subscribe(playerProfileResponse => {
+      this.db.object('/players/' + uid).subscribe(playerProfileResponse => {
         this.gameName = playerProfileResponse.name;
         this.playerName = playerProfileResponse.name;
       });
@@ -54,7 +54,7 @@ export class StartgameComponent implements OnInit {
     const gameName = this.gameName;
 
     // extract to model
-    let request: Game = {
+    const request: Game = {
       host: playerName,
       name: gameName,
       players: {}
@@ -64,10 +64,11 @@ export class StartgameComponent implements OnInit {
     request.players[this.user.uid] = {
       uid: this.user.uid,
       name: playerName,
-      status: "CREATED"
+      status: 'CREATED',
+      pointsScored: {}
     };
 
-    this.db.database.ref("games/" + gameName)
+    this.db.database.ref('games/' + gameName)
       .set(<Game>request);
 
     this.router.navigate(['/gamelobby', gameName]);
@@ -80,16 +81,17 @@ export class StartgameComponent implements OnInit {
   onSelect(game: Game): void {
     this.selectedGame = game;
 
-    // extract to model
-    let testSpieler: GamePlayer = {
+    // TODO extract to model
+    const testSpieler: GamePlayer = {
       uid: this.user.uid,
       name: this.playerName,
-      status: "JOINED"
+      status: 'JOINED',
+      pointsScored: {}
     };
-    let updatePlayer = {};
+    const updatePlayer = {};
     updatePlayer[this.user.uid] = testSpieler;
 
-    this.db.database.ref("games/" + game.name + "/players")
+    this.db.database.ref('games/' + game.name + '/players')
       .update(updatePlayer);
     this.router.navigate(['/gamelobby', game.name]);
   }

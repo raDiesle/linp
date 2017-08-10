@@ -76,13 +76,18 @@ export class SimulationComponent implements OnInit {
       // correct
       secondTeamTip: {
         firstPartner: {
-          uid : players.playerD.uid,
-          name : players.playerD.name
+          uid : players.playerA.uid,
+          name : players.playerA.name
         },
         secondPartner: {
           uid : players.playerE.uid,
           name : players.playerE.name
         }
+      },
+      pointsScored : {
+        firstTeamTip : 0,
+        secondTeamTip : 0,
+        total : 0,
       }
     };
 
@@ -99,8 +104,8 @@ export class SimulationComponent implements OnInit {
           name : players.playerA.name
         },
         secondPartner: {
-          uid : players.playerC.uid,
-          name :  players.playerC.name
+          uid : players.playerF.uid,
+          name :  players.playerF.name
         }
       },
       secondSynonym: 'SecondSynB',
@@ -114,6 +119,11 @@ export class SimulationComponent implements OnInit {
           uid : players.playerE.uid,
           name : players.playerE.name
         }
+      },
+      pointsScored : {
+        firstTeamTip : 0,
+        secondTeamTip : 0,
+        total : 0,
       }
     };
 
@@ -137,13 +147,18 @@ export class SimulationComponent implements OnInit {
       // correct
       secondTeamTip: {
         firstPartner: {
-          uid : players.playerD.uid,
-          name : players.playerD.name
+          uid : players.playerA.uid,
+          name : players.playerA.name
         },
         secondPartner: {
           uid : players.playerE.uid,
           name : players.playerE.name
         }
+      },
+      pointsScored : {
+        firstTeamTip : 0,
+        secondTeamTip : 0,
+        total : 0,
       }
     };
 
@@ -174,6 +189,11 @@ export class SimulationComponent implements OnInit {
           uid : players.playerB.uid,
           name : players.playerB.name
         }
+      },
+      pointsScored : {
+        firstTeamTip : 0,
+        secondTeamTip : 0,
+        total : 0,
       }
     };
 
@@ -204,6 +224,11 @@ export class SimulationComponent implements OnInit {
           uid : players.playerE.uid,
           name : players.playerE.name
         }
+      },
+      pointsScored : {
+        firstTeamTip : 0,
+        secondTeamTip : 0,
+        total : 0,
       }
     };
 
@@ -234,6 +259,11 @@ export class SimulationComponent implements OnInit {
           uid : players.playerB.uid,
           name : players.playerB.name
         }
+      },
+      pointsScored : {
+        firstTeamTip : 0,
+        secondTeamTip : 0,
+        total : 0,
       }
     };
 

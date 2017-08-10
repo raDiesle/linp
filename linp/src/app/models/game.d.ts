@@ -5,6 +5,12 @@ export interface Game {
   players?: { [uid: string]: GamePlayer };
 }
 
+export interface PointsScored {
+  total?: number;
+  firstTeamTip?: number;
+  secondTeamTip?: number
+}
+
 export interface GamePlayer {
   uid: string;
   name: string;
@@ -14,7 +20,7 @@ export interface GamePlayer {
   firstTeamTip?: TeamTip;
   secondSynonym?: string;
   secondTeamTip?: TeamTip;
-  pointsScored?: number;
+  pointsScored: PointsScored;
 }
 
 export type GameStatus = "CREATED" | "JOINED" | "ROLE_OR_WORD_GIVEN" | "FIRST_WORD_GIVEN" | "SECOND_WORD_GIVEN";

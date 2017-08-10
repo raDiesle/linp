@@ -3,17 +3,19 @@
   <tr>
     <th>#</th>
     <th>GamePlayerName</th>
+    <th>Word</th>
     <th>First Tip</th>
     <th>Second Tip</th>
-    <th>First Guess</th>
-    <th>Second Guess</th>
+    <th class="table-info">First Guess</th>
+    <th class="table-info">Second Guess</th>
     <th>Points Scored in Game</th>
   </tr>
   </thead>
   <tbody>
   <tr *ngFor="let gamePlayerKey of gamePlayerKeys; let $index=index;">
-    <th scope="row">{{$index}}</th>
+    <th scope="row">{{$index}} {{gamePlayers[gamePlayerKey].uid}}</th>
     <td>{{gamePlayers[gamePlayerKey].name}}</td>
+    <td><strong>{{gamePlayers[gamePlayerKey].questionmarkOrWord}}</strong></td>
     <td>{{gamePlayers[gamePlayerKey].firstSynonym}}</td>
     <td>{{gamePlayers[gamePlayerKey].secondSynonym}}</td>
     <td>{{gamePlayers[gamePlayerKey].firstTeamTip?.firstPartner?.name}}
