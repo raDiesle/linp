@@ -12,6 +12,8 @@ linq clone app
 * https://github.com/angular/angularfire2/blob/master/docs/1-install-and-setup.md
 * https://coryrylan.com/blog/deploy-angular-cli-apps-to-firebase
 * 9fwPJ3l8KYIv
+* https://github.com/twbs/bootstrap/releases
+
 
 LINQ gamerules
 * see pdf

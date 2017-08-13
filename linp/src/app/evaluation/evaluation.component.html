@@ -25,7 +25,8 @@
       & {{gamePlayers[gamePlayerKey].secondTeamTip?.secondPartner?.name}}
     </td>
     <td>
-      {{gamePlayers[gamePlayerKey].pointsScored}}
+      {{gamePlayers[gamePlayerKey].pointsScored.firstTeamTip}} | {{gamePlayers[gamePlayerKey].pointsScored.secondTeamTip}} = {{gamePlayers[gamePlayerKey].pointsScored.total}}
+
     </td>
   </tr>
   </tbody>

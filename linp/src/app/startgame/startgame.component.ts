@@ -37,10 +37,11 @@ export class StartgameComponent implements OnInit {
       this.user = data;
 
       const uid = data.uid;
-      this.db.object('/players/' + uid).subscribe(playerProfileResponse => {
-        this.gameName = playerProfileResponse.name;
-        this.playerName = playerProfileResponse.name;
-      });
+      this.db.object('/players/' + uid)
+        .subscribe(playerProfileResponse => {
+          this.gameName = playerProfileResponse.name;
+          this.playerName = playerProfileResponse.name;
+        });
     });
   }
 
@@ -60,7 +61,7 @@ export class StartgameComponent implements OnInit {
       players: {}
     };
 
-    // extract to mdoel
+    // extract to model
     request.players[this.user.uid] = {
       uid: this.user.uid,
       name: playerName,
@@ -78,7 +79,7 @@ export class StartgameComponent implements OnInit {
     this.hasAnyFilterHitted = false;
   }
 
-  onSelect(game: Game): void {
+  onSelectGameToJoin(game: Game): void {
     this.selectedGame = game;
 
     // TODO extract to model
