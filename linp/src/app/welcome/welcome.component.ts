@@ -11,16 +11,13 @@ import {PlayerProfile} from '../models/player';
 })
 export class WelcomeComponent implements OnInit {
   firstTimeLoggedInEver: boolean = false;
-  successfulSavedPlayername : boolean = false;
-
+  successfulSavedPlayername: boolean = false;
   playerProfile: PlayerProfile;
 
-
-
   user: firebase.User;
-  playerName: string = '';
+  playerName = '';
 
-  isExpandInstructions : boolean = false;
+  isExpandInstructions = false;
 
   constructor(public afAuth: AngularFireAuth,
               public db: AngularFireDatabase) {
@@ -30,20 +27,21 @@ export class WelcomeComponent implements OnInit {
 
       // extract to top level
       const notLoggedIn = !this.user;
-      if(notLoggedIn){
+      if (notLoggedIn) {
         return;
       }
 
       const uid = responseData.uid;
-      this.db.object('/players/' + uid).subscribe(playerResponse => {
+      this.db.object('/players/' + uid)
+        .subscribe(playerResponse => {
         this.playerProfile = playerResponse;
 
         this.firstTimeLoggedInEver = playerResponse.$value === null;
 
-        if(this.firstTimeLoggedInEver){
+        if (this.firstTimeLoggedInEver) {
           this.playerName = this.extractFirstName(this.user.displayName);
 
-        }else{
+        } else {
           this.playerName = this.playerProfile.name;
         }
       });
@@ -67,18 +65,18 @@ export class WelcomeComponent implements OnInit {
     this.afAuth.auth.signOut();
   }
 
-  savePlayerName(){
-      const playerPath = '/players/' + this.user.uid;
-      const newPlayerProfile = {
-        uid : this.user.uid,
-        name : this.playerName
-      };
-      this.db.database
-        .ref(playerPath)
-        .update(newPlayerProfile)
-        .then(a => {
-          this.successfulSavedPlayername = true;
-          setTimeout(()=>this.successfulSavedPlayername = false, 1500);
+  savePlayerName() {
+    const playerPath = '/players/' + this.user.uid;
+    const newPlayerProfile = {
+      uid: this.user.uid,
+      name: this.playerName
+    };
+    this.db.database
+      .ref(playerPath)
+      .update(newPlayerProfile)
+      .then(a => {
+        this.successfulSavedPlayername = true;
+        setTimeout(() => this.successfulSavedPlayername = false, 1500);
       });
   }
 
