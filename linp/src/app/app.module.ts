@@ -28,6 +28,7 @@ import {SecondtipComponent} from './tip/secondtip/secondtip.component';
 import {SecondguessComponent} from './guess/secondguess/secondguess.component';
 import {EvaluationComponent} from './evaluation/evaluation.component';
 import {SimulationComponent} from './simulation/simulation.component';
+import {CalculatescoreService} from "./evaluation/calculatescore.service";
 
 
 @NgModule({
@@ -101,7 +102,7 @@ import {SimulationComponent} from './simulation/simulation.component';
     AngularFireDatabaseModule,
     AngularFireAuthModule
   ],
-  providers: [GuessService],
+  providers: [GuessService, CalculatescoreService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
