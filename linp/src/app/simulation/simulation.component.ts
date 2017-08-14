@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AngularFireDatabase} from 'angularfire2/database';
-import {AngularFireAuth} from 'angularfire2/auth';
+import {AngularFireAuth} from 'angularfire2/auth/auth';
 import {Game} from '../models/game';
 import {PlayerProfile} from '../models/player';
 
@@ -267,7 +267,7 @@ export class SimulationComponent implements OnInit {
       }
     };
 
-    this.db.database.ref('games/' + gamename)
+    this.db.object('games/' + gamename)
       .set(request);
   }
 }

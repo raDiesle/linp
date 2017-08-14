@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, Component, ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute, NavigationEnd, Router, UrlSegment} from '@angular/router';
-import {AngularFireAuth} from 'angularfire2/auth';
+import {AngularFireAuth} from 'angularfire2/auth/auth';
 import * as firebase from 'firebase/app';
 
 @Component({

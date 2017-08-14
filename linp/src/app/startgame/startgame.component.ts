@@ -1,10 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {AngularFireDatabase, FirebaseListObservable} from 'angularfire2/database';
-import {AngularFireAuth} from 'angularfire2/auth';
-import {Router, ActivatedRoute, ParamMap} from '@angular/router';
+import {AngularFireAuth} from 'angularfire2/auth/auth';
+import {Router} from '@angular/router';
 import {Game, GamePlayer} from '../models/game';
 import * as firebase from 'firebase/app';
-import {PlayerProfile} from '../models/player';
 
 @Component({
   selector: 'app-startgame',
@@ -13,13 +12,13 @@ import {PlayerProfile} from '../models/player';
 })
 export class StartgameComponent implements OnInit {
 
-  gameFilter: string = '';
-  hasAnyFilterHitted: boolean = true;
+  gameFilter = '';
+  hasAnyFilterHitted = true;
   games: any = [];
   selectedGame: Game;
 
 //@Input
-  gameName: string = '';
+  gameName = '';
   playerName: string;
 
   private user: firebase.User;
@@ -69,7 +68,7 @@ export class StartgameComponent implements OnInit {
       pointsScored: {}
     };
 
-    this.db.database.ref('games/' + gameName)
+    this.db.object('games/' + gameName)
       .set(<Game>request);
 
     this.router.navigate(['/gamelobby', gameName]);
@@ -92,7 +91,7 @@ export class StartgameComponent implements OnInit {
     const updatePlayer = {};
     updatePlayer[this.user.uid] = testSpieler;
 
-    this.db.database.ref('games/' + game.name + '/players')
+    this.db.object('games/' + game.name + '/players')
       .update(updatePlayer);
     this.router.navigate(['/gamelobby', game.name]);
   }

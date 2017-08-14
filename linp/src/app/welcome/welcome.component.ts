@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {AngularFireAuth} from 'angularfire2/auth';
+import {AngularFireAuth} from 'angularfire2/auth/auth';
 import * as firebase from 'firebase/app';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {PlayerProfile} from '../models/player';
@@ -10,46 +10,37 @@ import {PlayerProfile} from '../models/player';
   styleUrls: ['./welcome.component.css']
 })
 export class WelcomeComponent implements OnInit {
-  firstTimeLoggedInEver: boolean = false;
-  successfulSavedPlayername: boolean = false;
+  firstTimeLoggedInEver = false;
+  successfulSavedPlayername = false;
+  isExpandInstructions = false;
 
   playerProfile: PlayerProfile;
-
-
-  user: firebase.User;
   playerName = '';
-
-  isExpandInstructions: boolean = false;
+  authUser: firebase.User;
 
   constructor(public afAuth: AngularFireAuth,
               public db: AngularFireDatabase) {
 
-    afAuth.authState.subscribe(responseData => {
-      this.user = responseData;
+    afAuth.authState
+      .subscribe(authUser => {
+        this.authUser = authUser;
 
-      // extract to top level
-      const notLoggedIn = !this.user;
-      if (notLoggedIn) {
-        return;
-      }
-
-      const uid = responseData.uid;
-      this.db.object('/players/' + uid)
-        .subscribe(playerResponse => {
-        this.playerProfile = playerResponse;
-
-        this.firstTimeLoggedInEver = playerResponse.$value === null;
-
-        if (this.firstTimeLoggedInEver) {
-          this.playerName = this.extractFirstName(this.user.displayName);
-
-        } else {
-          this.playerName = this.playerProfile.name;
+        if (!this.authUser) {
+          return;
         }
+        this.loadPlayerProfile(authUser);
       });
+  }
 
-      this.extractFirstName(responseData.displayName);
-    });
+  private loadPlayerProfile(responseData) {
+    const uid = responseData.uid;
+    this.db.object('/players/' + uid)
+      .subscribe(playerProfile => {
+        this.playerProfile = playerProfile;
+
+        this.firstTimeLoggedInEver = playerProfile.$value === null;
+        this.playerName = !this.firstTimeLoggedInEver ? this.playerProfile.name : this.extractFirstName(this.authUser.displayName);
+      });
   }
 
   ngOnInit() {
@@ -68,13 +59,12 @@ export class WelcomeComponent implements OnInit {
   }
 
   savePlayerName() {
-    const playerPath = '/players/' + this.user.uid;
+    const playerPath = '/players/' + this.authUser.uid;
     const newPlayerProfile = {
-      uid: this.user.uid,
+      uid: this.authUser.uid,
       name: this.playerName
     };
-    this.db.database
-      .ref(playerPath)
+    this.db.object(playerPath)
       .update(newPlayerProfile)
       .then(a => {
         this.successfulSavedPlayername = true;
@@ -83,16 +73,12 @@ export class WelcomeComponent implements OnInit {
   }
 
   extractFirstName(displayName: string): string {
-    // TODO use inside of html only
-    displayName = displayName ? displayName : 'Bugs Bunny';
+    // TODO use inside of html only TODO use random marvel name
+    const randomSuggestedName = 'Bugs_Bunny';
+    displayName = displayName ? displayName : randomSuggestedName;
 
     const firstLastName = displayName.split(' ');
     // TODO use inside of html only
-    if (firstLastName.length > 0) {
-      const firstName = firstLastName[0];
-      return firstName;
-    } else {
-      return displayName;
-    }
+    return (firstLastName.length > 0) ? firstLastName[0] : displayName;
   }
 }

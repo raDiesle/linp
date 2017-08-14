@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {AngularFireDatabase} from "angularfire2/database";
-import {GamePlayer, TeamPartner, TeamTip} from "../../models/game";
-import {AngularFireAuth} from "angularfire2/auth";
+import {ActivatedRoute, Router} from '@angular/router';
+import {AngularFireDatabase} from 'angularfire2/database';
+import {GamePlayer, TeamPartner, TeamTip} from '../../models/game';
+import {AngularFireAuth} from 'angularfire2/auth/auth';
 import * as firebase from 'firebase/app';
-import {GuessService} from "../guess.service";
+import {GuessService} from '../guess.service';
 
 @Component({
   selector: 'app-firstguess',
@@ -31,8 +31,8 @@ export class FirstguessComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.gameName = this.route.snapshot.paramMap.get("gamename");
-    this.db.object("/games/" + this.gameName + "/players")
+    this.gameName = this.route.snapshot.paramMap.get('gamename');
+    this.db.object('/games/' + this.gameName + '/players')
       .subscribe(gamePlayers => {
         this.gamePlayers = gamePlayers;
         this.gamePlayerKeys = Object.keys(this.gamePlayers);
@@ -60,11 +60,11 @@ export class FirstguessComponent implements OnInit {
     };
 // move to model
     const firstTeamTip = createGuessModel(this.selectedGamePlayers);
-    const tipDBkey = "/firstTeamTip";
-    this.db.database.ref("games/" + this.gameName + "/players/" + this.authUser.uid + tipDBkey)
+    const tipDBkey = '/firstTeamTip';
+    this.db.object('games/' + this.gameName + '/players/' + this.authUser.uid + tipDBkey)
       .set(firstTeamTip)
       .then(firstTeamTip=> {
-        alert("Successful saved choice");
+        alert('Successful saved choice');
       });
   }
 }

@@ -9,7 +9,10 @@ export class CalculatescoreService {
 
   calculateScoreForOneGuess(currentGamePlayer: GamePlayer, firstGuessGamePlayer: GamePlayer, secondGuessGamePlayer: GamePlayer) {
 
-    this.performQuestionmarkRule(firstGuessGamePlayer, currentGamePlayer, secondGuessGamePlayer);
+    const wasAnyoneQuestionmark = this.performQuestionmarkRule(firstGuessGamePlayer, currentGamePlayer, secondGuessGamePlayer);
+    if (wasAnyoneQuestionmark) {
+      return;
+    }
 
     const isWordsEqual = firstGuessGamePlayer.questionmarkOrWord === secondGuessGamePlayer.questionmarkOrWord;
     const isCorrectGuessOfTeamPartners = (firstGuessGamePlayer.questionmarkOrWord !== '?') && isWordsEqual;
@@ -20,6 +23,7 @@ export class CalculatescoreService {
     if (identifiedOtherTeamCorrect) {
       this.shiftPointsFromPlayerToPlayer(firstGuessGamePlayer, currentGamePlayer, 1);
       this.shiftPointsFromPlayerToPlayer(secondGuessGamePlayer, currentGamePlayer, 1);
+      return;
     }
 
     const isGuessedAsTeammate = isCorrectGuessOfTeamPartners && himselfIncludedInGuess;
@@ -31,6 +35,7 @@ export class CalculatescoreService {
       if (isFoundPartnerByFirstGuess || isFoundPartnerBySecondGuess) {
         currentGamePlayer.pointsScored.total += 5
       }
+      return;
     }
   }
 
@@ -44,27 +49,28 @@ export class CalculatescoreService {
     const andHimself = otherPartner.uid === otherPartner[firstOrSecondTeamTip].firstPartner.uid
       || otherPartner.uid === otherPartner[firstOrSecondTeamTip].secondPartner.uid;
 
-
-    return (thePartnerAlsoSelectedHimTeamguess
+    const isOtherPlayerGuessedAsTeamCorrect = (thePartnerAlsoSelectedHimTeamguess
       && andHimToBeHisPartner
       && andHimself);
+    return isOtherPlayerGuessedAsTeamCorrect;
   }
 
-  private
-
-  performQuestionmarkRule(firstGuessGamePlayer: GamePlayer, currentGamePlayer: GamePlayer, secondGuessGamePlayer: GamePlayer) {
+  private performQuestionmarkRule(firstGuessGamePlayer: GamePlayer, currentGamePlayer: GamePlayer, secondGuessGamePlayer: GamePlayer) {
     const QUESTION_MARK = '?';
+    let wasAnyoneWasQuestionMark = false;
     if (firstGuessGamePlayer.questionmarkOrWord === QUESTION_MARK) {
+      wasAnyoneWasQuestionMark = true;
       this.shiftPointsFromPlayerToPlayer(currentGamePlayer, firstGuessGamePlayer, 1);
     }
     if (secondGuessGamePlayer.questionmarkOrWord === QUESTION_MARK) {
+      wasAnyoneWasQuestionMark = true;
       this.shiftPointsFromPlayerToPlayer(currentGamePlayer, secondGuessGamePlayer, 1);
     }
+
+    return wasAnyoneWasQuestionMark;
   }
 
-  private
-
-  shiftPointsFromPlayerToPlayer(fromPlayer: GamePlayer, toPlayer: GamePlayer, points: number) {
+  private shiftPointsFromPlayerToPlayer(fromPlayer: GamePlayer, toPlayer: GamePlayer, points: number) {
     fromPlayer.pointsScored.total -= points;
     toPlayer.pointsScored.total += points;
   }

@@ -10,7 +10,7 @@
         <h4 class="card-title">Dashboard</h4>
         <h6 class="card-subtitle mb-2 text-muted">Status</h6>
 
-        <div *ngIf="user; then isLoggedIn else isNotLoggedIn"></div>
+        <div *ngIf="authUser; then isLoggedIn else isNotLoggedIn"></div>
 
         <ng-template #isNotLoggedIn>
           <button class="btn btn-primary" class="btn btn-primary" (click)="login()">Login by Google</button>
@@ -20,7 +20,7 @@
 
         <ng-template #isLoggedIn>
           <div>
-            Logged in with <strong>{{(user)?.displayName}}</strong> - {{(user)?.uid}}
+            Logged in with <strong>{{(authUser)?.displayName}}</strong> - {{(authUser)?.uid}}
           </div>
           <div>
             <button *ngIf="!firstTimeLoggedInEver"

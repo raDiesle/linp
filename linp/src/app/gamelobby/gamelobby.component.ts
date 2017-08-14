@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {AngularFireDatabase} from 'angularfire2/database';
-import {AngularFireAuth} from 'angularfire2/auth';
+import {AngularFireAuth} from 'angularfire2/auth/auth';
 import * as firebase from 'firebase/app';
-import {FirebaseListFactoryOpts} from 'angularfire2/interfaces';
 import {GamePlayer} from '../models/game';
+import {FirebaseListFactoryOpts} from "angularfire2/database/interfaces";
 
 @Component({
   selector: 'app-gamelobby',
@@ -95,7 +95,6 @@ export class GamelobbyComponent implements OnInit {
           // TODO not nice, because lengths have to exactly match
           if (this.gamePlayerKeys.length !== shuffledWordPool.length) {
             alert('Unexpected error. Should match ' + this.gamePlayerKeys.length + '_' + shuffledWordPool.length);
-            debugger;
           }
           for (let pos = 0; pos < this.gamePlayerKeys.length; pos++) {
             this.gamePlayers[this.gamePlayerKeys[pos]].questionmarkOrWord = shuffledWordPool[pos]['value']; // fix value accessor
@@ -110,7 +109,7 @@ export class GamelobbyComponent implements OnInit {
   }
 
   private assignWordOrRoleToUserDB(players): void {
-    this.db.database.ref('games/' + this.gameName + '/players')
+    this.db.object('games/' + this.gameName + '/players')
       .set(players);
   }
 

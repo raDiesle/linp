@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs/Rx';
-import {ActivatedRoute, Router} from "@angular/router";
-import {AngularFireDatabase} from "angularfire2/database";
-import {AngularFireAuth} from "angularfire2/auth";
+import {ActivatedRoute, Router} from '@angular/router';
+import {AngularFireDatabase} from 'angularfire2/database';
+import {AngularFireAuth} from 'angularfire2/auth/auth';
 import * as firebase from 'firebase/app';
-import {GamePlayer, GameStatus} from "../../models/game";
+import {GamePlayer, GameStatus} from '../../models/game';
 
 @Component({
   selector: 'app-firsttip',
@@ -16,7 +16,7 @@ export class FirsttipComponent implements OnInit {
   authUser: firebase.User;
   gamePlayers: { [uid: string]: GamePlayer };
   gameName: string;
-  //@input
+  // @input
   private synonym: string;
 
   constructor(private route: ActivatedRoute,
@@ -29,11 +29,11 @@ export class FirsttipComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.gameName = this.route.snapshot.paramMap.get("gamename");
+    this.gameName = this.route.snapshot.paramMap.get('gamename');
 
-    const statusToCheck : GameStatus= "FIRST_WORD_GIVEN";
-    const nextPositiveRoute = "/firstguess";
-    this.db.object("/games/" + this.gameName + "/players")
+    const statusToCheck: GameStatus = 'FIRST_WORD_GIVEN';
+    const nextPositiveRoute = '/firstguess';
+    this.db.object('/games/' + this.gameName + '/players')
     // <GamePlayer[]>
       .subscribe(gamePlayers => {
         this.gamePlayers = gamePlayers;
@@ -45,7 +45,7 @@ export class FirsttipComponent implements OnInit {
   private observeGamePlayerStatus(gamePlayers: { [uid: string]: GamePlayer }, statusToCheck: string, nextPositiveRoute: string) {
     Observable.pairs(gamePlayers)
       .flatMap(p => Observable.of(p))
-      .pluck("status")
+      .pluck('status')
       .every(status => status === statusToCheck)
       .subscribe(allGivenFirstSynonym => {
           // change
@@ -57,11 +57,11 @@ export class FirsttipComponent implements OnInit {
 
   sendSynonym() {
     const requestGamePlayerModel = {
-      status: "FIRST_WORD_GIVEN",
+      status: 'FIRST_WORD_GIVEN',
       firstSynonym: this.synonym
     };
-    this.db.database.ref("games/" + this.gameName + "/players/" + this.authUser.uid)
+    this.db.object('games/' + this.gameName + '/players/' + this.authUser.uid)
       .update(requestGamePlayerModel)
-      .then(gamePlayerModel => alert("Successful saved"));
+      .then(gamePlayerModel => alert('Successful saved'));
   }
 }
