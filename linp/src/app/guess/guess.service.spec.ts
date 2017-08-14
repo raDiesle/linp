@@ -2,7 +2,7 @@ import { TestBed, inject } from '@angular/core/testing';
 
 import { GuessService } from './guess.service';
 
-describe('GuessService', () => {
+describe('LinpCardsModelService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [GuessService]

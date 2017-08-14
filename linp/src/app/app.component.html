@@ -1,12 +1,13 @@
 <div>
-  <nav class="navbar navbar-toggleable-md navbar-light bg-faded sticky-top">
-    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">LINP</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <a class="navbar-brand" id="title" href="#">LINP</a>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
         <li class="nav-item">
           <a class="nav-link" routerLink="/welcome" id="welcomePage">Welcome</a>
         </li>
@@ -42,7 +43,7 @@
   </nav>
 
   <div class="container" style="padding-top:2.5em;">
-      <router-outlet></router-outlet>
+    <router-outlet></router-outlet>
   </div>
 </div>
 

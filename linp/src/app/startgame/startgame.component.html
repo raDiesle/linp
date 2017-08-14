@@ -1,6 +1,6 @@
 <div class="card-deck">
   <div class="card">
-    <div class="card-block">
+    <div class="card-body">
       <h3 class="card-title">Join Game</h3>
       <div class="form-group">
         <div class="input-group">
@@ -24,7 +24,7 @@
           <button
             *ngIf="game !== -1"
             type="button"
-            (click)="onSelect(game)"
+            (click)="onSelectGameToJoin(game)"
             [ngClass]="{'active' : selectedGame === game}"
             class="list-group-item list-group-item-action"
           >
@@ -39,7 +39,7 @@
   </div>
 
   <div class="card">
-    <div class="card-block">
+    <div class="card-body">
       <h3 class="card-title">Create New Game</h3>
       <form #createGameForm="ngForm">
         <div class="form-group row"> <!-- has-danger  -->

@@ -12,12 +12,14 @@ import {PlayerProfile} from '../models/player';
 export class WelcomeComponent implements OnInit {
   firstTimeLoggedInEver: boolean = false;
   successfulSavedPlayername: boolean = false;
+
   playerProfile: PlayerProfile;
+
 
   user: firebase.User;
   playerName = '';
 
-  isExpandInstructions = false;
+  isExpandInstructions: boolean = false;
 
   constructor(public afAuth: AngularFireAuth,
               public db: AngularFireDatabase) {
