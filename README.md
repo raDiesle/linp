@@ -15,11 +15,12 @@ linq clone app
 * https://github.com/twbs/bootstrap/releases
 
 
-LINQ gamerules
+Material
 * see pdf
 * Gamerules of french https://boardgamegeek.com/thread/557251/scoring-newest-version
 * http://www.spielkult.de/linq.htm
 * https://www.hall9000.de/rubriken/spiele/kurzspielregeln/linq.pdf
+* https://en.wikipedia.org/wiki/List_of_Disney_animated_universe_characters
 
 1. Install git, tortoisegit
    1. https://git-for-windows.github.io/
