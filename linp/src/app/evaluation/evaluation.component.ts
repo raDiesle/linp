@@ -44,26 +44,30 @@ export class EvaluationComponent implements OnInit {
 
         const currentPlayerUid: string = <string>gamePlayerKeyValueObject[0];
         const gamePlayer: GamePlayer = <GamePlayer>gamePlayerKeyValueObject[1];
+        // const currentGamePlayer = this.gamePlayers[currentPlayerUid];
 
         // first guess
         const firstGuessFirstUidPartner = gamePlayer.firstTeamTip.firstPartner.uid;
         const firstGuessSecondUidPartner = gamePlayer.firstTeamTip.secondPartner.uid;
-        this.calculateScoresOfGuess(currentPlayerUid, firstGuessFirstUidPartner, firstGuessSecondUidPartner);
+        this.calculateScoresOfGuess(gamePlayer, firstGuessFirstUidPartner, firstGuessSecondUidPartner);
+        // consider return score in function or consider points score to write, not total
+        gamePlayer.pointsScored.firstTeamTip = gamePlayer.pointsScored.total;
 
         // second guess
         const secondGuessFirstUidPartner = gamePlayer.secondTeamTip.firstPartner.uid;
         const secondGuessSecondUidPartner = gamePlayer.secondTeamTip.secondPartner.uid;
-        this.calculateScoresOfGuess(currentPlayerUid, secondGuessFirstUidPartner, secondGuessSecondUidPartner);
+        this.calculateScoresOfGuess(gamePlayer, secondGuessFirstUidPartner, secondGuessSecondUidPartner);
+        gamePlayer.pointsScored.secondTeamTip = gamePlayer.pointsScored.total - gamePlayer.pointsScored.firstTeamTip;
 
         return gamePlayerKeyValueObject;
       }).subscribe(result => {
-      console.log(result)
+      // TODO
+      console.log(result);
     });
   }
 
-  private calculateScoresOfGuess(currentPlayerUid: any, firstGuessUid: string, secondGuessUid: string) {
+  private calculateScoresOfGuess(currentGamePlayer: GamePlayer, firstGuessUid: string, secondGuessUid: string) {
 
-    const currentGamePlayer = this.gamePlayers[currentPlayerUid];
     const firstGuessGamePlayer = this.gamePlayers[firstGuessUid];
     const secondGuessGamePlayer = this.gamePlayers[secondGuessUid];
 
