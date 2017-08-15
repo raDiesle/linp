@@ -3,7 +3,7 @@ import {AngularFireAuth} from 'angularfire2/auth/auth';
 import {ActivatedRoute} from '@angular/router';
 import * as firebase from 'firebase/app';
 import {AngularFireDatabase} from 'angularfire2/database';
-import {GamePlayer} from '../models/game';
+import {GamePlayer, TeamTip} from '../models/game';
 import {Observable} from 'rxjs/Observable';
 import {CalculatescoreService} from './calculatescore.service';
 
@@ -41,26 +41,16 @@ export class EvaluationComponent implements OnInit {
     Observable.pairs(this.gamePlayers)
       .flatMap(p => Observable.of(p))
       .map(gamePlayerKeyValueObject => {
-// TODO multi theading issue cause of writing into total and indirect
-        const currentPlayerUid: string = <string>gamePlayerKeyValueObject[0];
-        const gamePlayer: GamePlayer = <GamePlayer>gamePlayerKeyValueObject[1];
-        // const currentGamePlayer = this.gamePlayers[currentPlayerUid];
 
-        // first guess
-        const firstGuessFirstUidPartner = gamePlayer.firstTeamTip.firstPartner.uid;
-        const firstGuessSecondUidPartner = gamePlayer.firstTeamTip.secondPartner.uid;
-        const scoreOfFirstGuess = this.calculateScoresOfGuess(gamePlayer, firstGuessFirstUidPartner, firstGuessSecondUidPartner);
-        // consider return score in function or consider points score to write, not total
+        const gamePlayer: GamePlayer = <GamePlayer>gamePlayerKeyValueObject[1];
+
+        const scoreOfFirstGuess = this.calculateScoresOfGuess(gamePlayer, gamePlayer.firstTeamTip);
         gamePlayer.pointsScored.firstTeamTip = scoreOfFirstGuess;
 
-        // second guess
-        const secondGuessFirstUidPartner = gamePlayer.secondTeamTip.firstPartner.uid;
-        const secondGuessSecondUidPartner = gamePlayer.secondTeamTip.secondPartner.uid;
-        const scoreOfSecondGuess = this.calculateScoresOfGuess(gamePlayer, secondGuessFirstUidPartner, secondGuessSecondUidPartner);
+        const scoreOfSecondGuess = this.calculateScoresOfGuess(gamePlayer, gamePlayer.secondTeamTip);
         gamePlayer.pointsScored.secondTeamTip = scoreOfSecondGuess;
 
         gamePlayer.pointsScored.total += scoreOfFirstGuess + scoreOfSecondGuess;
-
         return gamePlayerKeyValueObject;
       }).subscribe(result => {
       // TODO
@@ -68,12 +58,9 @@ export class EvaluationComponent implements OnInit {
     });
   }
 
-  private calculateScoresOfGuess(currentGamePlayer: GamePlayer, firstGuessUid: string, secondGuessUid: string): number {
-
-    const firstGuessGamePlayer = this.gamePlayers[firstGuessUid];
-    const secondGuessGamePlayer = this.gamePlayers[secondGuessUid];
-
-    // create on player create time. need to be set for all players at same time!
-    return this.calculatescoreService.calculateScoreForOneGuess(currentGamePlayer, firstGuessGamePlayer, secondGuessGamePlayer);
+  private calculateScoresOfGuess(currentGamePlayer: GamePlayer, teamTip: TeamTip): number {
+    const firstTeamPlayer = this.gamePlayers[teamTip.firstPartner.uid];
+    const secondTeamPlayer = this.gamePlayers[teamTip.secondPartner.uid];
+    return this.calculatescoreService.calculateScoreForOneGuess(currentGamePlayer, firstTeamPlayer, secondTeamPlayer);
   }
 }
