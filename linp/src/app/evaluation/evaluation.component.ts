@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AngularFireAuth} from 'angularfire2/auth/auth';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import * as firebase from 'firebase/app';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {GamePlayer, TeamTip} from '../models/game';
@@ -20,7 +20,7 @@ export class EvaluationComponent implements OnInit {
   gamePlayerKeys: string[];
 
   constructor(private route: ActivatedRoute,
-              public afAuth: AngularFireAuth,
+              private router: Router,
               public db: AngularFireDatabase,
               private calculatescoreService: CalculatescoreService) {
   }
@@ -62,5 +62,9 @@ export class EvaluationComponent implements OnInit {
     const firstTeamPlayer = this.gamePlayers[teamTip.firstPartner.uid];
     const secondTeamPlayer = this.gamePlayers[teamTip.secondPartner.uid];
     return this.calculatescoreService.calculateScoreForOneGuess(currentGamePlayer, firstTeamPlayer, secondTeamPlayer);
+  }
+
+  startNextRound() {
+    this.router.navigate(['/firsttip', this.gameName]);
   }
 }

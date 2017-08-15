@@ -3,6 +3,7 @@ import {AngularFireAuth} from 'angularfire2/auth/auth';
 import * as firebase from 'firebase/app';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {PlayerProfile} from '../models/player';
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-welcome',
@@ -19,7 +20,8 @@ export class WelcomeComponent implements OnInit {
   authUser: firebase.User;
 
   constructor(public afAuth: AngularFireAuth,
-              public db: AngularFireDatabase) {
+              public db: AngularFireDatabase,
+              private modalService: NgbModal) {
 
     afAuth.authState
       .subscribe(authUser => {
@@ -46,7 +48,7 @@ export class WelcomeComponent implements OnInit {
   ngOnInit() {
   }
 
-  login(): void {
+  loginByGoogle(): void {
     this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
   }
 
@@ -80,5 +82,14 @@ export class WelcomeComponent implements OnInit {
     const firstLastName = displayName.split(' ');
     // TODO use inside of html only
     return (firstLastName.length > 0) ? firstLastName[0] : displayName;
+  }
+
+  loginEmailPassword(content) {
+    this.modalService.open(content).result.then((result) => {
+      console.log(`Closed with: ${result}`);
+    }, (reason) => {
+      console.log(reason);
+      // console.log(`Dismissed ${this.getDismissReason(reason)}`);
+    });
   }
 }

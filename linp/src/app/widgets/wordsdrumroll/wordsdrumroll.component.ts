@@ -1,5 +1,5 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {Observable} from "rxjs/Observable";
+import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'app-wordsdrumroll',
@@ -8,15 +8,17 @@ import {Observable} from "rxjs/Observable";
 })
 export class WordsdrumrollComponent implements OnInit {
 
+  @Input()
+  lastWord: string;
   yourRoleWordAnimation: string;
 
   // @Input final word
   constructor(private changeDetectorRef: ChangeDetectorRef) {
-    const yourWordAnimation = ["your", "word", "to", "explain", "is", "_"];
-//TODO      var yourRoleAnimation = ["YOU", "ARE", "THE", "? QUESTIONMARK ?"];
-    const theLastWord = "'House'";
+    const yourWordAnimation = ['your', 'word', 'to', 'explain', 'is', '_', this.lastWord];
+// TODO      var yourRoleAnimation = ['YOU', 'ARE', 'THE', '? QUESTIONMARK ?'];
+    const theLastWord = 'House';
     yourWordAnimation.push(theLastWord);
-    let source = Observable
+    const source = Observable
       .interval(500)
       .timeInterval()
       .take(yourWordAnimation.length);

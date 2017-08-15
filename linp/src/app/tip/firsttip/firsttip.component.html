@@ -7,7 +7,7 @@
         </h4>
         <h6 class="card-subtitle mb-2 text-muted">
           <span>Express your word: First synonym for</span>
-          <span>_yourRoleWordAnimation_ {{gamePlayers && gamePlayers[authUser.uid].questionmarkOrWord}}</span>
+          <app-wordsdrumroll lastWord="gamePlayers && gamePlayers[authUser.uid].questionmarkOrWord" ></app-wordsdrumroll>
         </h6>
         <div class="form-group row"
              [ngClass]="{'has-danger' : synonymInput.invalid, 'has-success' : synonymInput.valid}"
