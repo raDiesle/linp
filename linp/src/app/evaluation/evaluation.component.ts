@@ -59,6 +59,8 @@ export class EvaluationComponent implements OnInit {
         this.calculateScoresOfGuess(gamePlayer, secondGuessFirstUidPartner, secondGuessSecondUidPartner);
         gamePlayer.pointsScored.secondTeamTip = gamePlayer.pointsScored.total - gamePlayer.pointsScored.firstTeamTip;
 
+        // gamePlayer.pointsScored.total += gamePlayer.pointsScored.indirect;
+
         return gamePlayerKeyValueObject;
       }).subscribe(result => {
       // TODO
@@ -72,8 +74,6 @@ export class EvaluationComponent implements OnInit {
     const secondGuessGamePlayer = this.gamePlayers[secondGuessUid];
 
     // create on player create time. need to be set for all players at same time!
-    currentGamePlayer.pointsScored.total = currentGamePlayer.pointsScored.total ? currentGamePlayer.pointsScored.total : 0;
-
     this.calculatescoreService.calculateScoreForOneGuess(currentGamePlayer, firstGuessGamePlayer, secondGuessGamePlayer);
   }
 }

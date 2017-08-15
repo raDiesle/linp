@@ -52,8 +52,7 @@ export class SimulationComponent implements OnInit {
     const request = <Game>{
       name: gamename,
       host: players.playerA.uid,
-      players: {
-      }
+      players: {}
     };
     request.players[players.playerA.uid] = {
       uid: players.playerA.uid,
@@ -64,30 +63,31 @@ export class SimulationComponent implements OnInit {
       // correct
       firstTeamTip: {
         firstPartner: {
-         uid : players.playerC.uid,
-         name : players.playerC.name
+          uid: players.playerC.uid,
+          name: players.playerC.name
         },
         secondPartner: {
-          uid : players.playerB.uid,
-          name :  players.playerB.name
+          uid: players.playerB.uid,
+          name: players.playerB.name
         }
       },
       secondSynonym: 'SecondSynA',
       // correct
       secondTeamTip: {
         firstPartner: {
-          uid : players.playerA.uid,
-          name : players.playerA.name
+          uid: players.playerA.uid,
+          name: players.playerA.name
         },
         secondPartner: {
-          uid : players.playerE.uid,
-          name : players.playerE.name
+          uid: players.playerE.uid,
+          name: players.playerE.name
         }
       },
-      pointsScored : {
-        firstTeamTip : 0,
-        secondTeamTip : 0,
-        total : 0,
+      pointsScored: {
+        firstTeamTip: 0,
+        secondTeamTip: 0,
+        total: 0,
+        indirect: 0
       }
     };
 
@@ -100,30 +100,31 @@ export class SimulationComponent implements OnInit {
       firstTeamTip: {
         firstPartner: {
           // ?
-          uid : players.playerA.uid,
-          name : players.playerA.name
+          uid: players.playerA.uid,
+          name: players.playerA.name
         },
         secondPartner: {
-          uid : players.playerF.uid,
-          name :  players.playerF.name
+          uid: players.playerF.uid,
+          name: players.playerF.name
         }
       },
       secondSynonym: 'SecondSynB',
       // correct
       secondTeamTip: {
         firstPartner: {
-          uid : players.playerD.uid,
-          name : players.playerD.name
+          uid: players.playerD.uid,
+          name: players.playerD.name
         },
         secondPartner: {
-          uid : players.playerE.uid,
-          name : players.playerE.name
+          uid: players.playerE.uid,
+          name: players.playerE.name
         }
       },
-      pointsScored : {
-        firstTeamTip : 0,
-        secondTeamTip : 0,
-        total : 0,
+      pointsScored: {
+        firstTeamTip: 0,
+        secondTeamTip: 0,
+        total: 0,
+        indirect: 0
       }
     };
 
@@ -135,30 +136,31 @@ export class SimulationComponent implements OnInit {
       firstSynonym: 'FirstSynC',
       firstTeamTip: {
         firstPartner: {
-          uid : players.playerC.uid,
-          name : players.playerC.name
+          uid: players.playerC.uid,
+          name: players.playerC.name
         },
         secondPartner: {
-          uid : players.playerB.uid,
-          name :  players.playerB.name
+          uid: players.playerB.uid,
+          name: players.playerB.name
         }
       },
       secondSynonym: 'SecondSynC',
       // correct
       secondTeamTip: {
         firstPartner: {
-          uid : players.playerA.uid,
-          name : players.playerA.name
+          uid: players.playerA.uid,
+          name: players.playerA.name
         },
         secondPartner: {
-          uid : players.playerE.uid,
-          name : players.playerE.name
+          uid: players.playerE.uid,
+          name: players.playerE.name
         }
       },
-      pointsScored : {
-        firstTeamTip : 0,
-        secondTeamTip : 0,
-        total : 0,
+      pointsScored: {
+        firstTeamTip: 0,
+        secondTeamTip: 0,
+        total: 0,
+        indirect: 0
       }
     };
 
@@ -170,30 +172,31 @@ export class SimulationComponent implements OnInit {
       firstSynonym: 'FirstSynD',
       firstTeamTip: {
         firstPartner: {
-          uid : players.playerD.uid,
-          name : players.playerD.name
+          uid: players.playerD.uid,
+          name: players.playerD.name
         },
         secondPartner: {
-          uid : players.playerE.uid,
-          name :  players.playerE.name
+          uid: players.playerE.uid,
+          name: players.playerE.name
         }
       },
       secondSynonym: 'SecondSynD',
       // correct
       secondTeamTip: {
         firstPartner: {
-          uid : players.playerA.uid,
-          name : players.playerA.name
+          uid: players.playerA.uid,
+          name: players.playerA.name
         },
         secondPartner: {
-          uid : players.playerB.uid,
-          name : players.playerB.name
+          uid: players.playerB.uid,
+          name: players.playerB.name
         }
       },
-      pointsScored : {
-        firstTeamTip : 0,
-        secondTeamTip : 0,
-        total : 0,
+      pointsScored: {
+        firstTeamTip: 0,
+        secondTeamTip: 0,
+        total: 0,
+        indirect: 0
       }
     };
 
@@ -205,30 +208,31 @@ export class SimulationComponent implements OnInit {
       firstSynonym: 'FirstSynE',
       firstTeamTip: {
         firstPartner: {
-          uid : players.playerC.uid,
-          name : players.playerC.name
+          uid: players.playerC.uid,
+          name: players.playerC.name
         },
         secondPartner: {
-          uid : players.playerB.uid,
-          name :  players.playerB.name
+          uid: players.playerB.uid,
+          name: players.playerB.name
         }
       },
       secondSynonym: 'SecondSynE',
       // correct
       secondTeamTip: {
         firstPartner: {
-          uid : players.playerD.uid,
-          name : players.playerD.name
+          uid: players.playerD.uid,
+          name: players.playerD.name
         },
         secondPartner: {
-          uid : players.playerE.uid,
-          name : players.playerE.name
+          uid: players.playerE.uid,
+          name: players.playerE.name
         }
       },
-      pointsScored : {
-        firstTeamTip : 0,
-        secondTeamTip : 0,
-        total : 0,
+      pointsScored: {
+        firstTeamTip: 0,
+        secondTeamTip: 0,
+        total: 0,
+        indirect: 0
       }
     };
 
@@ -240,30 +244,31 @@ export class SimulationComponent implements OnInit {
       firstSynonym: 'FirstSynF',
       firstTeamTip: {
         firstPartner: {
-          uid : players.playerC.uid,
-          name : players.playerC.name
+          uid: players.playerC.uid,
+          name: players.playerC.name
         },
         secondPartner: {
-          uid : players.playerB.uid,
-          name :  players.playerB.name
+          uid: players.playerB.uid,
+          name: players.playerB.name
         }
       },
       secondSynonym: 'SecondSynF',
       // correct
       secondTeamTip: {
         firstPartner: {
-          uid : players.playerA.uid,
-          name : players.playerA.name
+          uid: players.playerA.uid,
+          name: players.playerA.name
         },
         secondPartner: {
-          uid : players.playerB.uid,
-          name : players.playerB.name
+          uid: players.playerB.uid,
+          name: players.playerB.name
         }
       },
-      pointsScored : {
-        firstTeamTip : 0,
-        secondTeamTip : 0,
-        total : 0,
+      pointsScored: {
+        firstTeamTip: 0,
+        secondTeamTip: 0,
+        total: 0,
+        indirect: 0
       }
     };
 

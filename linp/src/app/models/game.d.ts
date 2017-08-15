@@ -6,9 +6,10 @@ export interface Game {
 }
 
 export interface PointsScored {
-  total?: number;
   firstTeamTip?: number;
-  secondTeamTip?: number
+  secondTeamTip?: number;
+  total?: number;
+  indirect?: number;
 }
 
 export interface GamePlayer {

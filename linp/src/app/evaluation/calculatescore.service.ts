@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {GamePlayer} from "../models/game";
+import {GamePlayer} from '../models/game';
 
 @Injectable()
 export class CalculatescoreService {
@@ -21,15 +21,20 @@ export class CalculatescoreService {
 // Rewrite
     const identifiedOtherTeamCorrect = isCorrectGuessOfTeamPartners && !himselfIncludedInGuess;
     if (identifiedOtherTeamCorrect) {
-      this.shiftPointsFromPlayerToPlayer(firstGuessGamePlayer, currentGamePlayer, 1);
-      this.shiftPointsFromPlayerToPlayer(secondGuessGamePlayer, currentGamePlayer, 1);
+      firstGuessGamePlayer.pointsScored.indirect -= 1;
+      firstGuessGamePlayer.pointsScored.total -= 1;
+      currentGamePlayer.pointsScored.total += 1;
+
+      secondGuessGamePlayer.pointsScored.indirect -= 1;
+      secondGuessGamePlayer.pointsScored.total -= 1;
+      currentGamePlayer.pointsScored.total += 1;
       return;
     }
 
     const isGuessedAsTeammate = isCorrectGuessOfTeamPartners && himselfIncludedInGuess;
-      if (isGuessedAsTeammate && this.isCorrectGuessOfTeamPartners(currentGamePlayer, firstGuessGamePlayer, secondGuessGamePlayer)) {
-        currentGamePlayer.pointsScored.total += 5;
-      }
+    if (isGuessedAsTeammate && this.isCorrectGuessOfTeamPartners(currentGamePlayer, firstGuessGamePlayer, secondGuessGamePlayer)) {
+      currentGamePlayer.pointsScored.total += 5;
+    }
   }
 
   private isCorrectGuessOfTeamPartners(currentGamePlayer: GamePlayer, firstGuessGamePlayer: GamePlayer, secondGuessGamePlayer: GamePlayer) {
@@ -61,18 +66,24 @@ export class CalculatescoreService {
     let wasAnyoneWasQuestionMark = false;
     if (firstGuessGamePlayer.questionmarkOrWord === QUESTION_MARK) {
       wasAnyoneWasQuestionMark = true;
-      this.shiftPointsFromPlayerToPlayer(currentGamePlayer, firstGuessGamePlayer, 1);
+      currentGamePlayer.pointsScored.total -= 1;
+      firstGuessGamePlayer.pointsScored.indirect += 1;
+      firstGuessGamePlayer.pointsScored.total += 1;
     }
     if (secondGuessGamePlayer.questionmarkOrWord === QUESTION_MARK) {
       wasAnyoneWasQuestionMark = true;
-      this.shiftPointsFromPlayerToPlayer(currentGamePlayer, secondGuessGamePlayer, 1);
+      currentGamePlayer.pointsScored.total -= 1;
+      secondGuessGamePlayer.pointsScored.indirect += 1;
+      secondGuessGamePlayer.pointsScored.total += 1;
     }
 
     return wasAnyoneWasQuestionMark;
   }
 
-  private shiftPointsFromPlayerToPlayer(fromPlayer: GamePlayer, toPlayer: GamePlayer, points: number) {
-    fromPlayer.pointsScored.total -= points;
-    toPlayer.pointsScored.total += points;
+  /*
+  private shiftPointsFromPlayerToPlayer(currentFromPlayer: GamePlayer, indirectToPlayer: GamePlayer, points: number) {
+    currentFromPlayer.pointsScored.total -= points;
+    indirectToPlayer.pointsScored.indirect += points;
   }
+  */
 }
