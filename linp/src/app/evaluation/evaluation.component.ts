@@ -41,7 +41,7 @@ export class EvaluationComponent implements OnInit {
     Observable.pairs(this.gamePlayers)
       .flatMap(p => Observable.of(p))
       .map(gamePlayerKeyValueObject => {
-
+// TODO multi theading issue cause of writing into total and indirect
         const currentPlayerUid: string = <string>gamePlayerKeyValueObject[0];
         const gamePlayer: GamePlayer = <GamePlayer>gamePlayerKeyValueObject[1];
         // const currentGamePlayer = this.gamePlayers[currentPlayerUid];
@@ -49,17 +49,17 @@ export class EvaluationComponent implements OnInit {
         // first guess
         const firstGuessFirstUidPartner = gamePlayer.firstTeamTip.firstPartner.uid;
         const firstGuessSecondUidPartner = gamePlayer.firstTeamTip.secondPartner.uid;
-        this.calculateScoresOfGuess(gamePlayer, firstGuessFirstUidPartner, firstGuessSecondUidPartner);
+        const scoreOfFirstGuess = this.calculateScoresOfGuess(gamePlayer, firstGuessFirstUidPartner, firstGuessSecondUidPartner);
         // consider return score in function or consider points score to write, not total
-        gamePlayer.pointsScored.firstTeamTip = gamePlayer.pointsScored.total;
+        gamePlayer.pointsScored.firstTeamTip = scoreOfFirstGuess;
 
         // second guess
         const secondGuessFirstUidPartner = gamePlayer.secondTeamTip.firstPartner.uid;
         const secondGuessSecondUidPartner = gamePlayer.secondTeamTip.secondPartner.uid;
-        this.calculateScoresOfGuess(gamePlayer, secondGuessFirstUidPartner, secondGuessSecondUidPartner);
-        gamePlayer.pointsScored.secondTeamTip = gamePlayer.pointsScored.total - gamePlayer.pointsScored.firstTeamTip;
+        const scoreOfSecondGuess = this.calculateScoresOfGuess(gamePlayer, secondGuessFirstUidPartner, secondGuessSecondUidPartner);
+        gamePlayer.pointsScored.secondTeamTip = scoreOfSecondGuess;
 
-        // gamePlayer.pointsScored.total += gamePlayer.pointsScored.indirect;
+        gamePlayer.pointsScored.total += scoreOfFirstGuess + scoreOfSecondGuess;
 
         return gamePlayerKeyValueObject;
       }).subscribe(result => {
@@ -68,12 +68,12 @@ export class EvaluationComponent implements OnInit {
     });
   }
 
-  private calculateScoresOfGuess(currentGamePlayer: GamePlayer, firstGuessUid: string, secondGuessUid: string) {
+  private calculateScoresOfGuess(currentGamePlayer: GamePlayer, firstGuessUid: string, secondGuessUid: string): number {
 
     const firstGuessGamePlayer = this.gamePlayers[firstGuessUid];
     const secondGuessGamePlayer = this.gamePlayers[secondGuessUid];
 
     // create on player create time. need to be set for all players at same time!
-    this.calculatescoreService.calculateScoreForOneGuess(currentGamePlayer, firstGuessGamePlayer, secondGuessGamePlayer);
+    return this.calculatescoreService.calculateScoreForOneGuess(currentGamePlayer, firstGuessGamePlayer, secondGuessGamePlayer);
   }
 }

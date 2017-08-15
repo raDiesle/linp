@@ -7,11 +7,11 @@ export class CalculatescoreService {
   constructor() {
   }
 
-  calculateScoreForOneGuess(currentGamePlayer: GamePlayer, firstGuessGamePlayer: GamePlayer, secondGuessGamePlayer: GamePlayer) {
+  calculateScoreForOneGuess(currentGamePlayer: GamePlayer, firstGuessGamePlayer: GamePlayer, secondGuessGamePlayer: GamePlayer): number {
 
-    const wasAnyoneQuestionmark = this.performQuestionmarkRule(firstGuessGamePlayer, currentGamePlayer, secondGuessGamePlayer);
-    if (wasAnyoneQuestionmark) {
-      return;
+    const currentPlayerQuestionScore = this.performQuestionmarkRule(firstGuessGamePlayer, currentGamePlayer, secondGuessGamePlayer);
+    if (currentPlayerQuestionScore < 0) {
+      return currentPlayerQuestionScore;
     }
 
     const isWordsEqual = firstGuessGamePlayer.questionmarkOrWord === secondGuessGamePlayer.questionmarkOrWord;
@@ -23,18 +23,19 @@ export class CalculatescoreService {
     if (identifiedOtherTeamCorrect) {
       firstGuessGamePlayer.pointsScored.indirect -= 1;
       firstGuessGamePlayer.pointsScored.total -= 1;
-      currentGamePlayer.pointsScored.total += 1;
 
       secondGuessGamePlayer.pointsScored.indirect -= 1;
       secondGuessGamePlayer.pointsScored.total -= 1;
-      currentGamePlayer.pointsScored.total += 1;
-      return;
+
+      return 2;
     }
 
     const isGuessedAsTeammate = isCorrectGuessOfTeamPartners && himselfIncludedInGuess;
     if (isGuessedAsTeammate && this.isCorrectGuessOfTeamPartners(currentGamePlayer, firstGuessGamePlayer, secondGuessGamePlayer)) {
-      currentGamePlayer.pointsScored.total += 5;
+      return 5;
     }
+
+    return 0;
   }
 
   private isCorrectGuessOfTeamPartners(currentGamePlayer: GamePlayer, firstGuessGamePlayer: GamePlayer, secondGuessGamePlayer: GamePlayer) {
@@ -43,6 +44,7 @@ export class CalculatescoreService {
     const isFoundPartnerBySecondGuess = this.isOtherPlayerGuessedAsTeamCorrect(otherPartner, currentGamePlayer, 'secondTeamTip');
     const isFoundPartnerByFirstGuess = this.isOtherPlayerGuessedAsTeamCorrect(otherPartner, currentGamePlayer, 'firstTeamTip');
     const isCorrectMatchWithPartner = isFoundPartnerByFirstGuess || isFoundPartnerBySecondGuess;
+    return isCorrectMatchWithPartner;
   }
 
   private isOtherPlayerGuessedAsTeamCorrect(otherPartner: GamePlayer,
@@ -62,28 +64,20 @@ export class CalculatescoreService {
   }
 
   private performQuestionmarkRule(firstGuessGamePlayer: GamePlayer, currentGamePlayer: GamePlayer, secondGuessGamePlayer: GamePlayer) {
+    let pointsForChoosingQuestionmark = 0;
+
     const QUESTION_MARK = '?';
-    let wasAnyoneWasQuestionMark = false;
     if (firstGuessGamePlayer.questionmarkOrWord === QUESTION_MARK) {
-      wasAnyoneWasQuestionMark = true;
-      currentGamePlayer.pointsScored.total -= 1;
       firstGuessGamePlayer.pointsScored.indirect += 1;
       firstGuessGamePlayer.pointsScored.total += 1;
+      pointsForChoosingQuestionmark -= 1;
     }
     if (secondGuessGamePlayer.questionmarkOrWord === QUESTION_MARK) {
-      wasAnyoneWasQuestionMark = true;
-      currentGamePlayer.pointsScored.total -= 1;
       secondGuessGamePlayer.pointsScored.indirect += 1;
       secondGuessGamePlayer.pointsScored.total += 1;
+      pointsForChoosingQuestionmark -= 1;
     }
 
-    return wasAnyoneWasQuestionMark;
+    return pointsForChoosingQuestionmark;
   }
-
-  /*
-  private shiftPointsFromPlayerToPlayer(currentFromPlayer: GamePlayer, indirectToPlayer: GamePlayer, points: number) {
-    currentFromPlayer.pointsScored.total -= points;
-    indirectToPlayer.pointsScored.indirect += points;
-  }
-  */
 }
