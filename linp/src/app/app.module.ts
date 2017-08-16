@@ -28,7 +28,9 @@ import {SecondtipComponent} from './tip/secondtip/secondtip.component';
 import {SecondguessComponent} from './guess/secondguess/secondguess.component';
 import {EvaluationComponent} from './evaluation/evaluation.component';
 import {SimulationComponent} from './simulation/simulation.component';
-import {CalculatescoreService} from "./evaluation/calculatescore.service";
+import {CalculatescoreService} from './evaluation/calculatescore.service';
+import {UserprofileService} from './welcome/userprofile.service';
+import { LoginbyemailComponent } from './welcome/loginbyemail/loginbyemail.component';
 
 
 @NgModule({
@@ -47,8 +49,11 @@ import {CalculatescoreService} from "./evaluation/calculatescore.service";
     WordsdrumrollComponent,
     SecondguessComponent,
     EvaluationComponent,
-    SimulationComponent
-
+    SimulationComponent,
+    LoginbyemailComponent
+  ],
+  entryComponents : [
+    LoginbyemailComponent
   ],
   imports: [
     RouterModule.forRoot([
@@ -102,7 +107,7 @@ import {CalculatescoreService} from "./evaluation/calculatescore.service";
     AngularFireDatabaseModule,
     AngularFireAuthModule
   ],
-  providers: [GuessService, CalculatescoreService],
+  providers: [GuessService, CalculatescoreService, UserprofileService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

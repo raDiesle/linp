@@ -4,6 +4,8 @@ import * as firebase from 'firebase/app';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {PlayerProfile} from '../models/player';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import {UserprofileService} from './userprofile.service';
+import {LoginbyemailComponent} from './loginbyemail/loginbyemail.component';
 
 @Component({
   selector: 'app-welcome',
@@ -21,7 +23,9 @@ export class WelcomeComponent implements OnInit {
 
   constructor(public afAuth: AngularFireAuth,
               public db: AngularFireDatabase,
-              private modalService: NgbModal) {
+              private userprofileService: UserprofileService,
+              private modalService: NgbModal
+  ) {
 
     afAuth.authState
       .subscribe(authUser => {
@@ -41,7 +45,9 @@ export class WelcomeComponent implements OnInit {
         this.playerProfile = playerProfile;
 
         this.firstTimeLoggedInEver = playerProfile.$value === null;
-        this.playerName = !this.firstTimeLoggedInEver ? this.playerProfile.name : this.extractFirstName(this.authUser.displayName);
+        // executed only when needed
+        const suggestedPlayerName = this.userprofileService.extractFirstName(this.authUser.displayName);
+        this.playerName = !this.firstTimeLoggedInEver ? this.playerProfile.name : suggestedPlayerName;
       });
   }
 
@@ -74,22 +80,8 @@ export class WelcomeComponent implements OnInit {
       });
   }
 
-  extractFirstName(displayName: string): string {
-    // TODO use inside of html only TODO use random marvel name
-    const randomSuggestedName = 'Bugs_Bunny';
-    displayName = displayName ? displayName : randomSuggestedName;
-
-    const firstLastName = displayName.split(' ');
-    // TODO use inside of html only
-    return (firstLastName.length > 0) ? firstLastName[0] : displayName;
-  }
-
   loginEmailPassword(content) {
-    this.modalService.open(content).result.then((result) => {
-      console.log(`Closed with: ${result}`);
-    }, (reason) => {
-      console.log(reason);
-      // console.log(`Dismissed ${this.getDismissReason(reason)}`);
-    });
+    const modalRef = this.modalService.open(LoginbyemailComponent);
+    // modalRef.componentInstance.name = 'World';
   }
 }
