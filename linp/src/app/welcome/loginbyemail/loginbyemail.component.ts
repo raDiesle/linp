@@ -19,7 +19,5 @@ export class LoginbyemailComponent implements OnInit {
   login(email, password) {
     this.afAuth.auth.signInWithEmailAndPassword(email, password)
       .then((response) => this.activeModal.close());
-
   }
-
 }

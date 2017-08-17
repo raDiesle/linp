@@ -9,7 +9,7 @@ export class GuessService {
   // simplify
 
   public onTeamPlayerGuessSelected(selectedPlayers, clickedGamePlayer) {
-    let isPlayerSelectedNew = selectedPlayers.indexOf(clickedGamePlayer) === -1;
+    const isPlayerSelectedNew = selectedPlayers.indexOf(clickedGamePlayer) === -1;
     if (isPlayerSelectedNew) {
       const wasMaxPlayersForTeamSelectedAlready = selectedPlayers.length >= 2;
       if (wasMaxPlayersForTeamSelectedAlready) {

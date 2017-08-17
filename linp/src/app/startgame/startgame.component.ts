@@ -17,31 +17,33 @@ export class StartgameComponent implements OnInit {
   games: any = [];
   selectedGame: Game;
 
-//@Input
+// @Input
   gameName = '';
   playerName: string;
 
-  private user: firebase.User;
+  private authUser: firebase.User;
 
   constructor(public afAuth: AngularFireAuth,
               public db: AngularFireDatabase,
               public router: Router) {
 
 
-    this.db.list('/games').subscribe(data => {
-      this.games = data;
-    });
+    this.db.list('/games')
+      .subscribe(games => {
+        this.games = games;
+      });
 
-    afAuth.authState.subscribe(data => {
-      this.user = data;
+    afAuth.authState
+      .subscribe(authUser => {
+        this.authUser = authUser;
 
-      const uid = data.uid;
-      this.db.object('/players/' + uid)
-        .subscribe(playerProfileResponse => {
-          this.gameName = playerProfileResponse.name;
-          this.playerName = playerProfileResponse.name;
-        });
-    });
+        const uid = authUser.uid;
+        this.db.object('/players/' + uid)
+          .subscribe(playerProfile => {
+            this.gameName = playerProfile.name;
+            this.playerName = playerProfile.name;
+          });
+      });
   }
 
   ngOnInit() {
@@ -61,8 +63,8 @@ export class StartgameComponent implements OnInit {
     };
 
     // extract to model
-    request.players[this.user.uid] = {
-      uid: this.user.uid,
+    request.players[this.authUser.uid] = {
+      uid: this.authUser.uid,
       name: playerName,
       status: 'CREATED',
       pointsScored: {}
@@ -83,13 +85,13 @@ export class StartgameComponent implements OnInit {
 
     // TODO extract to model
     const testSpieler: GamePlayer = {
-      uid: this.user.uid,
+      uid: this.authUser.uid,
       name: this.playerName,
       status: 'JOINED',
       pointsScored: {}
     };
     const updatePlayer = {};
-    updatePlayer[this.user.uid] = testSpieler;
+    updatePlayer[this.authUser.uid] = testSpieler;
 
     this.db.object('games/' + game.name + '/players')
       .update(updatePlayer);

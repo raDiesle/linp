@@ -4,7 +4,7 @@ import {AngularFireDatabase} from 'angularfire2/database';
 import {AngularFireAuth} from 'angularfire2/auth/auth';
 import * as firebase from 'firebase/app';
 import {GamePlayer} from '../models/game';
-import {FirebaseListFactoryOpts} from "angularfire2/database/interfaces";
+import {WordRoleAssignmentService} from './word-role-assignment.service';
 
 @Component({
   selector: 'app-gamelobby',
@@ -13,7 +13,6 @@ import {FirebaseListFactoryOpts} from "angularfire2/database/interfaces";
 })
 export class GamelobbyComponent implements OnInit {
   gamePlayerKeys: string[] = [];
-  totalSizeOfWordCatalogue: any;
 
   gameName: string;
 
@@ -24,7 +23,8 @@ export class GamelobbyComponent implements OnInit {
   constructor(private router: Router,
               private route: ActivatedRoute,
               public db: AngularFireDatabase,
-              public afAuth: AngularFireAuth) {
+              public afAuth: AngularFireAuth,
+              private wordRoleAssignmentService: WordRoleAssignmentService) {
 
     afAuth.authState.subscribe(data => {
       this.user = data;
@@ -42,80 +42,9 @@ export class GamelobbyComponent implements OnInit {
   }
 
   startGame(): void {
-    let numberOfWordsNeeded: number;
-    let numberOfQuestionMarks: number;
-
-    // expecting minimum 4
-    const gamePlayerSize = this.gamePlayerKeys.length;
-    switch (true) {
-      case (gamePlayerSize <= 5):
-        numberOfQuestionMarks = 1;
-        numberOfWordsNeeded = 2;
-        break;
-      // for later refactoring explicit
-      case(gamePlayerSize > 5 && gamePlayerSize <= 8):
-        numberOfQuestionMarks = 2;
-        numberOfWordsNeeded = gamePlayerSize / 2 - numberOfQuestionMarks;
-        break;
-      default:
-        alert('Player size not expected');
-    }
-    const QUESTIONMARK_ROLE = {
-      value: '?'
-    };
-
-    let questionmarkOrWordPool: string[] = Array(numberOfQuestionMarks).fill(QUESTIONMARK_ROLE);
-
-    const language = 'en';
-    const pathOrRef = '/words/size/' + language;
-    this.db.object(pathOrRef, {preserveSnapshot: true})
-      .subscribe(totalSizeOfWordsDuplicatedReference => {
-        this.totalSizeOfWordCatalogue = totalSizeOfWordsDuplicatedReference.val();
-
-        const maxPosForStartPick = this.totalSizeOfWordCatalogue - numberOfWordsNeeded -1;
-        const startPickWordsAtPos = Math.floor((Math.random() * maxPosForStartPick) + 1);
-
-        // TODO unused atm because not working
-        const endPickWordsAtPos = startPickWordsAtPos + numberOfWordsNeeded - 1;
-        const query: FirebaseListFactoryOpts = {
-          query: {
-            startAt: startPickWordsAtPos,
-            endAt: endPickWordsAtPos
-          }
-        };
-
-// query // might change to object. what if player adds word to database at same time with wrong primary key pos?
-        this.db.list('/words/en').subscribe(wordsFullLibrary => {
-          // optimize
-          const wordsChosenFromLibrary = wordsFullLibrary.splice(startPickWordsAtPos, numberOfWordsNeeded);
-          const wordsDuplicatedForTeams = wordsChosenFromLibrary.concat(wordsChosenFromLibrary);
-          questionmarkOrWordPool = questionmarkOrWordPool.concat(wordsDuplicatedForTeams);
-
-          const shuffledWordPool = this.shuffle(questionmarkOrWordPool);
-          // TODO not nice, because lengths have to exactly match
-          if (this.gamePlayerKeys.length !== shuffledWordPool.length) {
-            alert('Unexpected error. Should match ' + this.gamePlayerKeys.length + '_' + shuffledWordPool.length);
-          }
-          for (let pos = 0; pos < this.gamePlayerKeys.length; pos++) {
-            this.gamePlayers[this.gamePlayerKeys[pos]].questionmarkOrWord = shuffledWordPool[pos]['value']; // fix value accessor
-          }
-          this.assignWordOrRoleToUserDB(this.gamePlayers);
-          // TODO animation
-
-          this.router.navigate(['/firsttip', this.gameName]);
-          return null;
-        });
-      });
+    // might be done functional
+    this.wordRoleAssignmentService.assign(this.gamePlayerKeys, this.gamePlayers, this.gameName);
+    // might be async issue, put into callback
+    this.router.navigate(['/firsttip', this.gameName]);
   }
-
-  private assignWordOrRoleToUserDB(players): void {
-    this.db.object('games/' + this.gameName + '/players')
-      .set(players);
-  }
-
-  private shuffle(arrayToSort: any[]): any[] {
-    return arrayToSort.sort(function () {
-      return Math.random() - 0.5;
-    });
-  };
 }

@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnChanges, OnInit} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 
 @Component({
@@ -8,27 +8,42 @@ import {Observable} from 'rxjs/Observable';
 })
 export class WordsdrumrollComponent implements OnInit {
 
-  @Input()
-  lastWord: string;
+  _word: string;
   yourRoleWordAnimation: string;
 
   // @Input final word
   constructor(private changeDetectorRef: ChangeDetectorRef) {
-    const yourWordAnimation = ['your', 'word', 'to', 'explain', 'is', '_', this.lastWord];
-// TODO      var yourRoleAnimation = ['YOU', 'ARE', 'THE', '? QUESTIONMARK ?'];
-    const theLastWord = 'House';
-    yourWordAnimation.push(theLastWord);
+
+  }
+
+  ngOnInit() {
+  }
+
+  @Input()
+  set word(word: string) {
+    this._word = word;
+
+    if (!word) {
+      return;
+    }
+    // registered multiple times is bad
+    Observable.of(this.word)
+    const yourWordAnimation = ['your', 'word', 'to', 'explain', 'is', '.......', this.word];
+    const yourRoleAnimationForQuestionmark = ['YOU', 'ARE', 'THE', '? QUESTIONMARK ?'];
+    const wordSequence = (this.word === '?') ? yourRoleAnimationForQuestionmark : yourWordAnimation;
+
     const source = Observable
       .interval(500)
       .timeInterval()
       .take(yourWordAnimation.length);
-    source.subscribe((listItem) => {
-      this.yourRoleWordAnimation = yourWordAnimation[listItem.value];
+    source.subscribe((singleWord) => {
+      this.yourRoleWordAnimation = wordSequence[singleWord.value];
       this.changeDetectorRef.markForCheck();
     });
   }
 
-  ngOnInit() {
+  get word() {
+    return this._word;
   }
 
 }
