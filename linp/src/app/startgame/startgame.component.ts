@@ -57,8 +57,9 @@ export class StartgameComponent implements OnInit {
 
     // extract to model
     const request: Game = {
-      host: playerName,
       name: gameName,
+      host: playerName,
+      status : 'CREATED',
       players: {}
     };
 

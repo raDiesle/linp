@@ -28,10 +28,9 @@ import {SecondtipComponent} from './tip/secondtip/secondtip.component';
 import {SecondguessComponent} from './guess/secondguess/secondguess.component';
 import {EvaluationComponent} from './evaluation/evaluation.component';
 import {SimulationComponent} from './simulation/simulation.component';
-import {CalculatescoreService} from './evaluation/calculatescore.service';
 import {UserprofileService} from './welcome/userprofile.service';
 import { LoginbyemailComponent } from './welcome/loginbyemail/loginbyemail.component';
-import {WordRoleAssignmentService} from "./tip/word-role-assignment.service";
+import {WordRoleAssignmentService} from './tip/word-role-assignment.service';
 
 
 @NgModule({
@@ -108,7 +107,7 @@ import {WordRoleAssignmentService} from "./tip/word-role-assignment.service";
     AngularFireDatabaseModule,
     AngularFireAuthModule
   ],
-  providers: [GuessService, CalculatescoreService, UserprofileService, WordRoleAssignmentService],
+  providers: [GuessService, UserprofileService, WordRoleAssignmentService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -1,6 +1,7 @@
 export interface Game {
   name: string;
   host: string;
+  status: GameStatus;
   // alternative type possible?
   players?: { [uid: string]: GamePlayer };
 }
@@ -25,7 +26,7 @@ export interface GamePlayer {
   pointsScored?: PointsScored;
 }
 
-export type GameStatus = 'CREATED' | 'JOINED' | 'ROLE_OR_WORD_GIVEN' | 'FIRST_WORD_GIVEN' | 'SECOND_WORD_GIVEN';
+export type GameStatus = 'CREATED' | 'JOINED' | 'ROLE_OR_WORD_GIVEN' | 'FIRST_WORD_GIVEN' | 'SECOND_WORD_GIVEN' | 'EVALUATE';
 
 export interface TeamTip {
   firstPartner: TeamPartner;

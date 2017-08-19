@@ -31,6 +31,8 @@ const players: { [uid: string]: PlayerProfile } = {
   }
 };
 
+const gamename = 'test-evaluation';
+
 @Component({
   selector: 'app-simulation',
   templateUrl: './simulation.component.html',
@@ -46,12 +48,10 @@ export class SimulationComponent implements OnInit {
   }
 
   createForEvaluation() {
-
-    const gamename = 'test-evaluation';
-
     const request = <Game>{
       name: gamename,
       host: players.playerA.uid,
+      status: 'EVALUATE',
       players: {}
     };
     request.players[players.playerA.uid] = {
@@ -280,5 +280,16 @@ export class SimulationComponent implements OnInit {
 
     this.db.object('games/' + gamename)
       .set(request);
+  }
+
+  updateSinglePlayerScore() {
+    const request = {};
+    request[players.playerA.uid] = {
+      pointsScored: {
+        total: 667
+      }
+    };
+    this.db.object('games/' + gamename + '/players/')
+      .update(request).then(result => alert('done'));
   }
 }
