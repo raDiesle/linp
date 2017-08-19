@@ -23,7 +23,7 @@ export class WordRoleAssignmentService {
       // for later refactoring explicit
       case(gamePlayerSize > 5 && gamePlayerSize <= 8):
         numberOfQuestionMarks = 2;
-        numberOfWordsNeeded = gamePlayerSize / 2 - numberOfQuestionMarks;
+        numberOfWordsNeeded = (gamePlayerSize - numberOfQuestionMarks) / 2;
         break;
       default:
         alert('Player size not expected');
@@ -63,7 +63,7 @@ export class WordRoleAssignmentService {
             const shuffledWordPool = this.shuffle(questionmarkOrWordPool);
             // TODO not nice, because lengths have to exactly match
             if (gamePlayerKeys.length !== shuffledWordPool.length) {
-              alert('Unexpected error. Should match ' + gamePlayerKeys.length + '_' + shuffledWordPool.length);
+              alert('Unexpected error. Should match key length: ' + gamePlayerKeys.length + ' with wordPool: ' + shuffledWordPool.length);
             }
             for (let pos = 0; pos < gamePlayerKeys.length; pos++) {
               gamePlayers[gamePlayerKeys[pos]].questionmarkOrWord = shuffledWordPool[pos]['value']; // fix value accessor

@@ -4,7 +4,6 @@ import {AngularFireDatabase} from 'angularfire2/database';
 import {AngularFireAuth} from 'angularfire2/auth/auth';
 import * as firebase from 'firebase/app';
 import {GamePlayer} from '../models/game';
-import {WordRoleAssignmentService} from './word-role-assignment.service';
 
 @Component({
   selector: 'app-gamelobby',
@@ -23,8 +22,7 @@ export class GamelobbyComponent implements OnInit {
   constructor(private router: Router,
               private route: ActivatedRoute,
               public db: AngularFireDatabase,
-              public afAuth: AngularFireAuth,
-              private wordRoleAssignmentService: WordRoleAssignmentService) {
+              public afAuth: AngularFireAuth) {
 
     afAuth.authState.subscribe(data => {
       this.user = data;
@@ -42,9 +40,6 @@ export class GamelobbyComponent implements OnInit {
   }
 
   startGame(): void {
-    // might be done functional
-    this.wordRoleAssignmentService.assign(this.gamePlayerKeys, this.gamePlayers, this.gameName);
-    // might be async issue, put into callback
     this.router.navigate(['/firsttip', this.gameName]);
   }
 }

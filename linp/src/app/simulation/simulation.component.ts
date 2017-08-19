@@ -87,6 +87,7 @@ export class SimulationComponent implements OnInit {
         firstTeamTip: 0,
         secondTeamTip: 0,
         total: 0,
+        totalRounds: 0,
         indirect: 0
       }
     };
@@ -124,6 +125,7 @@ export class SimulationComponent implements OnInit {
         firstTeamTip: 0,
         secondTeamTip: 0,
         total: 0,
+        totalRounds: 0,
         indirect: 0
       }
     };
@@ -160,6 +162,7 @@ export class SimulationComponent implements OnInit {
         firstTeamTip: 0,
         secondTeamTip: 0,
         total: 0,
+        totalRounds: 0,
         indirect: 0
       }
     };
@@ -196,6 +199,7 @@ export class SimulationComponent implements OnInit {
         firstTeamTip: 0,
         secondTeamTip: 0,
         total: 0,
+        totalRounds: 0,
         indirect: 0
       }
     };
@@ -232,6 +236,7 @@ export class SimulationComponent implements OnInit {
         firstTeamTip: 0,
         secondTeamTip: 0,
         total: 0,
+        totalRounds: 0,
         indirect: 0
       }
     };
@@ -268,6 +273,7 @@ export class SimulationComponent implements OnInit {
         firstTeamTip: 0,
         secondTeamTip: 0,
         total: 0,
+        totalRounds: 0,
         indirect: 0
       }
     };

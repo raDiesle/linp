@@ -31,6 +31,7 @@ import {SimulationComponent} from './simulation/simulation.component';
 import {CalculatescoreService} from './evaluation/calculatescore.service';
 import {UserprofileService} from './welcome/userprofile.service';
 import { LoginbyemailComponent } from './welcome/loginbyemail/loginbyemail.component';
+import {WordRoleAssignmentService} from "./tip/word-role-assignment.service";
 
 
 @NgModule({
@@ -107,7 +108,7 @@ import { LoginbyemailComponent } from './welcome/loginbyemail/loginbyemail.compo
     AngularFireDatabaseModule,
     AngularFireAuthModule
   ],
-  providers: [GuessService, CalculatescoreService, UserprofileService],
+  providers: [GuessService, CalculatescoreService, UserprofileService, WordRoleAssignmentService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

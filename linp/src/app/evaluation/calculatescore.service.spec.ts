@@ -37,7 +37,7 @@ describe('CalculatescoreService', () => {
     TestBed.configureTestingModule({
       providers: [CalculatescoreService],
       declarations: [
-        //CalculatescoreService
+        // CalculatescoreService
       ]
     });
   });
@@ -89,6 +89,8 @@ describe('CalculatescoreService', () => {
         pointsScored: {
           firstTeamTip: 0,
           secondTeamTip: 0,
+          indirect: 0,
+          totalRounds: 0,
           total: 0,
         }
       };
@@ -125,7 +127,9 @@ describe('CalculatescoreService', () => {
         pointsScored: {
           firstTeamTip: 0,
           secondTeamTip: 0,
+          indirect: 0,
           total: 0,
+          totalRounds: 0,
         }
       };
 
@@ -160,7 +164,9 @@ describe('CalculatescoreService', () => {
         pointsScored: {
           firstTeamTip: 0,
           secondTeamTip: 0,
+          indirect: 0,
           total: 0,
+          totalRounds: 0,
         }
       };
 
@@ -195,7 +201,9 @@ describe('CalculatescoreService', () => {
         pointsScored: {
           firstTeamTip: 0,
           secondTeamTip: 0,
+          indirect: 0,
           total: 0,
+          totalRounds: 0,
         }
       };
 
@@ -230,7 +238,9 @@ describe('CalculatescoreService', () => {
         pointsScored: {
           firstTeamTip: 0,
           secondTeamTip: 0,
+          indirect: 0,
           total: 0,
+          totalRounds: 0,
         }
       };
 
@@ -265,7 +275,9 @@ describe('CalculatescoreService', () => {
         pointsScored: {
           firstTeamTip: 0,
           secondTeamTip: 0,
+          indirect: 0,
           total: 0,
+          totalRounds: 0,
         }
       };
 

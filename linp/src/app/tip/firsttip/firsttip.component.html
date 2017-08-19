@@ -6,8 +6,13 @@
           {{gameName}}
         </h4>
         <h6 class="card-subtitle mb-2 text-muted">
-          <span>Express your word: First synonym for <app-wordsdrumroll
-            word="{{gamePlayers && gamePlayers[authUser.uid].questionmarkOrWord}}"></app-wordsdrumroll></span>
+          <span>
+            Express your word: First synonym for
+            <strong>
+              <app-wordsdrumroll
+                word="{{gamePlayers && gamePlayers[authUser.uid].questionmarkOrWord}}"></app-wordsdrumroll>
+          </strong>
+          </span>
         </h6>
         <form novalidate #giveSynonymForm="ngForm">
           <div class="form-group row"

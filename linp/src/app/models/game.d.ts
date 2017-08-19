@@ -6,10 +6,11 @@ export interface Game {
 }
 
 export interface PointsScored {
-  firstTeamTip?: number;
-  secondTeamTip?: number;
-  total?: number;
-  indirect?: number;
+  firstTeamTip: number;
+  secondTeamTip: number;
+  total: number;
+  totalRounds: number;
+  indirect: number;
 }
 
 export interface GamePlayer {
@@ -21,10 +22,10 @@ export interface GamePlayer {
   firstTeamTip?: TeamTip;
   secondSynonym?: string;
   secondTeamTip?: TeamTip;
-  pointsScored: PointsScored;
+  pointsScored?: PointsScored;
 }
 
-export type GameStatus = "CREATED" | "JOINED" | "ROLE_OR_WORD_GIVEN" | "FIRST_WORD_GIVEN" | "SECOND_WORD_GIVEN";
+export type GameStatus = 'CREATED' | 'JOINED' | 'ROLE_OR_WORD_GIVEN' | 'FIRST_WORD_GIVEN' | 'SECOND_WORD_GIVEN';
 
 export interface TeamTip {
   firstPartner: TeamPartner;

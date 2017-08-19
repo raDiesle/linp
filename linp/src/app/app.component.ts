@@ -1,5 +1,5 @@
-import {ChangeDetectorRef, Component, ViewEncapsulation} from '@angular/core';
-import {ActivatedRoute, NavigationEnd, Router, UrlSegment} from '@angular/router';
+import {ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {NavigationEnd, Router} from '@angular/router';
 import {AngularFireAuth} from 'angularfire2/auth/auth';
 import * as firebase from 'firebase/app';
 
@@ -9,7 +9,7 @@ import * as firebase from 'firebase/app';
   styleUrls: ['./app.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   gamename: string;
   title = 'app';
   private authUser: firebase.User;
@@ -24,13 +24,17 @@ export class AppComponent {
 
   ngOnInit() {
     this.router.events.subscribe(s => {
-      if (s instanceof NavigationEnd) {
-        const fullUrl = s.urlAfterRedirects;
-        if (fullUrl.split('/').length >= 3) {
-          this.gamename = fullUrl.split('/')[2];
-          this.changeDetectorRef.markForCheck();
-        }
-      }
+      this.updateCurrentGameNameLinksForDevelopment(s);
     });
+  }
+
+  private updateCurrentGameNameLinksForDevelopment(s) {
+    if (s instanceof NavigationEnd) {
+      const fullUrl = s.urlAfterRedirects;
+      if (fullUrl.split('/').length >= 3) {
+        this.gamename = fullUrl.split('/')[2];
+        this.changeDetectorRef.markForCheck();
+      }
+    }
   }
 }

@@ -3,9 +3,11 @@ import {AngularFireAuth} from 'angularfire2/auth/auth';
 import {ActivatedRoute, Router} from '@angular/router';
 import * as firebase from 'firebase/app';
 import {AngularFireDatabase} from 'angularfire2/database';
-import {GamePlayer, TeamTip} from '../models/game';
+import {GamePlayer, PointsScored, TeamTip} from '../models/game';
 import {Observable} from 'rxjs/Observable';
 import {CalculatescoreService} from './calculatescore.service';
+import {first} from "rxjs/operator/first";
+
 
 @Component({
   selector: 'app-evaluation',
@@ -22,40 +24,68 @@ export class EvaluationComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private router: Router,
               public db: AngularFireDatabase,
+              public afAuth: AngularFireAuth,
               private calculatescoreService: CalculatescoreService) {
   }
 
   ngOnInit() {
     this.gameName = this.route.snapshot.paramMap.get('gamename');
-    this.db.object('/games/' + this.gameName + '/players')
+    const gamePlayersObservable = this.db.object('/games/' + this.gameName + '/players'
+      , {preserveSnapshot: true}
+    )
       .subscribe(gamePlayers => {
-        this.gamePlayers = gamePlayers;
+        this.gamePlayers = gamePlayers.val();
         this.gamePlayerKeys = Object.keys(this.gamePlayers);
-        this.evaluate();
+        gamePlayersObservable.unsubscribe();
+        this.resetAndCalculateAndUpdatePoints();
       });
   }
 
+  private resetAndCalculateAndUpdatePoints(): void {
+    // reset make non observable
+    this.resetPoints();
+    this.evaluate();
+  }
+
+  private resetPoints() {
+    for (const gamePlayerKey of this.gamePlayerKeys) {
+      const gamePlayer = this.gamePlayers[gamePlayerKey];
+
+      // to be moved
+      const initialPointsScored = <PointsScored>{
+        firstTeamTip: 0,
+        secondTeamTip: 0,
+        indirect: 0,
+        total: 0,
+        totalRounds: gamePlayer.pointsScored.totalRounds
+      };
+      gamePlayer.pointsScored = initialPointsScored;
+      // use promise chained callback instead
+    }
+  }
+
   evaluate(): void {
-
     // Rewrite to not manipulate outer objects
-    Observable.pairs(this.gamePlayers)
-      .flatMap(p => Observable.of(p))
-      .map(gamePlayerKeyValueObject => {
+    for (const gamePlayerKey of this.gamePlayerKeys) {
+      const gamePlayer = this.gamePlayers[gamePlayerKey];
 
-        const gamePlayer: GamePlayer = <GamePlayer>gamePlayerKeyValueObject[1];
+      const scoreOfFirstGuess = this.calculateScoresOfGuess(gamePlayer, gamePlayer.firstTeamTip);
+      gamePlayer.pointsScored.firstTeamTip = scoreOfFirstGuess;
 
-        const scoreOfFirstGuess = this.calculateScoresOfGuess(gamePlayer, gamePlayer.firstTeamTip);
-        gamePlayer.pointsScored.firstTeamTip = scoreOfFirstGuess;
+      const scoreOfSecondGuess = this.calculateScoresOfGuess(gamePlayer, gamePlayer.secondTeamTip);
+      gamePlayer.pointsScored.secondTeamTip = scoreOfSecondGuess;
 
-        const scoreOfSecondGuess = this.calculateScoresOfGuess(gamePlayer, gamePlayer.secondTeamTip);
-        gamePlayer.pointsScored.secondTeamTip = scoreOfSecondGuess;
+      gamePlayer.pointsScored.total += scoreOfFirstGuess + scoreOfSecondGuess;
 
-        gamePlayer.pointsScored.total += scoreOfFirstGuess + scoreOfSecondGuess;
-        return gamePlayerKeyValueObject;
-      }).subscribe(result => {
-      // TODO
-      console.log(result);
-    });
+      gamePlayer.pointsScored.totalRounds += gamePlayer.pointsScored.total;
+      /*
+              // async issues
+              this.db.object('games/' + this.gameName + '/players/' + gamePlayer.uid + '/pointsScored')
+              // reduce to only update totalRounds
+                .update(gamePlayer.pointsScored)
+                .then(response => console.log(response));
+      */
+    }
   }
 
   private calculateScoresOfGuess(currentGamePlayer: GamePlayer, teamTip: TeamTip): number {
