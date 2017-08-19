@@ -34,17 +34,20 @@ export class EvaluationComponent implements OnInit {
       , {preserveSnapshot: true}
     )
       .subscribe(gamePlayers => {
+        console.log("changed");
         this.gamePlayers = gamePlayers.val();
         this.gamePlayerKeys = Object.keys(this.gamePlayers);
         gamePlayersObservable.unsubscribe();
-        this.resetAndCalculateAndUpdatePoints();
-      });
-  }
 
-  private resetAndCalculateAndUpdatePoints(): void {
-    // reset make non observable
-    this.resetPoints();
-    this.evaluate();
+        // to be moved to server, executable only once
+        this.resetPoints();
+        this.evaluate();
+        // async issues
+        this.db.object('games/' + this.gameName + '/players/')
+        // reduce to only update totalRounds
+          .update(this.gamePlayers)
+          .then(response => console.log(response));
+      });
   }
 
   private resetPoints() {
@@ -78,13 +81,6 @@ export class EvaluationComponent implements OnInit {
       gamePlayer.pointsScored.total += scoreOfFirstGuess + scoreOfSecondGuess;
 
       gamePlayer.pointsScored.totalRounds += gamePlayer.pointsScored.total;
-      /*
-              // async issues
-              this.db.object('games/' + this.gameName + '/players/' + gamePlayer.uid + '/pointsScored')
-              // reduce to only update totalRounds
-                .update(gamePlayer.pointsScored)
-                .then(response => console.log(response));
-      */
     }
   }
 
