@@ -1,6 +1,7 @@
 import {GamePlayer, PointsScored, TeamTip} from '../../../../linp/src/app/models/game';
 import {CalculatescoreService} from './calculatescore.service';
 import * as functions from 'firebase-functions'
+import * as admin from 'firebase-admin';
 
 export class Evaluate {
 
@@ -10,13 +11,25 @@ export class Evaluate {
     }
 
     register() {
-        const gameName = 'test-evaluation';
-        return functions.database.ref('/games/' + gameName + '/players')
-            .onUpdate(async event => {
-                const original = event.data.val();
-                const pushId = (event.params as any).pushId;
-                console.log('Uppercasing', pushId, original);
-            });
+        return functions.https.onRequest((request, response) => {
+            if (request.query.status === 'EVALUATE') {
+                admin.database().ref('/games/' + request.query.gameName + '/players')
+                    .once('value')
+                    .then((gamePlayersSnapshot: any) => {
+                        const gamePlayers: { [uid: string]: GamePlayer } = gamePlayersSnapshot.val();
+                        const gamePlayerKeys = Object.keys(gamePlayers);
+
+                        this.resetPoints(gamePlayerKeys, gamePlayers);
+                        this.evaluate(gamePlayerKeys, gamePlayers);
+
+                        console.log(gamePlayers);
+                        this.writeAllScoresToDB(request.query.gameName, gamePlayerKeys, gamePlayers);
+                        response.status(200)
+                            .send('SUCCESS'); //JSON.stringify(gamePlayers)
+                        // afterwards write calculated data to db
+                    });
+            }
+        });
     }
 
     resetPoints(gamePlayerKeys: string[], gamePlayers: { [uid: string]: GamePlayer }) {
@@ -32,10 +45,8 @@ export class Evaluate {
                 totalRounds: gamePlayer.pointsScored.totalRounds
             };
             gamePlayer.pointsScored = initialPointsScored;
-            // use promise chained callback instead
         }
     }
-
 
     evaluate(gamePlayerKeys: string[], gamePlayers: { [uid: string]: GamePlayer }): void {
         // Rewrite to not manipulate outer objects
@@ -58,5 +69,13 @@ export class Evaluate {
         const firstTeamPlayer = gamePlayers[teamTip.firstPartner.uid];
         const secondTeamPlayer = gamePlayers[teamTip.secondPartner.uid];
         return this.calculatescoreService.calculateScoreForOneGuess(currentGamePlayer, firstTeamPlayer, secondTeamPlayer);
+    }
+
+    private writeAllScoresToDB(gameName: string, gamePlayerKeys: string[], gamePlayers: { [p: string]: GamePlayer}) {
+        for (const gamePlayerKey of gamePlayerKeys) {
+            admin.database()
+                .ref('/games/' + gameName + '/players/' + gamePlayerKey + '/pointsScored/')
+                .update(gamePlayers[gamePlayerKey].pointsScored);
+        }
     }
 }

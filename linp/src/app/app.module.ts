@@ -31,6 +31,7 @@ import {SimulationComponent} from './simulation/simulation.component';
 import {UserprofileService} from './welcome/userprofile.service';
 import { LoginbyemailComponent } from './welcome/loginbyemail/loginbyemail.component';
 import {WordRoleAssignmentService} from './tip/word-role-assignment.service';
+import {HttpClientModule} from "@angular/common/http";
 
 
 @NgModule({
@@ -102,6 +103,7 @@ import {WordRoleAssignmentService} from './tip/word-role-assignment.service';
     FormsModule,
     NgbModule.forRoot(),
     BrowserModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,

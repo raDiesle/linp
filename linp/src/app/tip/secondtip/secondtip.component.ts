@@ -1,10 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Observable} from 'rxjs/Rx';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {AngularFireAuth} from 'angularfire2/auth/auth';
 import * as firebase from 'firebase/app';
 import {GamePlayer, GameStatus} from '../../models/game';
+import {Subject} from "rxjs/Subject";
 
 const GAME_STATUS: GameStatus = 'SECOND_WORD_GIVEN';
 
@@ -13,7 +14,7 @@ const GAME_STATUS: GameStatus = 'SECOND_WORD_GIVEN';
   templateUrl: './secondtip.component.html',
   styleUrls: ['./secondtip.component.css']
 })
-export class SecondtipComponent implements OnInit {
+export class SecondtipComponent implements OnInit, OnDestroy {
   gamePlayerKeys: string[];
   authUser: firebase.User;
   gamePlayers: { [uid: string]: GamePlayer };
@@ -21,11 +22,15 @@ export class SecondtipComponent implements OnInit {
   // @input
   private synonym: string;
 
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
+
   constructor(private route: ActivatedRoute,
               private router: Router,
               public db: AngularFireDatabase,
               public afAuth: AngularFireAuth) {
-    afAuth.authState.subscribe(authUser => {
+    afAuth.authState
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(authUser => {
       this.authUser = authUser;
     });
   }
@@ -35,8 +40,8 @@ export class SecondtipComponent implements OnInit {
 
     const nextPositiveRoute = '/secondguess';
     this.db.object('/games/' + this.gameName + '/players')
-    // <GamePlayer[]>
-      .subscribe(gamePlayers => {
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe((gamePlayers: { [uid: string]: GamePlayer }) => {
         this.gamePlayers = gamePlayers;
         this.gamePlayerKeys = Object.keys(this.gamePlayers);
         this.observeGamePlayerStatus(gamePlayers, GAME_STATUS, nextPositiveRoute);
@@ -66,4 +71,8 @@ export class SecondtipComponent implements OnInit {
       .then(gamePlayerModel => alert('Successful saved'));
   }
 
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
 }

@@ -1,16 +1,17 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AngularFireDatabase, FirebaseListObservable} from 'angularfire2/database';
 import {AngularFireAuth} from 'angularfire2/auth/auth';
 import {Router} from '@angular/router';
 import {Game, GamePlayer, PointsScored} from '../models/game';
 import * as firebase from 'firebase/app';
+import {Subject} from 'rxjs/Subject';
 
 @Component({
   selector: 'app-startgame',
   templateUrl: './startgame.component.html',
   styleUrls: ['./startgame.component.css']
 })
-export class StartgameComponent implements OnInit {
+export class StartgameComponent implements OnInit, OnDestroy {
 
   gameFilter = '';
   hasAnyFilterHitted = true;
@@ -23,22 +24,26 @@ export class StartgameComponent implements OnInit {
 
   private authUser: firebase.User;
 
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
+
   constructor(public afAuth: AngularFireAuth,
               public db: AngularFireDatabase,
               public router: Router) {
 
-
     this.db.list('/games')
+      .takeUntil(this.ngUnsubscribe)
       .subscribe(games => {
         this.games = games;
       });
 
     afAuth.authState
+      .takeUntil(this.ngUnsubscribe)
       .subscribe(authUser => {
         this.authUser = authUser;
 
         const uid = authUser.uid;
         this.db.object('/players/' + uid)
+          .takeUntil(this.ngUnsubscribe)
           .subscribe(playerProfile => {
             this.gameName = playerProfile.name;
             this.playerName = playerProfile.name;
@@ -49,7 +54,6 @@ export class StartgameComponent implements OnInit {
   ngOnInit() {
   }
 
-
   // To be extracted to service
   createGameAction(): void {
     const playerName = this.playerName;
@@ -59,7 +63,7 @@ export class StartgameComponent implements OnInit {
     const request: Game = {
       name: gameName,
       host: playerName,
-      status : 'CREATED',
+      status: 'CREATED',
       players: {}
     };
 
@@ -95,5 +99,10 @@ export class StartgameComponent implements OnInit {
     this.db.object('games/' + game.name + '/players')
       .update(updatePlayer); // should be set
     this.router.navigate(['/gamelobby', game.name]);
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

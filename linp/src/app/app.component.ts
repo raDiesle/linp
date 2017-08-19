@@ -17,6 +17,7 @@ export class AppComponent implements OnInit {
   constructor(private router: Router,
               private changeDetectorRef: ChangeDetectorRef,
               public afAuth: AngularFireAuth) {
+
     afAuth.authState.subscribe(authUser => {
       this.authUser = authUser;
     });

@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {AngularFireAuth} from 'angularfire2/auth/auth';
 import * as firebase from 'firebase/app';
 import {AngularFireDatabase} from 'angularfire2/database';
@@ -6,13 +6,15 @@ import {PlayerProfile} from '../models/player';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import {UserprofileService} from './userprofile.service';
 import {LoginbyemailComponent} from './loginbyemail/loginbyemail.component';
+import {Subject} from 'rxjs/Subject';
 
 @Component({
   selector: 'app-welcome',
   templateUrl: './welcome.component.html',
   styleUrls: ['./welcome.component.css']
 })
-export class WelcomeComponent implements OnInit {
+export class WelcomeComponent implements OnInit, OnDestroy {
+
   firstTimeLoggedInEver = false;
   successfulSavedPlayername = false;
   isExpandInstructions = false;
@@ -21,13 +23,15 @@ export class WelcomeComponent implements OnInit {
   playerName = '';
   authUser: firebase.User;
 
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
+
   constructor(public afAuth: AngularFireAuth,
               public db: AngularFireDatabase,
               private userprofileService: UserprofileService,
-              private modalService: NgbModal
-  ) {
+              private modalService: NgbModal) {
 
     afAuth.authState
+      .takeUntil(this.ngUnsubscribe)
       .subscribe(authUser => {
         this.authUser = authUser;
 
@@ -41,6 +45,7 @@ export class WelcomeComponent implements OnInit {
   private loadPlayerProfile(responseData) {
     const uid = responseData.uid;
     this.db.object('/players/' + uid)
+      .takeUntil(this.ngUnsubscribe)
       .subscribe(playerProfile => {
         this.playerProfile = playerProfile;
 
@@ -83,5 +88,10 @@ export class WelcomeComponent implements OnInit {
   loginEmailPassword(content) {
     const modalRef = this.modalService.open(LoginbyemailComponent);
     // modalRef.componentInstance.name = 'World';
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

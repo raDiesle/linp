@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {AngularFireAuth} from 'angularfire2/auth/auth';
 import {Game} from '../models/game';
 import {PlayerProfile} from '../models/player';
+import {Subject} from 'rxjs/Subject';
 
 const players: { [uid: string]: PlayerProfile } = {
   playerA: {
@@ -38,7 +39,9 @@ const gamename = 'test-evaluation';
   templateUrl: './simulation.component.html',
   styleUrls: ['./simulation.component.css']
 })
-export class SimulationComponent implements OnInit {
+export class SimulationComponent implements OnInit, OnDestroy {
+
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor(public afAuth: AngularFireAuth,
               public db: AngularFireDatabase) {
@@ -291,5 +294,10 @@ export class SimulationComponent implements OnInit {
     };
     this.db.object('games/' + gamename + '/players/')
       .update(request).then(result => alert('done'));
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }
