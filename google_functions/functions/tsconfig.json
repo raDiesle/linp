@@ -2,11 +2,12 @@
   "compilerOptions": {
     "target": "es6",
     "module": "commonjs",
-
     "noImplicitAny": true,
     "strictNullChecks": false
   },
-  "typeRoots":["node_modules/@types"],
+  "typeRoots":[
+    "node_modules/@types"
+  ],
   "include": [
     "**/*.ts"
   ],

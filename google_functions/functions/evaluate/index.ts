@@ -1,35 +1,45 @@
-import {GamePlayer, PointsScored, TeamTip} from '../../../../linp/src/app/models/game';
 import {CalculatescoreService} from './calculatescore.service';
 import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin';
+import {GamePlayer, PointsScored, TeamTip} from '../models/game';
+
+const cors = require('cors')({origin: true});
 
 export class Evaluate {
 
     private calculatescoreService = new CalculatescoreService();
+    cors: any;
 
     constructor() {
+        // this.cors = cors({origin: true});
     }
 
     register() {
         return functions.https.onRequest((request, response) => {
-            if (request.query.status === 'EVALUATE') {
-                admin.database().ref('/games/' + request.query.gameName + '/players')
-                    .once('value')
-                    .then((gamePlayersSnapshot: any) => {
-                        const gamePlayers: { [uid: string]: GamePlayer } = gamePlayersSnapshot.val();
-                        const gamePlayerKeys = Object.keys(gamePlayers);
-
-                        this.resetPoints(gamePlayerKeys, gamePlayers);
-                        this.evaluate(gamePlayerKeys, gamePlayers);
-
-                        console.log(gamePlayers);
-                        this.writeAllScoresToDB(request.query.gameName, gamePlayerKeys, gamePlayers);
-                        response.status(200)
-                            .send('SUCCESS'); //JSON.stringify(gamePlayers)
-                        // afterwards write calculated data to db
-                    });
-            }
+            cors(request, response, () => {
+                if (request.query.status === 'EVALUATE') {
+                    this.performAllEvaluateStatusAction(request, response);
+                }
+            });
         });
+    }
+
+    private performAllEvaluateStatusAction(request: any, response: any) {
+        admin.database().ref('/games/' + request.query.gameName + '/players')
+            .once('value')
+            .then((gamePlayersSnapshot: any) => {
+                const gamePlayers: { [uid: string]: GamePlayer } = gamePlayersSnapshot.val();
+                const gamePlayerKeys = Object.keys(gamePlayers);
+
+                this.resetPoints(gamePlayerKeys, gamePlayers);
+                this.evaluate(gamePlayerKeys, gamePlayers);
+
+                console.log(gamePlayers);
+                this.writeAllScoresToDB(request.query.gameName, gamePlayerKeys, gamePlayers);
+                response.status(200)
+                    .send('SUCCESS'); // JSON.stringify(gamePlayers)
+                // afterwards write calculated data to db
+            });
     }
 
     resetPoints(gamePlayerKeys: string[], gamePlayers: { [uid: string]: GamePlayer }) {
