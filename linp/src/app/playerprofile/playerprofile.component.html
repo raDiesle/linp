@@ -1,0 +1,53 @@
+<div class="card">
+  <div class="card-body">
+    <h3 class="card-title">
+      Player Profile
+    </h3>
+    <div class="card-body">
+      <div class="form-group row"
+           [ngClass]="{'has-success' : successfulSavedPlayername}"
+      >
+        <label for="playername" class="col-4 col-form-label">Player Name</label>
+        <div class="col-8">
+          <input
+            id="playername"
+            type="text"
+            class="form-control"
+            [ngClass]="{'form-control-success' : successfulSavedPlayername}"
+            name="playerName"
+            [(ngModel)]="playerName"
+            #playerNameInput="ngModel"
+            (ngModelChange)="playerName"
+            required
+            value="user.displayName"
+          />
+          <div class="form-control-feedback">
+                  <span>
+                    <fade [isVisible]="successfulSavedPlayername">Succesful saved</fade>
+                    &nbsp;
+                  </span>
+            <span class="form-control-feedback" [hidden]="playerNameInput.valid">
+                    Name is required
+              </span>
+          </div>
+          <div>
+
+          </div>
+        </div>
+
+        <button (click)="savePlayerName()"
+                class="btn"
+                id="savePlayerName"
+                [ngClass]="[!successfulSavedPlayername ? 'btn-primary' : 'btn-success']"
+                [disabled]="!playerNameInput.valid"
+        >
+          Save
+        </button>
+
+
+        <button type="button" class="btn btn-secondary" (click)="logout()">Logout</button>
+
+      </div>
+    </div>
+  </div>
+</div>
