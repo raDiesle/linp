@@ -11,7 +11,6 @@ export class Evaluate {
     cors: any;
 
     constructor() {
-        // this.cors = cors({origin: true});
     }
 
     register() {

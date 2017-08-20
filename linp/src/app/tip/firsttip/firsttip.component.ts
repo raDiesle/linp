@@ -5,7 +5,6 @@ import {AngularFireDatabase} from 'angularfire2/database';
 import {AngularFireAuth} from 'angularfire2/auth/auth';
 import * as firebase from 'firebase/app';
 import {GamePlayer, GameStatus} from '../../models/game';
-import {WordRoleAssignmentService} from '../word-role-assignment.service';
 import {Subject} from 'rxjs/Subject';
 
 @Component({
@@ -26,8 +25,7 @@ export class FirsttipComponent implements OnInit, OnDestroy {
   constructor(private route: ActivatedRoute,
               private router: Router,
               public db: AngularFireDatabase,
-              public afAuth: AngularFireAuth,
-              private wordRoleAssignmentService: WordRoleAssignmentService) {
+              public afAuth: AngularFireAuth) {
     afAuth.authState
       .takeUntil(this.ngUnsubscribe)
       .subscribe(authUser => {

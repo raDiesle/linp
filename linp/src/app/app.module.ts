@@ -30,7 +30,6 @@ import {EvaluationComponent} from './evaluation/evaluation.component';
 import {SimulationComponent} from './simulation/simulation.component';
 import {UserprofileService} from './welcome/userprofile.service';
 import { LoginbyemailComponent } from './welcome/loginbyemail/loginbyemail.component';
-import {WordRoleAssignmentService} from './tip/word-role-assignment.service';
 import {HttpClientModule} from "@angular/common/http";
 
 
@@ -109,7 +108,7 @@ import {HttpClientModule} from "@angular/common/http";
     AngularFireDatabaseModule,
     AngularFireAuthModule
   ],
-  providers: [GuessService, UserprofileService, WordRoleAssignmentService],
+  providers: [GuessService, UserprofileService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
