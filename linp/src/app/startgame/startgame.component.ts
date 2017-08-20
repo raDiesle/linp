@@ -19,7 +19,7 @@ export class StartgameComponent implements OnInit, OnDestroy {
   selectedGame: Game;
 
 // @Input
-  gameName = '';
+
   playerName: string;
 
   private authUser: firebase.User;
@@ -45,39 +45,12 @@ export class StartgameComponent implements OnInit, OnDestroy {
         this.db.object('/players/' + uid)
           .takeUntil(this.ngUnsubscribe)
           .subscribe(playerProfile => {
-            this.gameName = playerProfile.name;
             this.playerName = playerProfile.name;
           });
       });
   }
 
   ngOnInit() {
-  }
-
-  // To be extracted to service
-  createGameAction(): void {
-    const playerName = this.playerName;
-    const gameName = this.gameName;
-
-    // extract to model
-    const request: Game = {
-      name: gameName,
-      host: playerName,
-      status: 'CREATED',
-      players: {}
-    };
-
-    // extract to model
-    request.players[this.authUser.uid] = {
-      uid: this.authUser.uid,
-      name: playerName,
-      status: 'CREATED'
-    };
-
-    this.db.object('games/' + gameName)
-      .set(<Game>request);
-
-    this.router.navigate(['/gamelobby', gameName]);
   }
 
   resetFilterResults() {

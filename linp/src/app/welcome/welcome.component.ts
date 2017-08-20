@@ -67,10 +67,6 @@ export class WelcomeComponent implements OnInit, OnDestroy {
     this.afAuth.auth.signInAnonymously();
   }
 
-  logout() {
-    this.afAuth.auth.signOut();
-  }
-
   savePlayerName() {
     const playerPath = '/players/' + this.authUser.uid;
     const newPlayerProfile = {

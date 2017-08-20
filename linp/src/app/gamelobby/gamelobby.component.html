@@ -2,7 +2,7 @@
   <div class="card-body">
     <h4 class="card-title">{{gameName}}</h4>
     <h6 class="card-subtitle mb-2 text-muted">
-      waiting for players to join _dots_
+      waiting for players to join
     </h6>
     <div class="card-text">
       <div class="list-group">
@@ -12,15 +12,25 @@
             class="list-group-item list-group-item-action"
           >{{gamePlayers[gamePlayerKey].name}}</button>
         </div>
+
+        <button
+          type="button"
+          class="list-group-item list-group-item-action"
+        >
+          <app-waitingdots></app-waitingdots>
+        </button>
       </div>
     </div>
 
     <div>
+      TODO
       <strong>1 ?</strong> with <strong>2 <i class="material-icons">group</i></strong>
     </div>
     <ngb-alert type="success">
       Enough players to start game.
     </ngb-alert>
     <button (click)="startGame()" class="btn btn-primary">Start Game</button>
+
+    <button onclick="alert('Not yet implemented')" class="btn btn-primary">Send invitation</button>
   </div>
 </div>

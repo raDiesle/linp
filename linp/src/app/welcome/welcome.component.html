@@ -5,13 +5,10 @@
 
 
   <div class="card-deck">
-    <div class="card">
+    <div class="card text-center">
       <div class="card-body">
-        <h4 class="card-title">Dashboard</h4>
-
 
         <div *ngIf="authUser; then isLoggedIn else isNotLoggedIn"></div>
-
         <ng-template #isNotLoggedIn>
           <button class="btn btn-primary" class="btn btn-primary" (click)="loginByGoogle()">
             Login by Google
@@ -26,75 +23,28 @@
 
         <ng-template #isLoggedIn>
           <div>
-            Logged in with <strong>{{(authUser)?.displayName}}</strong> - {{(authUser)?.uid}}
+            <h4 class="card-title">Logged in as {{playerName}}</h4>
           </div>
-          <div>
-            <button *ngIf="!firstTimeLoggedInEver"
-                    type="button"
-                    class="btn btn-primary"
-                    routerLink="/startgame">Start Playing
+          <div *ngIf="!firstTimeLoggedInEver">
+            <button
+              type="button"
+              class="btn btn-primary btn-block"
+              routerLink="/startgame">
+              Join Game
             </button>
-            <button type="button" class="btn btn-secondary" (click)="logout()">Logout</button>
+            <button
+              type="button"
+              class="btn btn-primary btn-block"
+              routerLink="/creategame">
+              Create Game
+            </button>
           </div>
         </ng-template>
-
       </div>
     </div>
-
-    <div class="card">
-      <div class="card-body">
-        <h3 class="card-title">
-          Player Profile
-        </h3>
-        <div class="card-body">
-          <div class="form-group row"
-               [ngClass]="{'has-success' : successfulSavedPlayername}"
-          >
-            <label for="playername" class="col-4 col-form-label">Player Name</label>
-            <div class="col-8">
-              <input
-                id="playername"
-                type="text"
-                class="form-control"
-                [ngClass]="{'form-control-success' : successfulSavedPlayername}"
-                name="playerName"
-                [(ngModel)]="playerName"
-                #playerNameInput="ngModel"
-                (ngModelChange)="playerName"
-                required
-                value="user.displayName"
-              />
-              <div class="form-control-feedback">
-                  <span>
-                    <fade [isVisible]="successfulSavedPlayername">Succesful saved</fade>
-                    &nbsp;
-                  </span>
-                <span class="form-control-feedback" [hidden]="playerNameInput.valid">
-                    Name is required
-                  </span>
-              </div>
-              <div>
-
-              </div>
-            </div>
-
-            <button (click)="savePlayerName()"
-                    class="btn"
-                    id="savePlayerName"
-                    [ngClass]="[!successfulSavedPlayername ? 'btn-primary' : 'btn-success']"
-                    [disabled]="!playerNameInput.valid"
-            >
-              Save
-            </button>
-
-          </div>
-        </div>
-      </div>
-    </div>
-
   </div>
 
-  <div class="card-deck  mt-3">
+  <div class="card-deck mt-3">
     <div class="card">
       <div class="card-body">
         <h4 class="card-title">Game Rules</h4>
@@ -116,7 +66,33 @@
           *ngIf="isExpandInstructions"
           class="card-text"
         >
-          This is more explanation.
+          Briefing phase
+          Take a matching card from each deck and
+          set the two cards aside. They should be
+          identical: verify by comparing the numbers
+          on the top-left corner of each card.
+          Take a number of double agent cards (the
+          ones with the question marks) equal to the
+          number of players in the game, less two,
+          and shuffle them together with the spy cards
+          that were just set aside.
+          You should have one card for each player in
+          the game: Two identical spy cards, and a
+          double agent card for each remaining player.
+          Distribute one card to each player.
+          Action phase
+          The action phase consists of two rounds. In
+          every round, each player, beginning with the
+          start player, will say a word. It is this word
+          that the spies will try to recognize, and the
+          double agents will try to bluff. You can say
+          any word (regardless of how silly) including
+          proper nouns or conjugated verbs, but you
+          may not say the code word itself, or any
+          word that contains it.
+          In the second round, each player must
+          repeat the word he said in the first round,
+          and then say a second word
         </p>
       </div>
     </div>

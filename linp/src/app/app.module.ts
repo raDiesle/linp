@@ -31,6 +31,8 @@ import {SimulationComponent} from './simulation/simulation.component';
 import {UserprofileService} from './welcome/userprofile.service';
 import { LoginbyemailComponent } from './welcome/loginbyemail/loginbyemail.component';
 import {HttpClientModule} from "@angular/common/http";
+import { PlayerprofileComponent } from './playerprofile/playerprofile.component';
+import { CreategameComponent } from './creategame/creategame.component';
 
 
 @NgModule({
@@ -50,7 +52,9 @@ import {HttpClientModule} from "@angular/common/http";
     SecondguessComponent,
     EvaluationComponent,
     SimulationComponent,
-    LoginbyemailComponent
+    LoginbyemailComponent,
+    PlayerprofileComponent,
+    CreategameComponent
   ],
   entryComponents : [
     LoginbyemailComponent
@@ -92,6 +96,14 @@ import {HttpClientModule} from "@angular/common/http";
       {
         path: 'simulation',
         component: SimulationComponent
+      },
+      {
+        path: 'playerprofile',
+        component: PlayerprofileComponent
+      },
+      {
+        path: 'creategame',
+        component: CreategameComponent
       },
       {
         path: '',
