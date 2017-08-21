@@ -6,21 +6,27 @@
             (click)="isMenuCollapsed = !isMenuCollapsed"
             data-toggle="collapse"
             data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse"
          [ngbCollapse]="isMenuCollapsed"
          id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
+      <ul class="navbar-nav mr-auto"
+          (click)="isMenuCollapsed=!isMenuCollapsed"
+      >
         <li class="nav-item">
           <a class="nav-link" routerLink="/welcome" id="welcomePage">Welcome</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="/playerprofile">Player Profile</a>
         </li>
-
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/gamerules">Game Rules</a>
+        </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="/startgame">Join Game</a>
         </li>
@@ -46,10 +52,7 @@
           <a class="nav-link" routerLink="/evaluation/{{gamename}}">Evaluation</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link btn-warning" routerLink="/simulation">Simulation</a>
-        </li>
-        <li class="nav-item">
-          {{authUser?.uid}}
+          <a class="nav-link" routerLink="/simulation">Simulation</a>
         </li>
       </ul>
     </div>

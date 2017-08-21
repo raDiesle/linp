@@ -30,9 +30,10 @@ import {EvaluationComponent} from './evaluation/evaluation.component';
 import {SimulationComponent} from './simulation/simulation.component';
 import {UserprofileService} from './welcome/userprofile.service';
 import { LoginbyemailComponent } from './welcome/loginbyemail/loginbyemail.component';
-import {HttpClientModule} from "@angular/common/http";
+import {HttpClientModule} from '@angular/common/http';
 import { PlayerprofileComponent } from './playerprofile/playerprofile.component';
 import { CreategameComponent } from './creategame/creategame.component';
+import { GamerulesComponent } from './gamerules/gamerules.component';
 
 
 @NgModule({
@@ -54,7 +55,8 @@ import { CreategameComponent } from './creategame/creategame.component';
     SimulationComponent,
     LoginbyemailComponent,
     PlayerprofileComponent,
-    CreategameComponent
+    CreategameComponent,
+    GamerulesComponent
   ],
   entryComponents : [
     LoginbyemailComponent
@@ -104,6 +106,10 @@ import { CreategameComponent } from './creategame/creategame.component';
       {
         path: 'creategame',
         component: CreategameComponent
+      },
+      {
+        path: 'gamerules',
+        component: GamerulesComponent
       },
       {
         path: '',

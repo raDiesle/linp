@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {AngularFireDatabase, FirebaseListObservable} from 'angularfire2/database';
 import {AngularFireAuth} from 'angularfire2/auth/auth';
 import {Router} from '@angular/router';
@@ -6,10 +6,49 @@ import {Game, GamePlayer, PointsScored} from '../models/game';
 import * as firebase from 'firebase/app';
 import {Subject} from 'rxjs/Subject';
 
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+  group
+} from '@angular/animations';
+import {Observable} from "rxjs/Observable";
+
+
 @Component({
   selector: 'app-startgame',
   templateUrl: './startgame.component.html',
-  styleUrls: ['./startgame.component.css']
+  styleUrls: ['./startgame.component.css'],
+  animations: [
+    trigger('growShrinkStaticStart', [
+      state('in', style({width: 120, transform: 'translateX(0)', opacity: 1})),
+      transition('void => *', [
+        style({width: 10, transform: 'translateX(50px)', opacity: 0}),
+        group([
+          animate('0.3s 0.1s ease', style({
+            transform: 'translateX(0)',
+            width: 120
+          })),
+          animate('0.3s ease', style({
+            opacity: 1
+          }))
+        ])
+      ]),
+      transition('* => void', [
+        group([
+          animate('0.3s ease', style({
+            transform: 'translateX(50px)',
+            width: 10
+          })),
+          animate('0.3s 0.2s ease', style({
+            opacity: 0
+          }))
+        ])
+      ])
+    ])
+  ]
 })
 export class StartgameComponent implements OnInit, OnDestroy {
 
@@ -17,7 +56,7 @@ export class StartgameComponent implements OnInit, OnDestroy {
   hasAnyFilterHitted = true;
   games: any = [];
   selectedGame: Game;
-
+  private animationInitialized = false;
 // @Input
 
   playerName: string;
@@ -28,19 +67,25 @@ export class StartgameComponent implements OnInit, OnDestroy {
 
   constructor(public afAuth: AngularFireAuth,
               public db: AngularFireDatabase,
-              public router: Router) {
+              public router: Router,
+              private changeDetectorRef: ChangeDetectorRef) {
 
     this.db.list('/games')
       .takeUntil(this.ngUnsubscribe)
       .subscribe(games => {
-        this.games = games;
+
+        const games$ = Observable.from(games);
+        const timer$ = Observable.timer(0, 500);
+        const gamesOverTime$ = Observable.zip(games$, timer$, (item, i) => item);
+        // for animation
+        gamesOverTime$.subscribe((res) => this.games.push(res));
       });
 
     afAuth.authState
       .takeUntil(this.ngUnsubscribe)
       .subscribe(authUser => {
         this.authUser = authUser;
-
+// https://gist.github.com/JamieMason/303c5fc90b28c28a804e3f7ea9ab01f1
         const uid = authUser.uid;
         this.db.object('/players/' + uid)
           .takeUntil(this.ngUnsubscribe)

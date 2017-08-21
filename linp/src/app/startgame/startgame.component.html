@@ -2,30 +2,17 @@
   <div class="card">
     <div class="card-body">
       <h3 class="card-title">Join Game</h3>
-      <div class="form-group">
-        <div class="input-group">
-            <span class="input-group-addon">
-              <i class="material-icons">search</i>
-            </span>
-          <input type="text"
-                 [(ngModel)]="gameFilter"
-                 (input)="resetFilterResults()"
-                 class="form-control"
-                 placeholder="Filter by Name"
-                 value="">
-          <span class="input-group-addon">
-              {{games.length}} Lobby Games
-            </span>
-        </div>
-      </div>
 
       <div class="list-group">
-        <div *ngFor="let game of games | searchfilter: 'name' : gameFilter">
+        <div *ngFor="let game of games"
+             [@growShrinkStaticStart]="animationInitialized.toString()"
+             (@growShrinkStaticStart.done)="animationInitialized = true"
+        >
           <button
             *ngIf="game !== -1"
             type="button"
             (click)="onSelectGameToJoin(game)"
-            [ngClass]="{'active' : selectedGame === game}"
+            [ngClass]="{'active' : selectedGame == game}"
             class="list-group-item list-group-item-action"
           >
             {{game.name}}
