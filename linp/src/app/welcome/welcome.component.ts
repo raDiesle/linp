@@ -21,6 +21,7 @@ export class WelcomeComponent implements OnInit, OnDestroy {
 
   playerProfile: PlayerProfile;
   playerName = '';
+  isPlayerNameLoaded = false;
   authUser: firebase.User;
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
@@ -52,7 +53,9 @@ export class WelcomeComponent implements OnInit, OnDestroy {
         this.firstTimeLoggedInEver = playerProfile.$value === null;
         // executed only when needed
         const suggestedPlayerName = this.userprofileService.extractFirstName(this.authUser.displayName);
+
         this.playerName = !this.firstTimeLoggedInEver ? this.playerProfile.name : suggestedPlayerName;
+        this.isPlayerNameLoaded = this.playerName !== '';
       });
   }
 
@@ -65,20 +68,6 @@ export class WelcomeComponent implements OnInit, OnDestroy {
 
   loginAnonymous(): void {
     this.afAuth.auth.signInAnonymously();
-  }
-
-  savePlayerName() {
-    const playerPath = '/players/' + this.authUser.uid;
-    const newPlayerProfile = {
-      uid: this.authUser.uid,
-      name: this.playerName
-    };
-    this.db.object(playerPath)
-      .update(newPlayerProfile)
-      .then(a => {
-        this.successfulSavedPlayername = true;
-        setTimeout(() => this.successfulSavedPlayername = false, 1500);
-      });
   }
 
   loginEmailPassword(content) {

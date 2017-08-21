@@ -23,7 +23,7 @@
           />
           <div class="form-control-feedback">
                   <span>
-                    <fade [isVisible]="successfulSavedPlayername">Succesful saved</fade>
+                    <fade [out]="true" [(isVisible)]="successfulSavedPlayername">Succesful saved</fade>
                     &nbsp;
                   </span>
             <span class="form-control-feedback" [hidden]="playerNameInput.valid">

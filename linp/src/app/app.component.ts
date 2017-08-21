@@ -12,6 +12,7 @@ import * as firebase from 'firebase/app';
 export class AppComponent implements OnInit {
   gamename: string;
   title = 'app';
+  isMenuCollapsed = true;
   private authUser: firebase.User;
 
   constructor(private router: Router,
