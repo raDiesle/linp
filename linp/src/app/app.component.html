@@ -1,6 +1,6 @@
 <div class="welcomebg">
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">LINP</a>
+    <a class="navbar-brand" href="#">LINP {{gameName}}</a>
     <button class="navbar-toggler"
             type="button"
             (click)="isMenuCollapsed = !isMenuCollapsed"
@@ -34,22 +34,22 @@
           <a class="nav-link" routerLink="/creategame">Create Game</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/gamelobby/{{gamename}}">Gamelobby</a>
+          <a class="nav-link" routerLink="/gamelobby/{{gameName}}">Gamelobby</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/firsttip/{{gamename}}">First Tip</a>
+          <a class="nav-link" routerLink="/firsttip/{{gameName}}">First Tip</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/firstguess/{{gamename}}">First Guess</a>
+          <a class="nav-link" routerLink="/firstguess/{{gameName}}">First Guess</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/secondtip/{{gamename}}">Second Tip</a>
+          <a class="nav-link" routerLink="/secondtip/{{gameName}}">Second Tip</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/secondguess/{{gamename}}">Second Guess</a>
+          <a class="nav-link" routerLink="/secondguess/{{gameName}}">Second Guess</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/evaluation/{{gamename}}">Evaluation</a>
+          <a class="nav-link" routerLink="/evaluation/{{gameName}}">Evaluation</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="/simulation">Simulation</a>

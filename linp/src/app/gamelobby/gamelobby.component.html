@@ -2,15 +2,13 @@
   <div class="card-body">
     <h4 class="card-title">{{gameName}}</h4>
     <h6 class="card-subtitle mb-2 text-muted">
-      waiting for players to join
+      waiting for players to join <app-waitingdots></app-waitingdots>
     </h6>
     <div class="card-text">
       <div class="list-group">
         <div *ngFor="let gamePlayerKey of gamePlayerKeys">
-          <button
-            type="button"
-            class="list-group-item list-group-item-action"
-          >{{gamePlayers[gamePlayerKey].name}}</button>
+          <div class="list-group-item"
+          >{{gamePlayers[gamePlayerKey].name}}</div>
         </div>
 
         <button
@@ -22,15 +20,17 @@
       </div>
     </div>
 
-    <div>
+    <div class="py-3">
       TODO
-      <strong>1 ?</strong> with <strong>2 <i class="material-icons">group</i></strong>
+      <strong>6 Players</strong>: <strong>1 ?</strong> with <strong>2 <i class="material-icons align-bottom">group</i></strong>
     </div>
     <ngb-alert type="success">
       Enough players to start game.
     </ngb-alert>
-    <button (click)="startGame()" class="btn btn-primary">Start Game</button>
-
+    <div>waiting for host to start game <app-waitingdots></app-waitingdots></div>
+    <button (click)="startGame()" class="btn btn-success">
+      Start Game
+    </button>
     <button onclick="alert('Not yet implemented')" class="btn btn-primary">Send invitation</button>
   </div>
 </div>

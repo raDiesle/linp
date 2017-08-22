@@ -3,41 +3,40 @@
     <div class="card">
       <div class="card-body">
         <h4 class="card-title">
-          {{gameName}}
-        </h4>
-        <h6 class="card-subtitle mb-2 text-muted">
-          <span>
-            Express your word: First synonym for
-            <strong>
+           <span>
+            <strong>Your word to explain:
               <app-wordsdrumroll
                 word="{{gamePlayers && gamePlayers[authUser.uid].questionmarkOrWord}}"></app-wordsdrumroll>
           </strong>
           </span>
-        </h6>
+        </h4>
         <form novalidate #giveSynonymForm="ngForm">
-          <div class="form-group row"
-               [ngClass]="{'has-danger' : synonymInput.invalid, 'has-success' : synonymInput.valid}"
+          <div class="form-group"
           >
-            <label class="col-3 col-form-label" for="synonym">Synonym</label>
-            <div class="col-9">
+            <label for="synonym">Give your first synonym</label>
+            <div>
               <input type="text"
                      class="form-control"
-                     [ngClass]="{'form-control-danger' : synonymInput.invalid, 'form-control-success' : synonymInput.valid}"
                      id="synonym"
                      [(ngModel)]="synonym"
                      #synonymInput="ngModel"
                      name="synonym"
                      required
               >
-              <div *ngIf="synonymInput.errors?.required">
-                Enter your synonym
+              <div *ngIf="synonymInput?.dirty && synonymInput.errors?.required">
+                must not be empty
               </div>
-              <button class="btn btn-primary"
-                      [disabled]="synonymInput.invalid"
-                      (click)="sendSynonym()"
-              >Send
-              </button>
             </div>
+          </div>
+          <button class="btn btn-warning"
+                  [disabled]="synonymInput.invalid"
+                  (click)="sendSynonym()"
+          >Send
+          </button>
+          <div class="py-2">
+          <ngb-alert>
+            Its your turn!
+          </ngb-alert>
           </div>
         </form>
       </div>
@@ -46,15 +45,14 @@
 
   <div class="col-sm-6">
     <div class="card">
-      <div class="card-title">
-        Status of players
-      </div>
       <div class="card-body">
+        <h4 class="card-title">
+          Status of players <app-waitingdots></app-waitingdots>
+        </h4>
         <ul class="list-group">
           <li class="list-group-item list-group-item-success"
               *ngFor="let gamePlayerKey of gamePlayerKeys"
           >{{$index}} {{gamePlayers[gamePlayerKey].name}} - {{gamePlayers[gamePlayerKey].status}}
-            <app-waitingdots></app-waitingdots>
           </li>
         </ul>
       </div>

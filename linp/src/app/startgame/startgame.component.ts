@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, HostBinding, OnDestroy, OnInit} from '@angular/core';
 import {AngularFireDatabase, FirebaseListObservable} from 'angularfire2/database';
 import {AngularFireAuth} from 'angularfire2/auth/auth';
 import {Router} from '@angular/router';
@@ -14,43 +14,20 @@ import {
   transition,
   group
 } from '@angular/animations';
-import {Observable} from "rxjs/Observable";
+import {Observable} from 'rxjs/Observable';
+import {fadeInAnimation} from 'app/widgets/animations';
+import {growShrinkStaticStart} from '../animations/growShrinkStaticStart';
 
 
 @Component({
   selector: 'app-startgame',
   templateUrl: './startgame.component.html',
   styleUrls: ['./startgame.component.css'],
-  animations: [
-    trigger('growShrinkStaticStart', [
-      state('in', style({width: 120, transform: 'translateX(0)', opacity: 1})),
-      transition('void => *', [
-        style({width: 10, transform: 'translateX(50px)', opacity: 0}),
-        group([
-          animate('0.3s 0.1s ease', style({
-            transform: 'translateX(0)',
-            width: 120
-          })),
-          animate('0.3s ease', style({
-            opacity: 1
-          }))
-        ])
-      ]),
-      transition('* => void', [
-        group([
-          animate('0.3s ease', style({
-            transform: 'translateX(50px)',
-            width: 10
-          })),
-          animate('0.3s 0.2s ease', style({
-            opacity: 0
-          }))
-        ])
-      ])
-    ])
-  ]
+  animations: [fadeInAnimation, growShrinkStaticStart]
 })
 export class StartgameComponent implements OnInit, OnDestroy {
+  @HostBinding('@fadeInAnimation') fadeInAnimation = true;
+  @HostBinding('style.display') display = 'block';
 
   gameFilter = '';
   hasAnyFilterHitted = true;
@@ -74,8 +51,9 @@ export class StartgameComponent implements OnInit, OnDestroy {
       .takeUntil(this.ngUnsubscribe)
       .subscribe(games => {
 
+
         const games$ = Observable.from(games);
-        const timer$ = Observable.timer(0, 500);
+        const timer$ = Observable.timer(0, 250);
         const gamesOverTime$ = Observable.zip(games$, timer$, (item, i) => item);
         // for animation
         gamesOverTime$.subscribe((res) => this.games.push(res));

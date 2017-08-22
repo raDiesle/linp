@@ -30,7 +30,7 @@ export class WordsdrumrollComponent implements OnInit {
      // Better implementation: https://gist.github.com/JamieMason/303c5fc90b28c28a804e3f7ea9ab01f1
     // registered multiple times is bad
     Observable.of(this.word)
-    const yourWordAnimation = ['your', 'word', 'to', 'explain', 'is', '.......', this.word];
+    const yourWordAnimation = ['.', '..', '...', '....', '.....', this.word];
     const yourRoleAnimationForQuestionmark = ['YOU', 'ARE', 'THE', '? QUESTIONMARK ?'];
     const wordSequence = (this.word === '?') ? yourRoleAnimationForQuestionmark : yourWordAnimation;
 

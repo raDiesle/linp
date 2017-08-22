@@ -1,4 +1,4 @@
-<div class="container ">
+<div class="container">
   <h1>
     <strong>LINP</strong> - find your partner!
   </h1>
@@ -22,7 +22,15 @@
 
         <ng-template #isLoggedIn>
           <div>
-            <h4 class="card-title">Logged in as <fade [out]="false" [(isVisible)]="isPlayerNameLoaded">{{playerName}}</fade></h4>
+            <h4 class="card-title">
+              Logged in as
+              <fade [out]="false" [(isVisible)]="isPlayerNameLoaded">
+                {{playerName}}
+                <a href="javascript:void(0)">
+                  <i class="material-icons md-18 align-top text-danger" (click)="logout()">no_encryption</i>
+                </a>
+              </fade>
+            </h4>
           </div>
           <div *ngIf="!firstTimeLoggedInEver">
             <button

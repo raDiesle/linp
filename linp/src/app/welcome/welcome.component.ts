@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, HostBinding, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {AngularFireAuth} from 'angularfire2/auth/auth';
 import * as firebase from 'firebase/app';
 import {AngularFireDatabase} from 'angularfire2/database';
@@ -7,13 +7,18 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import {UserprofileService} from './userprofile.service';
 import {LoginbyemailComponent} from './loginbyemail/loginbyemail.component';
 import {Subject} from 'rxjs/Subject';
+import {fadeInAnimation} from '../widgets/animations';
 
 @Component({
   selector: 'app-welcome',
   templateUrl: './welcome.component.html',
-  styleUrls: ['./welcome.component.css']
+  styleUrls: ['./welcome.component.css'],
+  animations: [fadeInAnimation],
+  // attach the fade in animation to the host (root) element of this component
 })
 export class WelcomeComponent implements OnInit, OnDestroy {
+  @HostBinding('@fadeInAnimation') fadeInAnimation = true;
+  @HostBinding('style.display')   display = 'block';
 
   firstTimeLoggedInEver = false;
   successfulSavedPlayername = false;
@@ -73,6 +78,10 @@ export class WelcomeComponent implements OnInit, OnDestroy {
   loginEmailPassword(content) {
     const modalRef = this.modalService.open(LoginbyemailComponent);
     // modalRef.componentInstance.name = 'World';
+  }
+
+  logout() {
+    this.afAuth.auth.signOut();
   }
 
   ngOnDestroy() {

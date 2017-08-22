@@ -28,10 +28,6 @@ export class PlayerprofileComponent implements OnInit {
   ngOnInit() {
   }
 
-  logout() {
-    this.afAuth.auth.signOut();
-  }
-
   savePlayerName() {
     const playerPath = '/players/' + this.authUser.uid;
     const newPlayerProfile = {

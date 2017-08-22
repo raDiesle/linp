@@ -2,15 +2,20 @@ import {ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/
 import {NavigationEnd, Router} from '@angular/router';
 import {AngularFireAuth} from 'angularfire2/auth/auth';
 import * as firebase from 'firebase/app';
+import {fadeInAnimation} from "app/widgets/animations";
+
+
+// http://jasonwatmore.com/post/2017/04/19/angular-2-4-router-animation-tutorial-example
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+
 })
 export class AppComponent implements OnInit {
-  gamename: string;
+  gameName: string;
   title = 'app';
   isMenuCollapsed = true;
   private authUser: firebase.User;
@@ -34,7 +39,7 @@ export class AppComponent implements OnInit {
     if (s instanceof NavigationEnd) {
       const fullUrl = s.urlAfterRedirects;
       if (fullUrl.split('/').length >= 3) {
-        this.gamename = fullUrl.split('/')[2];
+        this.gameName = fullUrl.split('/')[2];
         this.changeDetectorRef.markForCheck();
       }
     }
