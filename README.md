@@ -16,8 +16,7 @@ linq clone app
 
 
 Material
-* see pdf
-* Gamerules of french https://boardgamegeek.com/thread/557251/scoring-newest-version
+* Gamerules of french https://boardgamegeek.com/thread/557251/scoring-newest-version 
 * http://www.spielkult.de/linq.htm
 * https://www.hall9000.de/rubriken/spiele/kurzspielregeln/linq.pdf
 * https://en.wikipedia.org/wiki/List_of_Disney_animated_universe_characters

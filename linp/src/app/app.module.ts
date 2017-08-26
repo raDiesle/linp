@@ -34,7 +34,9 @@ import {HttpClientModule} from '@angular/common/http';
 import { PlayerprofileComponent } from './playerprofile/playerprofile.component';
 import { CreategameComponent } from './creategame/creategame.component';
 import { GamerulesComponent } from './gamerules/gamerules.component';
-
+import {RolesandwordsrequiredService} from './gamelobby/rolesandwordsrequired.service';
+import {ShareButtonsModule} from 'ngx-sharebuttons';
+import {HttpModule} from "@angular/http";
 
 @NgModule({
   declarations: [
@@ -119,14 +121,16 @@ import { GamerulesComponent } from './gamerules/gamerules.component';
     ]),
     FormsModule,
     NgbModule.forRoot(),
+    ShareButtonsModule.forRoot(),
     BrowserModule,
     HttpClientModule,
+    HttpModule,
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AngularFireAuthModule
   ],
-  providers: [GuessService, UserprofileService],
+  providers: [GuessService, UserprofileService, RolesandwordsrequiredService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -1,7 +1,7 @@
 import {CalculatescoreService} from './calculatescore.service';
 import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin';
-import {GamePlayer, PointsScored, TeamTip} from '../models/game';
+import {GamePlayer, PointsScored, TeamTip} from '../../../linp/src/app/models/game';
 
 const cors = require('cors')({origin: true});
 

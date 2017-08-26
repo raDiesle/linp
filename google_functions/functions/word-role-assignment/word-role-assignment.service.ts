@@ -1,32 +1,21 @@
-import {GamePlayer} from '../models/game';
 import * as admin from 'firebase-admin';
+import {GamePlayer} from '../../../linp/src/app/models/game';
+import {RolesandwordsrequiredService} from '../../../linp/src/app/gamelobby/rolesandwordsrequired.service';
 
 export class WordRoleAssignmentService {
 
+    private rolesandWordsRequiredService = new RolesandwordsrequiredService();
     constructor() {
     }
 
     assign(gamePlayers: { [uid: string]: GamePlayer }, gameName: string) {
-        const gamePlayerKeys: string[] = Object.keys(gamePlayers);
-
-        let numberOfWordsNeeded: number;
-        let numberOfQuestionMarks: number;
-
-        // expecting minimum 4
+        const gamePlayerKeys = Object.keys(gamePlayers);
         const gamePlayerSize = gamePlayerKeys.length;
-        switch (true) {
-            case (gamePlayerSize <= 5):
-                numberOfQuestionMarks = 1;
-                numberOfWordsNeeded = 2;
-                break;
-            // for later refactoring explicit
-            case(gamePlayerSize > 5 && gamePlayerSize <= 8):
-                numberOfQuestionMarks = 2;
-                numberOfWordsNeeded = (gamePlayerSize - numberOfQuestionMarks) / 2;
-                break;
-            default:
-                alert('Player size not expected');
-        }
+
+        const cardsNeededForGame = this.rolesandWordsRequiredService.getRolesNeeded(gamePlayerSize);
+        const numberOfWordsNeeded: number = cardsNeededForGame.wordsNeeded;
+        const numberOfQuestionMarks: number = cardsNeededForGame.questionMarksNeeded;
+
         const QUESTIONMARK_ROLE = {
             value: '?'
         };

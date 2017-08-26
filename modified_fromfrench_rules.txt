@@ -1,0 +1,17 @@
+That's exactly how it works.
+
+
+Let's explain it based on the spy theme :
+
+The mission of the spies is to find other and not get caught :
+
+If they find each other they get points
+If they get caught they lose points
+
+The mission of the counterspies is to find the spies and sabotage their meeting
+
+If the spies don't find each other they get points
+If I bluff a spy, I steal one point from him
+If I find the two spies I get points from them
+
+To show that I didn't catch them by chance I can reveal their password to get one "bragging" point ..

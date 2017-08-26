@@ -1,0 +1,37 @@
+@import "~bootstrap/dist/css/bootstrap.css";
+
+.welcomebg {
+  /* sPermalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#efc5ca+0,d24b5a+50,ba2737+51,f18e99+100;Red+Gloss+%233 */
+  background: rgb(239, 197, 202); /* Old browsers */
+  background: -moz-linear-gradient(45deg, rgba(239, 197, 202, 1) 0%, rgba(210, 75, 90, 1) 50%, rgba(186, 39, 55, 1) 51%, rgba(241, 142, 153, 1) 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(45deg, rgba(239, 197, 202, 1) 0%, rgba(210, 75, 90, 1) 50%, rgba(186, 39, 55, 1) 51%, rgba(241, 142, 153, 1) 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(45deg, rgba(239, 197, 202, 1) 0%, rgba(210, 75, 90, 1) 50%, rgba(186, 39, 55, 1) 51%, rgba(241, 142, 153, 1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#efc5ca', endColorstr='#f18e99', GradientType=1); /* IE6-9 fallback on horizontal gradient */
+}
+
+.material-icons.md-18 {
+  font-size: 18px;
+}
+
+.share-container {
+  display: flex;
+  align-items: center;
+  margin: 1rem 0;
+  .share-count {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-right: 1rem;
+    margin-right: 1rem;
+    border-right: 2px solid #778da9;
+    h3 {
+      display: flex;
+      flex-direction: column-reverse;
+      font-size: 2.5rem;
+      margin: 0;
+    }
+    b {
+      font-size: .7rem;
+    }
+  }
+}

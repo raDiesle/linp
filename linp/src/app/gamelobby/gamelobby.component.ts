@@ -6,6 +6,7 @@ import * as firebase from 'firebase/app';
 import {Game, GamePlayer} from '../models/game';
 import {Subject} from 'rxjs/Subject';
 import {HttpClient, HttpParams} from "@angular/common/http";
+import {RolesandwordsrequiredService} from "./rolesandwordsrequired.service";
 
 @Component({
   selector: 'app-gamelobby',
@@ -16,21 +17,23 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
   gamePlayerKeys: string[] = [];
 
   gameName: string;
-
+// TODO https://cedvdb.github.io/ng2share/
   gamePlayers: { [uid: string]: GamePlayer }; // null
   private authUser: firebase.User;
 
-  private statusToCheck: string = 'STARTED';
+  private statusToCheck = 'STARTED';
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   private hostUid: string;
+  public rolesDistribution: { wordsNeeded: number; questionMarksNeeded: number };
 
 
   constructor(private router: Router,
               private route: ActivatedRoute,
               public db: AngularFireDatabase,
               public afAuth: AngularFireAuth,
-              private httpClient: HttpClient) {
+              private httpClient: HttpClient,
+              private rolesandwordsrequiredService: RolesandwordsrequiredService) {
 
     afAuth.authState
       .takeUntil(this.ngUnsubscribe)
@@ -48,6 +51,7 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
         this.gamePlayers = game.players;
         this.hostUid = game.host;
         this.gamePlayerKeys = Object.keys(this.gamePlayers);
+        this.rolesDistribution = this.rolesandwordsrequiredService.getRolesNeeded(this.gamePlayerKeys.length);
       });
   }
 

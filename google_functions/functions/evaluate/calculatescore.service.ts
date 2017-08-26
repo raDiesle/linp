@@ -1,4 +1,4 @@
-import {GamePlayer, PointsScored, TeamTip} from '../models/game';
+import {GamePlayer} from '../../../linp/src/app/models/game';
 
 export class CalculatescoreService {
 

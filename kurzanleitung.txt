@@ -1,0 +1,15 @@
+https://gesellschaftsspiele.spielen.de/alle-brettspiele/linq/
+
+
+Diese Kurzanleitung zu 'Linq' stammt von unserem Partner Ludoversum. Wir konzentrieren uns im Text auf wichtige Mechanismen des Spiels und ignorieren absichtlich Details und Sonderregeln.
+
+Jeweils zwei Spielern wird bei Linq der selbe Begriff zugelost. Aufgabe ist es nun herauszufinden, welche Spieler die Paare bilden. Dafür gibt es Punkte. Allerdings haben manche Mitspieler überhaupt keinen Partner.
+
+Neben einer Kopiervorlage für verschiedene Notizen besteht Linq im Wesentlichen aus einem Satz von Karten mit jeweils zwölf verschiedenen Begriffen, einer Handvoll "Fragezeichen"-Karten sowie einem Würfel, der nur zum Auslosen der zu spielenden Begriffsnumber benötigt wird.
+
+In jeder Runde erhält jeder Spieler eine Karte. Bei sechs oder acht Teilnehmern sind zwei Fragezeichen darunter, sonst nur eine. Diese repräsentieren die Single-Spieler. Alle anderen Karten sind paarweise vorhanden.
+
+Reihum nennt jeder Spieler nun ein Wort, das er mit seinen Begriff irgendwie in Verbindung bringt. Die genannten Hinweise werden alle notiert und stehen allen Ratefüchsen stets zur Verfügung. Anschließend notiert sich jeder ein mutmaßliches Spielerpaar.
+
+Dieser Vorgang des Hinweisgebens und Tipp -notierens wird ein zweites Mal durchgeführt, bevor es zur Wertung kommt. Die meisten Punkte (satte fünf) gibt es, wenn beide Partner eines Paares sich als Tipp notiert haben. Hat nur einer von beiden die richtige Vermutung gehabt, gibt es leider nichts. Für jedes andere korrekt identifizierte Paar gibt es immer noch zwei Pünktchen. Punktabzug gibt es falls andere Spieler dieses Paar entdeckt haben. Und wer einen Solo-Spieler irrtümlicherweise nennt, muss diesem sogar einen seiner gesammelten Punkte abgeben. Sobald ein Spieler 25 Punkte gesammelt hat, ist Schlus.
+
