@@ -8,7 +8,7 @@ export class LinpCardsModelService {
 
   getCards(){
     const cards = [
-      "Plastik", "Kamera", "Spiel", "Nacht", "Dieb", "Ruder", "Aktie", "Salbe", "Warze", "Klippe", "Peitsche", "Desden",
+      "Plastik", "Kamera", "Spiel", "Nacht", "Dieb", "Ruder", "Aktie", "Salbe", "Warze", "Klippe", "Peitsche", "Dresden",
       "Winter", "Stock", "Gärtner", "Bohne", "Löwe", "Flur", "Kraftwerk","Pfanne", "Schlauch", "Viertel", "Kiste", "Brille",
       "Wind", "Mikrofon", "Mann", "Becher", "Alkohol", "Treppe",
       "Land", "Natur", "Lunge", "Gangway", "Stahl", "Ägypten", "Feder", "Bogen", "Kopie", "Tasche", "Wolf",
