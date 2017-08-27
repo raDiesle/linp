@@ -68,7 +68,6 @@ export class FirsttipComponent implements OnInit, OnDestroy {
       });
   }
 
-
   sendSynonym() {
     const gamePlayerUpdate = {
       status: 'FIRST_WORD_GIVEN',

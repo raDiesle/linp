@@ -7,7 +7,7 @@
     <div class="card-text">
 
       <div class="py-3">
-        <button (click)="startGame()"
+        <button (click)="prepareGame()"
                 class="btn btn-primary btn-block"
                 [disabled]="gamePlayerKeys.length < 4"
         >
@@ -23,7 +23,15 @@
             <h3>Send</h3>
             <b>Invitation</b>
           </div>
-          <share-buttons [linkedIn]="false" [pinterest]="false" [reddit]="false" [stumbleUpOn]="false"></share-buttons>
+          <share-buttons
+            [linkedIn]="false"
+            [pinterest]="false"
+            [reddit]="false"
+            [stumbleUpOn]="false"
+            [url]="'http://localhost.de'"
+            [title]="'Linp Game'"
+            [description]="'Request to play LINP with us'"
+          ></share-buttons>
         </div>
       </div>
 
@@ -41,15 +49,6 @@
           <app-waitingdots></app-waitingdots>
         </button>
       </div>
-    </div>
-
-    <div class="py-3">
-      <strong>{{gamePlayerKeys.length}} Players</strong>:
-      <strong>{{rolesDistribution?.questionMarksNeeded}} ?</strong>
-      with
-      <strong>
-        {{rolesDistribution?.wordsNeeded}}<i class="material-icons align-bottom">group</i>
-      </strong>
     </div>
   </div>
 </div>

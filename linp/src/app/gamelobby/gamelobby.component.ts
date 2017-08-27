@@ -5,8 +5,7 @@ import {AngularFireAuth} from 'angularfire2/auth/auth';
 import * as firebase from 'firebase/app';
 import {Game, GamePlayer} from '../models/game';
 import {Subject} from 'rxjs/Subject';
-import {HttpClient, HttpParams} from "@angular/common/http";
-import {RolesandwordsrequiredService} from "./rolesandwordsrequired.service";
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-gamelobby',
@@ -21,8 +20,6 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
   gamePlayers: { [uid: string]: GamePlayer }; // null
   private authUser: firebase.User;
 
-  private statusToCheck = 'STARTED';
-
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   private hostUid: string;
   public rolesDistribution: { wordsNeeded: number; questionMarksNeeded: number };
@@ -31,19 +28,17 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
   constructor(private router: Router,
               private route: ActivatedRoute,
               public db: AngularFireDatabase,
-              public afAuth: AngularFireAuth,
-              private httpClient: HttpClient,
-              private rolesandwordsrequiredService: RolesandwordsrequiredService) {
+              public afAuth: AngularFireAuth) {
 
-    afAuth.authState
-      .takeUntil(this.ngUnsubscribe)
-      .subscribe(authUser => {
-        this.authUser = authUser;
-      });
   }
 
   ngOnInit(): void {
     this.gameName = this.route.snapshot.paramMap.get('gamename');
+    this.afAuth.authState
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(authUser => {
+        this.authUser = authUser;
+      });
 
     this.db.object('/games/' + this.gameName)
       .takeUntil(this.ngUnsubscribe)
@@ -51,37 +46,12 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
         this.gamePlayers = game.players;
         this.hostUid = game.host;
         this.gamePlayerKeys = Object.keys(this.gamePlayers);
-        this.rolesDistribution = this.rolesandwordsrequiredService.getRolesNeeded(this.gamePlayerKeys.length);
       });
   }
 
-  startGame(): void {
-    // hostUid not null
-    // hack to not have cheap non serverside trigger
-    const isOnlyExecutedOnHostBrowser = this.authUser.uid === this.hostUid;
-    if (isOnlyExecutedOnHostBrowser) {
-      this.assignWordOnServerside();
-    }
-
+  prepareGame(): void {
     // TODO solve host starts game navigation for all
-    this.router.navigate(['/firsttip', this.gameName]);
-  }
-
-  private assignWordOnServerside() {
-    const cloudFunctionsDomain = 'https://us-central1-linp-c679b.cloudfunctions.net';
-    const cloudFunction = '/wordRoleAssignment';
-    const url = cloudFunctionsDomain + cloudFunction;
-    this.httpClient
-      .get(url,
-        {
-          // headers: headers,
-          params: new HttpParams()
-            .set('status', this.statusToCheck)
-            .set('gameName', this.gameName)
-        })
-      .subscribe(response => {
-        console.log('words assign on serversidedone');
-      });
+    this.router.navigate(['/preparegame', this.gameName]);
   }
 
   ngOnDestroy() {

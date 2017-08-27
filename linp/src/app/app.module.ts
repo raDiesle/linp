@@ -37,6 +37,7 @@ import { GamerulesComponent } from './gamerules/gamerules.component';
 import {RolesandwordsrequiredService} from './gamelobby/rolesandwordsrequired.service';
 import {ShareButtonsModule} from 'ngx-sharebuttons';
 import {HttpModule} from "@angular/http";
+import { PreparegameComponent } from './preparegame/preparegame.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import {HttpModule} from "@angular/http";
     LoginbyemailComponent,
     PlayerprofileComponent,
     CreategameComponent,
-    GamerulesComponent
+    GamerulesComponent,
+    PreparegameComponent
   ],
   entryComponents : [
     LoginbyemailComponent
@@ -76,6 +78,10 @@ import {HttpModule} from "@angular/http";
       {
         path: 'gamelobby/:gamename',
         component: GamelobbyComponent
+      },
+      {
+        path: 'preparegame/:gamename',
+        component: PreparegameComponent
       },
       {
         path: 'firsttip/:gamename',

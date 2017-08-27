@@ -8,10 +8,10 @@ import {Observable} from 'rxjs/Observable';
 })
 export class WaitingdotsComponent implements OnInit {
 
-  dots: string = '';
+  dots = '';
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {
-    let sourceLoading = Observable
+    Observable
       .interval(500)
       .timeInterval()
       .subscribe((counter) => {

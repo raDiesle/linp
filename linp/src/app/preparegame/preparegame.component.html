@@ -1,0 +1,29 @@
+<div>
+
+  <div class="card">
+    <div class="card-body">
+      <h4 class="card-title">
+           <span *ngIf="isRoleAssigned">
+            <strong>Your word to explain:
+              <!-- make non hackable -->
+              <app-wordsdrumroll
+                word="{{gamePlayers && authUser && gamePlayers[authUser.uid].questionmarkOrWord}}"></app-wordsdrumroll>
+          </strong>
+          </span>
+      </h4>
+      <div class="py-3">
+        <strong>{{gamePlayerSize}} Players</strong>:
+        <strong>{{rolesDistribution?.questionMarksNeeded}} ?</strong>
+        with
+        <strong>
+          {{rolesDistribution?.wordsNeeded}}<i class="material-icons align-bottom">group</i>
+        </strong>
+      </div>
+
+<!-- https://codepen.io/ozgursagiroglu/pen/lAxIa -->
+      <h2>Game starts in {{countdown}}</h2>
+
+    </div>
+  </div>
+
+</div>
