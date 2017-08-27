@@ -1,9 +1,11 @@
 <div class="row">
-  <div class="col-sm-6">
+  <div class="col-sm-6"
+       *ngIf="authUser?.uid === currentPlayer?.uid"
+  >
     <div class="card">
       <div class="card-body">
         <h4 class="card-title">
-          Give your first tip
+          Your word is: {{gamePlayers && authUser && gamePlayers[authUser.uid].questionmarkOrWord}}
         </h4>
         <form novalidate #giveSynonymForm="ngForm">
           <div class="form-group"
@@ -12,6 +14,7 @@
             <div>
               <input type="text"
                      class="form-control"
+                     [ngClass]="{'is-invalid' : synonymInput.errors?.required}"
                      id="synonym"
                      [(ngModel)]="synonym"
                      #synonymInput="ngModel"
@@ -19,19 +22,17 @@
                      required
               >
               <div *ngIf="synonymInput?.dirty && synonymInput.errors?.required">
-                must not be empty
+                Its your turn
               </div>
             </div>
           </div>
-          <button class="btn btn-warning"
+          <button class="btn btn-primary"
                   [disabled]="synonymInput.invalid"
                   (click)="sendSynonym()"
-          >Send
+          >
+            Send
           </button>
           <div class="py-2">
-          <ngb-alert>
-            Its your turn!
-          </ngb-alert>
           </div>
         </form>
       </div>
@@ -42,12 +43,19 @@
     <div class="card">
       <div class="card-body">
         <h4 class="card-title">
-          Status of players <app-waitingdots></app-waitingdots>
+          Status of players
+          <app-waitingdots></app-waitingdots>
         </h4>
         <ul class="list-group">
-          <li class="list-group-item list-group-item-success"
+          <li class="list-group-item list"
+              [ngClass]="{
+              'list-group-item-action active' : gamePlayers[gamePlayerKey] === currentPlayer && show$,
+              'list-group-item-secondary' : gamePlayers[gamePlayerKey].status === statusToCheck
+              }"
               *ngFor="let gamePlayerKey of gamePlayerKeys"
           >{{$index}} {{gamePlayers[gamePlayerKey].name}} - {{gamePlayers[gamePlayerKey].status}}
+
+            {{gamePlayers[gamePlayerKey] === currentPlayer}}
           </li>
         </ul>
       </div>

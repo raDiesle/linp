@@ -36,8 +36,9 @@ import { CreategameComponent } from './creategame/creategame.component';
 import { GamerulesComponent } from './gamerules/gamerules.component';
 import {RolesandwordsrequiredService} from './gamelobby/rolesandwordsrequired.service';
 import {ShareButtonsModule} from 'ngx-sharebuttons';
-import {HttpModule} from "@angular/http";
+import {HttpModule} from '@angular/http';
 import { PreparegameComponent } from './preparegame/preparegame.component';
+import { BlinkComponent } from './widgets/blink/blink.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { PreparegameComponent } from './preparegame/preparegame.component';
     PlayerprofileComponent,
     CreategameComponent,
     GamerulesComponent,
-    PreparegameComponent
+    PreparegameComponent,
+    BlinkComponent
   ],
   entryComponents : [
     LoginbyemailComponent

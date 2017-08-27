@@ -1,13 +1,13 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {RolesandwordsrequiredService} from "../gamelobby/rolesandwordsrequired.service";
-import {Subject} from "rxjs/Subject";
-import {AngularFireDatabase} from "angularfire2/database";
-import {Game, GamePlayer} from "../models/game";
-import {ActivatedRoute, Router} from "@angular/router";
-import {AngularFireAuth} from "angularfire2/auth";
-import {HttpClient, HttpParams} from "@angular/common/http";
+import {RolesandwordsrequiredService} from '../gamelobby/rolesandwordsrequired.service';
+import {Subject} from 'rxjs/Subject';
+import {AngularFireDatabase} from 'angularfire2/database';
+import {Game, GamePlayer} from '../models/game';
+import {ActivatedRoute, Router} from '@angular/router';
+import {AngularFireAuth} from 'angularfire2/auth';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import * as firebase from 'firebase/app';
-import {Observable} from "rxjs/Observable";
+import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'app-preparegame',
@@ -38,11 +38,15 @@ export class PreparegameComponent implements OnInit, OnDestroy {
 
     const start = 10;
     Observable
-      .timer(1000, 1000) // timer(firstValueDelay, intervalBetweenValues)
-      .map(i => start - i)
+      .timer(1000, 1000)
+      .map(count => start - count)
       .take(start + 1)
-      .subscribe(i => this.countdown = i);
-
+      .subscribe(count => {
+        this.countdown = count
+        if (count === 0) {
+          this.startGame();
+        }
+      });
 
 
     this.db.object('/games/' + gameName)
@@ -72,7 +76,7 @@ export class PreparegameComponent implements OnInit, OnDestroy {
     this.afAuth.authState
       .takeUntil(this.ngUnsubscribe)
       .subscribe((authUser: firebase.User) => {
-      this.authUser = authUser;
+        this.authUser = authUser;
         // hostUid not null
         // hack to not have cheap non serverside trigger
         const isOnlyExecutedOnHostBrowser = this.authUser.uid === this.hostUid;

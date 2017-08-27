@@ -41,7 +41,6 @@ export class WordRoleAssignmentService {
                     .ref('/words/' + language)
                     .once('value')
                     .then(wordsFullLibrary => {
-                        console.log(wordsFullLibrary.val());
                         // optimize
                         const wordsChosenFromLibrary = wordsFullLibrary.val().splice(startPickWordsAtPos, numberOfWordsNeeded);
                         const wordsDuplicatedForTeams = wordsChosenFromLibrary.concat(wordsChosenFromLibrary);

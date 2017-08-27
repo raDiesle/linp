@@ -7,12 +7,17 @@ import * as firebase from 'firebase/app';
 import {GamePlayer, GameStatus} from '../../models/game';
 import {Subject} from 'rxjs/Subject';
 
+
+
 @Component({
   selector: 'app-firsttip',
   templateUrl: './firsttip.component.html',
   styleUrls: ['./firsttip.component.css']
 })
 export class FirsttipComponent implements OnInit, OnDestroy {
+
+  statusToCheck: GameStatus = 'FIRST_WORD_GIVEN';
+
   gamePlayerKeys: string[];
   authUser: firebase.User;
   gamePlayers: { [uid: string]: GamePlayer };
@@ -21,6 +26,8 @@ export class FirsttipComponent implements OnInit, OnDestroy {
   private synonym: string;
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
+  private currentPlayer: GamePlayer;
+  public show$: boolean;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -36,6 +43,11 @@ export class FirsttipComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.gameName = this.route.snapshot.paramMap.get('gamename');
 
+
+    Observable.timer(0, 1000).subscribe(number=>{
+      this.show$ = number % 2 === 0;
+    });
+
     // might be done functional, might be separate view with redirect
     // might be async issue, put into callback
 
@@ -46,20 +58,26 @@ export class FirsttipComponent implements OnInit, OnDestroy {
         this.gamePlayers = gamePlayers;
         this.gamePlayerKeys = Object.keys(this.gamePlayers);
 
-// TODO BIG move to server
-// this.wordRoleAssignmentService.assign(this.gamePlayerKeys, this.gamePlayers, this.gameName);
-
+        // guarantee position missing
+        this.gamePlayerKeys.some(key => {
+          const isCurrentPlayerIdentified = this.gamePlayers[key].status !== this.statusToCheck;
+          if (isCurrentPlayerIdentified) {
+            this.currentPlayer = this.gamePlayers[key];
+          }
+          return isCurrentPlayerIdentified;
+        });
+        // just make foreach
         this.observeGamePlayerStatus(gamePlayers);
       });
   }
 
   private observeGamePlayerStatus(gamePlayers: { [uid: string]: GamePlayer }) {
     const nextPositiveRoute = '/firstguess';
-    const statusToCheck: GameStatus = 'FIRST_WORD_GIVEN';
+
     return Observable.pairs(gamePlayers)
       .flatMap(p => Observable.of(p))
       .pluck('status')
-      .every(status => status === statusToCheck)
+      .every(status => status === this.statusToCheck)
       .toPromise()
       .then(allGivenFirstSynonym => {
         if (allGivenFirstSynonym) {
