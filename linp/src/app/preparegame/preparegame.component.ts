@@ -23,7 +23,9 @@ export class PreparegameComponent implements OnInit, OnDestroy {
   private gamePlayers: { [p: string]: GamePlayer };
   private authUser: firebase.User;
   public isRoleAssigned = false;
+  private isQuestionmark = false;
   private countdown: number;
+  private currentGamePlayer: GamePlayer;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -54,19 +56,18 @@ export class PreparegameComponent implements OnInit, OnDestroy {
       // .toPromise()
       .subscribe((game: Game) => {
         this.gamePlayers = game.players;
-
         // trigger once
         if (this.authUser) {
-          this.isRoleAssigned = !!this.gamePlayers[this.authUser.uid].questionmarkOrWord;
+          this.currentGamePlayer = this.gamePlayers[this.authUser.uid];
+          this.isRoleAssigned = !!this.currentGamePlayer.questionmarkOrWord;
+          this.isQuestionmark = this.currentGamePlayer.questionmarkOrWord === '?';
           return;
         }
 
         // pass to next promise instead
         this.hostUid = game.host;
-
         this.gamePlayerSize = Object.keys(game.players).length;
         this.rolesDistribution = this.rolesandwordsrequiredService.getRolesNeeded(this.gamePlayerSize);
-
         this.performHostOnlyServerTrigger(gameName);
       });
   }

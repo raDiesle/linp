@@ -16,7 +16,7 @@ export class Evaluate {
     register() {
         return functions.https.onRequest((request, response) => {
             cors(request, response, () => {
-                if (request.query.status === 'EVALUATE') {
+                if (request.query.status === 'SECOND_GUESS_GIVEN') {
                     this.performAllEvaluateStatusAction(request, response);
                 }
             });
@@ -34,7 +34,14 @@ export class Evaluate {
                 this.evaluate(gamePlayerKeys, gamePlayers);
 
                 console.log(gamePlayers);
-                this.writeAllScoresToDB(request.query.gameName, gamePlayerKeys, gamePlayers);
+                const playerRequest: any = this.getScoresDbStructureRequest(request.query.gameName, gamePlayerKeys, gamePlayers);
+                playerRequest.status = 'EVALUATED';
+
+                admin.database()
+                    .ref('/games/' + request.query.gameName)
+                    .update(playerRequest);
+                console.log('status set');
+
                 response.status(200)
                     .send('SUCCESS'); // JSON.stringify(gamePlayers)
                 // afterwards write calculated data to db
@@ -80,11 +87,13 @@ export class Evaluate {
         return this.calculatescoreService.calculateScoreForOneGuess(currentGamePlayer, firstTeamPlayer, secondTeamPlayer);
     }
 
-    private writeAllScoresToDB(gameName: string, gamePlayerKeys: string[], gamePlayers: { [p: string]: GamePlayer}) {
+    private getScoresDbStructureRequest(gameName: string, gamePlayerKeys: string[], gamePlayers: { [p: string]: GamePlayer }) {
+        const game = {players: {}};
         for (const gamePlayerKey of gamePlayerKeys) {
-            admin.database()
-                .ref('/games/' + gameName + '/players/' + gamePlayerKey + '/pointsScored/')
-                .update(gamePlayers[gamePlayerKey].pointsScored);
+            game.players[gamePlayerKey] = {
+                pointsScored: gamePlayers[gamePlayerKey].pointsScored
+            };
         }
+        return game;
     }
 }

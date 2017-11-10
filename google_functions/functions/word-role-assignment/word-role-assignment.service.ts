@@ -1,6 +1,6 @@
 import * as admin from 'firebase-admin';
 import {GamePlayer} from '../../../linp/src/app/models/game';
-import {RolesandwordsrequiredService} from '../../../linp/src/app/gamelobby/rolesandwordsrequired.service';
+import {RolesandwordsrequiredService} from './rolesandwordsrequired.service';
 
 export class WordRoleAssignmentService {
 

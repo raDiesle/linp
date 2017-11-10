@@ -29,7 +29,6 @@ export class SecondguessComponent implements OnInit, OnDestroy {
               private router: Router,
               public db: AngularFireDatabase,
               public afAuth: AngularFireAuth,
-              private httpClient: HttpClient,
               public guessService: GuessService) {
 
     afAuth.authState.subscribe(response => {
@@ -80,7 +79,7 @@ export class SecondguessComponent implements OnInit, OnDestroy {
 
   private observeGamePlayerStatus(gamePlayers: { [uid: string]: GamePlayer }, hostUid: string) {
     const nextPositiveRoute = '/evaluation';
-    const statusToCheck: GameStatus = 'EVALUATE';
+    const statusToCheck: GameStatus = 'SECOND_WORD_GIVEN';
     const observingPlayerStatus = Observable.pairs(gamePlayers)
       .flatMap(p => Observable.of(p))
       .every(keyValueGamePlayers => {
@@ -92,25 +91,10 @@ export class SecondguessComponent implements OnInit, OnDestroy {
           return;
         }
 
-        // hack to not have cheap non serverside trigger
-        const isOnlyExecutedOnHostBrowser = this.authUser.uid === hostUid;
-        if (isOnlyExecutedOnHostBrowser) {
-          const url = 'https://us-central1-linp-c679b.cloudfunctions.net/evaluate';
-          // const headers = new Headers({'Authorization': 'Bearer ' + this.authUser.uid});
-          this.httpClient
-            .get(url,
-              {
-                // headers: headers,
-                params: new HttpParams()
-                  .set('status', statusToCheck)
-                  .set('gameName', this.gameName)
-              })
-            .subscribe(response => console.log('calculated evaluation on serverside'));
-        }
-
         this.router.navigate([nextPositiveRoute, this.gameName]);
       });
   }
+
 
   ngOnDestroy() {
     this.ngUnsubscribe.next();

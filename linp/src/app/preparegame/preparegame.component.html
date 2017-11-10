@@ -1,16 +1,49 @@
 <div>
-
   <div class="card">
     <div class="card-body">
-      <h4 class="card-title">
-           <span *ngIf="isRoleAssigned">
-            <strong>Your word to explain:
-              <!-- make non hackable -->
-              <app-wordsdrumroll
-                word="{{gamePlayers && authUser && gamePlayers[authUser.uid].questionmarkOrWord}}"></app-wordsdrumroll>
+      <div *ngIf="isRoleAssigned">
+        <div *ngIf="isQuestionmark">
+          <strong>
+            You are the questionmark
           </strong>
-          </span>
-      </h4>
+          <p>
+            Try to confuse
+          </p>
+          <!-- make non hackable -->
+        </div>
+        <div *ngIf="!isQuestionmark">
+          <p>
+            Your word to explain:
+          </p>
+          <p class="py-2">
+            <strong>
+              {{this.currentGamePlayer.questionmarkOrWord}}
+            </strong>
+          </p>
+          <div>
+            Game follows the steps:
+            <ol>
+              <li>Give first synonym for <strong>{{this.currentGamePlayer.questionmarkOrWord}}</strong></li>
+              <li>Guess first team</li>
+              <li>Give second synonym for <strong>{{this.currentGamePlayer.questionmarkOrWord}}</strong></li>
+              <li>Guess second team</li>
+            </ol>
+          </div>
+          <p *ngIf="false">
+            There is another player in game with the word
+            <strong>{{this.currentGamePlayer.questionmarkOrWord}}</strong>.
+            In LINP, you need to give synonyms for
+            <strong>{{this.currentGamePlayer.questionmarkOrWord}}</strong>
+            to all players in a way,
+            that your partner identifies yourself as a partner.
+            But do not choose the synonym too obvious to other players.
+            If they identified you and your partner in the guessing-round,
+            you will get minus points.
+          </p>
+        </div>
+      </div>
+
+
       <div class="py-3">
         <strong>{{gamePlayerSize}} Players</strong>:
         <strong>{{rolesDistribution?.questionMarksNeeded}} ?</strong>
@@ -20,10 +53,9 @@
         </strong>
       </div>
 
-<!-- https://codepen.io/ozgursagiroglu/pen/lAxIa -->
+      <!-- https://codepen.io/ozgursagiroglu/pen/lAxIa -->
       <h2>Game starts in {{countdown}}</h2>
 
     </div>
   </div>
-
 </div>

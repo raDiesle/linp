@@ -23,7 +23,9 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let gamePlayerKey of gamePlayerKeys; let $index=index;">
+      <tr *ngFor="let gamePlayerKey of gamePlayerKeys; let $index=index;"
+          class="table-primary"
+      >
         <th scope="row">{{$index}}</th>
         <td>{{gamePlayers[gamePlayerKey].name}}</td>
         <td><strong>{{gamePlayers[gamePlayerKey].questionmarkOrWord}}</strong></td>

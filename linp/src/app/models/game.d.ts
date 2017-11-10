@@ -26,7 +26,8 @@ export interface GamePlayer {
   pointsScored?: PointsScored;
 }
 
-export type GameStatus = 'CREATED' | 'JOINED' | 'ROLE_OR_WORD_GIVEN' | 'FIRST_WORD_GIVEN' | 'SECOND_WORD_GIVEN' | 'EVALUATE';
+export type GameStatus = 'CREATED' | 'JOINED' | 'ROLE_OR_WORD_GIVEN' | 'FIRST_WORD_GIVEN'
+  | 'FIRST_GUESS_GIVEN' | 'SECOND_WORD_GIVEN' | 'SECOND_GUESS_GIVEN' | 'EVALUATED';
 
 export interface TeamTip {
   firstPartner: TeamPartner;

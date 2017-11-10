@@ -5,9 +5,9 @@ import {AngularFireDatabase} from 'angularfire2/database';
 import {AngularFireAuth} from 'angularfire2/auth/auth';
 import * as firebase from 'firebase/app';
 import {GamePlayer, GameStatus} from '../../models/game';
-import {Subject} from "rxjs/Subject";
+import {Subject} from 'rxjs/Subject';
 
-const GAME_STATUS: GameStatus = 'SECOND_WORD_GIVEN';
+const GAME_STATUS: GameStatus = 'SECOND_GUESS_GIVEN';
 
 @Component({
   selector: 'app-secondtip',
