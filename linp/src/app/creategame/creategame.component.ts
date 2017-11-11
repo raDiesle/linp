@@ -50,7 +50,8 @@ export class CreategameComponent implements OnInit, OnDestroy {
       name: gameName,
       host: playerName,
       status: 'CREATED',
-      players: {}
+      players: {},
+      round: 0
     };
 
     // extract to model

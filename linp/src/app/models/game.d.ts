@@ -4,6 +4,7 @@ export interface Game {
   status: GameStatus;
   // alternative type possible?
   players?: { [uid: string]: GamePlayer };
+  round: number;
 }
 
 export interface PointsScored {

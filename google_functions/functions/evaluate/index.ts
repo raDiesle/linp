@@ -76,9 +76,13 @@ export class Evaluate {
             gamePlayer.pointsScored.secondTeamTip = scoreOfSecondGuess;
 
             gamePlayer.pointsScored.total += scoreOfFirstGuess + scoreOfSecondGuess;
+        }
 
+        for (const gamePlayerKey of gamePlayerKeys) {
+            const gamePlayer = gamePlayers[gamePlayerKey];
             gamePlayer.pointsScored.totalRounds += gamePlayer.pointsScored.total;
         }
+
     }
 
     calculateScoresOfGuess(gamePlayers: { [uid: string]: GamePlayer }, currentGamePlayer: GamePlayer, teamTip: TeamTip): number {

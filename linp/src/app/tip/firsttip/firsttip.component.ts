@@ -8,7 +8,6 @@ import {GamePlayer, GameStatus} from '../../models/game';
 import {Subject} from 'rxjs/Subject';
 
 
-
 @Component({
   selector: 'app-firsttip',
   templateUrl: './firsttip.component.html',
@@ -44,7 +43,7 @@ export class FirsttipComponent implements OnInit, OnDestroy {
     this.gameName = this.route.snapshot.paramMap.get('gamename');
 
 
-    Observable.timer(0, 1000).subscribe(number=>{
+    Observable.timer(0, 1000).subscribe(number => {
       this.show$ = number % 2 === 0;
     });
 

@@ -12,14 +12,15 @@
       <thead>
       <tr>
         <th>#</th>
-        <th>GamePlayerName</th>
+        <th>Player</th>
         <th>Word</th>
-        <th>First Tip</th>
-        <th>Second Tip</th>
-        <th class="table-info">First Guess</th>
-        <th class="table-info">Second Guess</th>
-        <th class="table-info">Indirect Points</th>
-        <th class="table-info">Points Scored in Game</th>
+        <th>1. Word</th>
+        <th>2. Word</th>
+        <th class="table-info">1. Guess</th>
+        <th class="table-info">2. Guess</th>
+        <th class="table-info">By others</th>
+        <th class="table-info">Points</th>
+        <th>Total</th>
       </tr>
       </thead>
       <tbody>
@@ -56,6 +57,9 @@
                     'table-active' : gamePlayers[gamePlayerKey].pointsScored.total === 0,
                     'table-danger' : gamePlayers[gamePlayerKey].pointsScored.total < 0}">
           {{gamePlayers[gamePlayerKey].pointsScored.total}}
+        </td>
+        <td>
+          {{gamePlayers[gamePlayerKey].pointsScored.totalRounds}}
         </td>
       </tr>
       </tbody>

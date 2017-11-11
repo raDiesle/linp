@@ -55,7 +55,8 @@ export class SimulationComponent implements OnInit, OnDestroy {
       name: gamename,
       host: players.playerA.uid,
       status: 'SECOND_GUESS_GIVEN',
-      players: {}
+      players: {},
+      round: 0
     };
     request.players[players.playerA.uid] = {
       uid: players.playerA.uid,
