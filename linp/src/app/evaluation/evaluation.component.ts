@@ -56,7 +56,6 @@ export class EvaluationComponent implements OnInit {
         }
 
         console.log('getting player details');
-        debugger;
         this.gamePlayers = game.players;
         this.gamePlayerKeys = Object.keys(this.gamePlayers);
 

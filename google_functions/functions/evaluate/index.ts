@@ -33,14 +33,14 @@ export class Evaluate {
                 this.resetPoints(gamePlayerKeys, gamePlayers);
                 this.evaluate(gamePlayerKeys, gamePlayers);
 
-                console.log(gamePlayers);
-                const playerRequest: any = this.getScoresDbStructureRequest(request.query.gameName, gamePlayerKeys, gamePlayers);
-                playerRequest.status = 'EVALUATED';
+                const gameUpdateRequest: any = this.getScoresDbStructureRequest(request.query.gameName, gamePlayerKeys, gamePlayers);
 
-                admin.database()
-                    .ref('/games/' + request.query.gameName)
-                    .update(playerRequest);
-                console.log('status set');
+                gameUpdateRequest['/games/' + request.query.gameName + '/' + 'status'] = 'EVALUATED';
+
+                console.log(gameUpdateRequest);
+                const gameRef = admin.database()
+                    .ref();
+                gameRef.update(gameUpdateRequest);
 
                 response.status(200)
                     .send('SUCCESS'); // JSON.stringify(gamePlayers)
@@ -88,12 +88,16 @@ export class Evaluate {
     }
 
     private getScoresDbStructureRequest(gameName: string, gamePlayerKeys: string[], gamePlayers: { [p: string]: GamePlayer }) {
-        const game = {players: {}};
+        const players: any = {};
         for (const gamePlayerKey of gamePlayerKeys) {
-            game.players[gamePlayerKey] = {
-                pointsScored: gamePlayers[gamePlayerKey].pointsScored
-            };
+            const nestedPointsToUpdateSelector = '/games/' + gameName + '/players/' + gamePlayerKey + '/pointsScored';
+            players[nestedPointsToUpdateSelector + '/firstTeamTip'] = gamePlayers[gamePlayerKey].pointsScored.firstTeamTip;
+            players[nestedPointsToUpdateSelector + '/secondTeamTip'] = gamePlayers[gamePlayerKey].pointsScored.secondTeamTip;
+            players[nestedPointsToUpdateSelector + '/indirect'] = gamePlayers[gamePlayerKey].pointsScored.indirect;
+            players[nestedPointsToUpdateSelector + '/total'] = gamePlayers[gamePlayerKey].pointsScored.total;
+            players[nestedPointsToUpdateSelector + '/totalRounds'] = gamePlayers[gamePlayerKey].pointsScored.totalRounds;
+
         }
-        return game;
+        return players;
     }
 }
