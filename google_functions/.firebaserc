@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "linp-c679b"
+    "default": "linp-c679b",
+    "staging": "linp-c679b"
   }
 }

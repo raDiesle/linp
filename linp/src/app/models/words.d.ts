@@ -1,4 +1,5 @@
 export interface Words {
+  de: { [id: string]: Word };
   en: { [id: string]: Word };
   sizes: { [languageKey: string]: number };
 }

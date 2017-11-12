@@ -21,7 +21,7 @@ export class WordRoleAssigment {
                             const gamePlayers: { [uid: string]: GamePlayer } = gamePlayersSnapshot.val();
                             this.wordRoleAssignmentService.assign(gamePlayers, request.query.gameName);
                             response.status(200)
-                                .send('SUCCESS');
+                                .send('{status : "SUCCESS"}');
                         });
             });
         });

@@ -43,7 +43,7 @@ export class Evaluate {
                 gameRef.update(gameUpdateRequest);
 
                 response.status(200)
-                    .send('SUCCESS'); // JSON.stringify(gamePlayers)
+                    .send('"{status : "SUCCESS"}"'); // JSON.stringify(gamePlayers)
                 // afterwards write calculated data to db
             });
     }

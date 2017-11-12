@@ -8,7 +8,8 @@
 
       <div class="py-3">
         <button (click)="prepareGame()"
-                class="btn btn-primary btn-block"
+                class="btn btn-block"
+                [ngClass]="gamePlayerKeys.length < 4 ? 'btn-warning' : 'btn-primary'"
                 [disabled]="gamePlayerKeys.length < 4"
         >
           <span *ngIf="gamePlayerKeys.length < 4">

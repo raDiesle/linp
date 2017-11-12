@@ -22,7 +22,7 @@ export class WordRoleAssignmentService {
 
         let questionmarkOrWordPool: string[] = Array(numberOfQuestionMarks).fill(QUESTIONMARK_ROLE);
 
-        const language = 'en';
+        const language = 'de';
         const pathOrRef = '/words/size/' + language;
         admin.database()
             .ref(pathOrRef)

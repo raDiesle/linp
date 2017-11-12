@@ -4,6 +4,8 @@ import {AngularFireAuth} from 'angularfire2/auth/auth';
 import {Game} from '../models/game';
 import {PlayerProfile} from '../models/player';
 import {Subject} from 'rxjs/Subject';
+import {LinpCardsModelService} from "./linpcardsinit.service";
+import {Word, Words} from "app/models/words";
 
 const players: { [uid: string]: PlayerProfile } = {
   playerA: {
@@ -44,7 +46,8 @@ export class SimulationComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor(public afAuth: AngularFireAuth,
-              public db: AngularFireDatabase) {
+              public db: AngularFireDatabase,
+              public linpCardsModelService: LinpCardsModelService) {
   }
 
   ngOnInit() {
@@ -294,7 +297,24 @@ export class SimulationComponent implements OnInit, OnDestroy {
       }
     };
     this.db.object('games/' + gamename + '/players/')
-      .update(request).then(result => alert('done'));
+      .update(request)
+      .then(result => console.log('done'));
+  }
+
+  addInitialWords() {
+    const cards = [];
+    let pos = 0;
+    for (const word of this.linpCardsModelService.getCards()) {
+      cards.push({
+        value: word
+      });
+      pos++;
+    }
+
+    this.db.object('words/de')
+      .update(cards)
+      .then(result => console.log('done'))
+
   }
 
   ngOnDestroy() {

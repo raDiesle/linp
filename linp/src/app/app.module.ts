@@ -39,6 +39,8 @@ import {ShareButtonsModule} from 'ngx-sharebuttons';
 import {HttpModule} from '@angular/http';
 import { PreparegameComponent } from './preparegame/preparegame.component';
 import { BlinkComponent } from './widgets/blink/blink.component';
+import {CreatewordComponent} from './createword/createword.component';
+import {LinpCardsModelService} from "./simulation/linpcardsinit.service";
 
 @NgModule({
   declarations: [
@@ -62,7 +64,8 @@ import { BlinkComponent } from './widgets/blink/blink.component';
     CreategameComponent,
     GamerulesComponent,
     PreparegameComponent,
-    BlinkComponent
+    BlinkComponent,
+    CreatewordComponent
   ],
   entryComponents : [
     LoginbyemailComponent
@@ -122,6 +125,10 @@ import { BlinkComponent } from './widgets/blink/blink.component';
         component: GamerulesComponent
       },
       {
+        path: 'createword',
+        component: CreatewordComponent
+      },
+      {
         path: '',
         redirectTo: '/welcome',
         pathMatch: 'full'
@@ -138,7 +145,7 @@ import { BlinkComponent } from './widgets/blink/blink.component';
     AngularFireDatabaseModule,
     AngularFireAuthModule
   ],
-  providers: [GuessService, UserprofileService, RolesandwordsrequiredService],
+  providers: [GuessService, UserprofileService, RolesandwordsrequiredService, LinpCardsModelService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

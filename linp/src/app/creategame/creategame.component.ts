@@ -48,7 +48,7 @@ export class CreategameComponent implements OnInit, OnDestroy {
     // extract to model
     const request: Game = {
       name: gameName,
-      host: playerName,
+      host: this.authUser.uid,
       status: 'CREATED',
       players: {},
       round: 0

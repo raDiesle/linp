@@ -81,7 +81,9 @@ export class WelcomeComponent implements OnInit, OnDestroy {
   }
 
   logout() {
+    this.ngOnDestroy();
     this.afAuth.auth.signOut();
+    window.location.reload();
   }
 
   ngOnDestroy() {
