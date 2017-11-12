@@ -92,7 +92,7 @@ export class FirsttipComponent implements OnInit, OnDestroy {
     };
     this.db.object('games/' + this.gameName + '/players/' + this.authUser.uid)
       .update(gamePlayerUpdate)
-      .then(gamePlayerModel => alert('Successful saved'));
+      .then(gamePlayerModel => console.log('Successful saved'));
   }
 
   ngOnDestroy() {

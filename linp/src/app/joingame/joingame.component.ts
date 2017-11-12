@@ -20,12 +20,12 @@ import {growShrinkStaticStart} from '../animations/growShrinkStaticStart';
 
 
 @Component({
-  selector: 'app-startgame',
-  templateUrl: './startgame.component.html',
-  styleUrls: ['./startgame.component.css'],
+  selector: 'app-joingame',
+  templateUrl: './joingame.component.html',
+  styleUrls: ['./joingame.component.css'],
   animations: [fadeInAnimation, growShrinkStaticStart]
 })
-export class StartgameComponent implements OnInit, OnDestroy {
+export class JoinGameComponent implements OnInit, OnDestroy {
   @HostBinding('@fadeInAnimation') fadeInAnimation = true;
   @HostBinding('style.display') display = 'block';
 
@@ -88,7 +88,7 @@ export class StartgameComponent implements OnInit, OnDestroy {
     updatePlayer[this.authUser.uid] = <GamePlayer>{
       uid: this.authUser.uid,
       name: this.playerName,
-      status: 'JOINED',
+      status: 'GAME_LOBBY',
 // substract to initial model object
     };
 

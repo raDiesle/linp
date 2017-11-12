@@ -64,7 +64,7 @@ export class SimulationComponent implements OnInit, OnDestroy {
     request.players[players.playerA.uid] = {
       uid: players.playerA.uid,
       name: players.playerA.name,
-      status: 'CREATED',
+      status: 'GAME_LOBBY',
       questionmarkOrWord: '?',
       firstSynonym: 'FirstSynA',
       // correct
@@ -102,7 +102,7 @@ export class SimulationComponent implements OnInit, OnDestroy {
     request.players[players.playerB.uid] = {
       uid: players.playerB.uid,
       name: players.playerB.name,
-      status: 'JOINED',
+      status: 'PREPARE_GAME',
       questionmarkOrWord: 'Wort1',
       firstSynonym: 'FirstSynB',
       firstTeamTip: {
@@ -140,7 +140,7 @@ export class SimulationComponent implements OnInit, OnDestroy {
     request.players[players.playerC.uid] = {
       uid: players.playerC.uid,
       name: players.playerC.name,
-      status: 'JOINED',
+      status: 'PREPARE_GAME',
       questionmarkOrWord: 'Wort1',
       firstSynonym: 'FirstSynC',
       firstTeamTip: {
@@ -177,7 +177,7 @@ export class SimulationComponent implements OnInit, OnDestroy {
     request.players[players.playerD.uid] = {
       uid: players.playerD.uid,
       name: players.playerD.name,
-      status: 'JOINED',
+      status: 'PREPARE_GAME',
       questionmarkOrWord: 'Wort2',
       firstSynonym: 'FirstSynD',
       firstTeamTip: {
@@ -214,7 +214,7 @@ export class SimulationComponent implements OnInit, OnDestroy {
     request.players[players.playerE.uid] = {
       uid: players.playerE.uid,
       name: players.playerE.name,
-      status: 'JOINED',
+      status: 'PREPARE_GAME',
       questionmarkOrWord: 'Wort2',
       firstSynonym: 'FirstSynE',
       firstTeamTip: {
@@ -251,7 +251,7 @@ export class SimulationComponent implements OnInit, OnDestroy {
     request.players[players.playerF.uid] = {
       uid: players.playerF.uid,
       name: players.playerF.name,
-      status: 'JOINED',
+      status: 'PREPARE_GAME',
       questionmarkOrWord: '?',
       firstSynonym: 'FirstSynF',
       firstTeamTip: {

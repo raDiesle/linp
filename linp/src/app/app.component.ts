@@ -1,10 +1,12 @@
 import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
-import {NavigationEnd, Router} from '@angular/router';
+import {ActivatedRoute, NavigationEnd, NavigationStart, ParamMap, Router} from '@angular/router';
 import {AngularFireAuth} from 'angularfire2/auth/auth';
 import * as firebase from 'firebase/app';
 import {fadeInAnimation} from "app/widgets/animations";
 import {Subject} from "rxjs/Subject";
 import {AngularFireDatabase} from "angularfire2/database";
+import {Observable} from "rxjs/Observable";
+import {GamePlayer} from "./models/game";
 
 // http://jasonwatmore.com/post/2017/04/19/angular-2-4-router-animation-tutorial-example
 
@@ -22,9 +24,11 @@ export class AppComponent implements OnInit, OnDestroy {
   authUser: firebase.User;
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
+  private ngUnsubscribeNewGameChosen: Subject<void> = new Subject<void>();
   private isUserAuthOfflane = false;
 
   constructor(private router: Router,
+              private route: ActivatedRoute,
               private changeDetectorRef: ChangeDetectorRef,
               public afAuth: AngularFireAuth,
               public db: AngularFireDatabase) {
@@ -42,22 +46,71 @@ export class AppComponent implements OnInit, OnDestroy {
         this.isUserAuthOfflane = !!this.authUser && !snap.val();
       });
 
-    // dev only
     this.router.events
       .takeUntil(this.ngUnsubscribe)
       .subscribe(routerInformation => {
-        this.updateCurrentGameNameLinksForDevelopment(routerInformation);
+        this.updateCurrentGameName(routerInformation);
       });
+
+// host only set game status
+    /*
+        const nextPositiveRoute = '/secondguess';
+        this.db.object('/games/' + this.gameName + '/players')
+          .takeUntil(this.ngUnsubscribe)
+          .subscribe((gamePlayers: { [uid: string]: GamePlayer }) => {
+            this.gamePlayers = gamePlayers;
+            this.gamePlayerKeys = Object.keys(this.gamePlayers);
+            this.observeGamePlayerStatus(gamePlayers, GAME_STATUS, nextPositiveRoute);
+          });
+    */
   }
 
-  private updateCurrentGameNameLinksForDevelopment(routerInformation) {
+  private updateCurrentGameName(routerInformation) {
     if (routerInformation instanceof NavigationEnd) {
       const fullUrl = routerInformation.urlAfterRedirects;
       if (fullUrl.split('/').length >= 3) {
-        this.gameName = fullUrl.split('/')[2];
+        // TODO check if one of game routes
+        const urlRequestedGameName = fullUrl.split('/')[2];
+        const isNoChangeOfGame = urlRequestedGameName === this.gameName;
+        if (isNoChangeOfGame) {
+          return;
+        }
+        this.gameName = urlRequestedGameName;
         this.changeDetectorRef.markForCheck();
+        console.log('changed game');
+        this.ngUnsubscribeNewGameChosen.next();
+        this.ngUnsubscribeNewGameChosen.complete();
+        /*
+                this.db.object('/games/' + this.gameName + '/players')
+                  .takeUntil(this.ngUnsubscribeNewGameChosen)
+                  .subscribe(gamePlayers => {
+                    this.observeGamePlayerStatus(gamePlayers);
+                  });
+        */
       }
     }
+  }
+
+  private observeGamePlayerStatus(gamePlayers: { [uid: string]: GamePlayer }) {
+    const nextPositiveRoute = 'firsttip';
+    let prevStatus = null;
+    Observable.pairs(gamePlayers)
+      .flatMap(p => Observable.of(p))
+      .every(playerObj => {
+        const status = playerObj[1]['status'];
+        const isAllSame = status === prevStatus || prevStatus === null;
+        prevStatus = status;
+        return isAllSame;
+      })
+      .subscribe(allGivenFirstSynonym => {
+          // change
+          const doNothing = null;
+          if (allGivenFirstSynonym) {
+            console.log('allHaveSameStatus');
+            // this.router.navigate([nextPositiveRoute, this.gameName])
+          }
+        }
+      );
   }
 
   ngOnDestroy() {

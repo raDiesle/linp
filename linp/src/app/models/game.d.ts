@@ -27,7 +27,19 @@ export interface GamePlayer {
   pointsScored?: PointsScored;
 }
 
-export type GameStatus = 'CREATED' | 'JOINED' | 'ROLE_OR_WORD_GIVEN' | 'FIRST_WORD_GIVEN'
+// CREATE_GAME
+// JOIN_GAME
+
+// GAME_LOBBY
+// PREPARE_GAME
+// FIRST_WORD
+// FIRST_GUESS
+// SECOND_WORD
+// SECOND_GUESS
+// EVALUATE_POINTS
+// PREPARE_GAME
+
+export type GameStatus = 'GAME_LOBBY' | 'PREPARE_GAME' | 'ROLE_OR_WORD_GIVEN' | 'FIRST_WORD_GIVEN'
   | 'FIRST_GUESS_GIVEN' | 'SECOND_WORD_GIVEN' | 'SECOND_GUESS_GIVEN' | 'EVALUATED';
 
 export interface TeamTip {

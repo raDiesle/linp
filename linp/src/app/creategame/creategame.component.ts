@@ -49,7 +49,7 @@ export class CreategameComponent implements OnInit, OnDestroy {
     const request: Game = {
       name: gameName,
       host: this.authUser.uid,
-      status: 'CREATED',
+      status: 'PREPARE_GAME',
       players: {},
       round: 0
     };
@@ -58,7 +58,7 @@ export class CreategameComponent implements OnInit, OnDestroy {
     request.players[this.authUser.uid] = {
       uid: this.authUser.uid,
       name: playerName,
-      status: 'CREATED'
+      status: 'GAME_LOBBY'
     };
 
     this.db.object('games/' + gameName)

@@ -14,10 +14,10 @@ import {environment} from '../environments/environment';
 import {AppComponent} from './app.component';
 
 import {WelcomeComponent} from './welcome/welcome.component';
-import {StartgameComponent} from './startgame/startgame.component';
+import {JoinGameComponent} from './joingame/joingame.component';
 import {FirsttipComponent} from './tip/firsttip/firsttip.component';
 import {FirstguessComponent} from './guess/firstguess/firstguess.component';
-import {SearchFilterPipe} from './startgame/gamelistsearch.pipe';
+import {SearchFilterPipe} from './joingame/gamelistsearch.pipe';
 import {GamelobbyComponent} from './gamelobby/gamelobby.component';
 import {SinglewordonlyvalidatorDirective} from './widgets/singlewordonly_depre/singlewordonlyvalidator.directive';
 import {FadeComponent} from './widgets/fade/fade.component';
@@ -40,13 +40,13 @@ import {HttpModule} from '@angular/http';
 import { PreparegameComponent } from './preparegame/preparegame.component';
 import { BlinkComponent } from './widgets/blink/blink.component';
 import {CreatewordComponent} from './createword/createword.component';
-import {LinpCardsModelService} from "./simulation/linpcardsinit.service";
+import {LinpCardsModelService} from './simulation/linpcardsinit.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     WelcomeComponent,
-    StartgameComponent,
+    JoinGameComponent,
     FirsttipComponent,
     FirstguessComponent,
     SecondtipComponent,
@@ -78,7 +78,7 @@ import {LinpCardsModelService} from "./simulation/linpcardsinit.service";
       },
       {
         path: 'startgame',
-        component: StartgameComponent
+        component: JoinGameComponent
       },
       {
         path: 'gamelobby/:gamename',

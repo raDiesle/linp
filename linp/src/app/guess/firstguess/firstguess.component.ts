@@ -29,9 +29,9 @@ export class FirstguessComponent implements OnInit, OnDestroy {
               public guessService: GuessService) {
     afAuth.authState
       .takeUntil(this.ngUnsubscribe)
-      .subscribe(data => {
-      this.authUser = data;
-    });
+      .subscribe(authUser => {
+        this.authUser = authUser;
+      });
   }
 
   ngOnInit() {

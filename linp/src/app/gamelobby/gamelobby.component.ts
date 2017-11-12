@@ -13,17 +13,18 @@ import {HttpClient} from '@angular/common/http';
   styleUrls: ['./gamelobby.component.css']
 })
 export class GamelobbyComponent implements OnInit, OnDestroy {
+
+  currentHrefLink: string = window.location.href;
   gamePlayerKeys: string[] = [];
 
   gameName: string;
 // TODO https://cedvdb.github.io/ng2share/
   gamePlayers: { [uid: string]: GamePlayer }; // null
   private authUser: firebase.User;
-
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   private hostUid: string;
-  public rolesDistribution: { wordsNeeded: number; questionMarksNeeded: number };
-
+  staticAlertClosed = true;
+  private _success = new Subject<string>();
 
   constructor(private router: Router,
               private route: ActivatedRoute,
@@ -50,8 +51,15 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
   }
 
   prepareGame(): void {
-    // TODO solve host starts game navigation for all
-    this.router.navigate(['/preparegame', this.gameName]);
+    const isHostUser = this.authUser.uid === this.hostUid;
+    if (isHostUser) {
+      // TODO solve host starts game navigation for all
+      this.router.navigate(['/preparegame', this.gameName]);
+    } else {
+      this.staticAlertClosed = false;
+      setTimeout(() => this.staticAlertClosed = true, 5000);
+
+    }
   }
 
   ngOnDestroy() {
