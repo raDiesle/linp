@@ -24,7 +24,8 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let gamePlayer of gamePlayers; let $index=index;"
+      <tr
+        *ngFor="let gamePlayer of gamePlayers; let $index=index;"
       >
         <th scope="row">{{$index}}</th>
         <td [ngClass]="{'table-primary' : gamePlayer.uid === authUser.uid}">{{gamePlayer.name}}</td>

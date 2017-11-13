@@ -56,9 +56,7 @@ export class WelcomeComponent implements OnInit, OnDestroy {
 
         this.firstTimeLoggedInEver = playerProfile === null;
         // executed only when needed
-        if (this.firstTimeLoggedInEver) {
-          this.router.navigate(['/createaccount']);
-        } else if (playerProfile.name === undefined) {//
+        if (this.firstTimeLoggedInEver || playerProfile.name === undefined) {
           this.router.navigate(['/playerprofile']);
         }
       });

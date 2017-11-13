@@ -12,6 +12,7 @@ import {Router} from "@angular/router";
   styleUrls: ['./playerprofile.component.css']
 })
 export class PlayerprofileComponent implements OnInit {
+  isToGenerateFirstTimeProfile: boolean;
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   private authUser: firebase.User;
@@ -40,18 +41,29 @@ export class PlayerprofileComponent implements OnInit {
       name: this.playerName
     };
 
-    this.db.doc<PlayerProfile>(playerPath)
-      .update(newPlayerProfile)
-      .then(a => {
-        this.router.navigate(['/welcome']);
-      });
+    const doc = this.db.doc<PlayerProfile>(playerPath);
+    if (this.isToGenerateFirstTimeProfile) {
+      doc
+        .set(newPlayerProfile)
+        .then(a => {
+          this.router.navigate(['/welcome']);
+        });
+    } else {
+      doc
+        .update(newPlayerProfile)
+        .then(a => {
+          this.router.navigate(['/welcome']);
+        });
+    }
   }
 
   private loadPlayerProfile(uid: string) {
-    this.db.doc<PlayerProfile>('/players/' + uid).valueChanges()
+    this.db.doc<PlayerProfile>('/players/' + uid)
+      .valueChanges()
       .takeUntil(this.ngUnsubscribe)
       .subscribe(playerProfile => {
-        this.playerName = playerProfile.name;
+        this.isToGenerateFirstTimeProfile = !playerProfile;
+        this.playerName = this.isToGenerateFirstTimeProfile ? '' : playerProfile.name;
       });
   }
 

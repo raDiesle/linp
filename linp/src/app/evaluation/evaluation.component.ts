@@ -18,7 +18,7 @@ export class EvaluationComponent implements OnInit {
 
   authUser: firebase.User;
   gameName: string;
-  gamePlayers: GamePlayer[];
+  gamePlayers: GamePlayer[] = [];
   statusToCheck: GameStatus = 'EVALUATED';
   prevStatus: GameStatus = 'SECOND_GUESS_GIVEN';
   evaluatedByHostBrowser = false;

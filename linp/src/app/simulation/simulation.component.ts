@@ -58,10 +58,10 @@ export class SimulationComponent implements OnInit, OnDestroy {
       name: gamename,
       host: players.playerA.uid,
       status: 'SECOND_GUESS_GIVEN',
-      players: {},
+      players: [],
       round: 0
     };
-    request.players[players.playerA.uid] = {
+    request.players.push({
       uid: players.playerA.uid,
       name: players.playerA.name,
       status: 'GAME_LOBBY',
@@ -97,9 +97,9 @@ export class SimulationComponent implements OnInit, OnDestroy {
         totalRounds: 0,
         indirect: 0
       }
-    };
+    });
 
-    request.players[players.playerB.uid] = {
+    request.players.push({
       uid: players.playerB.uid,
       name: players.playerB.name,
       status: 'PREPARE_GAME',
@@ -135,9 +135,9 @@ export class SimulationComponent implements OnInit, OnDestroy {
         totalRounds: 0,
         indirect: 0
       }
-    };
+    });
 
-    request.players[players.playerC.uid] = {
+    request.players.push({
       uid: players.playerC.uid,
       name: players.playerC.name,
       status: 'PREPARE_GAME',
@@ -172,9 +172,9 @@ export class SimulationComponent implements OnInit, OnDestroy {
         totalRounds: 0,
         indirect: 0
       }
-    };
+    });
 
-    request.players[players.playerD.uid] = {
+    request.players.push({
       uid: players.playerD.uid,
       name: players.playerD.name,
       status: 'PREPARE_GAME',
@@ -209,9 +209,9 @@ export class SimulationComponent implements OnInit, OnDestroy {
         totalRounds: 0,
         indirect: 0
       }
-    };
+    });
 
-    request.players[players.playerE.uid] = {
+    request.players.push({
       uid: players.playerE.uid,
       name: players.playerE.name,
       status: 'PREPARE_GAME',
@@ -246,9 +246,9 @@ export class SimulationComponent implements OnInit, OnDestroy {
         totalRounds: 0,
         indirect: 0
       }
-    };
+    });
 
-    request.players[players.playerF.uid] = {
+    request.players.push({
       uid: players.playerF.uid,
       name: players.playerF.name,
       status: 'PREPARE_GAME',
@@ -283,10 +283,12 @@ export class SimulationComponent implements OnInit, OnDestroy {
         totalRounds: 0,
         indirect: 0
       }
-    };
+    });
 
     this.db.doc<Game>('games/' + gamename)
-      .set(request);
+      .set(request)
+      .then(() => alert('Successful'))
+      .catch(() => alert('fail'));
   }
 
   updateSinglePlayerScore() {
