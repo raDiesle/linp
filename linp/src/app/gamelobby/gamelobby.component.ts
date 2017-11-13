@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
-import {AngularFireDatabase} from 'angularfire2/database';
+import {AngularFirestore} from 'angularfire2/firestore';
 import {AngularFireAuth} from 'angularfire2/auth/auth';
 import * as firebase from 'firebase/app';
 import {Game, GamePlayer} from '../models/game';
@@ -19,7 +19,7 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
 
   gameName: string;
 // TODO https://cedvdb.github.io/ng2share/
-  gamePlayers: { [uid: string]: GamePlayer }; // null
+  gamePlayers: GamePlayer[]; // null
   private authUser: firebase.User;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   private hostUid: string;
@@ -28,7 +28,7 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router,
               private route: ActivatedRoute,
-              public db: AngularFireDatabase,
+              public db: AngularFirestore,
               public afAuth: AngularFireAuth) {
 
   }
@@ -41,7 +41,8 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
         this.authUser = authUser;
       });
 
-    this.db.object('/games/' + this.gameName)
+    this.db.doc('/games/' + this.gameName)
+      .valueChanges()
       .takeUntil(this.ngUnsubscribe)
       .subscribe((game: Game) => {
         this.gamePlayers = game.players;
@@ -58,7 +59,6 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
     } else {
       this.staticAlertClosed = false;
       setTimeout(() => this.staticAlertClosed = true, 5000);
-
     }
   }
 

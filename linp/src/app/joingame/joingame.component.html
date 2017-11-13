@@ -17,10 +17,15 @@
           >
             {{game.name}}
           </button>
+          <!-- visualization hack, still needed? -->
           <div [hidden]="game !== -1">
             NO ENTRIES
           </div>
         </div>
+        <div *ngIf="games.length <= 0">
+          No Entries
+        </div>
+
       </div>
     </div>
   </div>

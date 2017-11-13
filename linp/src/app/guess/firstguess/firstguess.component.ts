@@ -1,11 +1,12 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {AngularFireDatabase} from 'angularfire2/database';
+import {AngularFirestore} from 'angularfire2/firestore';
 import {GamePlayer, TeamPartner, TeamTip} from '../../models/game';
 import {AngularFireAuth} from 'angularfire2/auth/auth';
 import * as firebase from 'firebase/app';
 import {GuessService} from '../guess.service';
 import {Subject} from 'rxjs/Subject';
+import {Observable} from "rxjs/Observable";
 
 @Component({
   selector: 'app-firstguess',
@@ -17,14 +18,13 @@ export class FirstguessComponent implements OnInit, OnDestroy {
   gameName: string;
 
   selectedGamePlayers: GamePlayer[] = [];
-  gamePlayers: { [uid: string]: GamePlayer };
-  private gamePlayerKeys: string[];
+  gamePlayers: Observable<GamePlayer[]>;
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              public db: AngularFireDatabase,
+              public db: AngularFirestore,
               public afAuth: AngularFireAuth,
               public guessService: GuessService) {
     afAuth.authState
@@ -36,12 +36,9 @@ export class FirstguessComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.gameName = this.route.snapshot.paramMap.get('gamename');
-    this.db.object('/games/' + this.gameName + '/players')
-      .takeUntil(this.ngUnsubscribe)
-      .subscribe(gamePlayers => {
-        this.gamePlayers = gamePlayers;
-        this.gamePlayerKeys = Object.keys(this.gamePlayers);
-      });
+    this.gamePlayers = this.db.collection<GamePlayer>('/games/' + this.gameName + '/players')
+      .valueChanges()
+      .takeUntil(this.ngUnsubscribe);
   }
 
   onTeamPlayerGuessSelected(clickedGamePlayer): void {
@@ -66,9 +63,9 @@ export class FirstguessComponent implements OnInit, OnDestroy {
 // move to model
     const firstTeamTip = createGuessModel(this.selectedGamePlayers);
     const tipDBkey = '/firstTeamTip';
-    this.db.object('games/' + this.gameName + '/players/' + this.authUser.uid + tipDBkey)
+    this.db.doc<TeamTip>('games/' + this.gameName + '/players/' + this.authUser.uid + tipDBkey)
       .set(firstTeamTip)
-      .then(firstTeamTip => {
+      .then(firstTeamTipT => {
         alert('Successful saved choice');
       });
   }

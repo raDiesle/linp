@@ -24,42 +24,42 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let gamePlayerKey of gamePlayerKeys; let $index=index;"
+      <tr *ngFor="let gamePlayer of gamePlayers; let $index=index;"
       >
         <th scope="row">{{$index}}</th>
-        <td [ngClass]="{'table-primary' : gamePlayerKey === authUser.uid}">{{gamePlayers[gamePlayerKey].name}}</td>
-        <td><strong>{{gamePlayers[gamePlayerKey].questionmarkOrWord}}</strong></td>
-        <td>{{gamePlayers[gamePlayerKey].firstSynonym}}</td>
-        <td>{{gamePlayers[gamePlayerKey].secondSynonym}}</td>
-        <td [ngClass]="{'table-success' : gamePlayers[gamePlayerKey].pointsScored.firstTeamTip > 0,
-                    'table-active' : gamePlayers[gamePlayerKey].pointsScored.firstTeamTip === 0,
-                    'table-danger' : gamePlayers[gamePlayerKey].pointsScored.firstTeamTip < 0}">
-          <strong>{{gamePlayers[gamePlayerKey].pointsScored.firstTeamTip}}</strong>
+        <td [ngClass]="{'table-primary' : gamePlayer.uid === authUser.uid}">{{gamePlayer.name}}</td>
+        <td><strong>{{gamePlayer.questionmarkOrWord}}</strong></td>
+        <td>{{gamePlayer.firstSynonym}}</td>
+        <td>{{gamePlayer.secondSynonym}}</td>
+        <td [ngClass]="{'table-success' : gamePlayer.pointsScored.firstTeamTip > 0,
+                    'table-active' : gamePlayer.pointsScored.firstTeamTip === 0,
+                    'table-danger' : gamePlayer.pointsScored.firstTeamTip < 0}">
+          <strong>{{gamePlayer.pointsScored.firstTeamTip}}</strong>
           <br>
-          {{gamePlayers[gamePlayerKey].firstTeamTip?.firstPartner?.name}}
-          & {{gamePlayers[gamePlayerKey].firstTeamTip?.secondPartner?.name}}
+          {{gamePlayer.firstTeamTip?.firstPartner?.name}}
+          & {{gamePlayer.firstTeamTip?.secondPartner?.name}}
 
         </td>
-        <td [ngClass]="{'table-success' : gamePlayers[gamePlayerKey].pointsScored.secondTeamTip > 0,
-                    'table-active' : gamePlayers[gamePlayerKey].pointsScored.secondTeamTip === 0,
-                    'table-danger' : gamePlayers[gamePlayerKey].pointsScored.secondTeamTip < 0}">
-          <strong>{{gamePlayers[gamePlayerKey].pointsScored.secondTeamTip}}</strong>
+        <td [ngClass]="{'table-success' : gamePlayer.pointsScored.secondTeamTip > 0,
+                    'table-active' : gamePlayer.pointsScored.secondTeamTip === 0,
+                    'table-danger' : gamePlayer.pointsScored.secondTeamTip < 0}">
+          <strong>{{gamePlayer.pointsScored.secondTeamTip}}</strong>
           <br>
-          {{gamePlayers[gamePlayerKey].secondTeamTip?.firstPartner?.name}}
-          & {{gamePlayers[gamePlayerKey].secondTeamTip?.secondPartner?.name}}
+          {{gamePlayer.secondTeamTip?.firstPartner?.name}}
+          & {{gamePlayer.secondTeamTip?.secondPartner?.name}}
         </td>
-        <td [ngClass]="{'table-success' : gamePlayers[gamePlayerKey].pointsScored.indirect > 0,
-                    'table-active' : gamePlayers[gamePlayerKey].pointsScored.indirect === 0,
-                    'table-danger' : gamePlayers[gamePlayerKey].pointsScored.indirect < 0}">
-          {{gamePlayers[gamePlayerKey].pointsScored.indirect}}
+        <td [ngClass]="{'table-success' : gamePlayer.pointsScored.indirect > 0,
+                    'table-active' : gamePlayer.pointsScored.indirect === 0,
+                    'table-danger' : gamePlayer.pointsScored.indirect < 0}">
+          {{gamePlayer.pointsScored.indirect}}
         </td>
-        <td [ngClass]="{'table-success' : gamePlayers[gamePlayerKey].pointsScored.total > 0,
-                    'table-active' : gamePlayers[gamePlayerKey].pointsScored.total === 0,
-                    'table-danger' : gamePlayers[gamePlayerKey].pointsScored.total < 0}">
-          {{gamePlayers[gamePlayerKey].pointsScored.total}}
+        <td [ngClass]="{'table-success' : gamePlayer.pointsScored.total > 0,
+                    'table-active' : gamePlayer.pointsScored.total === 0,
+                    'table-danger' : gamePlayer.pointsScored.total < 0}">
+          {{gamePlayer.pointsScored.total}}
         </td>
         <td>
-          {{gamePlayers[gamePlayerKey].pointsScored.totalRounds}}
+          {{gamePlayer.pointsScored.totalRounds}}
         </td>
       </tr>
       </tbody>

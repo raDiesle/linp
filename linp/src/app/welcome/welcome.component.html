@@ -22,8 +22,8 @@
           <div>
             <h4 class="card-title">
               Logged in as
-              <fade [out]="false" [(isVisible)]="isPlayerNameLoaded">
-                {{playerName}}
+              <fade [out]="false" [(isVisible)]="playerProfile">
+                {{playerProfile?.name}}
                 <a href="javascript:void(0)">
                   <i class="material-icons md-18 align-top text-danger" (click)="logout()">no_encryption</i>
                 </a>
@@ -34,7 +34,7 @@
             <button
               type="button"
               class="btn btn-primary btn-block"
-              routerLink="/startgame">
+              routerLink="/joingame">
               Join Game
             </button>
             <button

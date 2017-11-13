@@ -8,12 +8,12 @@
         </h4>
         <h6 class="card-subtitle mb-2 text-muted">Guess who is in a team</h6>
         <div class="list-group">
-          <button *ngFor="let key of gamePlayerKeys"
-                  (click)="onTeamPlayerGuessSelected(gamePlayers[key])"
+          <button *ngFor="let gamePlayer of gamePlayer"
+                  (click)="onTeamPlayerGuessSelected(gamePlayer)"
                   class="list-group-item list-group-item-action"
-                  [ngClass]="{'active' : selectedGamePlayers.indexOf(gamePlayers[key]) !== -1}"
+                  [ngClass]="{'active' : selectedGamePlayers.indexOf(gamePlayer) !== -1}"
           >
-            {{gamePlayers[key].name}} - {{gamePlayers[key].firstSynonym}}
+            {{gamePlayer.name}} - {{gamePlayer.firstSynonym}}
           </button>
         </div>
 
@@ -48,10 +48,10 @@
 
         <ul class="list-group">
           <li class="list-group-item list-group-item-success"
-              *ngFor="let key of gamePlayerKeys"
+              *ngFor="let gamePlayer of gamePlayers"
           >
-            {{gamePlayers[key].name}} - {{gamePlayers[key].status}}
-            - <strong>{{gamePlayers[key].firstSynonym}}</strong>
+            {{gamePlayer.name}} - {{gamePlayer.status}}
+            - <strong>{{gamePlayer.firstSynonym}}</strong>
             _dots_
         </ul>
         </div>

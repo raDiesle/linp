@@ -1,0 +1,62 @@
+<div class="card">
+  <div class="card-body">
+    <h3 class="card-title">
+      Create Account
+    </h3>
+    <div class="card-body">
+
+      <div class="form-group row">
+        <label for="playerEmail" class="col-4 col-form-label">Email</label>
+        <div class="col">
+          <input
+            id="playeremail"
+            type="text"
+            class="form-control"
+            name="playerEmail"
+            [(ngModel)]="playerEmail"
+            #playerEmailInput="ngModel"
+            (ngModelChange)="playerEmail"
+            required
+          />
+          <div class="form-control-feedback">
+            <span class="form-control-feedback" [hidden]="playerEmailInput.valid">
+                    Email is required
+              </span>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="playerPassword" class="col-4 col-form-label">Password</label>
+        <div class="col">
+          <input
+            id="playerpassword"
+            type="password"
+            class="form-control"
+            name="playerPassword"
+            [(ngModel)]="playerPassword"
+            #playerPasswordInput="ngModel"
+            (ngModelChange)="playerPassword"
+            required
+          />
+          <div class="form-control-feedback">
+            <span class="form-control-feedback" [hidden]="playerPasswordInput.valid">
+                    Password is required
+              </span>
+          </div>
+        </div>
+      </div>
+
+      <div>
+
+        <button (click)="createAccount()"
+                class="btn"
+                id="createAccount"
+                [disabled]="playerEmailInput.valid === false || playerPasswordInput.valid === false"
+        >
+          Create
+        </button>
+
+      </div>
+    </div>
+  </div>
+</div>

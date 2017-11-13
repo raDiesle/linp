@@ -7,7 +7,7 @@
         </h4>
         <h6 class="card-subtitle mb-2 text-muted">
           <span>Express your word: First synonym for</span>
-          <span>_yourRoleWordAnimation_ {{gamePlayers && gamePlayers[authUser.uid].questionmarkOrWord}}</span>
+          <span>{{gamePlayers && loggedInGamePlayer.questionmarkOrWord}}</span>
         </h6>
         <div class="form-group row"
              [ngClass]="{'has-danger' : synonymInput.invalid, 'has-success' : synonymInput.valid}"
@@ -47,10 +47,10 @@
       <div class="card-body">
         <ul class="list-group">
           <li class="list-group-item list-group-item-success"
-              *ngFor="let gamePlayerKey of gamePlayerKeys"
-          >{{$index}} {{gamePlayers[gamePlayerKey].name}}
-            - <strong>{{gamePlayers[gamePlayerKey].firstSynonym}}</strong>
-            - {{gamePlayers[gamePlayerKey].status}} _dots_
+              *ngFor="let gamePlayer of gamePlayers"
+          >{{$index}} {{gamePlayer.name}}
+            - <strong>{{gamePlayer.firstSynonym}}</strong>
+            - {{gamePlayer.status}} _dots_
           </li>
         </ul>
       </div>

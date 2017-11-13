@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Observable} from 'rxjs/Rx';
 import {ActivatedRoute, Router} from '@angular/router';
-import {AngularFireDatabase} from 'angularfire2/database';
+import {AngularFirestore} from 'angularfire2/firestore';
 import {AngularFireAuth} from 'angularfire2/auth/auth';
 import * as firebase from 'firebase/app';
 import {GamePlayer, GameStatus} from '../../models/game';
@@ -14,12 +14,13 @@ import {Subject} from 'rxjs/Subject';
   styleUrls: ['./firsttip.component.css']
 })
 export class FirsttipComponent implements OnInit, OnDestroy {
+  loggedInGamePlayer: GamePlayer;
 
   statusToCheck: GameStatus = 'FIRST_WORD_GIVEN';
 
   gamePlayerKeys: string[];
   authUser: firebase.User;
-  gamePlayers: { [uid: string]: GamePlayer };
+  gamePlayers: GamePlayer[];
   gameName: string;
   // @input
   private synonym: string;
@@ -30,7 +31,7 @@ export class FirsttipComponent implements OnInit, OnDestroy {
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              public db: AngularFireDatabase,
+              public db: AngularFirestore,
               public afAuth: AngularFireAuth) {
     afAuth.authState
       .takeUntil(this.ngUnsubscribe)
@@ -51,17 +52,24 @@ export class FirsttipComponent implements OnInit, OnDestroy {
     // might be async issue, put into callback
 
 
-    this.db.object('/games/' + this.gameName + '/players')
+    this.db.collection<GamePlayer>('/games/' + this.gameName + '/players')
+      .valueChanges()
       .takeUntil(this.ngUnsubscribe)
       .subscribe(gamePlayers => {
         this.gamePlayers = gamePlayers;
-        this.gamePlayerKeys = Object.keys(this.gamePlayers);
 
-        // guarantee position missing
-        this.gamePlayerKeys.some(key => {
-          const isCurrentPlayerIdentified = this.gamePlayers[key].status !== this.statusToCheck;
+        // rewrite
+        this.gamePlayers.forEach(gamePlayer => {
+          if (gamePlayer.uid === this.authUser.uid) {
+            this.loggedInGamePlayer = gamePlayer;
+          }
+        });
+
+// guarantee position missing
+        this.gamePlayers.forEach(gamePlayer => {
+          const isCurrentPlayerIdentified = gamePlayer.status !== this.statusToCheck;
           if (isCurrentPlayerIdentified) {
-            this.currentPlayer = this.gamePlayers[key];
+            this.currentPlayer = gamePlayer;
           }
           return isCurrentPlayerIdentified;
         });
@@ -70,7 +78,17 @@ export class FirsttipComponent implements OnInit, OnDestroy {
       });
   }
 
-  private observeGamePlayerStatus(gamePlayers: { [uid: string]: GamePlayer }) {
+  sendSynonym() {
+    const gamePlayerUpdate = {
+      status: 'FIRST_WORD_GIVEN',
+      firstSynonym: this.synonym
+    };
+    this.db.doc('games/' + this.gameName + '/players/' + this.authUser.uid)
+      .update(gamePlayerUpdate)
+      .then(gamePlayerModel => console.log('Successful saved'));
+  }
+
+  private observeGamePlayerStatus(gamePlayers: GamePlayer[]) {
     const nextPositiveRoute = '/firstguess';
 
     return Observable.pairs(gamePlayers)
@@ -83,16 +101,6 @@ export class FirsttipComponent implements OnInit, OnDestroy {
           this.router.navigate([nextPositiveRoute, this.gameName]);
         }
       });
-  }
-
-  sendSynonym() {
-    const gamePlayerUpdate = {
-      status: 'FIRST_WORD_GIVEN',
-      firstSynonym: this.synonym
-    };
-    this.db.object('games/' + this.gameName + '/players/' + this.authUser.uid)
-      .update(gamePlayerUpdate)
-      .then(gamePlayerModel => console.log('Successful saved'));
   }
 
   ngOnDestroy() {

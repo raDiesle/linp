@@ -1,10 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {AngularFireDatabase} from 'angularfire2/database';
+import {AngularFirestore} from 'angularfire2/firestore';
 import {AngularFireAuth} from 'angularfire2/auth';
-import {Game} from '../models/game';
+import {Game, GamePlayer} from '../models/game';
 import * as firebase from 'firebase/app';
 import {Subject} from 'rxjs/Subject';
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-creategame',
@@ -20,7 +20,7 @@ export class CreategameComponent implements OnInit, OnDestroy {
   private playerName: string;
 
   constructor(public afAuth: AngularFireAuth,
-              public db: AngularFireDatabase,
+              public db: AngularFirestore,
               public router: Router) {
     afAuth.authState
       .takeUntil(this.ngUnsubscribe)
@@ -28,7 +28,8 @@ export class CreategameComponent implements OnInit, OnDestroy {
         this.authUser = authUser;
 
         const uid = authUser.uid;
-        this.db.object('/players/' + uid)
+        this.db.doc<GamePlayer>('/players/' + uid)
+          .valueChanges()
           .takeUntil(this.ngUnsubscribe)
           .subscribe(playerProfile => {
             this.gameName = playerProfile.name;
@@ -50,7 +51,8 @@ export class CreategameComponent implements OnInit, OnDestroy {
       name: gameName,
       host: this.authUser.uid,
       status: 'PREPARE_GAME',
-      players: {},
+// create collection
+      players: [],
       round: 0
     };
 
@@ -61,7 +63,7 @@ export class CreategameComponent implements OnInit, OnDestroy {
       status: 'GAME_LOBBY'
     };
 
-    this.db.object('games/' + gameName)
+    this.db.doc<Game>('games/' + gameName)
       .set(<Game>request);
 
     this.router.navigate(['/gamelobby', gameName]);

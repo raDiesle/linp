@@ -3,7 +3,7 @@ export interface Game {
   host: string;
   status: GameStatus;
   // alternative type possible?
-  players?: { [uid: string]: GamePlayer };
+  players?: GamePlayer[];
   round: number;
 }
 

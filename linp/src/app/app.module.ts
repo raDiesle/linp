@@ -6,7 +6,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
-import {AngularFireDatabaseModule} from 'angularfire2/database';
+import {AngularFirestoreModule} from 'angularfire2/firestore';
 import {AngularFireModule} from 'angularfire2';
 import {AngularFireAuthModule} from 'angularfire2/auth';
 
@@ -41,6 +41,7 @@ import { PreparegameComponent } from './preparegame/preparegame.component';
 import { BlinkComponent } from './widgets/blink/blink.component';
 import {CreatewordComponent} from './createword/createword.component';
 import {LinpCardsModelService} from './simulation/linpcardsinit.service';
+import {CreateAccountComponent} from './create-account/create-account.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import {LinpCardsModelService} from './simulation/linpcardsinit.service';
     GamerulesComponent,
     PreparegameComponent,
     BlinkComponent,
-    CreatewordComponent
+    CreatewordComponent,
+    CreateAccountComponent
   ],
   entryComponents : [
     LoginbyemailComponent
@@ -77,7 +79,7 @@ import {LinpCardsModelService} from './simulation/linpcardsinit.service';
         component: WelcomeComponent
       },
       {
-        path: 'startgame',
+        path: 'joingame',
         component: JoinGameComponent
       },
       {
@@ -129,6 +131,10 @@ import {LinpCardsModelService} from './simulation/linpcardsinit.service';
         component: CreatewordComponent
       },
       {
+        path: 'createaccount',
+        component: CreateAccountComponent
+      },
+      {
         path: '',
         redirectTo: '/welcome',
         pathMatch: 'full'
@@ -142,7 +148,7 @@ import {LinpCardsModelService} from './simulation/linpcardsinit.service';
     HttpModule,
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFireDatabaseModule,
+    AngularFirestoreModule,
     AngularFireAuthModule
   ],
   providers: [GuessService, UserprofileService, RolesandwordsrequiredService, LinpCardsModelService],

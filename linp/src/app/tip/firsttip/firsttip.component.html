@@ -5,7 +5,7 @@
     <div class="card">
       <div class="card-body">
         <h4 class="card-title">
-          Your word is: {{gamePlayers && authUser && gamePlayers[authUser.uid].questionmarkOrWord}}
+          Your word is: {{gamePlayers && authUser && loggedInGamePlayer.questionmarkOrWord}}
         </h4>
         <form novalidate #giveSynonymForm="ngForm">
           <div class="form-group"
@@ -49,13 +49,13 @@
         <ul class="list-group">
           <li class="list-group-item list"
               [ngClass]="{
-              'list-group-item-action active' : gamePlayers[gamePlayerKey] === currentPlayer && show$,
-              'list-group-item-secondary' : gamePlayers[gamePlayerKey].status === statusToCheck
+              'list-group-item-action active' : gamePlayer === currentPlayer && show$,
+              'list-group-item-secondary' : gamePlayer.status === statusToCheck
               }"
-              *ngFor="let gamePlayerKey of gamePlayerKeys"
-          >{{$index}} {{gamePlayers[gamePlayerKey].name}} - {{gamePlayers[gamePlayerKey].status}}
+              *ngFor="let gamePlayer of gamePlayers"
+          >{{$index}} {{gamePlayer.name}} - {{gamePlayer.status}}
 
-            {{gamePlayers[gamePlayerKey] === currentPlayer}}
+            {{gamePlayer === currentPlayer}}
           </li>
         </ul>
       </div>

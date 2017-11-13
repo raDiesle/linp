@@ -1,5 +1,5 @@
 import {ChangeDetectorRef, Component, HostBinding, OnDestroy, OnInit} from '@angular/core';
-import {AngularFireDatabase, FirebaseListObservable} from 'angularfire2/database';
+import {AngularFirestore} from 'angularfire2/firestore';
 import {AngularFireAuth} from 'angularfire2/auth/auth';
 import {Router} from '@angular/router';
 import {Game, GamePlayer, PointsScored} from '../models/game';
@@ -17,6 +17,7 @@ import {
 import {Observable} from 'rxjs/Observable';
 import {fadeInAnimation} from 'app/widgets/animations';
 import {growShrinkStaticStart} from '../animations/growShrinkStaticStart';
+import {PlayerProfile} from 'app/models/player';
 
 
 @Component({
@@ -43,17 +44,17 @@ export class JoinGameComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor(public afAuth: AngularFireAuth,
-              public db: AngularFireDatabase,
+              public db: AngularFirestore,
               public router: Router,
               private changeDetectorRef: ChangeDetectorRef) {
 
-    this.db.list('/games')
+    // <{[uid: string]: Game}>
+    this.db.collection('/games')
+      .valueChanges()
       .takeUntil(this.ngUnsubscribe)
       .subscribe(games => {
-
-
         const games$ = Observable.from(games);
-        const timer$ = Observable.timer(0, 250);
+        const timer$ = Observable.timer(0, 200);
         const gamesOverTime$ = Observable.zip(games$, timer$, (item, i) => item);
         // for animation
         gamesOverTime$.subscribe((res) => this.games.push(res));
@@ -65,7 +66,8 @@ export class JoinGameComponent implements OnInit, OnDestroy {
         this.authUser = authUser;
 // https://gist.github.com/JamieMason/303c5fc90b28c28a804e3f7ea9ab01f1
         const uid = authUser.uid;
-        this.db.object('/players/' + uid)
+        this.db.doc<PlayerProfile>('/players/' + uid)
+          .valueChanges()
           .takeUntil(this.ngUnsubscribe)
           .subscribe(playerProfile => {
             this.playerName = playerProfile.name;
@@ -92,8 +94,9 @@ export class JoinGameComponent implements OnInit, OnDestroy {
 // substract to initial model object
     };
 
-    this.db.object('games/' + game.name + '/players')
-      .update(updatePlayer); // should be set
+// What if he joins again? Handle!
+    this.db.collection<{ [uid: string]: GamePlayer }>('games/' + game.name + '/players')
+      .add(updatePlayer);
     this.router.navigate(['/gamelobby', game.name]);
   }
 

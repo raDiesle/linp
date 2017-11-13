@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {AngularFireAuth} from 'angularfire2/auth/auth';
 import {ActivatedRoute, Router} from '@angular/router';
 import * as firebase from 'firebase/app';
-import {AngularFireDatabase} from 'angularfire2/database';
-import {GamePlayer, GameStatus, PointsScored, TeamTip} from '../models/game';
+import {AngularFirestore} from 'angularfire2/firestore';
+import {Game, GamePlayer, GameStatus, PointsScored, TeamTip} from '../models/game';
 import {Observable} from 'rxjs/Observable';
 import {first} from "rxjs/operator/first";
 import {HttpClient, HttpParams} from "@angular/common/http";
@@ -18,32 +18,30 @@ export class EvaluationComponent implements OnInit {
 
   authUser: firebase.User;
   gameName: string;
-  gamePlayers: { [uid: string]: GamePlayer };
-  gamePlayerKeys: string[];
+  gamePlayers: GamePlayer[];
   statusToCheck: GameStatus = 'EVALUATED';
   prevStatus: GameStatus = 'SECOND_GUESS_GIVEN';
-  evaluatedByHostBrowser: boolean = false;
+  evaluatedByHostBrowser = false;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              public db: AngularFireDatabase,
+              public db: AngularFirestore,
               public afAuth: AngularFireAuth,
               private httpClient: HttpClient) {
-    afAuth.authState.subscribe(response => {
-      this.authUser = response;
+    afAuth.authState.subscribe(authUser => {
+      this.authUser = authUser;
     });
   }
 
   ngOnInit() {
-
-
     this.gameName = this.route.snapshot.paramMap.get('gamename');
 
-    const gamePlayersObservable = this.db.object('/games/' + this.gameName
+    const gamePlayersObservable = this.db.doc<Game>('/games/' + this.gameName
     )
+      .valueChanges()
       .subscribe(gameRef => {
         // hack to not have cheap non serverside trigger
-        const game = gameRef;//.val();
+        const game = gameRef;
         const isResultsCalculated = game.status === 'EVALUATED';
         if (isResultsCalculated) {
           gamePlayersObservable.unsubscribe();
@@ -57,8 +55,6 @@ export class EvaluationComponent implements OnInit {
 
         console.log('getting player details');
         this.gamePlayers = game.players;
-        this.gamePlayerKeys = Object.keys(this.gamePlayers);
-
 
         // to be moved to server, executable only once
         // this.resetPoints(this.gamePlayers);
@@ -78,6 +74,7 @@ export class EvaluationComponent implements OnInit {
     this.router.navigate(['/firsttip', this.gameName]);
   }
 
+// move to service
   private evaluateOnServerside() {
     const url = 'https://us-central1-linp-c679b.cloudfunctions.net/evaluate';
 // ONLY SET EVALUATE STATE

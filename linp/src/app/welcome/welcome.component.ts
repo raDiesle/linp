@@ -1,13 +1,14 @@
 import {Component, HostBinding, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {AngularFireAuth} from 'angularfire2/auth/auth';
 import * as firebase from 'firebase/app';
-import {AngularFireDatabase} from 'angularfire2/database';
+import {AngularFirestore} from 'angularfire2/firestore';
 import {PlayerProfile} from '../models/player';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import {UserprofileService} from './userprofile.service';
 import {LoginbyemailComponent} from './loginbyemail/loginbyemail.component';
 import {Subject} from 'rxjs/Subject';
 import {fadeInAnimation} from '../widgets/animations';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-welcome',
@@ -18,23 +19,21 @@ import {fadeInAnimation} from '../widgets/animations';
 })
 export class WelcomeComponent implements OnInit, OnDestroy {
   @HostBinding('@fadeInAnimation') fadeInAnimation = true;
-  @HostBinding('style.display')   display = 'block';
+  @HostBinding('style.display') display = 'block';
 
   firstTimeLoggedInEver = false;
-  successfulSavedPlayername = false;
   isExpandInstructions = false;
 
   playerProfile: PlayerProfile;
-  playerName = '';
-  isPlayerNameLoaded = false;
   authUser: firebase.User;
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor(public afAuth: AngularFireAuth,
-              public db: AngularFireDatabase,
+              public db: AngularFirestore,
               private userprofileService: UserprofileService,
-              private modalService: NgbModal) {
+              private modalService: NgbModal,
+              private router: Router) {
 
     afAuth.authState
       .takeUntil(this.ngUnsubscribe)
@@ -50,17 +49,18 @@ export class WelcomeComponent implements OnInit, OnDestroy {
 
   private loadPlayerProfile(responseData) {
     const uid = responseData.uid;
-    this.db.object('/players/' + uid)
+    this.db.doc<PlayerProfile>('/players/' + uid).valueChanges()
       .takeUntil(this.ngUnsubscribe)
       .subscribe(playerProfile => {
         this.playerProfile = playerProfile;
 
-        this.firstTimeLoggedInEver = playerProfile.$value === null;
+        this.firstTimeLoggedInEver = playerProfile === null;
         // executed only when needed
-        const suggestedPlayerName = this.userprofileService.extractFirstName(this.authUser.displayName);
-
-        this.playerName = !this.firstTimeLoggedInEver ? this.playerProfile.name : suggestedPlayerName;
-        this.isPlayerNameLoaded = this.playerName !== '';
+        if (this.firstTimeLoggedInEver) {
+          this.router.navigate(['/createaccount']);
+        } else if (playerProfile.name === undefined) {//
+          this.router.navigate(['/playerprofile']);
+        }
       });
   }
 

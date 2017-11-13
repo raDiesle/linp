@@ -29,7 +29,7 @@
               <li>Guess second team</li>
             </ol>
           </div>
-          <p *ngIf="false">
+          <p *ngIf="true">
             There is another player in game with the word
             <strong>{{this.currentGamePlayer.questionmarkOrWord}}</strong>.
             In LINP, you need to give synonyms for
@@ -54,7 +54,7 @@
       </div>
 
       <!-- https://codepen.io/ozgursagiroglu/pen/lAxIa -->
-      <h2>Game starts in {{countdown}}</h2>
+      <button class="btn btn-primary" (ngClick)="startGame()">StartGame</button>
 
     </div>
   </div>

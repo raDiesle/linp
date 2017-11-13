@@ -1,11 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {AngularFireDatabase} from 'angularfire2/database';
+import {AngularFirestore} from 'angularfire2/firestore';
 import {AngularFireAuth} from 'angularfire2/auth/auth';
 import {Game} from '../models/game';
 import {PlayerProfile} from '../models/player';
 import {Subject} from 'rxjs/Subject';
-import {LinpCardsModelService} from "./linpcardsinit.service";
-import {Word, Words} from "app/models/words";
+import {LinpCardsModelService} from './linpcardsinit.service';
+import {Word, Words} from 'app/models/words';
 
 const players: { [uid: string]: PlayerProfile } = {
   playerA: {
@@ -46,7 +46,7 @@ export class SimulationComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor(public afAuth: AngularFireAuth,
-              public db: AngularFireDatabase,
+              public db: AngularFirestore,
               public linpCardsModelService: LinpCardsModelService) {
   }
 
@@ -285,7 +285,7 @@ export class SimulationComponent implements OnInit, OnDestroy {
       }
     };
 
-    this.db.object('games/' + gamename)
+    this.db.doc<Game>('games/' + gamename)
       .set(request);
   }
 
@@ -296,8 +296,8 @@ export class SimulationComponent implements OnInit, OnDestroy {
         total: 667
       }
     };
-    this.db.object('games/' + gamename + '/players/')
-      .update(request)
+    this.db.collection<PlayerProfile>('games/' + gamename + '/players/')
+      .add(request)
       .then(result => console.log('done'));
   }
 
@@ -311,7 +311,7 @@ export class SimulationComponent implements OnInit, OnDestroy {
       pos++;
     }
 
-    this.db.object('words/de')
+    this.db.doc('words/de')
       .update(cards)
       .then(result => console.log('done'))
 

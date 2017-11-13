@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {RolesandwordsrequiredService} from '../gamelobby/rolesandwordsrequired.service';
 import {Subject} from 'rxjs/Subject';
-import {AngularFireDatabase} from 'angularfire2/database';
+import {AngularFirestore} from 'angularfire2/firestore';
 import {Game, GamePlayer} from '../models/game';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AngularFireAuth} from 'angularfire2/auth';
@@ -20,16 +20,15 @@ export class PreparegameComponent implements OnInit, OnDestroy {
   private rolesDistribution: { wordsNeeded: number; questionMarksNeeded: number };
   private gamePlayerSize: number;
   private hostUid: string;
-  private gamePlayers: { [p: string]: GamePlayer };
+  private gamePlayers: GamePlayer[];
   private authUser: firebase.User;
   public isRoleAssigned = false;
   private isQuestionmark = false;
-  private countdown: number;
   private currentGamePlayer: GamePlayer;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              public db: AngularFireDatabase,
+              public db: AngularFirestore,
               public afAuth: AngularFireAuth,
               private httpClient: HttpClient,
               private rolesandwordsrequiredService: RolesandwordsrequiredService) {
@@ -38,20 +37,8 @@ export class PreparegameComponent implements OnInit, OnDestroy {
   ngOnInit() {
     const gameName = this.route.snapshot.paramMap.get('gamename');
 
-    const start = 10;
-    Observable
-      .timer(1000, 1000)
-      .map(count => start - count)
-      .take(start + 1)
-      .subscribe(count => {
-        this.countdown = count
-        if (count === 0) {
-          this.startGame();
-        }
-      });
-
-
-    this.db.object('/games/' + gameName)
+    this.db.doc('/games/' + gameName)
+      .valueChanges()
       .takeUntil(this.ngUnsubscribe)
       // .toPromise()
       .subscribe((game: Game) => {

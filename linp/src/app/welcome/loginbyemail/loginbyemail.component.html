@@ -1,26 +1,30 @@
 <div>
-  <div class="modal-header">
-    <h4 class="modal-title">Login Email & Password</h4>
-    <button type="button" class="close" (click)="activeModal.dismiss('Cross click')">
-      <span>&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <form class="form-inline">
-      <div class="form-group">
-        <!-- TODO -->
-        <label for="userProfileEmail" class="col-3 col-form-label">Email</label>
-        <input type="email" class="form-control" id="userProfileEmail" name="userProfileEmail"
-               #userProfileEmail>
+  <form>
+    <div class="modal-header">
+      <h4 class="modal-title">Login Email & Password</h4>
+      <button type="button" class="close" (click)="activeModal.dismiss('Cross click')">
+        <span>&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div>
+        <div class="form-group">
+          <!-- TODO -->
+          <label for="userProfileEmail" class="col-form-label">Email</label>
+          <input type="email" class="form-control" id="userProfileEmail" name="userProfileEmail"
+                 #userProfileEmail>
+        </div>
+        <div class="form-group">
+          <label for="userProfilePassword">Password</label>
+          <input type="password" class="form-control" id="userProfilePassword" name="userProfileEmail"
+                 #userProfilePassword>
+        </div>
       </div>
-      <div class="form-group">
-        <label for="userProfilePassword">Password</label>
-        <input type="password" class="form-control" id="userProfilePassword" name="userProfileEmail"
-               #userProfilePassword>
-      </div>
-    </form>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="login(userProfileEmail.value, userProfilePassword.value)">Login</button>
-  </div>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-outline-dark"
+              (click)="login(userProfileEmail.value, userProfilePassword.value)">Login
+      </button>
+    </div>
+  </form>
 </div>

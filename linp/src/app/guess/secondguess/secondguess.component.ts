@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {AngularFireDatabase} from 'angularfire2/database';
+import {AngularFirestore} from 'angularfire2/firestore';
 import {Game, GamePlayer, GameStatus, TeamTip} from '../../models/game';
 import {AngularFireAuth} from 'angularfire2/auth/auth';
 import * as firebase from 'firebase/app';
@@ -20,29 +20,28 @@ export class SecondguessComponent implements OnInit, OnDestroy {
   gameName: string;
 
   selectedGamePlayers: GamePlayer[] = [];
-  gamePlayers: { [uid: string]: GamePlayer };
-  gamePlayerKeys: string[];
+  gamePlayers: GamePlayer[];
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              public db: AngularFireDatabase,
+              public db: AngularFirestore,
               public afAuth: AngularFireAuth,
               public guessService: GuessService) {
 
-    afAuth.authState.subscribe(response => {
-      this.authUser = response;
+    afAuth.authState.subscribe(authUser => {
+      this.authUser = authUser;
     });
   }
 
   ngOnInit() {
     this.gameName = this.route.snapshot.paramMap.get('gamename');
-    this.db.object('/games/' + this.gameName)
+    this.db.doc<Game>('/games/' + this.gameName)
+      .valueChanges()
       .takeUntil(this.ngUnsubscribe)
       .subscribe((game: Game) => {
         this.gamePlayers = game.players;
-        this.gamePlayerKeys = Object.keys(this.gamePlayers);
 
         this.observeGamePlayerStatus(game.players, game.host);
       });
@@ -70,14 +69,14 @@ export class SecondguessComponent implements OnInit, OnDestroy {
 // move to model
     const secondTeamTip = createGuessModel(this.selectedGamePlayers);
     const tipDBkey = '/secondTeamTip';
-    this.db.object('games/' + this.gameName + '/players/' + this.authUser.uid + tipDBkey)
+    this.db.doc<TeamTip>('games/' + this.gameName + '/players/' + this.authUser.uid + tipDBkey)
       .set(secondTeamTip)
-      .then(secondTeamTip => {
+      .then(secondTeamTipz => {
         alert('Successful saved choice');
       });
   }
 
-  private observeGamePlayerStatus(gamePlayers: { [uid: string]: GamePlayer }, hostUid: string) {
+  private observeGamePlayerStatus(gamePlayers: GamePlayer[], hostUid: string) {
     const nextPositiveRoute = '/evaluation';
     const statusToCheck: GameStatus = 'SECOND_WORD_GIVEN';
     const observingPlayerStatus = Observable.pairs(gamePlayers)

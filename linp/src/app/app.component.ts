@@ -2,11 +2,10 @@ import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation} from
 import {ActivatedRoute, NavigationEnd, NavigationStart, ParamMap, Router} from '@angular/router';
 import {AngularFireAuth} from 'angularfire2/auth/auth';
 import * as firebase from 'firebase/app';
-import {fadeInAnimation} from "app/widgets/animations";
-import {Subject} from "rxjs/Subject";
-import {AngularFireDatabase} from "angularfire2/database";
-import {Observable} from "rxjs/Observable";
-import {GamePlayer} from "./models/game";
+import {Subject} from 'rxjs/Subject';
+import {AngularFirestore} from 'angularfire2/firestore';
+import {Observable} from 'rxjs/Observable';
+import {GamePlayer} from './models/game';
 
 // http://jasonwatmore.com/post/2017/04/19/angular-2-4-router-animation-tutorial-example
 
@@ -28,10 +27,9 @@ export class AppComponent implements OnInit, OnDestroy {
   private isUserAuthOfflane = false;
 
   constructor(private router: Router,
-              private route: ActivatedRoute,
               private changeDetectorRef: ChangeDetectorRef,
               public afAuth: AngularFireAuth,
-              public db: AngularFireDatabase) {
+              public db: AngularFirestore) {
   }
 
   ngOnInit() {
@@ -41,28 +39,11 @@ export class AppComponent implements OnInit, OnDestroy {
         this.authUser = authUser;
       });
 
-    firebase.database().ref('.info/connected')
-      .on('value', (snap) => {
-        this.isUserAuthOfflane = !!this.authUser && !snap.val();
-      });
-
     this.router.events
       .takeUntil(this.ngUnsubscribe)
       .subscribe(routerInformation => {
         this.updateCurrentGameName(routerInformation);
       });
-
-// host only set game status
-    /*
-        const nextPositiveRoute = '/secondguess';
-        this.db.object('/games/' + this.gameName + '/players')
-          .takeUntil(this.ngUnsubscribe)
-          .subscribe((gamePlayers: { [uid: string]: GamePlayer }) => {
-            this.gamePlayers = gamePlayers;
-            this.gamePlayerKeys = Object.keys(this.gamePlayers);
-            this.observeGamePlayerStatus(gamePlayers, GAME_STATUS, nextPositiveRoute);
-          });
-    */
   }
 
   private updateCurrentGameName(routerInformation) {
@@ -80,13 +61,6 @@ export class AppComponent implements OnInit, OnDestroy {
         console.log('changed game');
         this.ngUnsubscribeNewGameChosen.next();
         this.ngUnsubscribeNewGameChosen.complete();
-        /*
-                this.db.object('/games/' + this.gameName + '/players')
-                  .takeUntil(this.ngUnsubscribeNewGameChosen)
-                  .subscribe(gamePlayers => {
-                    this.observeGamePlayerStatus(gamePlayers);
-                  });
-        */
       }
     }
   }
