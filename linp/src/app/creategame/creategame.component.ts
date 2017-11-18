@@ -47,24 +47,18 @@ export class CreategameComponent implements OnInit, OnDestroy {
     const gameName = this.gameName;
 
     // extract to model
-    const request: Game = {
+    const newGame: Game = {
       name: gameName,
       host: this.authUser.uid,
-      status: 'PREPARE_GAME',
-// create collection
+      status: 'gamelobby',
       players: [],
       round: 0
     };
 
-    // extract to model
-    request.players[this.authUser.uid] = {
-      uid: this.authUser.uid,
-      name: playerName,
-      status: 'GAME_LOBBY'
-    };
-
-    this.db.doc<Game>('games/' + gameName)
-      .set(<Game>request);
+    this.db
+      .collection<Game>('games/')
+      .doc(gameName)
+      .set(<Game>newGame);
 
     this.router.navigate(['/gamelobby', gameName]);
   }

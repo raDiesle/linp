@@ -5,7 +5,6 @@ import {Game} from '../models/game';
 import {PlayerProfile} from '../models/player';
 import {Subject} from 'rxjs/Subject';
 import {LinpCardsModelService} from './linpcardsinit.service';
-import {Word, Words} from 'app/models/words';
 
 const players: { [uid: string]: PlayerProfile } = {
   playerA: {

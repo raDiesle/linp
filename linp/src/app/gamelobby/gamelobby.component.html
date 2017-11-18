@@ -13,13 +13,13 @@
 
         <button (click)="prepareGame()"
                 class="btn btn-block"
-                [ngClass]="gamePlayerKeys.length < 4 ? 'btn-warning' : 'btn-primary'"
-                [disabled]="gamePlayerKeys.length < 4"
+                [ngClass]="gamePlayers.length < 4 ? 'btn-warning' : 'btn-primary'"
+                [disabled]="gamePlayers.length < 4"
         >
-          <span *ngIf="gamePlayerKeys.length < 4">
-            at least {{4 - gamePlayerKeys.length}} players missing
+          <span *ngIf="gamePlayers.length < 4">
+            at least {{4 - gamePlayers.length}} players missing
           </span>
-          <span *ngIf="gamePlayerKeys.length > 3">
+          <span *ngIf="gamePlayers.length > 3">
             Start Game
           </span>
         </button>
@@ -38,9 +38,9 @@
       </div>
 
       <div class="list-group">
-        <div *ngFor="let gamePlayerKey of gamePlayerKeys">
+        <div *ngFor="let gamePlayer of gamePlayers">
           <div class="list-group-item"
-          >{{gamePlayers[gamePlayerKey].name}}
+          >{{gamePlayer.name}}
           </div>
         </div>
 

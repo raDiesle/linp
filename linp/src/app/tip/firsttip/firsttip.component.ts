@@ -7,6 +7,8 @@ import * as firebase from 'firebase/app';
 import {GamePlayer, GameStatus} from '../../models/game';
 import {Subject} from 'rxjs/Subject';
 
+const statusToCheck: GameStatus = 'FIRST_WORD_GIVEN';
+
 
 @Component({
   selector: 'app-firsttip',
@@ -16,7 +18,6 @@ import {Subject} from 'rxjs/Subject';
 export class FirsttipComponent implements OnInit, OnDestroy {
   loggedInGamePlayer: GamePlayer;
 
-  statusToCheck: GameStatus = 'FIRST_WORD_GIVEN';
 
   gamePlayerKeys: string[];
   authUser: firebase.User;
@@ -43,14 +44,12 @@ export class FirsttipComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.gameName = this.route.snapshot.paramMap.get('gamename');
 
-
     Observable.timer(0, 1000).subscribe(number => {
       this.show$ = number % 2 === 0;
     });
 
     // might be done functional, might be separate view with redirect
     // might be async issue, put into callback
-
 
     this.db.collection<GamePlayer>('/games/' + this.gameName + '/players')
       .valueChanges()
@@ -67,7 +66,7 @@ export class FirsttipComponent implements OnInit, OnDestroy {
 
 // guarantee position missing
         this.gamePlayers.forEach(gamePlayer => {
-          const isCurrentPlayerIdentified = gamePlayer.status !== this.statusToCheck;
+          const isCurrentPlayerIdentified = gamePlayer.status !== statusToCheck;
           if (isCurrentPlayerIdentified) {
             this.currentPlayer = gamePlayer;
           }
@@ -90,11 +89,10 @@ export class FirsttipComponent implements OnInit, OnDestroy {
 
   private observeGamePlayerStatus(gamePlayers: GamePlayer[]) {
     const nextPositiveRoute = '/firstguess';
-
     return Observable.pairs(gamePlayers)
       .flatMap(p => Observable.of(p))
       .pluck('status')
-      .every(status => status === this.statusToCheck)
+      .every(status => status === statusToCheck)
       .toPromise()
       .then(allGivenFirstSynonym => {
         if (allGivenFirstSynonym) {

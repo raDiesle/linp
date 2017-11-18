@@ -60,19 +60,6 @@ export class JoinGameComponent implements OnInit, OnDestroy {
         gamesOverTime$.subscribe((res) => this.games.push(res));
       });
 
-    afAuth.authState
-      .takeUntil(this.ngUnsubscribe)
-      .subscribe(authUser => {
-        this.authUser = authUser;
-// https://gist.github.com/JamieMason/303c5fc90b28c28a804e3f7ea9ab01f1
-        const uid = authUser.uid;
-        this.db.doc<PlayerProfile>('/players/' + uid)
-          .valueChanges()
-          .takeUntil(this.ngUnsubscribe)
-          .subscribe(playerProfile => {
-            this.playerName = playerProfile.name;
-          });
-      });
   }
 
   ngOnInit() {
@@ -84,19 +71,6 @@ export class JoinGameComponent implements OnInit, OnDestroy {
 
   onSelectGameToJoin(game: Game): void {
     this.selectedGame = game;
-
-    // TODO extract to model
-    const updatePlayer = {};
-    updatePlayer[this.authUser.uid] = <GamePlayer>{
-      uid: this.authUser.uid,
-      name: this.playerName,
-      status: 'GAME_LOBBY',
-// substract to initial model object
-    };
-
-// What if he joins again? Handle!
-    this.db.collection<{ [uid: string]: GamePlayer }>('games/' + game.name + '/players')
-      .add(updatePlayer);
     this.router.navigate(['/gamelobby', game.name]);
   }
 

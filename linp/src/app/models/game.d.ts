@@ -1,7 +1,7 @@
 export interface Game {
   name: string;
   host: string;
-  status: GameStatus;
+  status: GameStatusRoutes; // TODO routes
   // alternative type possible?
   players?: GamePlayer[];
   round: number;
@@ -15,11 +15,12 @@ export interface PointsScored {
   indirect: number;
 }
 
+
 export interface GamePlayer {
   uid: string;
   name: string;
   questionmarkOrWord?: string;
-  status: string;
+  status: GamePlayerStatus;
   firstSynonym?: string;
   firstTeamTip?: TeamTip;
   secondSynonym?: string;
@@ -27,20 +28,11 @@ export interface GamePlayer {
   pointsScored?: PointsScored;
 }
 
-// CREATE_GAME
-// JOIN_GAME
 
-// GAME_LOBBY
-// PREPARE_GAME
-// FIRST_WORD
-// FIRST_GUESS
-// SECOND_WORD
-// SECOND_GUESS
-// EVALUATE_POINTS
-// PREPARE_GAME
+export type GamePlayerStatus = 'JOINED_GAME' | 'READY_TO_START' | 'FIRST_SYNONYM_GIVEN'
+  | 'FIRST_GUESS_GIVEN' | 'SECOND_SYNONYM_GIVEN' | 'SECOND_GUESS_GIVEN';
 
-export type GameStatus = 'GAME_LOBBY' | 'PREPARE_GAME' | 'ROLE_OR_WORD_GIVEN' | 'FIRST_WORD_GIVEN'
-  | 'FIRST_GUESS_GIVEN' | 'SECOND_WORD_GIVEN' | 'SECOND_GUESS_GIVEN' | 'EVALUATED';
+export type GameStatusRoutes = string;
 
 export interface TeamTip {
   firstPartner: TeamPartner;
