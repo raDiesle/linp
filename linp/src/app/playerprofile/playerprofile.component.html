@@ -35,11 +35,11 @@
           </div>
         </div>
 
-        <button (click)="createAccount()"
+        <button (click)="updateOrCreateAccountAction()"
                 class="btn"
                 id="savePlayerName"
                 [ngClass]="[!successfulSavedPlayername ? 'btn-primary' : 'btn-success']"
-                [disabled]="!playerNameInput.valid"
+                [disabled]="!playerNameInput.valid || successfulSavedPlayername"
         >
           Save
         </button>

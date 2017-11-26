@@ -1,7 +1,7 @@
 export interface Game {
   name: string;
   host: string;
-  status: GameStatusRoutes; // TODO routes
+  status: GameStatus; // TODO routes
   // alternative type possible?
   players?: GamePlayer[];
   round: number;
@@ -32,7 +32,7 @@ export interface GamePlayer {
 export type GamePlayerStatus = 'JOINED_GAME' | 'READY_TO_START' | 'FIRST_SYNONYM_GIVEN'
   | 'FIRST_GUESS_GIVEN' | 'SECOND_SYNONYM_GIVEN' | 'SECOND_GUESS_GIVEN';
 
-export type GameStatusRoutes = string;
+export type GameStatus = string;
 
 export interface TeamTip {
   firstPartner: TeamPartner;

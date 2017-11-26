@@ -1,6 +1,5 @@
 <p>
 
-
   <button class="btn btn-primary"
           (click)="createForEvaluation()">Create for evaluation</button>
 
@@ -20,5 +19,17 @@
           (click)="addInitialWords()">Add initial words
   </button>
 
+  <button class="btn btn-primary"
+          (click)="testQuery()">testQuery
+  </button>
 
+
+  <span *ngIf="queryResults | async; let queryResults; else loading">
+  <ul>
+    <li *ngFor="let item of queryResults">
+      {{ item | json }}
+    </li>
+  </ul>
+  <div *ngIf="queryResults.length === 0">No results, try clearing filters</div>
+</span>
 </p>

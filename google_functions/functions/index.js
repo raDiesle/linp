@@ -2,12 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
-const AddMessage = require("./add-message");
-const UpCaseMessages = require("./upcase-messages");
 const index_1 = require("./evaluate/index");
 const index_2 = require("./word-role-assignment/index");
 admin.initializeApp(functions.config().firebase);
-exports.addMessage = AddMessage.listener;
-exports.makeUpperCase = UpCaseMessages.listener;
 exports.evaluate = new index_1.Evaluate().register();
 exports.wordRoleAssignment = new index_2.WordRoleAssigment().register();

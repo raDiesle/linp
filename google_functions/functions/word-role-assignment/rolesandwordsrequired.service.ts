@@ -11,7 +11,7 @@ export class RolesandwordsrequiredService {
             questionMarksNeeded: 0
         };
 
-        const ruleSet = {
+        const ruleSet: any = {
             4: {
                 wordsNeeded: 4 / 2,
                 questionMarksNeeded: 1

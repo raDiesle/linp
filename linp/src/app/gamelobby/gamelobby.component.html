@@ -11,7 +11,7 @@
         <ngb-alert *ngIf="!staticAlertClosed" (close)="staticAlertClosed = true">Wait for Game master to start game
         </ngb-alert>
 
-        <button (click)="prepareGame()"
+        <button (click)="redirectToNextPage()"
                 class="btn btn-block"
                 [ngClass]="gamePlayers.length < 4 ? 'btn-warning' : 'btn-primary'"
                 [disabled]="gamePlayers.length < 4"

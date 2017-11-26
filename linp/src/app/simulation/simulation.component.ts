@@ -5,6 +5,7 @@ import {Game} from '../models/game';
 import {PlayerProfile} from '../models/player';
 import {Subject} from 'rxjs/Subject';
 import {LinpCardsModelService} from './linpcardsinit.service';
+import {Observable} from 'rxjs/Observable';
 
 const players: { [uid: string]: PlayerProfile } = {
   playerA: {
@@ -43,6 +44,7 @@ const gamename = 'test-evaluation';
 export class SimulationComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
+  private queryResults: Observable<{}[]>;
 
   constructor(public afAuth: AngularFireAuth,
               public db: AngularFirestore,
@@ -63,7 +65,7 @@ export class SimulationComponent implements OnInit, OnDestroy {
     request.players.push({
       uid: players.playerA.uid,
       name: players.playerA.name,
-      status: 'GAME_LOBBY',
+      status: 'SECOND_GUESS_GIVEN',
       questionmarkOrWord: '?',
       firstSynonym: 'FirstSynA',
       // correct
@@ -101,7 +103,7 @@ export class SimulationComponent implements OnInit, OnDestroy {
     request.players.push({
       uid: players.playerB.uid,
       name: players.playerB.name,
-      status: 'PREPARE_GAME',
+      status: 'SECOND_GUESS_GIVEN',
       questionmarkOrWord: 'Wort1',
       firstSynonym: 'FirstSynB',
       firstTeamTip: {
@@ -139,7 +141,7 @@ export class SimulationComponent implements OnInit, OnDestroy {
     request.players.push({
       uid: players.playerC.uid,
       name: players.playerC.name,
-      status: 'PREPARE_GAME',
+      status: 'SECOND_GUESS_GIVEN',
       questionmarkOrWord: 'Wort1',
       firstSynonym: 'FirstSynC',
       firstTeamTip: {
@@ -176,7 +178,7 @@ export class SimulationComponent implements OnInit, OnDestroy {
     request.players.push({
       uid: players.playerD.uid,
       name: players.playerD.name,
-      status: 'PREPARE_GAME',
+      status: 'SECOND_GUESS_GIVEN',
       questionmarkOrWord: 'Wort2',
       firstSynonym: 'FirstSynD',
       firstTeamTip: {
@@ -213,7 +215,7 @@ export class SimulationComponent implements OnInit, OnDestroy {
     request.players.push({
       uid: players.playerE.uid,
       name: players.playerE.name,
-      status: 'PREPARE_GAME',
+      status: 'SECOND_GUESS_GIVEN',
       questionmarkOrWord: 'Wort2',
       firstSynonym: 'FirstSynE',
       firstTeamTip: {
@@ -250,7 +252,7 @@ export class SimulationComponent implements OnInit, OnDestroy {
     request.players.push({
       uid: players.playerF.uid,
       name: players.playerF.name,
-      status: 'PREPARE_GAME',
+      status: 'SECOND_GUESS_GIVEN',
       questionmarkOrWord: '?',
       firstSynonym: 'FirstSynF',
       firstTeamTip: {
@@ -297,7 +299,9 @@ export class SimulationComponent implements OnInit, OnDestroy {
         total: 667
       }
     };
-    this.db.collection<PlayerProfile>('games/' + gamename + '/players/')
+    this.db.collection<PlayerProfile>('games/')
+      .doc(gamename)
+      .collection('/players/')
       .add(request)
       .then(result => console.log('done'));
   }
@@ -305,17 +309,58 @@ export class SimulationComponent implements OnInit, OnDestroy {
   addInitialWords() {
     const cards = [];
     let pos = 0;
+    const batch = this.db.firestore.batch();
     for (const word of this.linpCardsModelService.getCards()) {
-      cards.push({
+
+      const singleCard = {
+        random: this.random53(),
         value: word
-      });
+      };
+
+      cards.push(singleCard);
+
+      this.db.collection('words')
+        .doc('de')
+        .collection('cards')
+        .add(singleCard)
+        .then(result => console.log('done'));
+
+      console.log(singleCard.random);
       pos++;
     }
 
-    this.db.doc('words/de')
-      .update(cards)
-      .then(result => console.log('done'))
+    this.db.collection('words')
+      .doc('de')
+      .set({size: cards.length});
 
+
+    /*
+        this.db
+          .collection('words')
+          .doc('size')
+          .set({'de' : cards.length})
+      */
+  }
+
+  public testQuery() {
+    const random = this.random53();
+    console.log('called ' + random);
+    this.queryResults = this.db
+      .collection('words')
+      .doc('de')
+      .collection('cards', (ref) => {
+        console.log('collection');
+        return ref
+          .where('random', '<', random)
+          .orderBy('random', 'desc')
+          // .startAt(3)
+          .limit(2)
+      }).valueChanges();
+  }
+
+
+  private random53(): number {
+    return Math.floor(Number.MAX_SAFE_INTEGER * (2 * (Math.random() - 0.5)));
   }
 
   ngOnDestroy() {

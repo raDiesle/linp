@@ -34,7 +34,8 @@ export class PlayerprofileComponent implements OnInit {
   ngOnInit() {
   }
 
-  createAccount() {
+  updateOrCreateAccountAction() {
+    this.successfulSavedPlayername = true;
     const playerPath = '/players/' + this.authUser.uid;
     const newPlayerProfile = {
       uid: this.authUser.uid,

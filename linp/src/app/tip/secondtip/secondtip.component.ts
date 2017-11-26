@@ -7,7 +7,7 @@ import * as firebase from 'firebase/app';
 import {GamePlayer, GameStatus} from '../../models/game';
 import {Subject} from 'rxjs/Subject';
 
-const GAME_STATUS: GameStatus = 'SECOND_GUESS_GIVEN';
+const GAME_STATUS: string = 'SECOND_SYNONYM_GIVEN';
 
 @Component({
   selector: 'app-secondtip',

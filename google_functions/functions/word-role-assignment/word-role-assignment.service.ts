@@ -5,10 +5,11 @@ import {RolesandwordsrequiredService} from './rolesandwordsrequired.service';
 export class WordRoleAssignmentService {
 
     private rolesandWordsRequiredService = new RolesandwordsrequiredService();
+
     constructor() {
     }
 
-    assign(gamePlayers: { [uid: string]: GamePlayer }, gameName: string) {
+    assign(gamePlayers: GamePlayer[], gameName: string) {
         const gamePlayerKeys = Object.keys(gamePlayers);
         const gamePlayerSize = gamePlayerKeys.length;
 
@@ -16,19 +17,21 @@ export class WordRoleAssignmentService {
         const numberOfWordsNeeded: number = cardsNeededForGame.wordsNeeded;
         const numberOfQuestionMarks: number = cardsNeededForGame.questionMarksNeeded;
 
-        const QUESTIONMARK_ROLE = {
+        const QUESTIONMARK_ROLE: { value: string } = {
             value: '?'
         };
 
-        let questionmarkOrWordPool: string[] = Array(numberOfQuestionMarks).fill(QUESTIONMARK_ROLE);
+        let questionmarkOrWordPool: { value: string }[] = Array(numberOfQuestionMarks).fill(QUESTIONMARK_ROLE);
 
         const language = 'de';
         const pathOrRef = '/words/size/' + language;
-        admin.database()
-            .ref(pathOrRef)
-            .once('value')
-            .then(totalSizeOfWordsDuplicatedReference => {
-                const totalSizeOfWordCatalogue = totalSizeOfWordsDuplicatedReference.val();
+
+        admin.firestore()
+            .collection('words')
+            .doc(language)
+            .get()
+            .then(sizeObject => {
+                const totalSizeOfWordCatalogue = sizeObject.data()['size'];
 
                 const maxPosForStartPick = totalSizeOfWordCatalogue - numberOfWordsNeeded - 1;
                 const startPickWordsAtPos = Math.floor((Math.random() * maxPosForStartPick) + 1);
@@ -37,30 +40,58 @@ export class WordRoleAssignmentService {
                 const endPickWordsAtPos = startPickWordsAtPos + numberOfWordsNeeded - 1;
 
 // query // might change to object. what if player adds word to database at same time with wrong primary key pos?
-                admin.database()
-                    .ref('/words/' + language)
-                    .once('value')
+                // const randomID = admin.firestore().doc('dummy').id;
+
+                admin.firestore()
+                    .collection('words')
+                    .doc(language)
+                    .collection('cards')
+                    .where('random', '<', this.generateRandomNumber())
+                    .orderBy('random')
+                    .startAt(numberOfWordsNeeded)
+                    .limit(numberOfWordsNeeded)
+                    .get()
                     .then(wordsFullLibrary => {
+                        console.log(wordsFullLibrary.docs);
                         // optimize
-                        const wordsChosenFromLibrary = wordsFullLibrary.val().splice(startPickWordsAtPos, numberOfWordsNeeded);
+                        const wordsChosenFromLibrary = wordsFullLibrary.docs.map(word => {
+                            return {
+                                value: word.data().value
+                            };
+                        });
+                        // const wordsChosenFromLibrary = wordsFullLibrary.docs.splice(startPickWordsAtPos, numberOfWordsNeeded);
+
+                        // duplicateToHaveTeamWords to distribute
                         const wordsDuplicatedForTeams = wordsChosenFromLibrary.concat(wordsChosenFromLibrary);
                         questionmarkOrWordPool = questionmarkOrWordPool.concat(wordsDuplicatedForTeams);
 
                         const shuffledWordPool = this.shuffle(questionmarkOrWordPool);
                         // TODO not nice, because lengths have to exactly match
                         if (gamePlayerKeys.length !== shuffledWordPool.length) {
-                            console.log('Unexpected error. Should match key length: ' + gamePlayerKeys.length + ' with wordPool: ' + shuffledWordPool.length);
+                            const unexpectedPref = 'Unexpected error. Should match key length: ';
+                            console.log(unexpectedPref + gamePlayerKeys.length + ' with wordPool: ' + shuffledWordPool.length);
                         }
-                        for (let pos = 0; pos < gamePlayerKeys.length; pos++) {
-                            gamePlayers[gamePlayerKeys[pos]].questionmarkOrWord = shuffledWordPool[pos]['value']; // fix value accessor
-                        }
-                        this.assignWordOrRoleToUserDB(gamePlayers, gameName);
+
+                        let pos = 0;
+                        gamePlayers.forEach(gamePlayer => {
+                            gamePlayer.questionmarkOrWord = shuffledWordPool[pos]['value']; // fix value accessor
+                            pos++;
+                        });
+
+                        console.log(shuffledWordPool);
+                        console.log(gamePlayers);
+                        console.log(gameName);
+                        return this.assignWordOrRoleToUserDB(gamePlayers, gameName);
                         // TODO animation
 
                         // was pos of navigate page before
-                        return null;
+                        // return null;
                     });
             });
+    }
+
+    private generateRandomNumber(): number {
+        return Math.floor(Number.MAX_SAFE_INTEGER * (2 * (Math.random() - 0.5)));
     }
 
     private shuffle(arrayToSort: any[]): any[] {
@@ -69,9 +100,17 @@ export class WordRoleAssignmentService {
         });
     };
 
-    private assignWordOrRoleToUserDB(gamePlayers: { [uid: string]: GamePlayer }, gameName: string): void {
-        admin.database()
-            .ref('games/' + gameName + '/players')
-            .set(gamePlayers);
+    private assignWordOrRoleToUserDB(gamePlayers: GamePlayer[], gameName: string): Promise<any> {
+
+        const batch = admin.firestore().batch();
+        const playersRef = admin.firestore()
+            .collection('games/')
+            .doc(gameName)
+            .collection('/players');
+
+        gamePlayers.forEach(gamePlayer => {
+            batch.set(playersRef.doc(gamePlayer.uid), gamePlayer);
+        });
+        return batch.commit();
     }
 }
