@@ -349,11 +349,9 @@ export class SimulationComponent implements OnInit, OnDestroy {
       .collection('words')
       .doc('de')
       .collection('cards', (ref) => {
-        console.log('collection');
         return ref
           .where('random', '<', random)
           .orderBy('random', 'desc')
-          // .startAt(3)
           .limit(2)
       }).valueChanges();
   }

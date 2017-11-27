@@ -31,6 +31,8 @@ export class WordRoleAssignmentService {
             .doc(language)
             .get()
             .then(sizeObject => {
+                console.log('size');
+                console.log(new Date());
                 const totalSizeOfWordCatalogue = sizeObject.data()['size'];
 
                 const maxPosForStartPick = totalSizeOfWordCatalogue - numberOfWordsNeeded - 1;
@@ -47,12 +49,12 @@ export class WordRoleAssignmentService {
                     .doc(language)
                     .collection('cards')
                     .where('random', '<', this.generateRandomNumber())
-                    .orderBy('random')
-                    .startAt(numberOfWordsNeeded)
+                    .orderBy('random', 'desc')
                     .limit(numberOfWordsNeeded)
                     .get()
                     .then(wordsFullLibrary => {
-                        console.log(wordsFullLibrary.docs);
+                        console.log('wordsQuery');
+                        console.log(new Date());
                         // optimize
                         const wordsChosenFromLibrary = wordsFullLibrary.docs.map(word => {
                             return {
@@ -78,9 +80,6 @@ export class WordRoleAssignmentService {
                             pos++;
                         });
 
-                        console.log(shuffledWordPool);
-                        console.log(gamePlayers);
-                        console.log(gameName);
                         return this.assignWordOrRoleToUserDB(gamePlayers, gameName);
                         // TODO animation
 

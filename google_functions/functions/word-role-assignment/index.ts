@@ -15,24 +15,22 @@ export class WordRoleAssigment {
     register() {
         return functions.https.onRequest((request, response) => {
             cors(request, response, () => {
-
-
+                console.log(new Date());
                 const gameRef = admin.firestore()
                     .collection('/games/')
                     .doc(request.query.gameName);
-
-                const gamePromise = gameRef.get();
-
-
+                // const gamePromise = gameRef.get();
                 const gamePlayersPromise = gameRef
                     .collection('/players')
-                    .get();
+                    .get()
+                    .then((results) => {
+                        console.log(new Date());
 
-                Promise.all([gamePromise, gamePlayersPromise])
-                    .then((results: any) => {
-                        const gameName = results[0].name;
-                        const gamePlayers: GamePlayer[] = results[1];
-                        this.wordRoleAssignmentService.assign(gamePlayers, gameName);
+                        // const gameName = results[0].name;
+                        const gamePlayers: GamePlayer[] = results.docs.map(player => {
+                            return player.data();
+                        });
+                        this.wordRoleAssignmentService.assign(gamePlayers, request.query.gameName);
                         return response.status(200)
                             .send({'status': 'SUCCESS'});
                     });
