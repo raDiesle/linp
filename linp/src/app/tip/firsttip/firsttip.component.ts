@@ -4,11 +4,11 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {AngularFirestore} from 'angularfire2/firestore';
 import {AngularFireAuth} from 'angularfire2/auth/auth';
 import * as firebase from 'firebase/app';
-import {GamePlayer, GameStatus} from '../../models/game';
+import {Game, GamePlayer, GamePlayerStatus, GameStatus} from '../../models/game';
 import {Subject} from 'rxjs/Subject';
+import {FirsttipService} from './firsttip.service';
 
-const statusToCheck: GameStatus = 'FIRST_WORD_GIVEN';
-
+const NEXT_POSITIVE_ROUTE = '/firstguess';
 
 @Component({
   selector: 'app-firsttip',
@@ -18,6 +18,7 @@ const statusToCheck: GameStatus = 'FIRST_WORD_GIVEN';
 export class FirsttipComponent implements OnInit, OnDestroy {
   loggedInGamePlayer: GamePlayer;
 
+  FIRST_SYNONYM_GIVEN_PLAYER_STATUS: GamePlayerStatus = 'FIRST_SYNONYM_GIVEN';
 
   gamePlayerKeys: string[];
   authUser: firebase.User;
@@ -33,12 +34,8 @@ export class FirsttipComponent implements OnInit, OnDestroy {
   constructor(private route: ActivatedRoute,
               private router: Router,
               public db: AngularFirestore,
-              public afAuth: AngularFireAuth) {
-    afAuth.authState
-      .takeUntil(this.ngUnsubscribe)
-      .subscribe(authUser => {
-        this.authUser = authUser;
-      });
+              public afAuth: AngularFireAuth,
+              private firsttipService: FirsttipService) {
   }
 
   ngOnInit() {
@@ -48,56 +45,49 @@ export class FirsttipComponent implements OnInit, OnDestroy {
       this.show$ = number % 2 === 0;
     });
 
-    // might be done functional, might be separate view with redirect
-    // might be async issue, put into callback
+    // asyn issue later
+    const authPromise = this.afAuth.authState
+      .first()
+      .toPromise()
+      .then(authUser => {
+        this.authUser = authUser
+      });
 
-    this.db.collection<GamePlayer>('/games/' + this.gameName + '/players')
+    this.db
+      .collection('games')
+      .doc(this.gameName)
+      .collection<GamePlayer>('players')
       .valueChanges()
       .takeUntil(this.ngUnsubscribe)
       .subscribe(gamePlayers => {
         this.gamePlayers = gamePlayers;
-
-        // rewrite
-        this.gamePlayers.forEach(gamePlayer => {
-          if (gamePlayer.uid === this.authUser.uid) {
-            this.loggedInGamePlayer = gamePlayer;
-          }
+        this.loggedInGamePlayer = this.gamePlayers.find(gamePlayer => {
+          return gamePlayer.uid === this.authUser.uid;
         });
-
 // guarantee position missing
-        this.gamePlayers.forEach(gamePlayer => {
-          const isCurrentPlayerIdentified = gamePlayer.status !== statusToCheck;
-          if (isCurrentPlayerIdentified) {
-            this.currentPlayer = gamePlayer;
-          }
-          return isCurrentPlayerIdentified;
+        this.currentPlayer = this.gamePlayers.find(gamePlayer => {
+          return gamePlayer.status !== this.FIRST_SYNONYM_GIVEN_PLAYER_STATUS;
         });
-        // just make foreach
-        this.observeGamePlayerStatus(gamePlayers);
+
+        const isAllGivenFirstSynonym = gamePlayers.every(gamePlayer => {
+          return gamePlayer.status === this.FIRST_SYNONYM_GIVEN_PLAYER_STATUS;
+        });
+        if (isAllGivenFirstSynonym) {
+          this.allGivenFirstSynonymAction();
+        }
       });
   }
 
   sendSynonym() {
-    const gamePlayerUpdate = {
-      status: 'FIRST_WORD_GIVEN',
-      firstSynonym: this.synonym
-    };
-    this.db.doc('games/' + this.gameName + '/players/' + this.authUser.uid)
-      .update(gamePlayerUpdate)
+    this.firsttipService.sendSynonym(this.FIRST_SYNONYM_GIVEN_PLAYER_STATUS, this.synonym, this.gameName, this.authUser)
       .then(gamePlayerModel => console.log('Successful saved'));
   }
 
-  private observeGamePlayerStatus(gamePlayers: GamePlayer[]) {
-    const nextPositiveRoute = '/firstguess';
-    return Observable.pairs(gamePlayers)
-      .flatMap(p => Observable.of(p))
-      .pluck('status')
-      .every(status => status === statusToCheck)
-      .toPromise()
-      .then(allGivenFirstSynonym => {
-        if (allGivenFirstSynonym) {
-          this.router.navigate([nextPositiveRoute, this.gameName]);
-        }
+  private allGivenFirstSynonymAction() {
+    const waitPromise = this.loggedInGamePlayer.isHost ? this.firsttipService.updateGameStatusToNextPage(this.gameName, NEXT_POSITIVE_ROUTE) : Promise.resolve();
+    waitPromise
+      .then(done => {
+        this.router.navigate([NEXT_POSITIVE_ROUTE, this.gameName]);
       });
   }
 

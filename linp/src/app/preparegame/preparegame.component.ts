@@ -1,13 +1,12 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {RolesandwordsrequiredService} from '../gamelobby/rolesandwordsrequired.service';
 import {Subject} from 'rxjs/Subject';
 import {AngularFirestore} from 'angularfire2/firestore';
-import {Game, GamePlayer} from '../models/game';
+import {Game, GamePlayer, GameStatus} from '../models/game';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AngularFireAuth} from 'angularfire2/auth';
-import {HttpClient, HttpParams} from '@angular/common/http';
+
 import * as firebase from 'firebase/app';
-import {Observable} from 'rxjs/Observable';
+import {PreparegameService} from './preparegame.service';
 
 @Component({
   selector: 'app-preparegame',
@@ -17,87 +16,107 @@ import {Observable} from 'rxjs/Observable';
 export class PreparegameComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
-  private rolesDistribution: { wordsNeeded: number; questionMarksNeeded: number };
-  private gamePlayerSize: number;
+  private rolesDistributionInformation: { wordsNeeded: number; questionMarksNeeded: number };
   private hostUid: string;
   private gamePlayers: GamePlayer[];
   private authUser: firebase.User;
   public isRoleAssigned = false;
   private isQuestionmark = false;
   private currentGamePlayer: GamePlayer;
+  private gameName: string;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
               public db: AngularFirestore,
               public afAuth: AngularFireAuth,
-              private httpClient: HttpClient,
-              private rolesandwordsrequiredService: RolesandwordsrequiredService) {
+              private preparegameService: PreparegameService) {
   }
 
   ngOnInit() {
-    const gameName = this.route.snapshot.paramMap.get('gamename');
+    this.gameName = this.route.snapshot.paramMap.get('gamename');
 
-    this.db.doc('/games/' + gameName)
+    const authPromise = this.afAuth.authState
+      .takeUntil(this.ngUnsubscribe)
+      .first()
+      .toPromise();
+
+    const gamePromise = this.db.collection('games')
+      .doc(this.gameName)
+      .valueChanges()
+      .first()
+      .toPromise();
+
+    Promise.all([authPromise, gamePromise])
+      .then(results => {
+        this.authUser = <firebase.User>results[0];
+        // pass to next promise instead . ts bug with type
+        const game = <any>results[1];
+        this.hostUid = game.host;
+        this.registerGamePlayerChangeActions(this.gameName);
+      });
+  }
+
+  startGameAction(): void {
+    // TODO solve host starts game navigation for all
+    const isOnlyExecutedOnHostBrowser = this.authUser.uid === this.hostUid;
+
+    const updateGamePlayerStatusPromise = this.preparegameService.updateGamePlayerStatusReady(this.authUser.uid, this.gameName);
+
+    if (!isOnlyExecutedOnHostBrowser) {
+      updateGamePlayerStatusPromise
+        .then(done => {
+          this.navigateNextPage();
+        });
+    } else {
+      // correct would be to update gamestatus when all gameplayerstatus changed
+      const updateGameStatusPromise = this.preparegameService.updateGameStatusToNextPage(this.gameName);
+      Promise.all([updateGamePlayerStatusPromise, updateGameStatusPromise])
+        .then(done => {
+          this.navigateNextPage();
+        });
+    }
+  }
+
+  private registerGamePlayerChangeActions(gameName: string) {
+    this.db
+      .collection('games')
+      .doc(gameName)
+      .collection('players')
       .valueChanges()
       .takeUntil(this.ngUnsubscribe)
       // .toPromise()
-      .subscribe((game: Game) => {
-        this.gamePlayers = game.players;
+      .subscribe((gamePlayers: GamePlayer[]) => {
+        this.gamePlayers = gamePlayers;
         // trigger once
+        // if should be deprecated because auth promise dependance added
         if (this.authUser) {
-          this.currentGamePlayer = this.gamePlayers[this.authUser.uid];
-          this.isRoleAssigned = !!this.currentGamePlayer.questionmarkOrWord;
-          this.isQuestionmark = this.currentGamePlayer.questionmarkOrWord === '?';
+          this.setAssignedWordOrRoleInformation();
           return;
         }
+        this.rolesDistributionInformation = this.preparegameService.getRolesNeeded(gamePlayers.length);
 
-        // pass to next promise instead
-        this.hostUid = game.host;
-        this.gamePlayerSize = Object.keys(game.players).length;
-        this.rolesDistribution = this.rolesandwordsrequiredService.getRolesNeeded(this.gamePlayerSize);
-        this.performHostOnlyServerTrigger(gameName);
-      });
-  }
-
-  private performHostOnlyServerTrigger(gameName: string) {
-// TODO combine promises
-    this.afAuth.authState
-      .takeUntil(this.ngUnsubscribe)
-      .subscribe((authUser: firebase.User) => {
-        this.authUser = authUser;
-        // hostUid not null
         // hack to not have cheap non serverside trigger
         const isOnlyExecutedOnHostBrowser = this.authUser.uid === this.hostUid;
         if (isOnlyExecutedOnHostBrowser) {
-          this.assignWordOnServerside(gameName);
+          this.preparegameService.assignWordOnServerside(gameName)
+            .subscribe(response => {
+              console.log('words assign on serversidedone');
+            });
         }
       });
   }
 
-  private assignWordOnServerside(gameName: string) {
-    const statusToCheck = 'STARTED';
-    const cloudFunctionsDomain = 'https://us-central1-linp-c679b.cloudfunctions.net';
-    const cloudFunction = '/wordRoleAssignment';
-    const url = cloudFunctionsDomain + cloudFunction;
-    this.httpClient
-      .get(url,
-        {
-          // headers: headers,
-          params: new HttpParams()
-            .set('status', statusToCheck)
-            .set('gameName', gameName)
-        })
-      .subscribe(response => {
-        console.log('words assign on serversidedone');
-      });
+  private setAssignedWordOrRoleInformation() {
+    this.currentGamePlayer = this.gamePlayers.find(gamePlayer => {
+      return gamePlayer.uid === this.authUser.uid;
+    });
+    this.isRoleAssigned = !!this.currentGamePlayer.questionmarkOrWord;
+    this.isQuestionmark = this.currentGamePlayer.questionmarkOrWord === '?';
   }
 
-  startGame(): void {
-    // TODO solve host starts game navigation for all
-    const gameName = this.route.snapshot.paramMap.get('gamename');
-    this.router.navigate(['/firsttip', gameName]);
+  private navigateNextPage() {
+    this.router.navigate(['/firsttip', this.gameName]);
   }
-
 
   ngOnDestroy() {
     this.ngUnsubscribe.next();

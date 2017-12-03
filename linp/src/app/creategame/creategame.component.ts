@@ -28,12 +28,14 @@ export class CreategameComponent implements OnInit, OnDestroy {
         this.authUser = authUser;
 
         const uid = authUser.uid;
-        this.db.doc<GamePlayer>('/players/' + uid)
+        this.db
+          .collection('players')
+          .doc(uid)
           .valueChanges()
           .takeUntil(this.ngUnsubscribe)
           .subscribe(playerProfile => {
-            this.gameName = playerProfile.name;
-            this.playerName = playerProfile.name;
+            this.gameName = (<GamePlayer>playerProfile).name;
+            this.playerName = (<GamePlayer>playerProfile).name;
           });
       });
   }
@@ -56,7 +58,7 @@ export class CreategameComponent implements OnInit, OnDestroy {
     };
 
     this.db
-      .collection<Game>('games/')
+      .collection<Game>('games')
       .doc(gameName)
       .set(<Game>newGame);
 

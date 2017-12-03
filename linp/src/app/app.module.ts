@@ -34,7 +34,6 @@ import {HttpClientModule} from '@angular/common/http';
 import { PlayerprofileComponent } from './playerprofile/playerprofile.component';
 import { CreategameComponent } from './creategame/creategame.component';
 import { GamerulesComponent } from './gamerules/gamerules.component';
-import {RolesandwordsrequiredService} from './gamelobby/rolesandwordsrequired.service';
 import {ShareButtonsModule} from 'ngx-sharebuttons';
 import {HttpModule} from '@angular/http';
 import { PreparegameComponent } from './preparegame/preparegame.component';
@@ -42,6 +41,9 @@ import { BlinkComponent } from './widgets/blink/blink.component';
 import {CreatewordComponent} from './createword/createword.component';
 import {LinpCardsModelService} from './simulation/linpcardsinit.service';
 import {CreateAccountComponent} from './create-account/create-account.component';
+import {GamelobbyService} from './gamelobby/gamelobby-service';
+import {PreparegameService} from './preparegame/preparegame.service';
+import {FirsttipService} from "./tip/firsttip/firsttip.service";
 
 @NgModule({
   declarations: [
@@ -151,7 +153,7 @@ import {CreateAccountComponent} from './create-account/create-account.component'
     AngularFirestoreModule,
     AngularFireAuthModule
   ],
-  providers: [GuessService, UserprofileService, RolesandwordsrequiredService, LinpCardsModelService],
+  providers: [GuessService, UserprofileService, GamelobbyComponent, GamelobbyService, PreparegameComponent, PreparegameService, FirsttipService, LinpCardsModelService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

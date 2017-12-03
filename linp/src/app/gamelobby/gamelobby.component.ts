@@ -4,6 +4,7 @@ import {AngularFirestore} from 'angularfire2/firestore';
 import {AngularFireAuth} from 'angularfire2/auth/auth';
 import {Game, GamePlayer, GameStatus} from '../models/game';
 import {Subject} from 'rxjs/Subject';
+import {GamelobbyService} from './gamelobby-service';
 
 @Component({
   selector: 'app-gamelobby',
@@ -25,15 +26,12 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
   constructor(private router: Router,
               private route: ActivatedRoute,
               public db: AngularFirestore,
-              public afAuth: AngularFireAuth) {
+              public afAuth: AngularFireAuth,
+              private gamelobbyService: GamelobbyService) {
   }
 
   ngOnInit(): void {
     this.gameName = this.route.snapshot.paramMap.get('gamename');
-
-
-    // this.router.navigate(['/preparegame', this.gameName]);
-
 
     const gamePlayersPromise = this.observeJoinedGamePlayers();
     const authPromise = this.afAuth.authState
@@ -46,25 +44,28 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
 
     Promise.all([gamePlayersPromise, authPromise])
       .then(promiseResults => {
+
         const gamePlayers = promiseResults[0];
         const isAlreadyJoined = gamePlayers.find(gamePlayr => {
           return gamePlayr.uid === this.authUserUid;
-        });
-        if (isAlreadyJoined !== undefined) {
-          //   this.redirectToCurrentGameStatusUrl();
-        } else {
-          this.registerPlayerToGame()
-            .then(() => {
-              console.log('registered to game');
+        }) !== undefined;
+        if (isAlreadyJoined) {
+          const gameChangePromise = this.promiseGameChanges();
+          gameChangePromise
+            .then(game => {
+              this.hostUid = game.host;
+              this.router.navigate(['/' + game.status, this.gameName]);
+            });
+
+          const fetchPlayerProfile = this.gamelobbyService.fetchPlayerProfileName(this.authUserUid)
+          Promise.all([gameChangePromise, fetchPlayerProfile])
+            .then(responses => {
+              const game = responses[0] as Game;
+              const isHost = this.authUserUid === game.host;
+              const playerName = <string>responses[1];
+              return this.addPlayerToGame(this.authUserUid, playerName, isHost);
             });
         }
-      });
-
-    // async issue
-    this.observeGameChanges()
-      .subscribe((game: Game) => {
-        this.hostUid = game.host;
-        this.redirectToCurrentGameStatusUrl(game.status);
       });
   }
 
@@ -79,13 +80,6 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
     }
   }
 
-  private registerPlayerToGame(): Promise<void> {
-    console.log('called');
-    return this.fetchPlayerProfileName(this.authUserUid)
-      .then(playerName => {
-        return this.addPlayerToGame(this.authUserUid, playerName);
-      });
-  }
 
   private observeJoinedGamePlayers(): Promise<GamePlayer[]> {
     const observable = this.db
@@ -101,57 +95,43 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
     return <any>observable.first().toPromise();
   }
 
-  private addPlayerToGame(uid: string, playerName: string): Promise<void> {
+  public ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
+
+  private addPlayerToGame(uid: string, playerName: string, isHost: boolean): Promise<void> {
     // TODO extract to model
     const updatePlayer: GamePlayer = {
       uid: uid,
       name: playerName,
+      isHost: isHost,
       status: 'JOINED_GAME',
 // substract to initial model object
     };
 
 // What if he joins again? Handle!
     return this.db
-      .collection<GamePlayer>('games/')
+      .collection<GamePlayer>('games')
       .doc(this.gameName)
-      .collection('/players')
+      .collection('players')
       .doc(uid)
       .set(updatePlayer);
   }
 
-  private fetchPlayerProfileName(uid: string): Promise<string> {
-    return this.db.collection('/players/')
-      .doc(uid)
-      .valueChanges()
-      .first()
-      .toPromise()
-      .then(playerProfile => {
-          return (<GamePlayer>playerProfile).name;
-        }
-      );
-  }
-
-  private redirectToCurrentGameStatusUrl(status) {
-    this.router.navigate(['/' + status, this.gameName]);
-  }
-
-  ngOnDestroy() {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
-  }
-
-  private observeGameChanges() {
-    const observable = this.db
-      .collection<Game>('games')
+  private promiseGameChanges(): Promise<Game> {
+    const promise = this.db
+      .collection('games')
       .doc(this.gameName)
       .valueChanges()
-      .takeUntil(this.ngUnsubscribe);
-    return observable;
+      .first()
+      .toPromise() as Promise<Game>;
+    return promise;
   }
 
   private updateGameStatusToNextPage() {
     return this.db
-      .collection<Game>('games/')
+      .collection<Game>('games')
       .doc(this.gameName)
       .update(<{ [status: string]: GameStatus }> {status: 'preparegame'});
   }

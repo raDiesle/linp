@@ -5,12 +5,18 @@
     <div class="card">
       <div class="card-body">
         <h4 class="card-title">
-          Your word is: {{gamePlayers && authUser && loggedInGamePlayer.questionmarkOrWord}}
+          It's your turn!
         </h4>
         <form novalidate #giveSynonymForm="ngForm">
-          <div class="form-group"
-          >
-            <label for="synonym">Give your first synonym</label>
+          <div class="form-group">
+            <label for="synonym">
+              <ng-container *ngIf="loggedInGamePlayer?.questionmarkOrWord === '?'">
+                Try to give a word, where people think you are partner of another one.
+              </ng-container>
+              <ng-container *ngIf="loggedInGamePlayer?.questionmarkOrWord !== '?'">
+                Give first synonym for: {{loggedInGamePlayer?.questionmarkOrWord}}
+              </ng-container>
+            </label>
             <div>
               <input type="text"
                      class="form-control"
@@ -43,19 +49,18 @@
     <div class="card">
       <div class="card-body">
         <h4 class="card-title">
-          Status of players
           <app-waitingdots></app-waitingdots>
         </h4>
+        <span>PlayerName</span> | <span>First Synonym</span>
         <ul class="list-group">
           <li class="list-group-item list"
               [ngClass]="{
               'list-group-item-action active' : gamePlayer === currentPlayer && show$,
-              'list-group-item-secondary' : gamePlayer.status === statusToCheck
+              'list-group-item-secondary' : gamePlayer.status === FIRST_SYNONYM_GIVEN_PLAYER_STATUS
               }"
               *ngFor="let gamePlayer of gamePlayers"
-          >{{$index}} {{gamePlayer.name}} - {{gamePlayer.status}}
-
-            {{gamePlayer === currentPlayer}}
+          >
+            {{gamePlayer.name}} | {{gamePlayer.firstSynonym}}
           </li>
         </ul>
       </div>

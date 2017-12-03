@@ -65,6 +65,7 @@ export class SimulationComponent implements OnInit, OnDestroy {
     request.players.push({
       uid: players.playerA.uid,
       name: players.playerA.name,
+      isHost: true,
       status: 'SECOND_GUESS_GIVEN',
       questionmarkOrWord: '?',
       firstSynonym: 'FirstSynA',
@@ -103,6 +104,7 @@ export class SimulationComponent implements OnInit, OnDestroy {
     request.players.push({
       uid: players.playerB.uid,
       name: players.playerB.name,
+      isHost: false,
       status: 'SECOND_GUESS_GIVEN',
       questionmarkOrWord: 'Wort1',
       firstSynonym: 'FirstSynB',
@@ -141,6 +143,7 @@ export class SimulationComponent implements OnInit, OnDestroy {
     request.players.push({
       uid: players.playerC.uid,
       name: players.playerC.name,
+      isHost: false,
       status: 'SECOND_GUESS_GIVEN',
       questionmarkOrWord: 'Wort1',
       firstSynonym: 'FirstSynC',
@@ -178,6 +181,7 @@ export class SimulationComponent implements OnInit, OnDestroy {
     request.players.push({
       uid: players.playerD.uid,
       name: players.playerD.name,
+      isHost: false,
       status: 'SECOND_GUESS_GIVEN',
       questionmarkOrWord: 'Wort2',
       firstSynonym: 'FirstSynD',
@@ -215,6 +219,7 @@ export class SimulationComponent implements OnInit, OnDestroy {
     request.players.push({
       uid: players.playerE.uid,
       name: players.playerE.name,
+      isHost: false,
       status: 'SECOND_GUESS_GIVEN',
       questionmarkOrWord: 'Wort2',
       firstSynonym: 'FirstSynE',
@@ -252,6 +257,7 @@ export class SimulationComponent implements OnInit, OnDestroy {
     request.players.push({
       uid: players.playerF.uid,
       name: players.playerF.name,
+      isHost: false,
       status: 'SECOND_GUESS_GIVEN',
       questionmarkOrWord: '?',
       firstSynonym: 'FirstSynF',

@@ -17,10 +17,11 @@ export interface PointsScored {
 
 
 export interface GamePlayer {
-  uid: string;
-  name: string;
+  uid?: string;
+  name?: string;
+  isHost?: boolean;
   questionmarkOrWord?: string;
-  status: GamePlayerStatus;
+  status?: GamePlayerStatus;
   firstSynonym?: string;
   firstTeamTip?: TeamTip;
   secondSynonym?: string;

@@ -7,7 +7,7 @@ import * as firebase from 'firebase/app';
 import {GamePlayer, GameStatus} from '../../models/game';
 import {Subject} from 'rxjs/Subject';
 
-const GAME_STATUS: string = 'SECOND_SYNONYM_GIVEN';
+const GAME_STATUS = 'SECOND_SYNONYM_GIVEN';
 
 @Component({
   selector: 'app-secondtip',
@@ -40,7 +40,10 @@ export class SecondtipComponent implements OnInit, OnDestroy {
     this.gameName = this.route.snapshot.paramMap.get('gamename');
 
     const nextPositiveRoute = '/secondguess';
-    this.db.collection<GamePlayer>('/games/' + this.gameName + '/players')
+    this.db
+      .collection('games')
+      .doc(this.gameName)
+      .collection<GamePlayer>('players')
       .valueChanges()
       .takeUntil(this.ngUnsubscribe)
       .subscribe(gamePlayers => {
@@ -60,9 +63,15 @@ export class SecondtipComponent implements OnInit, OnDestroy {
       status: GAME_STATUS,
       secondSynonym: this.synonym
     };
-    this.db.doc<GamePlayer>('games/' + this.gameName + '/players/' + this.authUser.uid)
+    this.db.collection('games')
+      .doc(this.gameName)
+      .collection('players')
+      .doc(this.authUser.uid)
       .update(requestGamePlayerModel)
-      .then(gamePlayerModel => alert('Successful saved'));
+      .then(gamePlayerModel => {
+          alert('Successful saved');
+        }
+      );
   }
 
   private observeGamePlayerStatus(gamePlayers: GamePlayer[], statusToCheck: string, nextPositiveRoute: string) {

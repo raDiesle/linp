@@ -62,3 +62,6 @@ https://nodejs.org/en/
 }
 }
 }
+
+Remember
+* https://github.com/DevExpress/testcafe/issues/912

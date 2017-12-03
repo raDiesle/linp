@@ -1,9 +1,11 @@
 import {Injectable} from '@angular/core';
+import {GamePlayer, GamePlayerStatus, TeamTip} from '../models/game';
+import {AngularFirestore} from 'angularfire2/firestore';
 
 @Injectable()
 export class GuessService {
 
-  constructor() {
+  constructor(public db: AngularFirestore) {
   }
 
   // simplify
@@ -13,7 +15,7 @@ export class GuessService {
     if (isPlayerSelectedNew) {
       const wasMaxPlayersForTeamSelectedAlready = selectedPlayers.length >= 2;
       if (wasMaxPlayersForTeamSelectedAlready) {
-        return;
+        return selectedPlayers;
       }
       selectedPlayers.push(clickedGamePlayer);
     } else {
@@ -22,6 +24,35 @@ export class GuessService {
 
     return selectedPlayers;
 
+  }
+
+  public saveTeamTip(gameName: string, selectedGamePlayers: GamePlayer[], authUserUID: string, tipDBkey: string, gamePlayerStatus: GamePlayerStatus) {
+    // move to model
+    const requestModel = this.createGuessModel(selectedGamePlayers, tipDBkey);
+    requestModel.status = gamePlayerStatus;
+    return this.db.collection('games')
+      .doc(gameName)
+      .collection<GamePlayer>('players')
+      .doc(authUserUID)
+      .update(
+        requestModel
+      )
+  }
+
+  private createGuessModel(selectedGamePlayers, tipDBkey): GamePlayer {
+    const firstTeamTip: TeamTip = {
+      firstPartner: {
+        uid: selectedGamePlayers[0].uid,
+        name: selectedGamePlayers[0].name
+      },
+      secondPartner: {
+        uid: selectedGamePlayers[1].uid,
+        name: selectedGamePlayers[0]
+      }
+    };
+    const request = {};
+    request[tipDBkey] = firstTeamTip;
+    return request;
   }
 
 }
