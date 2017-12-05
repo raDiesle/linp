@@ -5,8 +5,8 @@ import * as firebase from 'firebase/app';
 import {AngularFirestore} from 'angularfire2/firestore';
 import {Game, GamePlayer, GameStatus, PointsScored, TeamTip} from '../models/game';
 import {Observable} from 'rxjs/Observable';
-import {first} from "rxjs/operator/first";
-import {HttpClient, HttpParams} from "@angular/common/http";
+import {first} from 'rxjs/operator/first';
+import {HttpClient, HttpParams} from '@angular/common/http';
 
 
 @Component({

@@ -45,7 +45,6 @@ export class CreategameComponent implements OnInit, OnDestroy {
 
   // To be extracted to service
   createGameAction(): void {
-    const playerName = this.playerName;
     const gameName = this.gameName;
 
     // extract to model
@@ -54,7 +53,8 @@ export class CreategameComponent implements OnInit, OnDestroy {
       host: this.authUser.uid,
       status: 'gamelobby',
       players: [],
-      round: 0
+      round: 0,
+      createdAt: Date.now()
     };
 
     this.db

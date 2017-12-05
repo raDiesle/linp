@@ -1,19 +1,22 @@
 <div class="row">
-  <div class="col-sm-6">
+  <div class="col-md-6" *ngIf="isloggedInPlayerGivenSynonym === false">
     <div class="card">
       <div class="card-body">
-        <h4 class="card-title">
+        <div class="card-title">
           <span>Who?</span>
-          <span>_yourRoleWordAnimation_{{gamePlayers && gamePlayers[authUser.uid].questionmarkOrWord}}</span>
-        </h4>
+        </div>
         <h6 class="card-subtitle mb-2 text-muted">Guess who is in a team</h6>
         <div class="list-group">
-          <button *ngFor="let key of gamePlayerKeys"
-                  (click)="onTeamPlayerGuessSelected(gamePlayers[key])"
+          <button class="list-group-item list-group-item-secondary list-group-item-action">
+            Name | <strong>1. Synonym</strong> | <strong>2. Synonym</strong>
+          </button>
+          <button *ngFor="let gamePlayer of gamePlayers"
+                  (click)="onTeamPlayerGuessSelected(gamePlayer)"
                   class="list-group-item list-group-item-action"
-                  [ngClass]="{'active' : selectedGamePlayers.indexOf(gamePlayers[key]) !== -1}"
+                  [ngClass]="{'active' : selectedGamePlayers.indexOf(gamePlayer) !== -1}"
           >
-            {{gamePlayers[key].name}} - {{gamePlayers[key].firstSynonym}} - {{gamePlayers[key].secondSynonym}}
+            {{gamePlayer.name}} | <strong>{{gamePlayer.firstSynonym}}</strong> |
+            <strong>{{gamePlayer.secondSynonym}}</strong>
           </button>
         </div>
 
@@ -26,9 +29,9 @@
         <div class="card-text" *ngIf="selectedGamePlayers.length === 2">
           Are you sure these players belong to each other?
         </div>
-        <button class="card-link btn"
+        <button class="card-link btn btn-block btn-success"
                 [disabled]="selectedGamePlayers.length < 2"
-                (click)="savesecondTeamTip()"
+                (click)="saveTeamTip()"
         >
           Send
         </button>
@@ -36,24 +39,32 @@
     </div>
   </div>
 
-  <div class="col-sm-6">
+  <div
+    [ngClass]="{
+      'col-md-6' : isloggedInPlayerGivenSynonym === false,
+      'col-md-12' : isloggedInPlayerGivenSynonym
+      }"
+  >
     <div class="card">
-      <div class="card-title">
-        Status of players
-      </div>
       <div class="card-body">
+        <div class="card-title">
+          <h4>Status of players</h4>
+        </div>
 
         <!-- this is dirty, we need a hoverable-responsive table with only one *ngFor
         https://v4-alpha.getbootstrap.com/content/tables/#hoverable-rows -->
 
         <ul class="list-group">
-          <li class="list-group-item list-group-item-success"
-              *ngFor="let key of gamePlayerKeys"
+          <li class="list-group-item"
+              [ngClass]="{
+              'list-group-item-action active' :
+                gamePlayer.status !== PLAYER_STATUS_AFTER_ACTION && isBlinkTickerShown$,
+                'list-group-item-secondary' : gamePlayer.status === PLAYER_STATUS_AFTER_ACTION
+              }"
+              *ngFor="let gamePlayer of gamePlayers"
           >
-            {{gamePlayers[key].name}} - {{gamePlayers[key].status}}
-            - <strong>{{gamePlayers[key].firstSynonym}}</strong>
-            - <strong>{{gamePlayers[key].secondSynonym}}</strong>
-            _dots_
+            {{gamePlayer.name}}
+            <app-waitingdots *ngIf="gamePlayer.status !== PLAYER_STATUS_AFTER_ACTION"></app-waitingdots>
         </ul>
       </div>
     </div>

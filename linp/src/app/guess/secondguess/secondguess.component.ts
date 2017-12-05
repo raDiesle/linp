@@ -9,8 +9,8 @@ import {Observable} from 'rxjs/Observable';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Subject} from 'rxjs/Subject';
 
-const nextPositiveRoute = '/evaluation';
-const SECOND_GUESS_GIVEN_PLAYER_STATUS: GamePlayerStatus = 'SECOND_GUESS_GIVEN';
+const NEXT_PAGE = '/evaluation';
+const tipDBkey = 'firstTeamTip';
 
 @Component({
   selector: 'app-secondguess',
@@ -19,27 +19,38 @@ const SECOND_GUESS_GIVEN_PLAYER_STATUS: GamePlayerStatus = 'SECOND_GUESS_GIVEN';
 })
 export class SecondguessComponent implements OnInit, OnDestroy {
 
+  public PLAYER_STATUS_AFTER_ACTION: GamePlayerStatus = 'SECOND_GUESS_GIVEN';
+
   authUser: firebase.User;
   gameName: string;
 
   selectedGamePlayers: GamePlayer[] = [];
   gamePlayers: GamePlayer[];
 
+
   private ngUnsubscribe: Subject<void> = new Subject<void>();
+  private isBlinkTickerShown$: boolean;
+  private isloggedInPlayerGivenSynonym = false;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
               public db: AngularFirestore,
               public afAuth: AngularFireAuth,
               public guessService: GuessService) {
-
-    afAuth.authState.subscribe(authUser => {
-      this.authUser = authUser;
-    });
+    afAuth.authState
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(authUser => {
+        this.authUser = authUser;
+      });
   }
 
   ngOnInit() {
     this.gameName = this.route.snapshot.paramMap.get('gamename');
+
+    Observable.timer(0, 1000).subscribe(number => {
+      this.isBlinkTickerShown$ = number % 2 === 0;
+    });
+
     this.db
       .collection('games')
       .doc(this.gameName)
@@ -48,44 +59,28 @@ export class SecondguessComponent implements OnInit, OnDestroy {
       .takeUntil(this.ngUnsubscribe)
       .subscribe((gamePlayers: GamePlayer[]) => {
         this.gamePlayers = gamePlayers;
+
+        const loggedInGamePlayer = gamePlayers.find(gamePlayer => {
+          return gamePlayer.uid === this.authUser.uid;
+        });
+        this.isloggedInPlayerGivenSynonym = loggedInGamePlayer.status === this.PLAYER_STATUS_AFTER_ACTION;
+
         const allGivenGuess = gamePlayers.every(gamePlayer => {
-          return gamePlayer.status === SECOND_GUESS_GIVEN_PLAYER_STATUS;
+          return gamePlayer.status === this.PLAYER_STATUS_AFTER_ACTION;
         });
         if (allGivenGuess) {
-          this.router.navigate([nextPositiveRoute, this.gameName]);
+          this.router.navigate([NEXT_PAGE, this.gameName]);
         }
       });
   }
 
   onTeamPlayerGuessSelected(clickedGamePlayer): void {
-    //  TODO make it non modifyable with rxjs, { ...this.selectedGamePlayers}
     this.selectedGamePlayers = this.guessService.onTeamPlayerGuessSelected(this.selectedGamePlayers, clickedGamePlayer);
   }
 
-  savesecondTeamTip(): void {
-    const createGuessModel = function (selectedGamePlayers) {
-      const firstTeamTip: TeamTip = {
-        firstPartner: {
-          uid: selectedGamePlayers[0].uid,
-          name: selectedGamePlayers[0].name
-        },
-        secondPartner: {
-          uid: selectedGamePlayers[1].uid,
-          name: selectedGamePlayers[0]
-        }
-      };
-      return secondTeamTip;
-    };
-// move to model
-    const secondTeamTip = createGuessModel(this.selectedGamePlayers);
-    const tipDBkey = '/secondTeamTip';
-    this.db
-      .collection<TeamTip>('games')
-      .doc(this.gameName)
-      .collection('players')
-      .doc(this.authUser.uid + tipDBkey)
-      .set(secondTeamTip)
-      .then(secondTeamTipz => {
+  public saveTeamTip(): void {
+    this.guessService.saveTeamTip(this.gameName, this.selectedGamePlayers, this.authUser.uid, tipDBkey, this.PLAYER_STATUS_AFTER_ACTION)
+      .then(response => {
         alert('Successful saved choice');
       });
   }

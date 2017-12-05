@@ -57,13 +57,13 @@
           <li class="list-group-item"
               [ngClass]="{
               'list-group-item-action active' :
-                gamePlayer.status !== FIRST_GUESS_GIVEN_PLAYER_STATUS && isBlinkTickerShown$,
-                'list-group-item-secondary' : gamePlayer.status === FIRST_GUESS_GIVEN_PLAYER_STATUS
+                gamePlayer.status !== PLAYER_STATUS_AFTER_ACTION && isBlinkTickerShown$,
+                'list-group-item-secondary' : gamePlayer.status === PLAYER_STATUS_AFTER_ACTION
               }"
               *ngFor="let gamePlayer of gamePlayers"
           >
             {{gamePlayer.name}}
-            <app-waitingdots></app-waitingdots>
+            <app-waitingdots *ngIf="gamePlayer.status !== PLAYER_STATUS_AFTER_ACTION"></app-waitingdots>
         </ul>
       </div>
     </div>

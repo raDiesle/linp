@@ -8,7 +8,8 @@ import {GuessService} from '../guess.service';
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
 
-const nextPositiveRoute = '/firsttip';
+const NEXT_PAGE = '/secondtip';
+const tipDBkey = 'firstTeamTip';
 
 @Component({
   selector: 'app-firstguess',
@@ -21,7 +22,7 @@ export class FirstguessComponent implements OnInit, OnDestroy {
 
   selectedGamePlayers: GamePlayer[] = [];
   gamePlayers: GamePlayer[];
-  public FIRST_GUESS_GIVEN_PLAYER_STATUS: GamePlayerStatus = 'FIRST_GUESS_GIVEN';
+  public PLAYER_STATUS_AFTER_ACTION: GamePlayerStatus = 'FIRST_GUESS_GIVEN';
 
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
@@ -59,26 +60,25 @@ export class FirstguessComponent implements OnInit, OnDestroy {
         const loggedInGamePlayer = gamePlayers.find(gamePlayer => {
           return gamePlayer.uid === this.authUser.uid;
         });
-        this.isloggedInPlayerGivenSynonym = loggedInGamePlayer.status === this.FIRST_GUESS_GIVEN_PLAYER_STATUS;
+        this.isloggedInPlayerGivenSynonym = loggedInGamePlayer.status === this.PLAYER_STATUS_AFTER_ACTION;
 
         const allGivenGuess = gamePlayers.every(gamePlayer => {
-          return gamePlayer.status === this.FIRST_GUESS_GIVEN_PLAYER_STATUS;
+          return gamePlayer.status === this.PLAYER_STATUS_AFTER_ACTION;
         });
         if (allGivenGuess) {
-          this.router.navigate([nextPositiveRoute, this.gameName]);
+          this.router.navigate([NEXT_PAGE, this.gameName]);
         }
       });
   }
 
   onTeamPlayerGuessSelected(clickedGamePlayer): void {
-    //  TODO make it non modifyable with rxjs, { ...this.selectedGamePlayers}
     this.selectedGamePlayers = this.guessService.onTeamPlayerGuessSelected(this.selectedGamePlayers, clickedGamePlayer);
   }
 
   public saveTeamTip(): void {
-    const tipDBkey = 'firstTeamTip';
-    this.guessService.saveTeamTip(this.gameName, this.selectedGamePlayers, this.authUser.uid, tipDBkey, this.FIRST_GUESS_GIVEN_PLAYER_STATUS)
-      .then(firstTeamTipT => {
+
+    this.guessService.saveTeamTip(this.gameName, this.selectedGamePlayers, this.authUser.uid, tipDBkey, this.PLAYER_STATUS_AFTER_ACTION)
+      .then(response => {
         alert('Successful saved choice');
       });
   }

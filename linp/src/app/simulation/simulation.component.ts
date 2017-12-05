@@ -58,11 +58,11 @@ export class SimulationComponent implements OnInit, OnDestroy {
     const request = <Game>{
       name: gamename,
       host: players.playerA.uid,
-      status: 'SECOND_GUESS_GIVEN',
+      status: '/evaluation',
       players: [],
       round: 0
     };
-    request.players.push({
+    request.players[players.playerA.uid] = {
       uid: players.playerA.uid,
       name: players.playerA.name,
       isHost: true,
@@ -99,9 +99,9 @@ export class SimulationComponent implements OnInit, OnDestroy {
         totalRounds: 0,
         indirect: 0
       }
-    });
+    };
 
-    request.players.push({
+    request.players[players.playerB.uid] = {
       uid: players.playerB.uid,
       name: players.playerB.name,
       isHost: false,
@@ -138,9 +138,9 @@ export class SimulationComponent implements OnInit, OnDestroy {
         totalRounds: 0,
         indirect: 0
       }
-    });
+    };
 
-    request.players.push({
+    request.players[players.playerC.uid] = {
       uid: players.playerC.uid,
       name: players.playerC.name,
       isHost: false,
@@ -176,9 +176,9 @@ export class SimulationComponent implements OnInit, OnDestroy {
         totalRounds: 0,
         indirect: 0
       }
-    });
+    };
 
-    request.players.push({
+    request.players[players.playerD.uid] = {
       uid: players.playerD.uid,
       name: players.playerD.name,
       isHost: false,
@@ -214,9 +214,9 @@ export class SimulationComponent implements OnInit, OnDestroy {
         totalRounds: 0,
         indirect: 0
       }
-    });
+    };
 
-    request.players.push({
+    request.players[players.playerE.uid] = {
       uid: players.playerE.uid,
       name: players.playerE.name,
       isHost: false,
@@ -252,9 +252,9 @@ export class SimulationComponent implements OnInit, OnDestroy {
         totalRounds: 0,
         indirect: 0
       }
-    });
+    };
 
-    request.players.push({
+    request.players[players.playerF.uid] = {
       uid: players.playerF.uid,
       name: players.playerF.name,
       isHost: false,
@@ -290,12 +290,26 @@ export class SimulationComponent implements OnInit, OnDestroy {
         totalRounds: 0,
         indirect: 0
       }
-    });
+    };
 
-    this.db.doc<Game>('games/' + gamename)
+    this.db
+      .collection<Game>('games')
+      .doc(gamename)
       .set(request)
       .then(() => alert('Successful'))
       .catch(() => alert('fail'));
+
+    /*
+        this.db
+          .collection<Game>('games')
+          .doc(gamename)
+          .collection('players')
+          .doc()
+          .add()
+
+          .then(() => alert('Successful'))
+          .catch(() => alert('fail'));
+    */
   }
 
   updateSinglePlayerScore() {
@@ -305,9 +319,10 @@ export class SimulationComponent implements OnInit, OnDestroy {
         total: 667
       }
     };
-    this.db.collection<PlayerProfile>('games/')
+    this.db
+      .collection<PlayerProfile>('games')
       .doc(gamename)
-      .collection('/players/')
+      .collection('players')
       .add(request)
       .then(result => console.log('done'));
   }

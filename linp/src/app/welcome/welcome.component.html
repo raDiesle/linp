@@ -1,36 +1,44 @@
 <div class="container">
-  <h1>
-    <strong>LINP</strong> - find your partner!
-  </h1>
   <div class="card-deck">
-    <div class="card text-center">
-      <div class="card-body">
+    <div class="card">
+      <div>
+
         <div *ngIf="authUser; then isLoggedIn else isNotLoggedIn"></div>
         <ng-template #isNotLoggedIn>
-          <button class="btn btn-primary" class="btn btn-primary" (click)="loginByGoogle()">
-            Login by Google
-          </button>
-          <button class="btn btn-primary" class="btn btn-secondary" (click)="loginAnonymous()">
-            Login anonymous
-          </button>
-          <button class="btn btn-primary" class="btn btn-secondary" (click)="loginEmailPassword(content)">
-            Login with Email
-          </button>
+          <div class="card-title">
+          </div>
+          <div class="card-body">
+            <button class="btn btn-primary" class="btn btn-primary" (click)="loginByGoogle()">
+              Login by Google
+            </button>
+            <button class="btn btn-primary" class="btn btn-secondary" (click)="loginAnonymous()">
+              Login anonymous
+            </button>
+            <button class="btn btn-primary" class="btn btn-secondary" (click)="loginEmailPassword(content)">
+              Login with Email
+            </button>
+          </div>
         </ng-template>
 
         <ng-template #isLoggedIn>
-          <div>
-            <h4 class="card-title">
-              Logged in as
+          <div class="card-header">
+            <div class="small">
+              Logged in as:
+            </div>
+            <strong>
               <fade [out]="false" [(isVisible)]="playerProfile">
                 {{playerProfile?.name}}
                 <a href="javascript:void(0)">
                   <i class="material-icons md-18 align-top text-danger" (click)="logout()">no_encryption</i>
                 </a>
               </fade>
-            </h4>
+              <div *ngIf="!playerProfile">
+                <app-waitingdots></app-waitingdots>
+              </div>
+            </strong>
           </div>
-          <div *ngIf="!firstTimeLoggedInEver">
+
+          <div class="card-body" *ngIf="!firstTimeLoggedInEver">
             <button
               type="button"
               class="btn btn-primary btn-block"

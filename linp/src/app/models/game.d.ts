@@ -5,6 +5,7 @@ export interface Game {
   // alternative type possible?
   players?: GamePlayer[];
   round: number;
+  createdAt: number;
 }
 
 export interface PointsScored {

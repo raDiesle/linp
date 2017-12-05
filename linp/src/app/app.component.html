@@ -1,6 +1,6 @@
-<div class="welcomebg">
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">LINP {{gameName}}</a>
+<div>
+  <nav class="navbar navbar-expand-lg navbar-light bg-topheader">
+    <a class="navbar-brand" href="#"><strong>LINP</strong> - Find your partner</a>
     <ngb-alert [type]="'warning'"
                *ngIf="isUserAuthOfflane"
                (click)="isUserAuthOfflane=!isUserAuthOfflane">
@@ -71,9 +71,10 @@
       </ul>
     </div>
   </nav>
-
+  <div class=" welcomebg">
   <div class="container" style="padding-top:2.5em;">
     <router-outlet></router-outlet>
+  </div>
   </div>
 </div>
 

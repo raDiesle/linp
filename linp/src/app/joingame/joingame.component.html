@@ -1,27 +1,36 @@
 <div class="card-deck">
   <div class="card">
-    <div class="card-body">
-      <h3 class="card-title">Join Game</h3>
+    <div class="card-header text-center">
+      <h6 class="">Join Game</h6>
+    </div>
 
+    <div class="card-body ">
       <div class="list-group">
-        <div *ngFor="let game of games"
-             [@growShrinkStaticStart]="animationInitialized.toString()"
-             (@growShrinkStaticStart.done)="animationInitialized = true"
-        >
+        <ng-container *ngFor="let game of games">
           <button
             *ngIf="game !== -1"
             type="button"
             (click)="onSelectGameToJoin(game)"
             [ngClass]="{'active' : selectedGame == game}"
-            class="list-group-item list-group-item-action"
+            class="list-group-item list-group-item-action container-fluid"
+            [@growShrinkStaticStart]="animationInitialized.toString()"
+            (@growShrinkStaticStart.done)="animationInitialized = true"
           >
-            {{game.name}}
+            <div class="row">
+              <div class="col-6">
+                <strong>{{game.name}}</strong>
+              </div>
+              <div class="col-6">
+                created at {{game.createdAt | date:'short'}}
+              </div>
+            </div>
+
           </button>
           <!-- visualization hack, still needed? -->
           <div [hidden]="game !== -1">
             NO ENTRIES
           </div>
-        </div>
+        </ng-container>
         <div *ngIf="games.length <= 0">
           No Entries
         </div>

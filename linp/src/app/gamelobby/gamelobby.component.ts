@@ -49,14 +49,15 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
         const isAlreadyJoined = gamePlayers.find(gamePlayr => {
           return gamePlayr.uid === this.authUserUid;
         }) !== undefined;
+
+        const gameChangePromise = this.promiseGameChanges();
         if (isAlreadyJoined) {
-          const gameChangePromise = this.promiseGameChanges();
           gameChangePromise
             .then(game => {
               this.hostUid = game.host;
               this.router.navigate(['/' + game.status, this.gameName]);
             });
-
+        } else {
           const fetchPlayerProfile = this.gamelobbyService.fetchPlayerProfileName(this.authUserUid)
           Promise.all([gameChangePromise, fetchPlayerProfile])
             .then(responses => {
