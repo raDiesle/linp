@@ -1,3 +1,5 @@
+import {LANGUAGE} from "./context";
+
 export interface Game {
   name: string;
   host: string;
@@ -6,6 +8,7 @@ export interface Game {
   players?: GamePlayer[];
   round: number;
   createdAt: number;
+  language: LANGUAGE;
 }
 
 export interface PointsScored {

@@ -1,5 +1,8 @@
 <div>
   <div class="card">
+    <div class="card-header text-center">
+      <strong>Game Preparation: {{gameName}}</strong>
+    </div>
     <div class="card-body">
       <div *ngIf="isRoleAssigned">
         <div *ngIf="isQuestionmark">
@@ -44,16 +47,32 @@
       </div>
 
       <div class="py-3">
-        <strong>{{gamePlayers?.length}} Players</strong>:
-        <strong>{{rolesDistributionInformation?.questionMarksNeeded}} ?</strong>
-        with
-        <strong>
-          {{rolesDistributionInformation?.wordsNeeded}}<i class="material-icons align-bottom">group</i>
-        </strong>
+        <div>
+          <strong>Total Players: {{gamePlayers?.length}}</strong>
+        </div>
+        <div>
+          <strong>Questionmark: {{rolesDistributionInformation?.questionMarksNeeded}}</strong>
+        </div>
+        <div>
+          <strong>
+            Teams: {{rolesDistributionInformation?.wordsNeeded}}
+          </strong>
+        </div>
       </div>
 
       <!-- https://codepen.io/ozgursagiroglu/pen/lAxIa -->
-      <button class="btn btn-primary" (click)="startGameAction()">Ready to start game</button>
+      <button class="btn btn-block"
+              [ngClass]="{'btn-primary' : !hasStartedGame, 'btn-success' : hasStartedGame}"
+              (click)="startGameAction()"
+              [disabled]="hasStartedGame"
+      >
+        <span *ngIf="hasStartedGame === false">
+          Ready
+        </span>
+        <span *ngIf="hasStartedGame">
+          Waiting for others <app-waitingdots></app-waitingdots>
+        </span>
+      </button>
 
     </div>
   </div>

@@ -1,51 +1,56 @@
 <div class="row">
-  <div class="col-sm-6"
+  <div class="col-sm"
        *ngIf="authUser?.uid === currentPlayer?.uid"
   >
     <div class="card">
+      <div class="card-header text-center">
+        <strong>First Synonym</strong>
+      </div>
       <div class="card-body">
         <h4 class="card-title">
           It's your turn!
         </h4>
-        <form novalidate #giveSynonymForm="ngForm">
-          <div class="form-group">
-            <label for="synonym">
-              <ng-container *ngIf="loggedInGamePlayer?.questionmarkOrWord === '?'">
-                Try to give a word, where people think you are partner of another one.
-              </ng-container>
-              <ng-container *ngIf="loggedInGamePlayer?.questionmarkOrWord !== '?'">
-                Give first synonym for: {{loggedInGamePlayer?.questionmarkOrWord}}
-              </ng-container>
-            </label>
-            <div>
-              <input type="text"
-                     class="form-control"
-                     [ngClass]="{'is-invalid' : synonymInput.errors?.required}"
-                     id="synonym"
-                     [(ngModel)]="synonym"
-                     #synonymInput="ngModel"
-                     name="synonym"
-                     required
-              >
-              <div *ngIf="synonymInput?.dirty && synonymInput.errors?.required">
-                Its your turn
+        <div class="card-text">
+          <form novalidate #giveSynonymForm="ngForm">
+            <div class="form-group">
+              <label for="synonym">
+                <ng-container *ngIf="loggedInGamePlayer?.questionmarkOrWord === '?'">
+                  Try to give a word, where people think you are partner of another one.
+                </ng-container>
+                <ng-container *ngIf="loggedInGamePlayer?.questionmarkOrWord !== '?'">
+                  Give first synonym for: {{loggedInGamePlayer?.questionmarkOrWord}}
+                </ng-container>
+              </label>
+              <div>
+                <input type="text"
+                       class="form-control"
+                       [ngClass]="{'is-invalid' : synonymInput?.dirty && synonymInput.errors?.required}"
+                       id="synonym"
+                       [(ngModel)]="synonym"
+                       #synonymInput="ngModel"
+                       name="synonym"
+                       required
+                >
+                <div *ngIf="synonymInput?.dirty && synonymInput.errors?.required">
+                  Provide your synonym
+                </div>
               </div>
             </div>
-          </div>
-          <button class="btn btn-primary"
-                  [disabled]="synonymInput.invalid"
-                  (click)="sendSynonym()"
-          >
-            Send
-          </button>
-          <div class="py-2">
-          </div>
-        </form>
+            <button class="btn btn-primary btn-block"
+                    [disabled]="synonymInput.invalid"
+                    (click)="sendSynonym()"
+            >
+              Send
+            </button>
+            <div class="py-2">
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="col-sm-6">
+  <div class="col-sm">
     <div class="card">
       <div class="card-body">
         <h4 class="card-title">

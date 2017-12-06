@@ -5,6 +5,8 @@ import {Game, GamePlayer} from '../models/game';
 import * as firebase from 'firebase/app';
 import {Subject} from 'rxjs/Subject';
 import {Router} from '@angular/router';
+import {LanguageService} from "@angular/language-service";
+import {LANGUAGE} from "../models/context";
 
 @Component({
   selector: 'app-creategame',
@@ -18,6 +20,7 @@ export class CreategameComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   private playerName: string;
+  private language: LANGUAGE;
 
   constructor(public afAuth: AngularFireAuth,
               public db: AngularFirestore,
@@ -54,7 +57,8 @@ export class CreategameComponent implements OnInit, OnDestroy {
       status: 'gamelobby',
       players: [],
       round: 0,
-      createdAt: Date.now()
+      createdAt: Date.now(),
+      language: this.language
     };
 
     this.db

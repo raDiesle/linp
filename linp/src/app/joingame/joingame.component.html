@@ -1,9 +1,8 @@
 <div class="card-deck">
   <div class="card">
     <div class="card-header text-center">
-      <h6 class="">Join Game</h6>
+      <strong>Join Game</strong>
     </div>
-
     <div class="card-body ">
       <div class="list-group">
         <ng-container *ngFor="let game of games">
@@ -21,18 +20,18 @@
                 <strong>{{game.name}}</strong>
               </div>
               <div class="col-6">
-                created at {{game.createdAt | date:'short'}}
+                created {{game.createdAt | timeAgo}}
               </div>
             </div>
 
           </button>
           <!-- visualization hack, still needed? -->
           <div [hidden]="game !== -1">
-            NO ENTRIES
+            <app-waitingdots></app-waitingdots>
           </div>
         </ng-container>
         <div *ngIf="games.length <= 0">
-          No Entries
+          <app-waitingdots></app-waitingdots>
         </div>
 
       </div>

@@ -22,6 +22,8 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
   private authUserUid: string;
   private hostUid: string;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
+  private loggedInPlayerIsHost = false;
+  private loggedInPlayerName: string = '';
 
   constructor(private router: Router,
               private route: ActivatedRoute,
@@ -63,7 +65,9 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
             .then(responses => {
               const game = responses[0] as Game;
               const isHost = this.authUserUid === game.host;
+              this.loggedInPlayerIsHost = isHost;
               const playerName = <string>responses[1];
+              this.loggedInPlayerName = playerName;
               return this.addPlayerToGame(this.authUserUid, playerName, isHost);
             });
         }

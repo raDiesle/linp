@@ -24,6 +24,7 @@ export class PreparegameComponent implements OnInit, OnDestroy {
   private isQuestionmark = false;
   private currentGamePlayer: GamePlayer;
   private gameName: string;
+  private hasStartedGame = false;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -57,6 +58,7 @@ export class PreparegameComponent implements OnInit, OnDestroy {
   }
 
   startGameAction(): void {
+    this.hasStartedGame = true;
     // TODO solve host starts game navigation for all
     const isOnlyExecutedOnHostBrowser = this.authUser.uid === this.hostUid;
 

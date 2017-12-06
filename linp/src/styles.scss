@@ -1,6 +1,19 @@
-@import "~bootstrap/dist/css/bootstrap.css";
 
 /*
+ Overrides
+  */
+$grey: #0096FF;
+$card-cap-bg: rgba(0, 150, 255, 0.3);
+
+@import "~bootstrap/scss/bootstrap";
+
+.sb-wrapper {
+  @extend .btn;
+  @extend .btn-primary;
+}
+
+/*
+Produces warnings
 @import '~ngx-sharebuttons/styles/share-buttons';
 @import '~ngx-sharebuttons/styles/themes/default/default-theme';
 */

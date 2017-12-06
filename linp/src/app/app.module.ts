@@ -9,6 +9,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {AngularFirestoreModule} from 'angularfire2/firestore';
 import {AngularFireModule} from 'angularfire2';
 import {AngularFireAuthModule} from 'angularfire2/auth';
+import {AngularFireStorageModule} from 'angularfire2/storage';
 
 import {environment} from '../environments/environment';
 import {AppComponent} from './app.component';
@@ -29,21 +30,22 @@ import {SecondguessComponent} from './guess/secondguess/secondguess.component';
 import {EvaluationComponent} from './evaluation/evaluation.component';
 import {SimulationComponent} from './simulation/simulation.component';
 import {UserprofileService} from './welcome/userprofile.service';
-import { LoginbyemailComponent } from './welcome/loginbyemail/loginbyemail.component';
+import {LoginbyemailComponent} from './welcome/loginbyemail/loginbyemail.component';
 import {HttpClientModule} from '@angular/common/http';
-import { PlayerprofileComponent } from './playerprofile/playerprofile.component';
-import { CreategameComponent } from './creategame/creategame.component';
-import { GamerulesComponent } from './gamerules/gamerules.component';
+import {PlayerprofileComponent} from './playerprofile/playerprofile.component';
+import {CreategameComponent} from './creategame/creategame.component';
+import {GamerulesComponent} from './gamerules/gamerules.component';
 import {ShareButtonsModule} from 'ngx-sharebuttons';
 import {HttpModule} from '@angular/http';
-import { PreparegameComponent } from './preparegame/preparegame.component';
-import { BlinkComponent } from './widgets/blink/blink.component';
+import {PreparegameComponent} from './preparegame/preparegame.component';
+import {BlinkComponent} from './widgets/blink/blink.component';
 import {CreatewordComponent} from './createword/createword.component';
 import {LinpCardsModelService} from './simulation/linpcardsinit.service';
 import {CreateAccountComponent} from './create-account/create-account.component';
 import {GamelobbyService} from './gamelobby/gamelobby-service';
 import {PreparegameService} from './preparegame/preparegame.service';
-import {FirsttipService} from "./tip/firsttip/firsttip.service";
+import {FirsttipService} from './tip/firsttip/firsttip.service';
+import {TimeAgoPipe} from 'time-ago-pipe';
 
 @NgModule({
   declarations: [
@@ -69,9 +71,10 @@ import {FirsttipService} from "./tip/firsttip/firsttip.service";
     PreparegameComponent,
     BlinkComponent,
     CreatewordComponent,
-    CreateAccountComponent
+    CreateAccountComponent,
+    TimeAgoPipe
   ],
-  entryComponents : [
+  entryComponents: [
     LoginbyemailComponent
   ],
   imports: [
@@ -151,7 +154,8 @@ import {FirsttipService} from "./tip/firsttip/firsttip.service";
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    AngularFireStorageModule
   ],
   providers: [GuessService, UserprofileService, GamelobbyComponent, GamelobbyService, PreparegameComponent, PreparegameService, FirsttipService, LinpCardsModelService],
   bootstrap: [AppComponent]

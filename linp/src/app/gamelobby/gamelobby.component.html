@@ -1,29 +1,12 @@
 <div class="card">
+  <div class="card-header text-center">
+    <strong>
+      Game Preparation {{gameName}}
+    </strong>
+  </div>
   <div class="card-body">
-    <h4 class="card-title">
-      waiting for players to join
-      <app-waitingdots></app-waitingdots>
-    </h4>
     <div class="card-text">
-
       <div class="py-3">
-
-        <ngb-alert *ngIf="!staticAlertClosed" (close)="staticAlertClosed = true">Wait for Game master to start game
-        </ngb-alert>
-
-        <button (click)="redirectToNextPage()"
-                class="btn btn-block"
-                [ngClass]="gamePlayers.length < 4 ? 'btn-warning' : 'btn-primary'"
-                [disabled]="gamePlayers.length < 4"
-        >
-          <span *ngIf="gamePlayers.length < 4">
-            at least {{4 - gamePlayers.length}} players missing
-          </span>
-          <span *ngIf="gamePlayers.length > 3">
-            Start Game
-          </span>
-        </button>
-
         <div class="share-container">
           <div class="share-count">
             <h3>Send</h3>
@@ -35,14 +18,37 @@
                          [size]="1"
           ></share-buttons>
         </div>
+        <div>
+          <ngb-alert *ngIf="!staticAlertClosed" (close)="staticAlertClosed = true">
+
+          </ngb-alert>
+
+          <button (click)="redirectToNextPage()"
+                  class="btn btn-block"
+                  [ngClass]="gamePlayers.length < 4 ? 'btn-outline-warning' : 'btn-outline-success'"
+                  [disabled]="gamePlayers.length < 4 || loggedInPlayerIsHost === false"
+          >
+          <span *ngIf="gamePlayers.length < 4">
+            at least {{4 - gamePlayers.length}} players missing
+          </span>
+            <span *ngIf="gamePlayers.length > 3">
+            <span *ngIf="loggedInPlayerIsHost">
+              Start Game
+            </span>
+            <span *ngIf="loggedInPlayerIsHost === false">
+              Waiting for {{loggedInPlayerName}} to start game
+            </span>
+          </span>
+          </button>
+        </div>
       </div>
 
       <div class="list-group">
-        <div *ngFor="let gamePlayer of gamePlayers">
-          <div class="list-group-item"
-          >{{gamePlayer.name}}
+        <ng-container *ngFor="let gamePlayer of gamePlayers">
+          <div class="list-group-item">
+            <strong>{{gamePlayer.name}}</strong>
           </div>
-        </div>
+        </ng-container>
 
         <button
           type="button"
