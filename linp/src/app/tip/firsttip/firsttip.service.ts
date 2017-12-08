@@ -21,7 +21,7 @@ export class FirsttipService {
       .update(gamePlayerUpdate)
   }
 
-  public updateGameStatusToNextPage(gameName: string, nextPositiveRoute: string) {
+  public updateGameStatusToNextPage(gameName: string, nextPositiveRoute: GameStatus) {
     return this.db
       .collection<Game>('games')
       .doc(gameName)

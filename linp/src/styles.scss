@@ -8,8 +8,16 @@ $card-cap-bg: rgba(0, 150, 255, 0.3);
 @import "~bootstrap/scss/bootstrap";
 
 .sb-wrapper {
+  min-width: 45px;
   @extend .btn;
-  @extend .btn-primary;
+  @extend .btn-light;
+}
+
+.sb-group {
+}
+
+.sb-button {
+  @extend .m-1;
 }
 
 /*

@@ -19,8 +19,8 @@ export class EvaluationComponent implements OnInit {
   authUser: firebase.User;
   gameName: string;
   gamePlayers: GamePlayer[] = [];
-  statusToCheck: GameStatus = 'EVALUATED';
-  prevStatus: GameStatus = 'SECOND_GUESS_GIVEN';
+  statusToCheck: GameStatus = 'evaluation';
+  prevStatus: GameStatus = 'secondguess'; // TODO change to player status
   evaluatedByHostBrowser = false;
 
   constructor(private route: ActivatedRoute,
@@ -36,13 +36,14 @@ export class EvaluationComponent implements OnInit {
   ngOnInit() {
     this.gameName = this.route.snapshot.paramMap.get('gamename');
 
-    const gamePlayersObservable = this.db.doc<Game>('/games/' + this.gameName
-    )
+    const gamePlayersObservable = this.db
+      .collection('games')
+      .doc<Game>(this.gameName)
       .valueChanges()
       .subscribe(gameRef => {
         // hack to not have cheap non serverside trigger
-        const game = gameRef;
-        const isResultsCalculated = game.status === 'EVALUATED';
+        const game: Game = gameRef;
+        const isResultsCalculated = game.status === 'evaluation';
         if (isResultsCalculated) {
           gamePlayersObservable.unsubscribe();
         }

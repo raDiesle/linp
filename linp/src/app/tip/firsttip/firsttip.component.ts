@@ -7,8 +7,9 @@ import * as firebase from 'firebase/app';
 import {Game, GamePlayer, GamePlayerStatus, GameStatus} from '../../models/game';
 import {Subject} from 'rxjs/Subject';
 import {FirsttipService} from './firsttip.service';
+import {FirebaseGameService} from "../../services/firebasegame.service";
 
-const NEXT_POSITIVE_ROUTE = '/firstguess';
+const NEXT_POSITIVE_ROUTE = 'firstguess';
 
 @Component({
   selector: 'app-firsttip',
@@ -20,7 +21,6 @@ export class FirsttipComponent implements OnInit, OnDestroy {
 
   FIRST_SYNONYM_GIVEN_PLAYER_STATUS: GamePlayerStatus = 'FIRST_SYNONYM_GIVEN';
 
-  gamePlayerKeys: string[];
   authUser: firebase.User;
   gamePlayers: GamePlayer[];
   gameName: string;
@@ -35,10 +35,17 @@ export class FirsttipComponent implements OnInit, OnDestroy {
               private router: Router,
               public db: AngularFirestore,
               public afAuth: AngularFireAuth,
-              private firsttipService: FirsttipService) {
+              private firsttipService: FirsttipService,
+              private firebaseGameService: FirebaseGameService) {
   }
 
   ngOnInit() {
+    this.firebaseGameService.observeGames()
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(res => {
+        console.log('TRIGGERED');
+      });
+
     this.gameName = this.route.snapshot.paramMap.get('gamename');
 
     Observable.timer(0, 1000).subscribe(number => {

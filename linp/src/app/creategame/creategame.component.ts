@@ -1,12 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {AngularFirestore} from 'angularfire2/firestore';
-import {AngularFireAuth} from 'angularfire2/auth';
-import {Game, GamePlayer} from '../models/game';
-import * as firebase from 'firebase/app';
 import {Subject} from 'rxjs/Subject';
 import {Router} from '@angular/router';
-import {LanguageService} from "@angular/language-service";
-import {LANGUAGE} from "../models/context";
+import {LANGUAGE} from '../models/context';
+import {FirebaseGameService} from '../services/firebasegame.service';
 
 @Component({
   selector: 'app-creategame',
@@ -16,62 +12,33 @@ import {LANGUAGE} from "../models/context";
 export class CreategameComponent implements OnInit, OnDestroy {
 
   gameName = '';
-  private authUser: firebase.User;
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   private playerName: string;
   private language: LANGUAGE;
 
-  constructor(public afAuth: AngularFireAuth,
-              public db: AngularFirestore,
-              public router: Router) {
-    afAuth.authState
-      .takeUntil(this.ngUnsubscribe)
-      .subscribe(authUser => {
-        this.authUser = authUser;
-
-        const uid = authUser.uid;
-        this.db
-          .collection('players')
-          .doc(uid)
-          .valueChanges()
-          .takeUntil(this.ngUnsubscribe)
-          .subscribe(playerProfile => {
-            this.gameName = (<GamePlayer>playerProfile).name;
-            this.playerName = (<GamePlayer>playerProfile).name;
-          });
-      });
+  constructor(public router: Router,
+              public firebaseGameService: FirebaseGameService) {
   }
 
   ngOnInit() {
+    this.firebaseGameService.observeLoggedInPlayerProfile()
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(playerProfile => {
+        this.playerName = playerProfile.name;
+        this.gameName = this.playerName;
+      });
   }
 
-  // To be extracted to service
   createGameAction(): void {
-    const gameName = this.gameName;
-
-    // extract to model
-    const newGame: Game = {
-      name: gameName,
-      host: this.authUser.uid,
-      status: 'gamelobby',
-      players: [],
-      round: 0,
-      createdAt: Date.now(),
-      language: this.language
-    };
-
-    this.db
-      .collection<Game>('games')
-      .doc(gameName)
-      .set(<Game>newGame);
-
-    this.router.navigate(['/gamelobby', gameName]);
+    this.firebaseGameService.writeGame(this.gameName, this.language)
+      .then(() => {
+        this.router.navigate(['gamelobby', this.gameName]);
+      });
   }
 
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
-
 }

@@ -46,6 +46,7 @@ import {GamelobbyService} from './gamelobby/gamelobby-service';
 import {PreparegameService} from './preparegame/preparegame.service';
 import {FirsttipService} from './tip/firsttip/firsttip.service';
 import {TimeAgoPipe} from 'time-ago-pipe';
+import {FirebaseGameService} from "./services/firebasegame.service";
 
 @NgModule({
   declarations: [
@@ -157,7 +158,7 @@ import {TimeAgoPipe} from 'time-ago-pipe';
     AngularFireAuthModule,
     AngularFireStorageModule
   ],
-  providers: [GuessService, UserprofileService, GamelobbyComponent, GamelobbyService, PreparegameComponent, PreparegameService, FirsttipService, LinpCardsModelService],
+  providers: [FirebaseGameService, GuessService, UserprofileService, GamelobbyComponent, GamelobbyService, PreparegameComponent, PreparegameService, FirsttipService, LinpCardsModelService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

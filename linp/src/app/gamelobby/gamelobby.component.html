@@ -1,62 +1,80 @@
 <div class="card">
   <div class="card-header text-center">
     <strong>
-      Game Preparation {{gameName}}
+      Game Preparation of {{gameName}}
     </strong>
   </div>
   <div class="card-body">
-    <div class="card-text">
-      <div class="py-3">
-        <div class="share-container">
-          <div class="share-count">
-            <h3>Send</h3>
-            <b>Invitation</b>
-          </div>
-          <share-buttons [theme]="'default'"
-                         [include]="['facebook','twitter','linkedin','google','whatsapp','email','copy']"
-                         [show]="10"
-                         [size]="1"
-          ></share-buttons>
+    <div class="share-container">
+      <div class="share-count">
+        <h3>Send</h3>
+        <b>Invitation</b>
+      </div>
+      <div class="container">
+        <div class="row">
+          <share-button
+            button="facebook"
+          ></share-button>
+          <share-button
+            button="twitter"
+          ></share-button>
+          <share-button
+            button="google"
+          ></share-button>
+          <share-button
+            button="whatsapp"
+          ></share-button>
+          <share-button
+            button="email"
+          ></share-button>
+          <share-button
+            button="copy"
+          ></share-button>
         </div>
-        <div>
-          <ngb-alert *ngIf="!staticAlertClosed" (close)="staticAlertClosed = true">
+      </div>
+    </div>
+    <div>
+      <ngb-alert *ngIf="!staticAlertClosed" (close)="staticAlertClosed = true">
 
-          </ngb-alert>
+      </ngb-alert>
 
-          <button (click)="redirectToNextPage()"
-                  class="btn btn-block"
-                  [ngClass]="gamePlayers.length < 4 ? 'btn-outline-warning' : 'btn-outline-success'"
-                  [disabled]="gamePlayers.length < 4 || loggedInPlayerIsHost === false"
-          >
-          <span *ngIf="gamePlayers.length < 4">
-            at least {{4 - gamePlayers.length}} players missing
-          </span>
-            <span *ngIf="gamePlayers.length > 3">
+      <button (click)="startGame()"
+              class="btn btn-block my-1"
+              [ngClass]="gamePlayers.length < 4 ? 'btn-outline-warning' : 'btn-outline-success'"
+              [disabled]="gamePlayers.length < 4 || loggedInPlayerIsHost === false"
+      >
+        <span *ngIf="gamePlayers.length <= 3">
+          at least {{4 - gamePlayers.length}} players missing
+        </span>
+        <span *ngIf="gamePlayers.length > 3">
             <span *ngIf="loggedInPlayerIsHost">
               Start Game
             </span>
             <span *ngIf="loggedInPlayerIsHost === false">
-              Waiting for {{loggedInPlayerName}} to start game
+              Waiting for <strong>{{hostPlayerName}}</strong> to start game
             </span>
           </span>
-          </button>
+      </button>
+    </div>
+
+    <div class="list-group">
+      <ng-container *ngFor="let gamePlayer of gamePlayers">
+        <div class="list-group-item">
+          <strong>
+            {{gamePlayer.name}}
+          </strong>
+          <span class="badge badge-primary" *ngIf="gamePlayer.isHost">
+            Host
+          </span>
         </div>
-      </div>
+      </ng-container>
 
-      <div class="list-group">
-        <ng-container *ngFor="let gamePlayer of gamePlayers">
-          <div class="list-group-item">
-            <strong>{{gamePlayer.name}}</strong>
-          </div>
-        </ng-container>
-
-        <button
-          type="button"
-          class="list-group-item list-group-item-action"
-        >
-          <app-waitingdots></app-waitingdots>
-        </button>
-      </div>
+      <button
+        type="button"
+        class="list-group-item list-group-item-action"
+      >
+        <app-waitingdots></app-waitingdots>
+      </button>
     </div>
   </div>
 </div>

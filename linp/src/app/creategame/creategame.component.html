@@ -1,10 +1,14 @@
 <div class="card">
+  <div class="card-header">
+    <strong>Create New Game</strong>
+  </div>
   <div class="card-body">
-    <h3 class="card-title">Create New Game</h3>
     <form #createGameForm="ngForm">
-      <div class="form-group row"> <!-- has-danger  -->
-        <label for="gamename" class="col-3 col-form-label">Game Name</label>
-        <div class="col-9">
+      <div class="form-group"> <!-- has-danger  -->
+        <label for="gamename">
+          Game Name
+        </label>
+        <div>
           <input
             id="gamename"
             type="text"
@@ -30,20 +34,18 @@
                 #language$
                 [(ngModel)]="language"
         >
-          <option value="en">English</option>
+          <option selected value="en">English</option>
         </select>
       </div>
 
-      <div class="form-group row">
-        <div class="col-3">
-          <button id="createGameButton"
-                  class="btn btn-primary"
-                  [disabled]="!createGameForm.form.valid"
-                  (click)="createGameAction()"
-          >
-            Create
-          </button>
-        </div>
+      <div class="form-group">
+        <button id="createGameButton"
+                class="btn btn-primary btn-block"
+                [disabled]="!createGameForm.form.valid"
+                (click)="createGameAction()"
+        >
+          Create
+        </button>
       </div>
     </form>
   </div>

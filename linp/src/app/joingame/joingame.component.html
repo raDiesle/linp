@@ -10,10 +10,7 @@
             *ngIf="game !== -1"
             type="button"
             (click)="onSelectGameToJoin(game)"
-            [ngClass]="{'active' : selectedGame == game}"
             class="list-group-item list-group-item-action container-fluid"
-            [@growShrinkStaticStart]="animationInitialized.toString()"
-            (@growShrinkStaticStart.done)="animationInitialized = true"
           >
             <div class="row">
               <div class="col-6">
