@@ -16,34 +16,52 @@ export class Evaluate {
     register() {
         return functions.https.onRequest((request, response) => {
             cors(request, response, () => {
-                if (request.query.status === 'SECOND_GUESS_GIVEN') {
                     this.performAllEvaluateStatusAction(request, response);
-                }
+                return response.status(200)
+                    .send('"{status : "SUCCESS"}"');
             });
         });
     }
 
     private performAllEvaluateStatusAction(request: any, response: any) {
-        admin.database().ref('/games/' + request.query.gameName + '/players')
-            .once('value')
-            .then((gamePlayersSnapshot: any) => {
-                const gamePlayers: { [uid: string]: GamePlayer } = gamePlayersSnapshot.val();
-                const gamePlayerKeys = Object.keys(gamePlayers);
+        admin.firestore()
+            .collection('games')
+            .doc(request.query.gameName)
+            .collection('players')
+            .get()
+            .then((gamePlayersResult) => {
+                const gamePlayers: GamePlayer[] = gamePlayersResult.docs.map(gamePlayer => {
+                    return gamePlayer.data();
+                });
+                const gamePlayerKeys = gamePlayers.map(gamePlayer => {
+                    return gamePlayer.uid;
+                });
 
-                this.resetPoints(gamePlayerKeys, gamePlayers);
-                this.evaluate(gamePlayerKeys, gamePlayers);
+                const arrayToObject = (array: any) =>
+                    array.reduce((obj: any, item: any) => {
+                        obj[item.uid] = item;
+                        return obj;
+                    }, {});
 
-                const gameUpdateRequest: any = this.getScoresDbStructureRequest(request.query.gameName, gamePlayerKeys, gamePlayers);
+                const gamePlayersObject: { [uid: string]: GamePlayer } = arrayToObject(gamePlayers);
 
-                gameUpdateRequest['/games/' + request.query.gameName + '/' + 'status'] = 'EVALUATED';
+                // move to other page
+                this.resetPoints(gamePlayerKeys, gamePlayersObject);
+                this.evaluate(gamePlayerKeys, gamePlayersObject);
 
-                console.log(gameUpdateRequest);
-                const gameRef = admin.database()
-                    .ref();
-                gameRef.update(gameUpdateRequest);
+                const gameUpdateRequest: any = this.getScoresDbStructureRequest(request.query.gameName, gamePlayerKeys, gamePlayersObject);
+                gamePlayerKeys.forEach((key: string) => {
+                    const gameRef = admin.firestore()
+                        .collection('games')
+                        .doc(request.query.gameName)
+                        .collection('players')
+                        .doc(key)
+                        .update({
+                            pointsScored: gameUpdateRequest.pointsScored[key]
+                        });
+                });
 
-                response.status(200)
-                    .send('"{status : "SUCCESS"}"'); // JSON.stringify(gamePlayers)
+                // JSON.stringify(gamePlayers)
                 // afterwards write calculated data to db
             });
     }
@@ -92,16 +110,20 @@ export class Evaluate {
     }
 
     private getScoresDbStructureRequest(gameName: string, gamePlayerKeys: string[], gamePlayers: { [p: string]: GamePlayer }) {
-        const players: any = {};
+        const request = {
+            pointsScored: {} as any
+        };
+
         for (const gamePlayerKey of gamePlayerKeys) {
-            const nestedPointsToUpdateSelector = '/games/' + gameName + '/players/' + gamePlayerKey + '/pointsScored';
-            players[nestedPointsToUpdateSelector + '/firstTeamTip'] = gamePlayers[gamePlayerKey].pointsScored.firstTeamTip;
-            players[nestedPointsToUpdateSelector + '/secondTeamTip'] = gamePlayers[gamePlayerKey].pointsScored.secondTeamTip;
-            players[nestedPointsToUpdateSelector + '/indirect'] = gamePlayers[gamePlayerKey].pointsScored.indirect;
-            players[nestedPointsToUpdateSelector + '/total'] = gamePlayers[gamePlayerKey].pointsScored.total;
-            players[nestedPointsToUpdateSelector + '/totalRounds'] = gamePlayers[gamePlayerKey].pointsScored.totalRounds;
+            request.pointsScored[gamePlayerKey] = {};
+
+            request.pointsScored[gamePlayerKey]['firstTeamTip'] = gamePlayers[gamePlayerKey].pointsScored.firstTeamTip;
+            request.pointsScored[gamePlayerKey]['secondTeamTip'] = gamePlayers[gamePlayerKey].pointsScored.secondTeamTip;
+            request.pointsScored[gamePlayerKey]['indirect'] = gamePlayers[gamePlayerKey].pointsScored.indirect;
+            request.pointsScored[gamePlayerKey]['total'] = gamePlayers[gamePlayerKey].pointsScored.total;
+            request.pointsScored[gamePlayerKey]['totalRounds'] = gamePlayers[gamePlayerKey].pointsScored.totalRounds;
 
         }
-        return players;
+        return request;
     }
 }

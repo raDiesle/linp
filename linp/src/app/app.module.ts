@@ -46,7 +46,8 @@ import {GamelobbyService} from './gamelobby/gamelobby-service';
 import {PreparegameService} from './preparegame/preparegame.service';
 import {FirsttipService} from './tip/firsttip/firsttip.service';
 import {TimeAgoPipe} from 'time-ago-pipe';
-import {FirebaseGameService} from "./services/firebasegame.service";
+import {FirebaseGameService} from './services/firebasegame.service';
+import {AuthGuard} from './services/authguard';
 
 @NgModule({
   declarations: [
@@ -86,15 +87,18 @@ import {FirebaseGameService} from "./services/firebasegame.service";
       },
       {
         path: 'joingame',
-        component: JoinGameComponent
+        component: JoinGameComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'gamelobby/:gamename',
-        component: GamelobbyComponent
+        component: GamelobbyComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'preparegame/:gamename',
-        component: PreparegameComponent
+        component: PreparegameComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'firsttip/:gamename',
@@ -126,7 +130,8 @@ import {FirebaseGameService} from "./services/firebasegame.service";
       },
       {
         path: 'creategame',
-        component: CreategameComponent
+        component: CreategameComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'gamerules',
@@ -158,7 +163,7 @@ import {FirebaseGameService} from "./services/firebasegame.service";
     AngularFireAuthModule,
     AngularFireStorageModule
   ],
-  providers: [FirebaseGameService, GuessService, UserprofileService, GamelobbyComponent, GamelobbyService, PreparegameComponent, PreparegameService, FirsttipService, LinpCardsModelService],
+  providers: [AuthGuard, FirebaseGameService, GuessService, UserprofileService, GamelobbyComponent, GamelobbyService, PreparegameComponent, PreparegameService, FirsttipService, LinpCardsModelService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

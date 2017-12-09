@@ -9,6 +9,7 @@ export interface Game {
   round: number;
   createdAt: number;
   language: LANGUAGE;
+  pointsScored?: PointsScored;
 }
 
 export interface PointsScored {

@@ -7,6 +7,8 @@ import {Game, GamePlayer, GameStatus, PointsScored, TeamTip} from '../models/gam
 import {Observable} from 'rxjs/Observable';
 import {first} from 'rxjs/operator/first';
 import {HttpClient, HttpParams} from '@angular/common/http';
+import {FirebaseGameService} from "../services/firebasegame.service";
+import {Subject} from "rxjs/Subject";
 
 
 @Component({
@@ -23,11 +25,14 @@ export class EvaluationComponent implements OnInit {
   prevStatus: GameStatus = 'secondguess'; // TODO change to player status
   evaluatedByHostBrowser = false;
 
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
+
   constructor(private route: ActivatedRoute,
               private router: Router,
               public db: AngularFirestore,
               public afAuth: AngularFireAuth,
-              private httpClient: HttpClient) {
+              private httpClient: HttpClient,
+              private firebaseGameService: FirebaseGameService) {
     afAuth.authState.subscribe(authUser => {
       this.authUser = authUser;
     });
@@ -36,26 +41,35 @@ export class EvaluationComponent implements OnInit {
   ngOnInit() {
     this.gameName = this.route.snapshot.paramMap.get('gamename');
 
-    const gamePlayersObservable = this.db
+    this.firebaseGameService.observeGamePlayers(this.gameName)
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe((gamePlayers) => {
+        this.gamePlayers = gamePlayers;
+      });
+
+    const gameObservable = this.db
       .collection('games')
       .doc<Game>(this.gameName)
       .valueChanges()
       .subscribe(gameRef => {
         // hack to not have cheap non serverside trigger
         const game: Game = gameRef;
+
+        // Missing reliable check
         const isResultsCalculated = game.status === 'evaluation';
         if (isResultsCalculated) {
-          gamePlayersObservable.unsubscribe();
+          gameObservable.unsubscribe();
         }
         const hostUid = game.host;
         const isToBeExecutedOnHostBrowserOnceHack = this.authUser.uid === hostUid && this.evaluatedByHostBrowser !== true;
         if (isResultsCalculated !== true && isToBeExecutedOnHostBrowserOnceHack) {
           this.evaluatedByHostBrowser = true;
-          this.evaluateOnServerside();
+          this.firebaseGameService.updateGameStatus('evaluation', this.gameName)
+            .then(() => {
+              this.evaluateOnServerside();
+            });
         }
 
-        console.log('getting player details');
-        this.gamePlayers = game.players;
 
         // to be moved to server, executable only once
         // this.resetPoints(this.gamePlayers);
@@ -69,6 +83,8 @@ export class EvaluationComponent implements OnInit {
       });
       */
       });
+
+
   }
 
   startNextRound() {

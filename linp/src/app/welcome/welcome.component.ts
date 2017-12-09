@@ -9,6 +9,7 @@ import {LoginbyemailComponent} from './loginbyemail/loginbyemail.component';
 import {Subject} from 'rxjs/Subject';
 import {fadeInAnimation} from '../widgets/animations';
 import {Router} from "@angular/router";
+import {GameStatus} from "../models/game";
 
 @Component({
   selector: 'app-welcome',
@@ -47,19 +48,8 @@ export class WelcomeComponent implements OnInit, OnDestroy {
       });
   }
 
-  private loadPlayerProfile(responseData) {
-    const uid = responseData.uid;
-    this.db.doc<PlayerProfile>('/players/' + uid).valueChanges()
-      .takeUntil(this.ngUnsubscribe)
-      .subscribe(playerProfile => {
-        this.playerProfile = playerProfile;
-
-        this.firstTimeLoggedInEver = playerProfile === null;
-        // executed only when needed
-        if (this.firstTimeLoggedInEver || playerProfile.name === undefined) {
-          this.router.navigate(['/playerprofile']);
-        }
-      });
+  goToCreateAccountPage() {
+    this.router.navigate(['createaccount']);
   }
 
   ngOnInit() {
@@ -84,8 +74,24 @@ export class WelcomeComponent implements OnInit, OnDestroy {
     window.location.reload();
   }
 
+  private loadPlayerProfile(responseData) {
+    const uid = responseData.uid;
+    this.db.doc<PlayerProfile>('/players/' + uid).valueChanges()
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(playerProfile => {
+        this.playerProfile = playerProfile;
+
+        this.firstTimeLoggedInEver = playerProfile === null;
+        // executed only when needed
+        if (this.firstTimeLoggedInEver || playerProfile.name === undefined) {
+          this.router.navigate(['playerprofile' as GameStatus]);
+        }
+      });
+  }
+
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
+
 }

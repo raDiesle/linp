@@ -17,11 +17,11 @@ export class WordRoleAssigment {
             cors(request, response, () => {
                 console.log(new Date());
                 const gameRef = admin.firestore()
-                    .collection('/games/')
+                    .collection('games')
                     .doc(request.query.gameName);
                 // const gamePromise = gameRef.get();
                 const gamePlayersPromise = gameRef
-                    .collection('/players')
+                    .collection('players')
                     .get()
                     .then((results) => {
                         console.log(new Date());

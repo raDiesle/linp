@@ -98,6 +98,13 @@ export class FirebaseGameService {
       .set(updatePlayer);
   }
 
+  public updateGameStatus(newStatus: GameStatus, gameName: string): Promise<void> {
+    return this.db
+      .collection<Game>('games')
+      .doc(gameName)
+      .update(<{ [status: string]: GameStatus }> {status: newStatus});
+  }
+
   private getGameObject(gameName: string, language: LANGUAGE) {
     const STARTING_ROUND = 0;
     return {
@@ -107,9 +114,8 @@ export class FirebaseGameService {
       players: [],
       round: STARTING_ROUND,
       createdAt: Date.now(),
-      language: language
+      language: language,
+      pointsScored: {}
     };
   }
-
-
 }

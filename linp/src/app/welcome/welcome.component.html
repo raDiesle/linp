@@ -1,21 +1,24 @@
 <div class="container">
   <div class="card-deck">
     <div class="card">
-      <div>
 
         <div *ngIf="authUser; then isLoggedIn else isNotLoggedIn"></div>
         <ng-template #isNotLoggedIn>
-          <div class="card-title">
+          <div class="card-header">
+            <strong>Login</strong>
           </div>
           <div class="card-body">
-            <button class="btn btn-primary" class="btn btn-primary" (click)="loginByGoogle()">
-              Login by Google
+            <button class="btn btn-primary btn-block" (click)="loginByGoogle()">
+              Google
             </button>
-            <button class="btn btn-primary" class="btn btn-secondary" (click)="loginAnonymous()">
-              Login anonymous
+            <button class="btn btn-primary btn-block" (click)="loginAnonymous()">
+              Anonymous
             </button>
-            <button class="btn btn-primary" class="btn btn-secondary" (click)="loginEmailPassword(content)">
-              Login with Email
+            <button class="btn btn-primary btn-block" (click)="loginEmailPassword(content)">
+              Account
+            </button>
+            <button class="btn btn-secondary btn-block" (click)="goToCreateAccountPage()">
+              Create Account
             </button>
           </div>
         </ng-template>
@@ -55,5 +58,4 @@
         </ng-template>
       </div>
     </div>
-  </div>
 </div>
