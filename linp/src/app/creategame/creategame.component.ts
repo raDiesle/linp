@@ -15,7 +15,7 @@ export class CreategameComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   private playerName: string;
-  private language: LANGUAGE;
+  private language: LANGUAGE = 'en';
 
   constructor(public router: Router,
               public firebaseGameService: FirebaseGameService) {

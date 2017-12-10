@@ -1,10 +1,6 @@
 <div class="card">
-  <div class="card-header text-center d-flex justify-content-between align-items-center">
-    <strong>Round {{gameRound}} finished</strong>
-    <span class="badge badge-warning" *ngIf="isResultsCalculated === false">
-      Calculating Scores
-      <app-waitingdots></app-waitingdots>
-    </span>
+  <div class="card-header text-center">
+    <strong>Game Summary</strong>
   </div>
 
   <div class="card-body">
@@ -12,22 +8,37 @@
       Next
     </button>
 
+    <div class="h4 list-group-item d-flex justify-content-between align-items-center">
+      <span>
+
+        <span class="badge badge-warning">
+          Rank
+        </span>
+        <span>
+          Player
+        </span>
+      </span>
+      <span class="badge badge-pill badge-success">
+          Points
+      </span>
+    </div>
+
     <div class="list-group"
          *ngFor="let gamePlayer of gamePlayers | orderBy: {property: 'totalRanking', direction: 1}; let $index=index;">
       <div class="h4 list-group-item d-flex justify-content-between align-items-center">
         <span>
         <span class="badge badge-warning">
-            Rank {{gamePlayer.totalRanking}}
-          </span>
+          {{gamePlayer.totalRanking}}
+        </span>
         <span>
-        {{gamePlayer.name}}
+          {{gamePlayer.name}}
         </span>
         </span>
         <span class="badge badge-pill"
               [ngClass]="{'badge-success' : gamePlayer.pointsScored.totalRounds > 0,
                     'badge-primary' : gamePlayer.pointsScored.totalRounds === 0,
                     'badge-danger' : gamePlayer.pointsScored.totalRounds < 0}">
-            Points {{gamePlayer.pointsScored.totalRounds}}
+              {{gamePlayer.pointsScored.totalRounds}}
           </span>
       </div>
     </div>

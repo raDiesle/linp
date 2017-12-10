@@ -5,75 +5,106 @@
     </div>
     <div class="card-body">
       <div *ngIf="isRoleAssigned">
-        <div *ngIf="isQuestionmark">
-          <strong>
-            You are the questionmark
-          </strong>
-          <p>
-            Try to confuse
-          </p>
-          <!-- make non hackable -->
+        <div *ngIf="isQuestionmark" class="text-center">
+          <h2>
+            You are the
+            <span class="badge badge-primary">
+              ?
+            </span>
+          </h2>
+          <h4 class="my-5">
+            Your task is to confuse others.
+          </h4>
         </div>
+
         <div *ngIf="!isQuestionmark">
-          <p>
-            Your word to explain:
-          </p>
-          <p class="py-2">
-            <strong>
+          <h2>
+            Your word is
+            <span class="badge badge-primary">
               {{this.currentGamePlayer.questionmarkOrWord}}
-            </strong>
-          </p>
+            </span>
+          </h2>
+          <h4 class="my-5">
+            Your task is to confuse others.
+          </h4>
+        </div>
+
+        <div>
           <div>
-            Game follows the steps:
+            <h4>Game steps</h4>
+            <p>Players give</p>
             <ol>
-              <li>Give first synonym for <strong>{{this.currentGamePlayer.questionmarkOrWord}}</strong></li>
-              <li>Guess first team</li>
-              <li>Give second synonym for <strong>{{this.currentGamePlayer.questionmarkOrWord}}</strong></li>
-              <li>Guess second team</li>
+              <li>
+                <span class="badge badge-primary">
+                  First
+                </span> synonym for
+                <span class="badge badge-primary">
+                  {{this.currentGamePlayer.questionmarkOrWord}}
+                </span>
+              </li>
+              <li>
+                <span class="badge badge-primary">
+                  First
+                </span> team guess
+              </li>
+              <li>
+                <span class="badge badge-primary">
+                  Second
+                </span>
+                synonym for
+                <span class="badge badge-primary">
+                  {{this.currentGamePlayer.questionmarkOrWord}}
+                </span>
+              </li>
+              <li>
+                <span class="badge badge-primary">
+                  Second
+                </span>
+                team guess
+              </li>
             </ol>
           </div>
-          <p *ngIf="true">
-            There is another player in game with the word
-            <strong>{{this.currentGamePlayer.questionmarkOrWord}}</strong>.
-            In LINP, you need to give synonyms for
-            <strong>{{this.currentGamePlayer.questionmarkOrWord}}</strong>
-            to all players in a way,
-            that your partner identifies yourself as a partner.
-            But do not choose the synonym too obvious to other players.
-            If they identified you and your partner in the guessing-round,
-            you will get minus points.
-          </p>
         </div>
-      </div>
 
-      <div class="py-3">
-        <div>
-          <strong>Total Players: {{gamePlayers?.length}}</strong>
-        </div>
-        <div>
-          <strong>Questionmark: {{rolesDistributionInformation?.questionMarksNeeded}}</strong>
-        </div>
-        <div>
-          <strong>
-            Teams: {{rolesDistributionInformation?.wordsNeeded}}
-          </strong>
-        </div>
-      </div>
+        <div class="py-3 item-group">
+          <div class="list-group-item d-flex justify-content-between align-items-center">
+            <span>Total Players</span>
+            <span class="badge badge-primary badge-pill">
+            {{gamePlayers?.length}}
+          </span>
+          </div>
 
-      <!-- https://codepen.io/ozgursagiroglu/pen/lAxIa -->
-      <button class="btn btn-block"
-              [ngClass]="{'btn-primary' : !hasStartedGame, 'btn-success' : hasStartedGame}"
-              (click)="startGameAction()"
-              [disabled]="hasStartedGame"
-      >
+
+          <div class="list-group-item d-flex justify-content-between align-items-center">
+            <span>Questionmarks</span>
+            <span class="badge badge-primary badge-pill">
+            {{rolesDistributionInformation?.questionMarksNeeded}}
+          </span>
+          </div>
+
+
+          <div class="list-group-item d-flex justify-content-between align-items-center">
+            <span>Team-Players</span>
+            <span class="badge badge-primary badge-pill">
+            2 x {{rolesDistributionInformation?.wordsNeeded}}
+          </span>
+          </div>
+        </div>
+
+        <!-- https://codepen.io/ozgursagiroglu/pen/lAxIa -->
+        <button class="btn btn-block"
+                [ngClass]="{'btn-primary' : !hasStartedGame, 'btn-success' : hasStartedGame}"
+                (click)="startGameAction()"
+                [disabled]="hasStartedGame"
+        >
         <span *ngIf="hasStartedGame === false">
           Ready
         </span>
-        <span *ngIf="hasStartedGame">
+          <span *ngIf="hasStartedGame">
           Waiting for others <app-waitingdots></app-waitingdots>
         </span>
-      </button>
+        </button>
 
+      </div>
     </div>
   </div>
-</div>

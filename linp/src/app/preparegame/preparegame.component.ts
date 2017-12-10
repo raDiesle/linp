@@ -91,11 +91,11 @@ export class PreparegameComponent implements OnInit, OnDestroy {
         this.gamePlayers = gamePlayers;
         // trigger once
         // if should be deprecated because auth promise dependance added
+        this.rolesDistributionInformation = this.preparegameService.getRolesNeeded(gamePlayers.length);
         if (this.authUser) {
           this.setAssignedWordOrRoleInformation();
           return;
         }
-        this.rolesDistributionInformation = this.preparegameService.getRolesNeeded(gamePlayers.length);
 
         // hack to not have cheap non serverside trigger
         const isOnlyExecutedOnHostBrowser = this.authUser.uid === this.hostUid;
