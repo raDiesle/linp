@@ -1,0 +1,35 @@
+<div class="card">
+  <div class="card-header text-center d-flex justify-content-between align-items-center">
+    <strong>Round {{gameRound}} finished</strong>
+    <span class="badge badge-warning" *ngIf="isResultsCalculated === false">
+      Calculating Scores
+      <app-waitingdots></app-waitingdots>
+    </span>
+  </div>
+
+  <div class="card-body">
+    <button class="btn btn-success btn-block my-3" (click)="navigateToFinalizeRound()">
+      Next
+    </button>
+
+    <div class="list-group"
+         *ngFor="let gamePlayer of gamePlayers | orderBy: {property: 'totalRanking', direction: 1}; let $index=index;">
+      <div class="h4 list-group-item d-flex justify-content-between align-items-center">
+        <span>
+        <span class="badge badge-warning">
+            Rank {{gamePlayer.totalRanking}}
+          </span>
+        <span>
+        {{gamePlayer.name}}
+        </span>
+        </span>
+        <span class="badge badge-pill"
+              [ngClass]="{'badge-success' : gamePlayer.pointsScored.totalRounds > 0,
+                    'badge-primary' : gamePlayer.pointsScored.totalRounds === 0,
+                    'badge-danger' : gamePlayer.pointsScored.totalRounds < 0}">
+            Points {{gamePlayer.pointsScored.totalRounds}}
+          </span>
+      </div>
+    </div>
+  </div>
+</div>

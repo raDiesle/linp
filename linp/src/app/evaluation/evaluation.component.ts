@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {AngularFireAuth} from 'angularfire2/auth/auth';
 import {ActivatedRoute, Router} from '@angular/router';
 import * as firebase from 'firebase/app';
@@ -7,8 +7,9 @@ import {Game, GamePlayer, GameStatus, PointsScored, TeamTip} from '../models/gam
 import {Observable} from 'rxjs/Observable';
 import {first} from 'rxjs/operator/first';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {FirebaseGameService} from "../services/firebasegame.service";
-import {Subject} from "rxjs/Subject";
+import {FirebaseGameService} from '../services/firebasegame.service';
+import {Subject} from 'rxjs/Subject';
+import {NgbTooltip} from "@ng-bootstrap/ng-bootstrap";
 
 
 @Component({
@@ -26,7 +27,10 @@ export class EvaluationComponent implements OnInit {
   evaluatedByHostBrowser = false;
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
-  private gameRound: number = 0;
+  @ViewChild('t') public tooltip: NgbTooltip;
+  private gameRound = 0;
+  private isResultsCalculated = false;
+  private currentTooltipIndirectPointsGamePlayer: GamePlayer;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -57,39 +61,25 @@ export class EvaluationComponent implements OnInit {
         const game: Game = gameRef;
         this.gameRound = game.round;
         // Missing reliable check
-        const isResultsCalculated = game.status === 'evaluation';
-        if (isResultsCalculated) {
+        this.isResultsCalculated = game.status === 'evaluation';
+
+        if (this.isResultsCalculated) {
           gameObservable.unsubscribe();
         }
         const hostUid = game.host;
         const isToBeExecutedOnHostBrowserOnceHack = this.authUser.uid === hostUid && this.evaluatedByHostBrowser !== true;
-        if (isResultsCalculated !== true && isToBeExecutedOnHostBrowserOnceHack) {
+        if (this.isResultsCalculated !== true && isToBeExecutedOnHostBrowserOnceHack) {
           this.evaluatedByHostBrowser = true;
           this.firebaseGameService.updateGameStatus('evaluation', this.gameName)
             .then(() => {
               this.evaluateOnServerside();
             });
         }
-
-
-        // to be moved to server, executable only once
-        // this.resetPoints(this.gamePlayers);
-        // this.evaluate();
-        // async issues
-        /*
-        this.db.object('games/' + this.gameName + '/players/')
-        // reduce to only update totalRounds
-          .update(this.gamePlayers)
-          .then(response => console.log(response));
       });
-      */
-      });
-
-
   }
 
-  startNextRound() {
-    this.router.navigate(['/firsttip', this.gameName]);
+  navigateToFinalizeRound() {
+    this.router.navigate(['/finalizeround', this.gameName]);
   }
 
 // move to service

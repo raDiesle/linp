@@ -48,6 +48,8 @@ import {FirsttipService} from './tip/firsttip/firsttip.service';
 import {TimeAgoPipe} from 'time-ago-pipe';
 import {FirebaseGameService} from './services/firebasegame.service';
 import {AuthGuard} from './services/authguard';
+import {FinalizeroundComponent} from './finalizeround/finalizeround.component';
+import {OrderByPipe} from './finalizeround/order-by.pipe';
 
 @NgModule({
   declarations: [
@@ -74,7 +76,9 @@ import {AuthGuard} from './services/authguard';
     BlinkComponent,
     CreatewordComponent,
     CreateAccountComponent,
-    TimeAgoPipe
+    TimeAgoPipe,
+    FinalizeroundComponent,
+    OrderByPipe
   ],
   entryComponents: [
     LoginbyemailComponent
@@ -119,6 +123,10 @@ import {AuthGuard} from './services/authguard';
       {
         path: 'evaluation/:gamename',
         component: EvaluationComponent
+      },
+      {
+        path: 'finalizeround/:gamename',
+        component: FinalizeroundComponent
       },
       {
         path: 'simulation',

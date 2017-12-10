@@ -8,14 +8,14 @@ import {Observable} from 'rxjs/Observable';
 })
 export class WaitingdotsComponent implements OnInit {
 
-  dots = '';
+  dots = '&nbsp;&nbsp;&nbsp;&nbsp;';
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {
     Observable
       .interval(500)
       .timeInterval()
       .subscribe((counter) => {
-        const dotSymbolList = [' ', '.', '..', '...', '....'];
+        const dotSymbolList = ['&nbsp;&nbsp;&nbsp;&nbsp;', '.&nbsp;&nbsp;&nbsp;', '..&nbsp;&nbsp;', '...&nbsp;', '....'];
         this.dots = dotSymbolList[counter.value % dotSymbolList.length];
         this.changeDetectorRef.markForCheck();
       });
