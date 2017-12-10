@@ -26,6 +26,7 @@ export class EvaluationComponent implements OnInit {
   evaluatedByHostBrowser = false;
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
+  private gameRound: number = 0;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -54,7 +55,7 @@ export class EvaluationComponent implements OnInit {
       .subscribe(gameRef => {
         // hack to not have cheap non serverside trigger
         const game: Game = gameRef;
-
+        this.gameRound = game.round;
         // Missing reliable check
         const isResultsCalculated = game.status === 'evaluation';
         if (isResultsCalculated) {

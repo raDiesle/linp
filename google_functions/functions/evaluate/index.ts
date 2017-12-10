@@ -48,6 +48,7 @@ export class Evaluate {
                 // move to other page
                 this.resetPoints(gamePlayerKeys, gamePlayersObject);
                 this.evaluate(gamePlayerKeys, gamePlayersObject);
+                this.addRanking(gamePlayerKeys, gamePlayersObject, gamePlayers);
 
                 const gameUpdateRequest: any = this.getScoresDbStructureRequest(request.query.gameName, gamePlayerKeys, gamePlayersObject);
                 gamePlayerKeys.forEach((key: string) => {
@@ -57,7 +58,8 @@ export class Evaluate {
                         .collection('players')
                         .doc(key)
                         .update({
-                            pointsScored: gameUpdateRequest.pointsScored[key]
+                            pointsScored: gameUpdateRequest.pointsScored[key],
+                            totalRanking: gameUpdateRequest[key].totalRanking
                         });
                 });
 
@@ -110,8 +112,9 @@ export class Evaluate {
     }
 
     private getScoresDbStructureRequest(gameName: string, gamePlayerKeys: string[], gamePlayers: { [p: string]: GamePlayer }) {
-        const request = {
-            pointsScored: {} as any
+        const request: any = {
+            pointsScored: {} as any,
+            totalRanking: 0 as number
         };
 
         for (const gamePlayerKey of gamePlayerKeys) {
@@ -122,8 +125,27 @@ export class Evaluate {
             request.pointsScored[gamePlayerKey]['indirect'] = gamePlayers[gamePlayerKey].pointsScored.indirect;
             request.pointsScored[gamePlayerKey]['total'] = gamePlayers[gamePlayerKey].pointsScored.total;
             request.pointsScored[gamePlayerKey]['totalRounds'] = gamePlayers[gamePlayerKey].pointsScored.totalRounds;
-
+            request[gamePlayerKey] = {};
+            request[gamePlayerKey]['totalRanking'] = gamePlayers[gamePlayerKey].totalRanking;
         }
         return request;
+    }
+
+    private addRanking(gamePlayerKeys: string[], gamePlayersObject: { [p: string]: GamePlayer }, gamePlayers: GamePlayer[]) {
+        const totals = [];
+
+        gamePlayers.sort((a, b) => {
+            if (a.pointsScored.total > b.pointsScored.total) {
+                return -1;
+            }
+            if (a.pointsScored.total < b.pointsScored.total) {
+                return 1;
+            }
+            return 0;
+        });
+
+        gamePlayers.forEach((value, index) => {
+            gamePlayersObject[value.uid].totalRanking = index + 1;
+        });
     }
 }

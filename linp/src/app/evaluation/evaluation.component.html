@@ -1,63 +1,118 @@
-<div>
-  <button class="btn btn-success btn-block my-3" (click)="startNextRound()">
-    Ready for next round
-  </button>
+<div class="card">
+  <div class="card-header text-center">
+    <strong>Round {{gameRound}} finished</strong>
+  </div>
 
-    <table class="table table-striped table-bordered table-responsive">
-      <thead>
-      <tr>
-        <th>#</th>
-        <th>Player</th>
-        <th>Word</th>
-        <th>1. Word</th>
-        <th>2. Word</th>
-        <th class="table-info">1. Guess</th>
-        <th class="table-info">2. Guess</th>
-        <th class="table-info">By others</th>
-        <th class="table-info">Points</th>
-        <th>Total</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr
-        *ngFor="let gamePlayer of gamePlayers; let $index=index;"
-      >
-        <th scope="row">{{$index}}</th>
-        <td [ngClass]="{'table-primary' : gamePlayer.uid === authUser.uid}">{{gamePlayer.name}}</td>
-        <td><strong>{{gamePlayer.questionmarkOrWord}}</strong></td>
-        <td>{{gamePlayer.firstSynonym}}</td>
-        <td>{{gamePlayer.secondSynonym}}</td>
-        <td [ngClass]="{'table-success' : gamePlayer.pointsScored.firstTeamTip > 0,
-                    'table-active' : gamePlayer.pointsScored.firstTeamTip === 0,
-                    'table-danger' : gamePlayer.pointsScored.firstTeamTip < 0}">
-          <strong>{{gamePlayer.pointsScored.firstTeamTip}}</strong>
-          <br>
-          {{gamePlayer.firstTeamTip?.firstPartner?.name}}
-          & {{gamePlayer.firstTeamTip?.secondPartner?.name}}
+  <div class="card-body">
+    <div *ngFor="let gamePlayer of gamePlayers; let $index=index;">
+      <h3 class="d-flex justify-content-between align-items-center">
+        {{gamePlayer.name}}
+        <span>
+          <span *ngIf="gamePlayer.uid === authUser.uid" class="badge badge-info">
+            you
+          </span>
+          <span class="badge badge-info">
+            Rank {{gamePlayer.totalRanking}}
+          </span>
+        </span>
+      </h3>
+      <div class="list-group">
+        <div class="list-group-item d-flex justify-content-between align-items-center">
+          Assigned Word
+          <span class="badge badge-primary badge-pill">
+          {{gamePlayer.questionmarkOrWord}}
+          </span>
+        </div>
 
-        </td>
-        <td [ngClass]="{'table-success' : gamePlayer.pointsScored.secondTeamTip > 0,
-                    'table-active' : gamePlayer.pointsScored.secondTeamTip === 0,
-                    'table-danger' : gamePlayer.pointsScored.secondTeamTip < 0}">
-          <strong>{{gamePlayer.pointsScored.secondTeamTip}}</strong>
-          <br>
-          {{gamePlayer.secondTeamTip?.firstPartner?.name}}
-          & {{gamePlayer.secondTeamTip?.secondPartner?.name}}
-        </td>
-        <td [ngClass]="{'table-success' : gamePlayer.pointsScored.indirect > 0,
-                    'table-active' : gamePlayer.pointsScored.indirect === 0,
-                    'table-danger' : gamePlayer.pointsScored.indirect < 0}">
-          {{gamePlayer.pointsScored.indirect}}
-        </td>
-        <td [ngClass]="{'table-success' : gamePlayer.pointsScored.total > 0,
-                    'table-active' : gamePlayer.pointsScored.total === 0,
-                    'table-danger' : gamePlayer.pointsScored.total < 0}">
-          {{gamePlayer.pointsScored.total}}
-        </td>
-        <td>
-          {{gamePlayer.pointsScored.totalRounds}}
-        </td>
-      </tr>
-      </tbody>
-    </table>
+        <div class="list-group-item d-flex justify-content-between align-items-center">
+          Total Points of all rounds
+          <span class="badge badge-primary badge-pill">
+            {{gamePlayer.pointsScored.totalRounds}}
+          </span>
+        </div>
+
+        <div class="list-group-item d-flex justify-content-between align-items-center">
+          Total for current round
+          <span class="badge badge-primary badge-pill"
+                [ngClass]="{'badge-success' : gamePlayer.pointsScored.total > 0,
+                    'badge-primary' : gamePlayer.pointsScored.total === 0,
+                    'badge-danger' : gamePlayer.pointsScored.total < 0}">
+            {{gamePlayer.pointsScored.total}}
+          </span>
+        </div>
+
+
+        <div class="list-group-item d-flex justify-content-between align-items-center">
+          First Synonym
+          <span class="badge badge-primary badge-pill">
+          {{gamePlayer.firstSynonym}}
+        </span>
+        </div>
+
+        <div class="list-group-item d-flex justify-content-between align-items-center">
+          Second Synonym
+          <span class="badge badge-primary badge-pill">
+          {{gamePlayer.secondSynonym}}
+        </span>
+        </div>
+
+
+        <div class="list-group-item d-flex justify-content-between align-items-center">
+          First Team Tip Points
+          <span>
+            <span class="badge badge-pill badge-primary">
+              {{gamePlayer.firstTeamTip?.firstPartner?.name}}
+            </span>
+            <span class="badge badge-pill badge-primary">
+              {{gamePlayer.firstTeamTip?.secondPartner?.name}}
+            </span>
+            <span class="badge badge-pill"
+                  [ngClass]="{'badge-success' : gamePlayer.pointsScored.firstTeamTip > 0,
+                      'badge-primary' : gamePlayer.pointsScored.firstTeamTip === 0,
+                      'badge-danger' : gamePlayer.pointsScored.firstTeamTip < 0}"
+            >
+              {{gamePlayer.pointsScored.firstTeamTip}}
+            </span>
+          </span>
+        </div>
+
+        <div class="list-group-item d-flex justify-content-between align-items-center">
+          First Team Tip Points
+          <span>
+            <span class="badge badge-primary">
+                {{gamePlayer.secondTeamTip?.firstPartner?.name}}
+            </span>
+            <span class="badge badge-primary">
+              {{gamePlayer.secondTeamTip?.secondPartner?.name}}
+            </span>
+            <span class="badge badge-pill"
+                  [ngClass]="{'badge-success' : gamePlayer.pointsScored.secondTeamTip > 0,
+                      'badge-primary' : gamePlayer.pointsScored.secondTeamTip === 0,
+                      'badge-danger' : gamePlayer.pointsScored.secondTeamTip < 0}"
+            >
+              {{gamePlayer.pointsScored.secondTeamTip}}
+            </span>
+          </span>
+        </div>
+
+        <div class="list-group-item d-flex justify-content-between align-items-center">
+          Indirect points by others
+          <span class="badge badge-pill"
+                [ngClass]="{'badge-success' : gamePlayer.pointsScored.indirect > 0,
+                    'badge-primary' : gamePlayer.pointsScored.indirect === 0,
+                    'badge-danger' : gamePlayer.pointsScored.indirect < 0}"
+          >
+            {{gamePlayer.pointsScored.indirect}}
+          </span>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="card-footer">
+    <button class="btn btn-success btn-block my-3" (click)="startNextRound()">
+      Ready for next round
+    </button>
+  </div>
 </div>

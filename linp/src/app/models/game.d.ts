@@ -32,6 +32,7 @@ export interface GamePlayer {
   secondSynonym?: string;
   secondTeamTip?: TeamTip;
   pointsScored?: PointsScored;
+  totalRanking?: number;
 }
 
 
