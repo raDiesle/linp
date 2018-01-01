@@ -26,6 +26,8 @@ export class FinalizeroundComponent implements OnInit {
       .subscribe(gamePlayers => {
         this.gamePlayers = gamePlayers;
       });
+
+    this.firebaseGameService.writeNextRoundCleanupData(this.gameName);
   }
 
 }

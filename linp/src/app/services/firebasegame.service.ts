@@ -118,4 +118,8 @@ export class FirebaseGameService {
       pointsScored: {}
     };
   }
+
+  writeNextRoundCleanupData(gameName: string) {
+    console.log('to be implemented');
+  }
 }
