@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {AngularFireAuth} from 'angularfire2/auth';
+import * as firebase from "firebase";
+import Persistence = firebase.auth.Auth.Persistence;
 
 @Component({
   selector: 'app-loginbyemail',
@@ -17,6 +19,7 @@ export class LoginbyemailComponent implements OnInit {
   }
 
   login(email, password) {
+    // this.afAuth.auth.setPersistence(Persistence.SESSION)
     this.afAuth.auth.signInWithEmailAndPassword(email, password)
       .then((response) => this.activeModal.close());
   }

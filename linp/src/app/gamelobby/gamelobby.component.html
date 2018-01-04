@@ -38,7 +38,8 @@
 
       </ngb-alert>
 
-      <button (click)="startGame()"
+      <button id="gamestatusButton"
+              (click)="startGame()"
               class="btn btn-block my-1"
               [ngClass]="gamePlayers.length < 4 ? 'btn-outline-warning' : 'btn-outline-success'"
               [disabled]="gamePlayers.length < 4 || loggedInPlayerIsHost === false"
@@ -58,9 +59,9 @@
     </div>
 
     <div class="list-group">
-      <ng-container *ngFor="let gamePlayer of gamePlayers">
+      <ng-container *ngFor="let gamePlayer of gamePlayers;let idx = index;">
         <div class="list-group-item">
-          <strong>
+          <strong id="gamePlayers_{{idx}}">
             {{gamePlayer.name}}
           </strong>
           <span class="badge badge-primary" *ngIf="gamePlayer.isHost">

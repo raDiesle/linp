@@ -43,8 +43,7 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
       .takeUntil(this.ngUnsubscribe)
       .subscribe((gamePlayers: GamePlayer[]) => {
         this.gamePlayers = gamePlayers;
-
-
+        console.log('readIn successful');
         const loggedInUser = gamePlayers.find(gamePlayr => {
           return gamePlayr.uid === this.firebaseGameService.authUserUid;
         });
@@ -60,8 +59,10 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
             return gamePlayr.isHost;
           }).name;
         } else {
-          this.firebaseGameService.addLoggedInPlayerToGame(this.gameName);
-
+          this.firebaseGameService.addLoggedInPlayerToGame(this.gameName)
+            .then(() => {
+              console.log('updated successful');
+            });
         }
       });
   }

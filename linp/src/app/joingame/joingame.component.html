@@ -7,6 +7,7 @@
       <div class="list-group">
         <ng-container *ngFor="let game of games">
           <button
+            id="gamename_{{game.name}}"
             *ngIf="game !== -1"
             type="button"
             (click)="onSelectGameToJoin(game)"
@@ -14,7 +15,9 @@
           >
             <div class="row">
               <div class="col-6">
-                <strong>{{game.name}}</strong>
+                <strong>
+                  {{game.name}}
+                </strong>
               </div>
               <div class="col-6">
                 created {{game.createdAt | timeAgo}}

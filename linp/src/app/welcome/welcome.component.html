@@ -30,8 +30,8 @@
             </div>
             <strong>
               <fade [out]="false" [(isVisible)]="playerProfile">
-                {{playerProfile?.name}}
-                <a href="javascript:void(0)">
+                <span id="loggedInPlayerName">{{playerProfile?.name}}</span>
+                <a id="logout" href="javascript:void(0)">
                   <i class="material-icons md-18 align-top text-danger" (click)="logout()">no_encryption</i>
                 </a>
               </fade>

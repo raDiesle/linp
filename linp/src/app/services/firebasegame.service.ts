@@ -59,8 +59,8 @@ export class FirebaseGameService {
       .set(<Game>newGame);
   }
 
-  public addLoggedInPlayerToGame(gameName: string) {
-    Promise.all([this.observeGame(gameName).first().toPromise(),
+  public addLoggedInPlayerToGame(gameName: string): Promise<void> {
+    return Promise.all([this.observeGame(gameName).first().toPromise(),
       this.observeLoggedInPlayerProfile().first().toPromise()])
       .then(responses => {
         const game = responses[0] as Game;
@@ -79,23 +79,11 @@ export class FirebaseGameService {
     return observable;
   }
 
-  private addPlayerToGame(gameName: string, playerName: string, isHost: boolean): Promise<void> {
-    // TODO extract to model
-    const updatePlayer: GamePlayer = {
-      uid: this.afAuth.auth.currentUser.uid,
-      name: playerName,
-      isHost: isHost,
-      status: 'JOINED_GAME',
-// substract to initial model object
-    };
-
-// What if he joins again? Handle!
+  deleteGame(gameName: string): Promise<void> {
     return this.db
-      .collection<GamePlayer>('games')
+      .collection<Game>('games')
       .doc(gameName)
-      .collection('players')
-      .doc(this.afAuth.auth.currentUser.uid)
-      .set(updatePlayer);
+      .delete()
   }
 
   public updateGameStatus(newStatus: GameStatus, gameName: string): Promise<void> {
@@ -121,5 +109,26 @@ export class FirebaseGameService {
 
   writeNextRoundCleanupData(gameName: string) {
     console.log('to be implemented');
+  }
+
+  private addPlayerToGame(gameName: string, playerName: string, isHost: boolean): Promise<void> {
+    // TODO extract to model
+    const updatePlayer: GamePlayer = {
+      uid: this.afAuth.auth.currentUser.uid,
+      name: playerName,
+      isHost: isHost,
+      status: 'JOINED_GAME',
+// substract to initial model object
+    };
+
+// What if he joins again? Handle!
+    console.log(this.afAuth.auth.currentUser.uid);
+
+    return this.db
+      .collection<GamePlayer>('games')
+      .doc(gameName)
+      .collection('players')
+      .doc(this.afAuth.auth.currentUser.uid)
+      .set(updatePlayer);
   }
 }
