@@ -17,11 +17,8 @@ fixture `Full testsuite`
   .page `http://localhost:4200`
   .beforeEach(async t => {
     await waitForAngular();
-  })
-  .afterEach(async t => {
-    // t.getBrowserConsoleMessages();
-    // await t.navigateTo('/deletegame/'+gameName)
   });
+
 
 test('Create Game and join players in gamelobby', async t => {
   await loginByPlayer(t, 'playera@test.de');
