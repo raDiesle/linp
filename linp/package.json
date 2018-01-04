@@ -32,6 +32,7 @@
     "font-awesome": "4.7.0",
     "material-design-icons": "3.0.1",
     "ngx-sharebuttons": "4.1.4",
+    "node-sass": "^4.7.2",
     "rxjs": "^5.1.0",
     "time-ago-pipe": "^1.2.1",
     "zone.js": "^0.8.4"

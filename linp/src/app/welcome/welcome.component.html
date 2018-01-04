@@ -1,61 +1,72 @@
 <div class="container">
   <div class="card-deck">
-    <div class="card">
-
-        <div *ngIf="authUser; then isLoggedIn else isNotLoggedIn"></div>
-        <ng-template #isNotLoggedIn>
-          <div class="card-header">
-            <strong>Login</strong>
-          </div>
-          <div class="card-body">
-            <button class="btn btn-primary btn-block" (click)="loginByGoogle()">
-              Google
-            </button>
-            <button class="btn btn-primary btn-block" (click)="loginAnonymous()">
-              Anonymous
-            </button>
-            <button id="loginByEmail" class="btn btn-primary btn-block" (click)="loginEmailPassword(content)">
-              Account
-            </button>
-            <button class="btn btn-secondary btn-block" (click)="goToCreateAccountPage()">
-              Create Account
-            </button>
-          </div>
-        </ng-template>
-
-        <ng-template #isLoggedIn>
-          <div class="card-header">
-            <div class="small">
-              Logged in as:
-            </div>
-            <strong>
-              <fade [out]="false" [(isVisible)]="playerProfile">
-                <span id="loggedInPlayerName">{{playerProfile?.name}}</span>
-                <a id="logout" href="javascript:void(0)">
-                  <i class="material-icons md-18 align-top text-danger" (click)="logout()">no_encryption</i>
-                </a>
-              </fade>
-              <div *ngIf="!playerProfile">
-                <app-waitingdots></app-waitingdots>
-              </div>
-            </strong>
-          </div>
-
-          <div class="card-body" *ngIf="!firstTimeLoggedInEver">
-            <button
-              type="button"
-              class="btn btn-primary btn-block"
-              routerLink="/joingame">
-              Join Game
-            </button>
-            <button
-              type="button"
-              class="btn btn-primary btn-block"
-              routerLink="/creategame">
-              Create Game
-            </button>
-          </div>
-        </ng-template>
-      </div>
+    <div *ngIf="authUser; then isLoggedIn else isNotLoggedIn">
     </div>
+  </div>
 </div>
+
+<ng-template #isNotLoggedIn>
+  <div class="card">
+    <div class="card-header">
+      <strong>Login</strong>
+    </div>
+    <div class="card-body">
+      <button class="btn btn-primary btn-block" (click)="loginByGoogle()">
+        Google
+      </button>
+      <button class="btn btn-primary btn-block" (click)="loginAnonymous()">
+        Anonymous
+      </button>
+      <button id="loginByEmail" class="btn btn-primary btn-block" (click)="loginEmailPassword(content)">
+        Account
+      </button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <strong>Sign up</strong>
+    </div>
+    <div class="card-body">
+      <button class="btn btn-secondary btn-block" (click)="goToCreateAccountPage()">
+        Create Account
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #isLoggedIn>
+  <div class="card">
+    <div class="card-header">
+      <div class="small">
+        Logged in as:
+      </div>
+      <strong>
+        <fade [out]="false" [(isVisible)]="playerProfile">
+          <span id="loggedInPlayerName">{{playerProfile?.name}}</span>
+          <a id="logout" href="javascript:void(0)">
+            <i class="material-icons md-18 align-top text-danger" (click)="logout()">no_encryption</i>
+          </a>
+        </fade>
+        <div *ngIf="!playerProfile">
+          <app-waitingdots></app-waitingdots>
+        </div>
+      </strong>
+    </div>
+
+    <div class="card-body" *ngIf="!firstTimeLoggedInEver">
+      <button
+        type="button"
+        class="btn btn-primary btn-block"
+        routerLink="/joingame">
+        Join Game
+      </button>
+      <button
+        type="button"
+        class="btn btn-primary btn-block"
+        routerLink="/creategame">
+        Create Game
+      </button>
+    </div>
+  </div>
+</ng-template>
