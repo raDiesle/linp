@@ -1,3 +1,8 @@
 <p>
-  deletegame works!
+<div *ngIf="isDeleted === false">
+  game is deleting ...
+</div>
+<div id="isDeleted" *ngIf="isDeleted">
+  game was successful deleted
+</div>
 </p>
