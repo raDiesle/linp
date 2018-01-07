@@ -33,7 +33,7 @@ export class LoginbyemailComponent implements OnInit {
       .then((response) => {
 
         }
-      //  => this.activeModal.close()
+        //  => this.activeModal.close()
       );
   }
 }

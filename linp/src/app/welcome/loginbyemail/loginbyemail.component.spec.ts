@@ -5,11 +5,8 @@ import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 import {AngularFireAuth} from "angularfire2/auth";
 
 
-const ngbActiveModalStub = {
-};
-const afAuthStub = {
-
-};
+const ngbActiveModalStub = {};
+const afAuthStub = {};
 
 describe('LoginbyemailComponent', () => {
   let component: LoginbyemailComponent;
@@ -17,8 +14,8 @@ describe('LoginbyemailComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LoginbyemailComponent ],
-      providers:    [ {provide: NgbActiveModal, useValue: ngbActiveModalStub },
+      declarations: [LoginbyemailComponent],
+      providers: [{provide: NgbActiveModal, useValue: ngbActiveModalStub},
         {provide: AngularFireAuth, useValue: afAuthStub}]
     })
     .compileComponents();

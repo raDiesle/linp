@@ -1,6 +1,5 @@
-export function SessionStorage(
-  target: Object, // The prototype of the class
-  decoratedPropertyName: string // The name of the property
+export function SessionStorage(target: Object, // The prototype of the class
+                               decoratedPropertyName: string // The name of the property
 ) {
 
   // get and set methods
