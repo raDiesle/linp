@@ -1,19 +1,40 @@
-<p>
+<div>
+
+  <div class="py-5">
+    Gamename: {{gameName}}
+    <div>
+      <input type="text" class="form-control" [(ngModel)]="gameName">
+    </div>
+  </div>
+
+  <div id="createForPrepareGameResponseAllFlag"
+       *ngIf="createForPrepareGameResponseCountPlayersCount !== 0 && createForPrepareGameResponseCountPlayersCount === createForPrepareGameResponseCount">
+    Sucessful setup all data
+  </div>
 
   <button class="btn btn-primary btn-block"
-          (click)="createForEvaluation()">Create for evaluation</button>
+          id="createForPrepareGame"
+          (click)="createForPrepareGame()">Create for preparegame
+  </button>
+
+  <button class="btn btn-primary btn-block"
+          (click)="createForEvaluation()">Create for evaluation
+  </button>
 
 
   <button class="btn btn-primary btn-block"
-          (click)="createUserNames()">Create User names</button>
+          (click)="createUserNames()">Create User names
+  </button>
 
 
   <button class="btn btn-primary btn-block"
-          (click)="createGameWithUsers()">Create Game with Users</button>
+          (click)="createGameWithUsers()">Create Game with Users
+  </button>
 
 
   <button class="btn btn-primary btn-block"
-          (click)="updateSinglePlayerScore()">Update single player score</button>
+          (click)="updateSinglePlayerScore()">Update single player score
+  </button>
 
   <button class="btn btn-primary btn-block"
           (click)="addInitialWords()">Add initial words
@@ -25,11 +46,11 @@
 
 
   <span *ngIf="queryResults | async; let queryResults; else loading">
-  <ul>
-    <li *ngFor="let item of queryResults">
-      {{ item | json }}
-    </li>
-  </ul>
-  <div *ngIf="queryResults.length === 0">No results, try clearing filters</div>
-</span>
-</p>
+    <ul>
+      <li *ngFor="let item of queryResults">
+        {{ item | json }}
+      </li>
+    </ul>
+    <div *ngIf="queryResults.length === 0">No results, try clearing filters</div>
+  </span>
+</div>

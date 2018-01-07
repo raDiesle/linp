@@ -26,6 +26,7 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   private loggedInPlayerIsHost = false;
   private hostPlayerName: string;
+  public loggedInPlayerSuccessfulAddedStatusFlag = false;
 
   constructor(private router: Router,
               private route: ActivatedRoute,
@@ -39,29 +40,31 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
     const gameName = this.route.snapshot.paramMap.get('gamename');
     this.gameName = gameName;
 
+    this.firebaseGameService.observeGame(this.gameName)
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(game => {
+        this.router.navigate(['/' + game.status, this.gameName]);
+      });
+
     this.firebaseGameService.observeGamePlayers(gameName)
       .takeUntil(this.ngUnsubscribe)
       .subscribe((gamePlayers: GamePlayer[]) => {
         this.gamePlayers = gamePlayers;
-        console.log('readIn successful');
         const loggedInUser = gamePlayers.find(gamePlayr => {
           return gamePlayr.uid === this.firebaseGameService.authUserUid;
         });
         const isAlreadyJoined = loggedInUser !== undefined;
         this.loggedInPlayerIsHost = loggedInUser && loggedInUser.isHost;
 
-        if (isAlreadyJoined) {
-          this.firebaseGameService.observeGame(this.gameName).first().toPromise()
-            .then(game => {
-              this.router.navigate(['/' + game.status, this.gameName]);
-            });
-          this.hostPlayerName = gamePlayers.find(gamePlayr => {
-            return gamePlayr.isHost;
-          }).name;
-        } else {
+        this.hostPlayerName = gamePlayers.find(gamePlayr => {
+          return gamePlayr.isHost;
+        }).name;
+
+        if (isAlreadyJoined === false) {
           this.firebaseGameService.addLoggedInPlayerToGame(this.gameName)
             .then(() => {
-              console.log('updated successful');
+              // if page changes e.g. in test before handler, it will show new user, but not persist to db
+              this.loggedInPlayerSuccessfulAddedStatusFlag = true;
             });
         }
       });

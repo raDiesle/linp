@@ -37,7 +37,7 @@
       <ngb-alert *ngIf="!staticAlertClosed" (close)="staticAlertClosed = true">
 
       </ngb-alert>
-
+      <span *ngIf="loggedInPlayerSuccessfulAddedStatusFlag" id="loggedInPlayerSuccessfulAddedStatusFlag"></span>
       <button id="gamestatusButton"
               (click)="startGame()"
               class="btn btn-block my-1"
@@ -59,7 +59,7 @@
     </div>
 
     <div class="list-group">
-      <ng-container *ngFor="let gamePlayer of gamePlayers;let idx = index;">
+      <ng-container *ngFor="let gamePlayer of gamePlayers; let idx = index;">
         <div class="list-group-item">
           <strong id="gamePlayers_{{idx}}">
             {{gamePlayer.name}}

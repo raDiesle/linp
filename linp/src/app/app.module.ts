@@ -135,6 +135,10 @@ import {DeletegameComponent} from './deletegame/deletegame.component';
         component: SimulationComponent
       },
       {
+        path: 'simulation/:gamename',
+        component: SimulationComponent
+      },
+      {
         path: 'deletegame/:gamename',
         component: DeletegameComponent
       },

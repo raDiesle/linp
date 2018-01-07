@@ -7,6 +7,7 @@ import {AngularFireAuth} from 'angularfire2/auth';
 
 import * as firebase from 'firebase/app';
 import {PreparegameService} from './preparegame.service';
+import {FirebaseGameService} from "../services/firebasegame.service";
 
 @Component({
   selector: 'app-preparegame',
@@ -30,11 +31,18 @@ export class PreparegameComponent implements OnInit, OnDestroy {
               private router: Router,
               public db: AngularFirestore,
               public afAuth: AngularFireAuth,
-              private preparegameService: PreparegameService) {
+              private preparegameService: PreparegameService,
+              private firebaseGameService: FirebaseGameService) {
   }
 
   ngOnInit() {
     this.gameName = this.route.snapshot.paramMap.get('gamename');
+
+    this.firebaseGameService.observeGame(this.gameName)
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(game => {
+        this.router.navigate(['/' + game.status, this.gameName]);
+      });
 
     const authPromise = this.afAuth.authState
       .takeUntil(this.ngUnsubscribe)
@@ -92,28 +100,24 @@ export class PreparegameComponent implements OnInit, OnDestroy {
         // trigger once
         // if should be deprecated because auth promise dependance added
         this.rolesDistributionInformation = this.preparegameService.getRolesNeeded(gamePlayers.length);
-        if (this.authUser) {
-          this.setAssignedWordOrRoleInformation();
-          return;
-        }
+        // if (this.authUser) {
+        this.currentGamePlayer = this.gamePlayers.find(gamePlayer => {
+          return gamePlayer.uid === this.authUser.uid;
+        });
+        this.isRoleAssigned = !!this.currentGamePlayer.questionmarkOrWord;
+        this.isQuestionmark = this.currentGamePlayer.questionmarkOrWord === '?';
+        //  return;
+        // }
 
-        // hack to not have cheap non serverside trigger
+        // hack to have cheap non serverside trigger
         const isOnlyExecutedOnHostBrowser = this.authUser.uid === this.hostUid;
-        if (isOnlyExecutedOnHostBrowser) {
+        if (this.isRoleAssigned == false && isOnlyExecutedOnHostBrowser) {
           this.preparegameService.assignWordOnServerside(gameName)
             .subscribe(response => {
               console.log('words assign on serversidedone');
             });
         }
       });
-  }
-
-  private setAssignedWordOrRoleInformation() {
-    this.currentGamePlayer = this.gamePlayers.find(gamePlayer => {
-      return gamePlayer.uid === this.authUser.uid;
-    });
-    this.isRoleAssigned = !!this.currentGamePlayer.questionmarkOrWord;
-    this.isQuestionmark = this.currentGamePlayer.questionmarkOrWord === '?';
   }
 
   private navigateNextPage() {

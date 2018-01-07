@@ -1,29 +1,20 @@
 <div>
   <form>
-    <div class="modal-header">
-      <h4 class="modal-title">Login Email & Password</h4>
-      <button type="button" class="close" (click)="activeModal.dismiss('Cross click')">
-        <span>&times;</span>
-      </button>
+    <div class="form-group">
+      <!-- TODO -->
+      <label for="userProfileEmail" class="col-form-label">Email</label>
+      <input type="email" class="form-control" id="userProfileEmail" name="userProfileEmail"
+             [(ngModel)]="userProfileEmail"
+      >
     </div>
-    <div class="modal-body">
-      <div>
-        <div class="form-group">
-          <!-- TODO -->
-          <label for="userProfileEmail" class="col-form-label">Email</label>
-          <input type="email" class="form-control" id="userProfileEmail" name="userProfileEmail"
-                 #userProfileEmail>
-        </div>
-        <div class="form-group">
-          <label for="userProfilePassword">Password</label>
-          <input type="password" class="form-control" id="userProfilePassword" name="userProfileEmail"
-                 #userProfilePassword>
-        </div>
-      </div>
+    <div class="form-group">
+      <label for="userProfilePassword">Password</label>
+      <input type="password" class="form-control" id="userProfilePassword" name="userProfilePassword"
+             [(ngModel)]="userProfilePassword">
     </div>
-    <div class="modal-footer">
-      <button id="loginButtonByEmail" type="submit" class="btn btn-outline-dark"
-              (click)="login(userProfileEmail.value, userProfilePassword.value)">Login
+    <div class="d-flex align-items-end flex-column">
+      <button id="loginButtonByEmail" type="submit" class="btn btn-primary btn-block"
+              (click)="login(userProfileEmail, userProfilePassword)">Login
       </button>
     </div>
   </form>

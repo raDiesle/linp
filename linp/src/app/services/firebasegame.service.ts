@@ -79,7 +79,7 @@ export class FirebaseGameService {
     return observable;
   }
 
-  deleteGame(gameName: string): Promise<void> {
+  public deleteGame(gameName: string): Promise<void> {
     return this.db
       .collection<Game>('games')
       .doc(gameName)
@@ -118,6 +118,8 @@ export class FirebaseGameService {
       name: playerName,
       isHost: isHost,
       status: 'JOINED_GAME',
+      //TODO update on all places to order by pos when fetching
+      pos: this.random53()
 // substract to initial model object
     };
 
@@ -130,5 +132,9 @@ export class FirebaseGameService {
       .collection('players')
       .doc(this.afAuth.auth.currentUser.uid)
       .set(updatePlayer);
+  }
+
+  private random53(): number {
+    return Math.floor(Number.MAX_SAFE_INTEGER * (2 * (Math.random() - 0.5)));
   }
 }
