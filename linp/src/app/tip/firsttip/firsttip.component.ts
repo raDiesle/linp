@@ -20,6 +20,7 @@ export class FirsttipComponent implements OnInit, OnDestroy {
   loggedInGamePlayer: GamePlayer;
 
   FIRST_SYNONYM_GIVEN_PLAYER_STATUS: GamePlayerStatus = 'FIRST_SYNONYM_GIVEN';
+  READY_FOR_GAME: GamePlayerStatus = 'READY_TO_START';
 
   authUser: firebase.User;
   gamePlayers: GamePlayer[];
@@ -75,6 +76,13 @@ export class FirsttipComponent implements OnInit, OnDestroy {
         this.currentPlayer = this.gamePlayers.find(gamePlayer => {
           return gamePlayer.status !== this.FIRST_SYNONYM_GIVEN_PLAYER_STATUS;
         });
+
+        const isAllAreReadyOnPreparedGame = gamePlayers.every(gamePlayer => {
+          return gamePlayer.status === this.READY_FOR_GAME;
+        });
+        if(isAllAreReadyOnPreparedGame){
+          this.firebaseGameService.updateGameStatus('firsttip', this.gameName);
+        }
 
         const isAllGivenFirstSynonym = gamePlayers.every(gamePlayer => {
           return gamePlayer.status === this.FIRST_SYNONYM_GIVEN_PLAYER_STATUS;

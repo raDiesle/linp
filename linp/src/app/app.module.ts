@@ -50,7 +50,6 @@ import {FirebaseGameService} from './services/firebasegame.service';
 import {AuthGuard} from './services/authguard';
 import {FinalizeroundComponent} from './finalizeround/finalizeround.component';
 import {OrderByPipe} from './finalizeround/order-by.pipe';
-import {DeletegameComponent} from './deletegame/deletegame.component';
 
 @NgModule({
   declarations: [
@@ -79,8 +78,7 @@ import {DeletegameComponent} from './deletegame/deletegame.component';
     CreateAccountComponent,
     TimeAgoPipe,
     FinalizeroundComponent,
-    OrderByPipe,
-    DeletegameComponent
+    OrderByPipe
   ],
   entryComponents: [
     LoginbyemailComponent
@@ -137,10 +135,6 @@ import {DeletegameComponent} from './deletegame/deletegame.component';
       {
         path: 'simulation/:gamename',
         component: SimulationComponent
-      },
-      {
-        path: 'deletegame/:gamename',
-        component: DeletegameComponent
       },
       {
         path: 'playerprofile',

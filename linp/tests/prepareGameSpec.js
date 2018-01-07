@@ -5,7 +5,7 @@ import { ClientFunction } from 'testcafe';
 
 let loginByPlayer = async function (t, userEmail) {
   await t
-    .navigateTo('/welcome')
+    .click('#welcome')
     //.click('#loginByEmail')
     .typeText('#userProfileEmail', userEmail, {replace: true})
     .typeText('#userProfilePassword', 'pass123')
@@ -13,6 +13,15 @@ let loginByPlayer = async function (t, userEmail) {
     .expect(Selector('#logout').exists).ok()
   ;
 };
+
+const typeSynonymOnYourTurn = async function(t) {
+  await t
+    .expect(Selector('#playersTurnList').exists).ok()
+    .expect(Selector('#yourTurn').exists).ok()
+    .typeText('#synonymTxt', 'FirstSynonym')
+    .click('#sendSynonym')
+    .expect(Selector('#yourTurn').exists).notOk()
+}
 
 const gameName = 'test' + Math.floor(Math.random() * 1000000 + 1);
 console.log(gameName);
@@ -32,60 +41,94 @@ fixture `PrepareGameSpec`
     await waitForAngular();
   })
   .afterEach(async t =>{
-    await t.navigateTo('/deletegame/' + gameName)
-        .expect(Selector('#deletedGameFlag').exists).ok();
+    await t
+      .click('#simulation')
+      .typeText('#gameName', gameName)
+      .click('#deleteBtn')
+      .expect(Selector('#deletedGameFlag').exists).ok();
   });
 
 test('PrepareGame', async t => {
   const getLocation = ClientFunction(() => document.location.href);
 
   await t
-    .navigateTo('/simulation/' + gameName)
+    .click('#simulation')
+    .typeText('#gameName', gameName)
     .click('#createForPrepareGame')
     .expect(Selector('#createForPrepareGameResponseAllFlag').exists).ok()
 
   await loginByPlayer(t, 'playera@test.de');
   await t
-    .navigateTo('/gamelobby/' + gameName)
+    .click('#joingame')
+    .click('#gamename_' + gameName)
     .expect(getLocation()).contains('/preparegame')
-
     .expect(Selector('#playersRoleOrWord').innerText).contains('?')
     .click('#startGameButton')
-    .debug()
+    .expect(getLocation()).contains('/firsttip')
+    .expect(Selector('#playersTurnList').exists).ok()
+    .expect(Selector('#yourTurn').exists).notOk()
   await t
-    .navigateTo('/welcome')
-    .click('#logout')
+    .click('#welcome').click('#logout')
   await loginByPlayer(t, 'playerb@test.de');
   await t
-    .navigateTo('/preparegame/' + gamename)
-    .expect(Selector('#playersRoleOrWord').value).eql('word1')
+    .click('#joingame')
+    .click('#gamename_' + gameName)
+    .expect(Selector('#playersRoleOrWord').innerText).eql('Word1')
     .click('#startGameButton')
+  await typeSynonymOnYourTurn(t);
   await t
-    .navigateTo('/welcome')
-    .click('#logout')
+    .click('#welcome').click('#logout')
   await loginByPlayer(t, 'playerc@test.de');
   await t
-    .navigateTo('/preparegame/' + gamename)
-    .expect(Selector('#playersRoleOrWord').value).eql('word1')
+    .click('#joingame').click('#gamename_' + gameName)
+    .expect(Selector('#playersRoleOrWord').innerText).eql('Word1')
     .click('#startGameButton')
+    .expect(Selector('#playersTurnList').exists).ok()
+    .expect(Selector('#yourTurn').exists).notOk()
   await t
-    .navigateTo('/welcome')
-    .click('#logout')
+    .click('#welcome').click('#logout')
   await loginByPlayer(t, 'playerd@test.de');
   await t
-    .navigateTo('/preparegame/' + gamename)
-    .expect(Selector('#playersRoleOrWord').value).eql('word2')
+    .click('#joingame').click('#gamename_' + gameName)
+    .expect(Selector('#playersRoleOrWord').innerText).eql('Word2')
     .click('#startGameButton')
+  await typeSynonymOnYourTurn(t);
   await t
-    .navigateTo('/welcome')
-    .click('#logout')
+    .click('#welcome').click('#logout')
   await loginByPlayer(t, 'playere@test.de');
   await t
-    .navigateTo('/preparegame/' + gamename)
-    .expect(Selector('#playersRoleOrWord').value).eql('word1')
+    .click('#joingame').click('#gamename_' + gameName)
+    .expect(Selector('#playersRoleOrWord').innerText).eql('Word2')
     .click('#startGameButton')
-
+  await typeSynonymOnYourTurn(t);
   await t
-    .expect(getLocation()).contains('/firsttip');
+  .click('#welcome').click('#logout')
+
+  // all did ready on preparegame to redirect to firsttip
+  await loginByPlayer(t, 'playera@test.de');
+  await t
+    .click('#joingame').click('#gamename_' + gameName)
+    .click('#startGameButton')
+  await typeSynonymOnYourTurn(t);
+  await t
+  .click('#welcome').click('#logout')
+
+  await loginByPlayer(t, 'playerf@test.de');
+  await t
+    .click('#joingame').click('#gamename_' + gameName)
+    .click('#startGameButton')
+  await typeSynonymOnYourTurn(t);
+  await t
+  .click('#welcome').click('#logout')
+
+  await loginByPlayer(t, 'playerc@test.de');
+  await t
+    .click('#joingame').click('#gamename_' + gameName)
+    .click('#startGameButton')
+  await typeSynonymOnYourTurn(t);
+  await t
+    .expect(getLocation()).contains('/firstguess')
+  await t
+  .click('#welcome').click('#logout')
 
 });

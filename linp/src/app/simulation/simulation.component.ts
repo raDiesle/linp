@@ -7,6 +7,7 @@ import {Subject} from 'rxjs/Subject';
 import {LinpCardsModelService} from './linpcardsinit.service';
 import {Observable} from 'rxjs/Observable';
 import {ActivatedRoute} from "@angular/router";
+import {FirebaseGameService} from "../services/firebasegame.service";
 
 const players: { [uid: string]: PlayerProfile } = {
   playerA: {
@@ -47,15 +48,24 @@ export class SimulationComponent implements OnInit, OnDestroy {
   private createForPrepareGameResponseCount: number = 0;
   private gameName: string | null;
   public createForPrepareGameResponseCountPlayersCount: number = 0;
+  private deletedGameFlag = false;
 
   constructor(private route: ActivatedRoute,
               public afAuth: AngularFireAuth,
               public db: AngularFirestore,
-              public linpCardsModelService: LinpCardsModelService) {
+              public linpCardsModelService: LinpCardsModelService,
+              public firebaseGameService: FirebaseGameService
+              ) {
   }
 
   ngOnInit() {
     this.gameName = this.route.snapshot.paramMap.get('gamename');
+  }
+
+  public deleteGame() {
+    this.firebaseGameService.deleteGame(this.gameName).then(() => {
+      this.deletedGameFlag = true;
+    });
   }
 
   createForEvaluation() {
@@ -351,7 +361,7 @@ export class SimulationComponent implements OnInit, OnDestroy {
       name: players.playerB.name,
       isHost: false,
       status: 'JOINED_GAME',
-      questionmarkOrWord: 'Wort1'
+      questionmarkOrWord: 'Word1'
     });
 
     requestPlayers.push({
@@ -359,7 +369,7 @@ export class SimulationComponent implements OnInit, OnDestroy {
       name: players.playerC.name,
       isHost: false,
       status: 'JOINED_GAME',
-      questionmarkOrWord: 'Wort1'
+      questionmarkOrWord: 'Word1'
     });
 
     requestPlayers.push({
@@ -367,7 +377,7 @@ export class SimulationComponent implements OnInit, OnDestroy {
       name: players.playerD.name,
       isHost: false,
       status: 'JOINED_GAME',
-      questionmarkOrWord: 'Wort2'
+      questionmarkOrWord: 'Word2'
     });
 
     requestPlayers.push({
@@ -375,7 +385,7 @@ export class SimulationComponent implements OnInit, OnDestroy {
       name: players.playerE.name,
       isHost: false,
       status: 'JOINED_GAME',
-      questionmarkOrWord: 'Wort2'
+      questionmarkOrWord: 'Word2'
     });
 
     requestPlayers.push({
@@ -401,7 +411,7 @@ export class SimulationComponent implements OnInit, OnDestroy {
             .collection('players')
             .doc(player.uid)
             .set(player).then(() => {
-              this.createForPrepareGameResponseCount++;
+            this.createForPrepareGameResponseCount++;
           })
         });
 

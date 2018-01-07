@@ -59,19 +59,4 @@ export class PreparegameService {
         });
   }
 
-  public updateGameStatusToNextPage(gameName: string) {
-    return this.db
-      .collection<Game>('games')
-      .doc(gameName)
-      .update(<{ [status: string]: GameStatus }> {status: 'firsttip'});
-  }
-
-  public updateGamePlayerStatusReady(authUser: string, gameName: string) {
-    return this.db
-      .collection<Game>('games')
-      .doc(gameName)
-      .collection('players')
-      .doc(authUser)
-      .update(<{ [status: string]: GamePlayerStatus }> {status: 'READY_TO_START'});
-  }
 }

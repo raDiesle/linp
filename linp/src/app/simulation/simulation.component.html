@@ -3,11 +3,21 @@
   <div class="py-5">
     Gamename: {{gameName}}
     <div>
-      <input type="text" class="form-control" [(ngModel)]="gameName">
+      <input id="gameName" type="text" class="form-control" [(ngModel)]="gameName"/>
     </div>
   </div>
 
+  <div>
+    <button id="deleteBtn" type="button" class="btn btn-primary btn-block" (click)="deleteGame()">Delete Game</button>
+    <div id="deletedGameFlag" *ngIf="deletedGameFlag">
+      Game was successful deleted
+    </div>
+  </div>
+
+
+
   <div id="createForPrepareGameResponseAllFlag"
+       class="alert alert-success" role="alert"
        *ngIf="createForPrepareGameResponseCountPlayersCount !== 0 && createForPrepareGameResponseCountPlayersCount === createForPrepareGameResponseCount">
     Sucessful setup all data
   </div>
