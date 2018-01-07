@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {AngularFireAuth} from 'angularfire2/auth';
 import * as firebase from "firebase";
 import Persistence = firebase.auth.Auth.Persistence;
+import {LocalStorage} from "../../services/angular2-local-storage";
 
 @Component({
   selector: 'app-loginbyemail',
@@ -11,16 +12,28 @@ import Persistence = firebase.auth.Auth.Persistence;
 })
 export class LoginbyemailComponent implements OnInit {
 
-  constructor(public activeModal: NgbActiveModal,
+  @LocalStorage
+  public localStorageEmail: string;
+
+  public userProfileEmail: string;
+  public userProfilePassword: string;
+
+  constructor(//public activeModal: NgbActiveModal,
               public afAuth: AngularFireAuth) {
   }
 
   ngOnInit() {
+    this.userProfileEmail = this.localStorageEmail;
   }
 
   login(email, password) {
+    this.localStorageEmail = email;
     // this.afAuth.auth.setPersistence(Persistence.SESSION)
     this.afAuth.auth.signInWithEmailAndPassword(email, password)
-      .then((response) => this.activeModal.close());
+      .then((response) => {
+
+        }
+      //  => this.activeModal.close()
+      );
   }
 }

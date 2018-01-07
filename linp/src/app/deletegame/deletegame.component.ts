@@ -8,15 +8,14 @@ import {ActivatedRoute} from "@angular/router";
   styleUrls: ['./deletegame.component.scss']
 })
 export class DeletegameComponent implements OnInit {
-  private isDeleted = false;
+  private deletedGameFlag = false;
 
   constructor(private route: ActivatedRoute,
               firebaseGameService: FirebaseGameService) {
     const gameName = this.route.snapshot.paramMap.get('gamename');
-    firebaseGameService.deleteGame(gameName)
-      .then(() => {
-        this.isDeleted = true;
-      });
+    firebaseGameService.deleteGame(gameName).then(() =>{
+      this.deletedGameFlag = true;
+    });
   }
 
   ngOnInit() {

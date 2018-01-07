@@ -23,6 +23,7 @@ export interface PointsScored {
 
 export interface GamePlayer {
   uid?: string;
+  pos?: number;
   name?: string;
   isHost?: boolean;
   questionmarkOrWord?: string;

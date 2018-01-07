@@ -6,6 +6,7 @@ import {PlayerProfile} from '../models/player';
 import {Subject} from 'rxjs/Subject';
 import {LinpCardsModelService} from './linpcardsinit.service';
 import {Observable} from 'rxjs/Observable';
+import {ActivatedRoute} from "@angular/router";
 
 const players: { [uid: string]: PlayerProfile } = {
   playerA: {
@@ -34,8 +35,6 @@ const players: { [uid: string]: PlayerProfile } = {
   }
 };
 
-const gamename = 'test-evaluation';
-
 @Component({
   selector: 'app-simulation',
   templateUrl: './simulation.component.html',
@@ -45,18 +44,23 @@ export class SimulationComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   private queryResults: Observable<{}[]>;
+  private createForPrepareGameResponseCount: number = 0;
+  private gameName: string | null;
+  public createForPrepareGameResponseCountPlayersCount: number = 0;
 
-  constructor(public afAuth: AngularFireAuth,
+  constructor(private route: ActivatedRoute,
+              public afAuth: AngularFireAuth,
               public db: AngularFirestore,
               public linpCardsModelService: LinpCardsModelService) {
   }
 
   ngOnInit() {
+    this.gameName = this.route.snapshot.paramMap.get('gamename');
   }
 
   createForEvaluation() {
     const request = <Game>{
-      name: gamename,
+      name: this.gameName,
       host: players.playerA.uid,
       status: 'secondguess',
       players: [],
@@ -295,13 +299,13 @@ export class SimulationComponent implements OnInit, OnDestroy {
 
     this.db
       .collection<Game>('games')
-      .doc(gamename)
+      .doc(this.gameName)
       .set(request)
       .then(() => {
         requestPlayers.forEach(player => {
           this.db
             .collection<Game>('games')
-            .doc(gamename)
+            .doc(this.gameName)
             .collection('players')
             .doc(player.uid)
             .set(player)
@@ -314,7 +318,101 @@ export class SimulationComponent implements OnInit, OnDestroy {
     /*
         this.db
           .collection<Game>('games')
-          .doc(gamename)
+          .doc(this.gameName)
+          .collection('players')
+          .doc()
+          .add()
+
+          .then(() => alert('Successful'))
+          .catch(() => alert('fail'));
+    */
+  }
+
+  createForPrepareGame() {
+    const request = <Game>{
+      name: this.gameName,
+      host: players.playerA.uid,
+      status: 'preparegame',
+      players: [],
+      round: 0
+    };
+    const requestPlayers = [];
+
+    requestPlayers.push({
+      uid: players.playerA.uid,
+      name: players.playerA.name,
+      isHost: true,
+      status: 'JOINED_GAME',
+      questionmarkOrWord: '?'
+    });
+
+    requestPlayers.push({
+      uid: players.playerB.uid,
+      name: players.playerB.name,
+      isHost: false,
+      status: 'JOINED_GAME',
+      questionmarkOrWord: 'Wort1'
+    });
+
+    requestPlayers.push({
+      uid: players.playerC.uid,
+      name: players.playerC.name,
+      isHost: false,
+      status: 'JOINED_GAME',
+      questionmarkOrWord: 'Wort1'
+    });
+
+    requestPlayers.push({
+      uid: players.playerD.uid,
+      name: players.playerD.name,
+      isHost: false,
+      status: 'JOINED_GAME',
+      questionmarkOrWord: 'Wort2'
+    });
+
+    requestPlayers.push({
+      uid: players.playerE.uid,
+      name: players.playerE.name,
+      isHost: false,
+      status: 'JOINED_GAME',
+      questionmarkOrWord: 'Wort2'
+    });
+
+    requestPlayers.push({
+      uid: players.playerF.uid,
+      name: players.playerF.name,
+      isHost: false,
+      status: 'JOINED_GAME',
+      questionmarkOrWord: '?'
+    });
+
+    this.createForPrepareGameResponseCountPlayersCount = requestPlayers.length;
+    this.createForPrepareGameResponseCount = 0;
+
+    this.db
+      .collection<Game>('games')
+      .doc(this.gameName)
+      .set(request)
+      .then(() => {
+        requestPlayers.forEach(player => {
+          this.db
+            .collection<Game>('games')
+            .doc(this.gameName)
+            .collection('players')
+            .doc(player.uid)
+            .set(player).then(() => {
+              this.createForPrepareGameResponseCount++;
+          })
+        });
+
+      })
+      .catch(() => alert('fail'));
+
+
+    /*
+        this.db
+          .collection<Game>('games')
+          .doc(this.gameName)
           .collection('players')
           .doc()
           .add()
@@ -333,7 +431,7 @@ export class SimulationComponent implements OnInit, OnDestroy {
     };
     this.db
       .collection<PlayerProfile>('games')
-      .doc(gamename)
+      .doc(this.gameName)
       .collection('players')
       .add(request)
       .then(result => console.log('done'));

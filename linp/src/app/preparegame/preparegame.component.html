@@ -8,7 +8,7 @@
         <div *ngIf="isQuestionmark" class="text-center">
           <h2>
             You are the
-            <span class="badge badge-primary">
+            <span class="badge badge-primary" id="playersRoleOrWord">
               ?
             </span>
           </h2>
@@ -17,105 +17,148 @@
           </h4>
         </div>
 
-        <div *ngIf="!isQuestionmark">
-          <h2>
+        <div *ngIf="!isQuestionmark" class="text-center">
+          <h1 class="my-4">
             Your word is
-            <span class="badge badge-primary">
+            <!--suppress XmlDuplicatedId -->
+            <span class="badge badge-primary" id="playersRoleOrWord">
               {{this.currentGamePlayer.questionmarkOrWord}}
             </span>
-          </h2>
-          <h4 class="my-5">
-            Your task is to confuse others.
+          </h1>
+          <h4 class="mt-5">
+            Find your partner having
+            <span class="badge badge-primary">
+                {{this.currentGamePlayer.questionmarkOrWord}}
+              </span>
           </h4>
         </div>
 
         <div>
-          <div>
-            <h4>Game steps</h4>
-            <p>Players give</p>
-            <ol>
-              <li>
-                <span class="badge badge-primary">
-                  First
-                </span>
-                <span>
-                  synonym for
-                </span>
-                <span class="badge badge-primary">
-                  {{this.currentGamePlayer.questionmarkOrWord}}
-                </span>
-              </li>
-              <li>
-                <span class="badge badge-primary">
-                  First
-                </span>
-                <span>
-                  team guess
-                </span>
-              </li>
-              <li>
-                <span class="badge badge-primary">
-                  Second
-                </span>
-                <span>
-                  synonym for
-                </span>
-                <span class="badge badge-primary">
-                  {{this.currentGamePlayer.questionmarkOrWord}}
-                </span>
-              </li>
-              <li>
-                <span class="badge badge-primary">
-                  Second
-                </span>
-                <span>
-                  team guess
-                </span>
-              </li>
-            </ol>
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col">
+                <hr >
+              </div>
+              <div class="col-xs-auto text-center">
+              <span class="align-middle font-weight-light">
+                First round
+              </span>
+              </div>
+              <div class="col">
+                <hr>
+              </div>
+            </div>
           </div>
-        </div>
 
-        <div class="py-3 item-group">
-          <div class="list-group-item d-flex justify-content-between align-items-center">
+          <ol>
+            <li>
+              Give synonym for
+              <span class="badge badge-primary">
+                  {{this.currentGamePlayer.questionmarkOrWord}}
+                </span>
+            </li>
+            <li>
+              Guess teams
+            </li>
+          </ol>
+
+          <div class="container">
+            <div class="row">
+              <div class="col">
+                <hr>
+              </div>
+              <div class="col-xs-auto text-center">
+            <span class="align-middle font-weight-light">
+              Second round
+            </span>
+              </div>
+              <div class="col">
+                <hr>
+              </div>
+            </div>
+          </div>
+
+          <ol>
+            <li>
+              Give synonym for
+              <span class="badge badge-primary">
+                  {{this.currentGamePlayer.questionmarkOrWord}}
+                </span>
+            </li>
+            <li>
+              Guess teams
+            </li>
+          </ol>
+
+          <div class="container">
+            <div class="row">
+              <div class="col">
+                <hr>
+              </div>
+              <div class="col-xs-auto text-center">
+            <span class="align-middle font-weight-light">
+              Ending
+            </span>
+              </div>
+              <div class="col">
+                <hr>
+              </div>
+            </div>
+          </div>
+
+          <ol>
+            <span>
+              Teams will be revealed and points evaluated
+            </span>
+          </ol>
+
+        </div>
+      </div>
+
+      <div class="py-5 item-group">
+        <div class="list-group-item d-flex justify-content-between align-items-center">
             <span>
               Total Players
             </span>
-            <span class="badge badge-primary badge-pill">
+          <span class="badge badge-primary badge-pill">
               {{gamePlayers?.length}}
             </span>
-          </div>
-          <div class="list-group-item d-flex justify-content-between align-items-center">
+        </div>
+
+        <div class="list-group-item d-flex justify-content-between align-items-center">
+          <span>
+            Team-Players
+          </span>
+          <span class="badge badge-primary badge-pill">
+            2 x {{rolesDistributionInformation?.wordsNeeded}}
+          </span>
+        </div>
+
+        <div class="list-group-item d-flex justify-content-between align-items-center">
             <span>
               Questionmarks
             </span>
-            <span class="badge badge-primary badge-pill">
+          <span class="badge badge-primary badge-pill">
               {{rolesDistributionInformation?.questionMarksNeeded}}
             </span>
-          </div>
-
-          <div class="list-group-item d-flex justify-content-between align-items-center">
-            <span>
-              Team-Players
-            </span>
-            <span class="badge badge-primary badge-pill">
-              2 x {{rolesDistributionInformation?.wordsNeeded}}
-            </span>
-          </div>
         </div>
-        <!-- https://codepen.io/ozgursagiroglu/pen/lAxIa -->
-        <button class="btn btn-block"
-                [ngClass]="{'btn-primary' : !hasStartedGame, 'btn-success' : hasStartedGame}"
-                (click)="startGameAction()"
-                [disabled]="hasStartedGame"
-        >
+
+      </div>
+      <!-- https://codepen.io/ozgursagiroglu/pen/lAxIa -->
+      <button
+        id="startGameButton"
+        class="btn btn-block"
+        [ngClass]="{'btn-outline-success' : !hasStartedGame, 'btn-success' : hasStartedGame}"
+        (click)="startGameAction()"
+        [disabled]="hasStartedGame"
+      >
           <span *ngIf="hasStartedGame === false">
-            Ready
+            Ready to start
           </span>
-          <span *ngIf="hasStartedGame">
+        <span *ngIf="hasStartedGame">
             Waiting for others <app-waitingdots></app-waitingdots>
           </span>
-        </button>
-      </div>
+      </button>
     </div>
   </div>
+</div>
