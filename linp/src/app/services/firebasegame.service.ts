@@ -25,7 +25,7 @@ export class FirebaseGameService {
   public observeAuthUser(): Observable<firebase.User> {
     const observable = this.afAuth.authState;
     observable.subscribe(authUser => {
-      this.authUserUid = authUser.uid;
+      this.authUserUid = authUser ? authUser.uid : '';
     });
     return this.afAuth.authState;
   }

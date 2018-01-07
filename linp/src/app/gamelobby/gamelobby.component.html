@@ -35,7 +35,6 @@
     </div>
     <div>
       <ngb-alert *ngIf="!staticAlertClosed" (close)="staticAlertClosed = true">
-
       </ngb-alert>
       <span *ngIf="loggedInPlayerSuccessfulAddedStatusFlag" id="loggedInPlayerSuccessfulAddedStatusFlag"></span>
       <button id="gamestatusButton"
@@ -52,7 +51,7 @@
               Start Game
             </span>
             <span *ngIf="loggedInPlayerIsHost === false">
-              Waiting for <strong>{{hostPlayerName}}</strong> to start game
+              Waiting for <strong>{{hostPlayer?.name}}</strong> to start game
             </span>
           </span>
       </button>
