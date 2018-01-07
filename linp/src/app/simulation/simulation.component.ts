@@ -44,9 +44,9 @@ export class SimulationComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   private queryResults: Observable<{}[]>;
+  public createForPrepareGameResponseCountPlayersCount: number = 0;
   private createForPrepareGameResponseCount: number = 0;
   private gameName: string | null;
-  public createForPrepareGameResponseCountPlayersCount: number = 0;
 
   constructor(private route: ActivatedRoute,
               public afAuth: AngularFireAuth,
@@ -401,7 +401,7 @@ export class SimulationComponent implements OnInit, OnDestroy {
             .collection('players')
             .doc(player.uid)
             .set(player).then(() => {
-              this.createForPrepareGameResponseCount++;
+            this.createForPrepareGameResponseCount++;
           })
         });
 

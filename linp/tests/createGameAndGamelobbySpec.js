@@ -1,7 +1,7 @@
 import {Selector} from 'testcafe';
 import {AngularSelector, waitForAngular} from 'testcafe-angular-selectors';
 import {Role} from 'testcafe';
-import { ClientFunction } from 'testcafe';
+import {ClientFunction} from 'testcafe';
 
 let loginByPlayer = async function (t, userEmail) {
   await t
@@ -21,9 +21,9 @@ fixture `Full testsuite`
   .beforeEach(async t => {
     await waitForAngular();
   })
-  .afterEach(async t =>{
+  .afterEach(async t => {
     await t.navigateTo('/deletegame/' + gameName)
-    .expect(Selector('#deletedGameFlag').exists).ok();
+      .expect(Selector('#deletedGameFlag').exists).ok();
   });
 
 
@@ -75,7 +75,7 @@ test('Create Game and join players in gamelobby', async t => {
     .expect(Selector('#gamePlayers_2').innerText).contains('playerE')
     .expect(Selector('#loggedInPlayerSuccessfulAddedStatusFlag').exists).ok()
 
-    // .ok(Selector('#gamestatusButton').is(':disabled'));
+  // .ok(Selector('#gamestatusButton').is(':disabled'));
 
 
   await loginByPlayer(t, 'playera@test.de');

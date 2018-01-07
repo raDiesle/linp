@@ -1,7 +1,7 @@
 import {Selector} from 'testcafe';
 import {AngularSelector, waitForAngular} from 'testcafe-angular-selectors';
 import {Role} from 'testcafe';
-import { ClientFunction } from 'testcafe';
+import {ClientFunction} from 'testcafe';
 
 let loginByPlayer = async function (t, userEmail) {
   await t
@@ -31,9 +31,9 @@ fixture `PrepareGameSpec`
   .beforeEach(async t => {
     await waitForAngular();
   })
-  .afterEach(async t =>{
+  .afterEach(async t => {
     await t.navigateTo('/deletegame/' + gameName)
-        .expect(Selector('#deletedGameFlag').exists).ok();
+      .expect(Selector('#deletedGameFlag').exists).ok();
   });
 
 test('PrepareGame', async t => {
