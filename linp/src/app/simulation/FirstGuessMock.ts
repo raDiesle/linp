@@ -28,7 +28,7 @@ export const FirstGuessMock = function (players) {
     uid: players.playerB.uid,
     name: players.playerB.name,
     isHost: false,
-   status: FIRST_SYNONYM_GIVEN_PLAYER_STATUS,
+    status: FIRST_SYNONYM_GIVEN_PLAYER_STATUS,
     questionmarkOrWord: 'Word1',
     firstSynonym: 'firstSynonym_B'
   });
@@ -37,7 +37,7 @@ export const FirstGuessMock = function (players) {
     uid: players.playerC.uid,
     name: players.playerC.name,
     isHost: false,
-   status: FIRST_SYNONYM_GIVEN_PLAYER_STATUS,
+    status: FIRST_SYNONYM_GIVEN_PLAYER_STATUS,
     questionmarkOrWord: 'Word1',
     firstSynonym: 'firstSynonym_C'
   });
@@ -46,7 +46,7 @@ export const FirstGuessMock = function (players) {
     uid: players.playerD.uid,
     name: players.playerD.name,
     isHost: false,
-   status: FIRST_SYNONYM_GIVEN_PLAYER_STATUS,
+    status: FIRST_SYNONYM_GIVEN_PLAYER_STATUS,
     questionmarkOrWord: 'Word2',
     firstSynonym: 'firstSynonym_D'
   });
@@ -55,7 +55,7 @@ export const FirstGuessMock = function (players) {
     uid: players.playerE.uid,
     name: players.playerE.name,
     isHost: false,
-   status: FIRST_SYNONYM_GIVEN_PLAYER_STATUS,
+    status: FIRST_SYNONYM_GIVEN_PLAYER_STATUS,
     questionmarkOrWord: 'Word2',
     firstSynonym: 'firstSynonym_E'
   });
@@ -64,15 +64,16 @@ export const FirstGuessMock = function (players) {
     uid: players.playerF.uid,
     name: players.playerF.name,
     isHost: false,
-   status: FIRST_SYNONYM_GIVEN_PLAYER_STATUS,
+    status: FIRST_SYNONYM_GIVEN_PLAYER_STATUS,
     questionmarkOrWord: '?',
     firstSynonym: 'firstSynonym_F'
   });
 
-   return {
-     request : request,
-     requestPlayers : requestPlayers
-  }
+  return {
+    request: request,
+    requestPlayers: requestPlayers
+  };
+}
 
 
 /*

@@ -75,7 +75,24 @@ export class SimulationComponent implements OnInit, OnDestroy {
   }
 
   createForEvaluation() {
-    EvaluationMock(players);
+    const requestObject = EvaluationMock(players);
+
+    this.db
+      .collection<Game>('games')
+      .doc(this.gameName)
+      .set(requestObject.request)
+      .then(() => {
+        requestObject.requestPlayers.forEach(player => {
+          this.db
+            .collection<Game>('games')
+            .doc(this.gameName)
+            .collection('players')
+            .doc(player.uid)
+            .set(player)
+        });
+        alert('Successful');
+      })
+      .catch(() => alert('fail'));
   }
 
   createForPrepareGame() {
