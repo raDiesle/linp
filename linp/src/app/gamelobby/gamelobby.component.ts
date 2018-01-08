@@ -25,7 +25,7 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
   private hostUid: string;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   private loggedInPlayerIsHost = false;
-  private hostPlayerName: string;
+  private hostPlayer: GamePlayer;
   public loggedInPlayerSuccessfulAddedStatusFlag = false;
 
   constructor(private router: Router,
@@ -50,16 +50,18 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
       .takeUntil(this.ngUnsubscribe)
       .subscribe((gamePlayers: GamePlayer[]) => {
         this.gamePlayers = gamePlayers;
+
+        this.hostPlayer = gamePlayers.find(gamePlayr => {
+          return gamePlayr.isHost;
+        });
+
         const loggedInUser = gamePlayers.find(gamePlayr => {
           return gamePlayr.uid === this.firebaseGameService.authUserUid;
         });
-        const isAlreadyJoined = loggedInUser !== undefined;
         this.loggedInPlayerIsHost = loggedInUser && loggedInUser.isHost;
 
-        this.hostPlayerName = gamePlayers.find(gamePlayr => {
-          return gamePlayr.isHost;
-        }).name;
 
+        const isAlreadyJoined = loggedInUser !== undefined;
         if (isAlreadyJoined === false) {
           this.firebaseGameService.addLoggedInPlayerToGame(this.gameName)
             .then(() => {

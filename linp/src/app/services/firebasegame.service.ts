@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {AngularFirestore} from 'angularfire2/firestore';
 import {HttpClient} from '@angular/common/http';
-import {Game, GamePlayer, GameStatus} from '../models/game';
+import {Game, GamePlayer, GamePlayerStatus, GameStatus} from '../models/game';
 import {Observable} from 'rxjs/Observable';
 import * as firebase from 'firebase';
 import {AngularFireAuth} from 'angularfire2/auth';
@@ -25,7 +25,7 @@ export class FirebaseGameService {
   public observeAuthUser(): Observable<firebase.User> {
     const observable = this.afAuth.authState;
     observable.subscribe(authUser => {
-      this.authUserUid = authUser.uid;
+      this.authUserUid = authUser ? authUser.uid : '';
     });
     return this.afAuth.authState;
   }
@@ -91,6 +91,15 @@ export class FirebaseGameService {
       .collection<Game>('games')
       .doc(gameName)
       .update(<{ [status: string]: GameStatus }> {status: newStatus});
+  }
+
+  public updateGamePlayerStatus(authUser: string, gameName: string, status: GamePlayerStatus) {
+    return this.db
+      .collection<Game>('games')
+      .doc(gameName)
+      .collection('players')
+      .doc(authUser)
+      .update(<{ [status: string]: GamePlayerStatus }> {status: status});
   }
 
   private getGameObject(gameName: string, language: LANGUAGE) {

@@ -1,5 +1,5 @@
-<div>
-  <div class="card" *ngIf="loggedInGamePlayer && authUser?.uid === currentPlayer?.uid">
+<div *ngIf="loggedInGamePlayer">
+  <div class="card" id="yourTurn" *ngIf="authUser?.uid === currentPlayer?.uid">
     <div class="card-header text-center">
       <strong>First Synonym</strong>
     </div>
@@ -10,7 +10,7 @@
       <div class="card-text">
         <form novalidate #giveSynonymForm="ngForm">
           <div class="form-group">
-            <label for="synonym">
+            <label for="synonymTxt">
               <ng-container *ngIf="loggedInGamePlayer?.questionmarkOrWord === '?'">
                 <span class="badge badge-primary">
                   ?
@@ -28,7 +28,7 @@
               <input type="text"
                      class="form-control"
                      [ngClass]="{'is-invalid' : synonymInput?.dirty && synonymInput.errors?.required}"
-                     id="synonym"
+                     id="synonymTxt"
                      [(ngModel)]="synonym"
                      #synonymInput="ngModel"
                      name="synonym"
@@ -39,7 +39,8 @@
               </div>
             </div>
           </div>
-          <button class="btn btn-primary btn-block"
+          <button id="sendSynonym"
+                  class="btn btn-primary btn-block"
                   [disabled]="synonymInput.invalid"
                   (click)="sendSynonym()"
           >
@@ -52,9 +53,9 @@
     </div>
   </div>
 
-  <div class="card mt-4" *ngIf="loggedInGamePlayer">
+  <div class="card mt-4">
     <div class="card-header text-center">
-      <strong>Players turn</strong>
+      <strong id="playersTurnList">Players turn</strong>
     </div>
     <div class="card-body">
       <span>PlayerName</span> | <span>First Synonym</span>
