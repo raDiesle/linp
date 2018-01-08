@@ -241,22 +241,10 @@ export const EvaluationMock = function(players){
     }
   });
 
-  this.db
-    .collection<Game>('games')
-    .doc(this.gameName)
-    .set(request)
-    .then(() => {
-      requestPlayers.forEach(player => {
-        this.db
-          .collection<Game>('games')
-          .doc(this.gameName)
-          .collection('players')
-          .doc(player.uid)
-          .set(player)
-      });
-      alert('Successful');
-    })
-    .catch(() => alert('fail'));
+  return {
+    request : request,
+    requestPlayers: requestPlayers
+  }
 
 
   /*
