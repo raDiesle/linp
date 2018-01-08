@@ -2,6 +2,7 @@ import {Selector} from 'testcafe';
 import {AngularSelector, waitForAngular} from 'testcafe-angular-selectors';
 import {Role} from 'testcafe';
 import { ClientFunction } from 'testcafe';
+import {testHelper} from "./testHelper";
 
 let loginByPlayer = async function (t, userEmail) {
   await t
@@ -53,12 +54,14 @@ test('PrepareGame', async t => {
 
   await t
     .click('#simulation')
+  await t
     .typeText('#gameName', gameName)
     .click('#createForPrepareGame')
     .expect(Selector('#createForPrepareGameResponseAllFlag').exists).ok()
 
   await loginByPlayer(t, 'playera@test.de');
   await t
+    .useRole(testHelper.playerA)
     .click('#joingame')
     .click('#gamename_' + gameName)
     .expect(getLocation()).contains('/preparegame')
@@ -67,68 +70,66 @@ test('PrepareGame', async t => {
     .expect(getLocation()).contains('/firsttip')
     .expect(Selector('#playersTurnList').exists).ok()
     .expect(Selector('#yourTurn').exists).notOk()
+
   await t
-    .click('#welcome').click('#logout')
-  await loginByPlayer(t, 'playerb@test.de');
-  await t
+    .useRole(testHelper.playerB)
     .click('#joingame')
     .click('#gamename_' + gameName)
     .expect(Selector('#playersRoleOrWord').innerText).eql('Word1')
     .click('#startGameButton')
   await typeSynonymOnYourTurn(t);
+
   await t
-    .click('#welcome').click('#logout')
-  await loginByPlayer(t, 'playerc@test.de');
-  await t
+    .useRole(testHelper.playerC)
     .click('#joingame').click('#gamename_' + gameName)
     .expect(Selector('#playersRoleOrWord').innerText).eql('Word1')
     .click('#startGameButton')
     .expect(Selector('#playersTurnList').exists).ok()
     .expect(Selector('#yourTurn').exists).notOk()
+
   await t
-    .click('#welcome').click('#logout')
-  await loginByPlayer(t, 'playerd@test.de');
+    .useRole(testHelper.playerD)
   await t
-    .click('#joingame').click('#gamename_' + gameName)
+    .click('#joingame')
+  await t
+    .click('#gamename_' + gameName)
     .expect(Selector('#playersRoleOrWord').innerText).eql('Word2')
     .click('#startGameButton')
   await typeSynonymOnYourTurn(t);
+
+
   await t
-    .click('#welcome').click('#logout')
-  await loginByPlayer(t, 'playere@test.de');
-  await t
-    .click('#joingame').click('#gamename_' + gameName)
+    .useRole(testHelper.playerE)
+    .click('#joingame')
+    await t.click('#gamename_' + gameName)
     .expect(Selector('#playersRoleOrWord').innerText).eql('Word2')
     .click('#startGameButton')
   await typeSynonymOnYourTurn(t);
-  await t
-  .click('#welcome').click('#logout')
 
   // all did ready on preparegame to redirect to firsttip
-  await loginByPlayer(t, 'playera@test.de');
+
   await t
-    .click('#joingame').click('#gamename_' + gameName)
+    .useRole(testHelper.playerA)
+    .click('#joingame')
+  await t
+    .click('#gamename_' + gameName)
     .click('#startGameButton')
   await typeSynonymOnYourTurn(t);
-  await t
-  .click('#welcome').click('#logout')
 
-  await loginByPlayer(t, 'playerf@test.de');
   await t
-    .click('#joingame').click('#gamename_' + gameName)
+    .useRole(testHelper.playerF)
+    .click('#joingame')
+  await t
+    .click('#gamename_' + gameName)
     .click('#startGameButton')
   await typeSynonymOnYourTurn(t);
-  await t
-  .click('#welcome').click('#logout')
 
-  await loginByPlayer(t, 'playerc@test.de');
   await t
-    .click('#joingame').click('#gamename_' + gameName)
+    .useRole(testHelper.playerC)
+    .click('#joingame')
+  await t.click('#gamename_' + gameName)
     .click('#startGameButton')
   await typeSynonymOnYourTurn(t);
   await t
     .expect(getLocation()).contains('/firstguess')
-  await t
-  .click('#welcome').click('#logout')
-
 });

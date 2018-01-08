@@ -63,8 +63,9 @@ export class SimulationComponent implements OnInit, OnDestroy {
   }
 
   public deleteGame() {
-    this.firebaseGameService.deleteGame(this.gameName).then(() => {
-      this.deletedGameFlag = true;
+    this.firebaseGameService.deleteGame(this.gameName)
+      .then(() => {
+        this.deletedGameFlag = true;
     });
   }
 
