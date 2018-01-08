@@ -1,19 +1,7 @@
 import {Selector} from 'testcafe';
-import {AngularSelector, waitForAngular} from 'testcafe-angular-selectors';
-import {Role} from 'testcafe';
+import { waitForAngular} from 'testcafe-angular-selectors';
 import { ClientFunction } from 'testcafe';
 import {testHelper} from "./testHelper";
-
-let loginByPlayer = async function (t, userEmail) {
-  await t
-    .click('#welcome')
-    //.click('#loginByEmail')
-    .typeText('#userProfileEmail', userEmail, {replace: true})
-    .typeText('#userProfilePassword', 'pass123')
-    .click('#loginButtonByEmail')
-    .expect(Selector('#logout').exists).ok()
-  ;
-};
 
 const typeSynonymOnYourTurn = async function(t) {
   await t

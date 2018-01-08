@@ -6,8 +6,11 @@ import {PlayerProfile} from '../models/player';
 import {Subject} from 'rxjs/Subject';
 import {LinpCardsModelService} from './linpcardsinit.service';
 import {Observable} from 'rxjs/Observable';
-import {ActivatedRoute} from "@angular/router";
-import {FirebaseGameService} from "../services/firebasegame.service";
+import {ActivatedRoute} from '@angular/router';
+import {FirebaseGameService} from '../services/firebasegame.service';
+import {EvaluationMock} from './EvaluationMock';
+import {PreparegameMock} from './PreparegameMock';
+import {FirstGuessMock} from "./FirstGuessMock";
 
 const players: { [uid: string]: PlayerProfile } = {
   playerA: {
@@ -45,10 +48,12 @@ export class SimulationComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   private queryResults: Observable<{}[]>;
-  private createForPrepareGameResponseCount: number = 0;
+  private createForPrepareGameResponseCount = 0;
+  public createForPrepareGameResponseCountPlayersCount = 0;
   private gameName: string | null;
-  public createForPrepareGameResponseCountPlayersCount: number = 0;
   private deletedGameFlag = false;
+  private createForFirstGuessGameResponseCountPlayersCount = 0;
+  private createForFirstGuessGameResponseCount = 0;
 
   constructor(private route: ActivatedRoute,
               public afAuth: AngularFireAuth,
@@ -70,342 +75,21 @@ export class SimulationComponent implements OnInit, OnDestroy {
   }
 
   createForEvaluation() {
-    const request = <Game>{
-      name: this.gameName,
-      host: players.playerA.uid,
-      status: 'secondguess',
-      players: [],
-      round: 0
-    };
-    const requestPlayers = [];
-    requestPlayers.push({
-      uid: players.playerA.uid,
-      name: players.playerA.name,
-      isHost: true,
-      status: 'SECOND_GUESS_GIVEN',
-      questionmarkOrWord: '?',
-      firstSynonym: 'FirstSynA',
-      // correct
-      firstTeamTip: {
-        firstPartner: {
-          uid: players.playerC.uid,
-          name: players.playerC.name
-        },
-        secondPartner: {
-          uid: players.playerB.uid,
-          name: players.playerB.name
-        }
-      },
-      secondSynonym: 'SecondSynA',
-      // correct
-      secondTeamTip: {
-        firstPartner: {
-          uid: players.playerA.uid,
-          name: players.playerA.name
-        },
-        secondPartner: {
-          uid: players.playerE.uid,
-          name: players.playerE.name
-        }
-      },
-      pointsScored: {
-        firstTeamTip: 0,
-        secondTeamTip: 0,
-        total: 0,
-        totalRounds: 0,
-        indirect: 0
-      }
-    });
-
-    requestPlayers.push({
-      uid: players.playerB.uid,
-      name: players.playerB.name,
-      isHost: false,
-      status: 'SECOND_GUESS_GIVEN',
-      questionmarkOrWord: 'Wort1',
-      firstSynonym: 'FirstSynB',
-      firstTeamTip: {
-        firstPartner: {
-          // ?
-          uid: players.playerA.uid,
-          name: players.playerA.name
-        },
-        secondPartner: {
-          uid: players.playerF.uid,
-          name: players.playerF.name
-        }
-      },
-      secondSynonym: 'SecondSynB',
-      // correct
-      secondTeamTip: {
-        firstPartner: {
-          uid: players.playerD.uid,
-          name: players.playerD.name
-        },
-        secondPartner: {
-          uid: players.playerE.uid,
-          name: players.playerE.name
-        }
-      },
-      pointsScored: {
-        firstTeamTip: 0,
-        secondTeamTip: 0,
-        total: 0,
-        totalRounds: 0,
-        indirect: 0
-      }
-    });
-
-    requestPlayers.push({
-      uid: players.playerC.uid,
-      name: players.playerC.name,
-      isHost: false,
-      status: 'SECOND_GUESS_GIVEN',
-      questionmarkOrWord: 'Wort1',
-      firstSynonym: 'FirstSynC',
-      firstTeamTip: {
-        firstPartner: {
-          uid: players.playerC.uid,
-          name: players.playerC.name
-        },
-        secondPartner: {
-          uid: players.playerB.uid,
-          name: players.playerB.name
-        }
-      },
-      secondSynonym: 'SecondSynC',
-      // correct
-      secondTeamTip: {
-        firstPartner: {
-          uid: players.playerA.uid,
-          name: players.playerA.name
-        },
-        secondPartner: {
-          uid: players.playerE.uid,
-          name: players.playerE.name
-        }
-      },
-      pointsScored: {
-        firstTeamTip: 0,
-        secondTeamTip: 0,
-        total: 0,
-        totalRounds: 0,
-        indirect: 0
-      }
-    });
-
-    requestPlayers.push({
-      uid: players.playerD.uid,
-      name: players.playerD.name,
-      isHost: false,
-      status: 'SECOND_GUESS_GIVEN',
-      questionmarkOrWord: 'Wort2',
-      firstSynonym: 'FirstSynD',
-      firstTeamTip: {
-        firstPartner: {
-          uid: players.playerD.uid,
-          name: players.playerD.name
-        },
-        secondPartner: {
-          uid: players.playerE.uid,
-          name: players.playerE.name
-        }
-      },
-      secondSynonym: 'SecondSynD',
-      // correct
-      secondTeamTip: {
-        firstPartner: {
-          uid: players.playerA.uid,
-          name: players.playerA.name
-        },
-        secondPartner: {
-          uid: players.playerB.uid,
-          name: players.playerB.name
-        }
-      },
-      pointsScored: {
-        firstTeamTip: 0,
-        secondTeamTip: 0,
-        total: 0,
-        totalRounds: 0,
-        indirect: 0
-      }
-    });
-
-    requestPlayers.push({
-      uid: players.playerE.uid,
-      name: players.playerE.name,
-      isHost: false,
-      status: 'SECOND_GUESS_GIVEN',
-      questionmarkOrWord: 'Wort2',
-      firstSynonym: 'FirstSynE',
-      firstTeamTip: {
-        firstPartner: {
-          uid: players.playerC.uid,
-          name: players.playerC.name
-        },
-        secondPartner: {
-          uid: players.playerB.uid,
-          name: players.playerB.name
-        }
-      },
-      secondSynonym: 'SecondSynE',
-      // correct
-      secondTeamTip: {
-        firstPartner: {
-          uid: players.playerD.uid,
-          name: players.playerD.name
-        },
-        secondPartner: {
-          uid: players.playerE.uid,
-          name: players.playerE.name
-        }
-      },
-      pointsScored: {
-        firstTeamTip: 0,
-        secondTeamTip: 0,
-        total: 0,
-        totalRounds: 0,
-        indirect: 0
-      }
-    });
-
-    requestPlayers.push({
-      uid: players.playerF.uid,
-      name: players.playerF.name,
-      isHost: false,
-      status: 'SECOND_GUESS_GIVEN',
-      questionmarkOrWord: '?',
-      firstSynonym: 'FirstSynF',
-      firstTeamTip: {
-        firstPartner: {
-          uid: players.playerC.uid,
-          name: players.playerC.name
-        },
-        secondPartner: {
-          uid: players.playerB.uid,
-          name: players.playerB.name
-        }
-      },
-      secondSynonym: 'SecondSynF',
-      // correct
-      secondTeamTip: {
-        firstPartner: {
-          uid: players.playerA.uid,
-          name: players.playerA.name
-        },
-        secondPartner: {
-          uid: players.playerB.uid,
-          name: players.playerB.name
-        }
-      },
-      pointsScored: {
-        firstTeamTip: 0,
-        secondTeamTip: 0,
-        total: 0,
-        totalRounds: 0,
-        indirect: 0
-      }
-    });
-
-    this.db
-      .collection<Game>('games')
-      .doc(this.gameName)
-      .set(request)
-      .then(() => {
-        requestPlayers.forEach(player => {
-          this.db
-            .collection<Game>('games')
-            .doc(this.gameName)
-            .collection('players')
-            .doc(player.uid)
-            .set(player)
-        });
-        alert('Successful');
-      })
-      .catch(() => alert('fail'));
-
-
-    /*
-        this.db
-          .collection<Game>('games')
-          .doc(this.gameName)
-          .collection('players')
-          .doc()
-          .add()
-
-          .then(() => alert('Successful'))
-          .catch(() => alert('fail'));
-    */
+    EvaluationMock(players);
   }
 
   createForPrepareGame() {
-    const request = <Game>{
-      name: this.gameName,
-      host: players.playerA.uid,
-      status: 'preparegame',
-      players: [],
-      round: 0
-    };
-    const requestPlayers = [];
+   const requestObject = PreparegameMock(players);
 
-    requestPlayers.push({
-      uid: players.playerA.uid,
-      name: players.playerA.name,
-      isHost: true,
-      status: 'JOINED_GAME',
-      questionmarkOrWord: '?'
-    });
-
-    requestPlayers.push({
-      uid: players.playerB.uid,
-      name: players.playerB.name,
-      isHost: false,
-      status: 'JOINED_GAME',
-      questionmarkOrWord: 'Word1'
-    });
-
-    requestPlayers.push({
-      uid: players.playerC.uid,
-      name: players.playerC.name,
-      isHost: false,
-      status: 'JOINED_GAME',
-      questionmarkOrWord: 'Word1'
-    });
-
-    requestPlayers.push({
-      uid: players.playerD.uid,
-      name: players.playerD.name,
-      isHost: false,
-      status: 'JOINED_GAME',
-      questionmarkOrWord: 'Word2'
-    });
-
-    requestPlayers.push({
-      uid: players.playerE.uid,
-      name: players.playerE.name,
-      isHost: false,
-      status: 'JOINED_GAME',
-      questionmarkOrWord: 'Word2'
-    });
-
-    requestPlayers.push({
-      uid: players.playerF.uid,
-      name: players.playerF.name,
-      isHost: false,
-      status: 'JOINED_GAME',
-      questionmarkOrWord: '?'
-    });
-
-    this.createForPrepareGameResponseCountPlayersCount = requestPlayers.length;
+    this.createForPrepareGameResponseCountPlayersCount = requestObject.requestPlayers.length;
     this.createForPrepareGameResponseCount = 0;
 
     this.db
       .collection<Game>('games')
       .doc(this.gameName)
-      .set(request)
+      .set(requestObject.request)
       .then(() => {
-        requestPlayers.forEach(player => {
+        requestObject.requestPlayers.forEach(player => {
           this.db
             .collection<Game>('games')
             .doc(this.gameName)
@@ -415,22 +99,9 @@ export class SimulationComponent implements OnInit, OnDestroy {
             this.createForPrepareGameResponseCount++;
           })
         });
-
       })
       .catch(() => alert('fail'));
 
-
-    /*
-        this.db
-          .collection<Game>('games')
-          .doc(this.gameName)
-          .collection('players')
-          .doc()
-          .add()
-
-          .then(() => alert('Successful'))
-          .catch(() => alert('fail'));
-    */
   }
 
   updateSinglePlayerScore() {
@@ -506,5 +177,30 @@ export class SimulationComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+  }
+
+  createForFirstGuessGame() {
+    const requestObject = FirstGuessMock(players);
+
+    this.createForFirstGuessGameResponseCountPlayersCount = requestObject.requestPlayers.length;
+    this.createForFirstGuessGameResponseCount = 0;
+
+    this.db
+      .collection<Game>('games')
+      .doc(this.gameName)
+      .set(requestObject.request)
+      .then(() => {
+        requestObject.requestPlayers.forEach(player => {
+          this.db
+            .collection<Game>('games')
+            .doc(this.gameName)
+            .collection('players')
+            .doc(player.uid)
+            .set(player).then(() => {
+            this.createForPrepareGameResponseCount++;
+          })
+        });
+      })
+      .catch(() => alert('fail'));
   }
 }

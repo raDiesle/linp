@@ -7,12 +7,24 @@
     </div>
   </div>
 
-  <div>
-    <button id="deleteBtn" type="button" class="btn btn-primary btn-block" (click)="deleteGame()">Delete Game</button>
-    <div id="deletedGameFlag" *ngIf="deletedGameFlag">
+  <button class="btn btn-primary btn-block"
+          id="createForFirstGuessGame"
+          (click)="createForFirstGuessGame()">
+    Create for firstguess
+  </button>
+  <div id="createForFirstGuessGameResponseAllFlag"
+       class="alert alert-success" role="alert"
+       *ngIf="createForFirstGuessGameResponseCountPlayersCount !== 0 && createForFirstGuessGameResponseCountPlayersCount === createForFirstGuessGameResponseCount"
+  >
+    successful setup data
+  </div>
+
+    <button id="deleteBtn" type="button" class="btn btn-primary btn-block" (click)="deleteGame()">
+      Delete Game
+    </button>
+    <div id="deletedGameFlag" *ngIf="deletedGameFlag" class="alert alert-success" role="alert">
       Game was successful deleted
     </div>
-  </div>
 
 
 
