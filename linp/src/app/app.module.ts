@@ -44,12 +44,11 @@ import {LinpCardsModelService} from './simulation/linpcardsinit.service';
 import {CreateAccountComponent} from './create-account/create-account.component';
 import {GamelobbyService} from './gamelobby/gamelobby-service';
 import {PreparegameService} from './preparegame/preparegame.service';
-import {FirsttipService} from './tip/firsttip/firsttip.service';
 import {TimeAgoPipe} from 'time-ago-pipe';
 import {FirebaseGameService} from './services/firebasegame.service';
-import {AuthGuard} from './services/authguard';
 import {FinalizeroundComponent} from './finalizeround/finalizeround.component';
 import {OrderByPipe} from './finalizeround/order-by.pipe';
+import {AuthGuard} from './services/auth.guard';
 
 @NgModule({
   declarations: [
@@ -106,27 +105,33 @@ import {OrderByPipe} from './finalizeround/order-by.pipe';
       },
       {
         path: 'firsttip/:gamename',
-        component: FirsttipComponent
+        component: FirsttipComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'firstguess/:gamename',
-        component: FirstguessComponent
+        component: FirstguessComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'secondtip/:gamename',
-        component: SecondtipComponent
+        component: SecondtipComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'secondguess/:gamename',
-        component: SecondguessComponent
+        component: SecondguessComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'evaluation/:gamename',
-        component: EvaluationComponent
+        component: EvaluationComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'finalizeround/:gamename',
-        component: FinalizeroundComponent
+        component: FinalizeroundComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'simulation',
@@ -138,7 +143,8 @@ import {OrderByPipe} from './finalizeround/order-by.pipe';
       },
       {
         path: 'playerprofile',
-        component: PlayerprofileComponent
+        component: PlayerprofileComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'creategame',
@@ -151,7 +157,8 @@ import {OrderByPipe} from './finalizeround/order-by.pipe';
       },
       {
         path: 'createword',
-        component: CreatewordComponent
+        component: CreatewordComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'createaccount',
@@ -175,7 +182,7 @@ import {OrderByPipe} from './finalizeround/order-by.pipe';
     AngularFireAuthModule,
     AngularFireStorageModule
   ],
-  providers: [AuthGuard, FirebaseGameService, GuessService, UserprofileService, GamelobbyComponent, GamelobbyService, PreparegameComponent, PreparegameService, FirsttipService, LinpCardsModelService],
+  providers: [AuthGuard, FirebaseGameService, GuessService, UserprofileService, GamelobbyComponent, GamelobbyService, PreparegameComponent, PreparegameService, LinpCardsModelService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

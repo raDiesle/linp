@@ -1,15 +1,16 @@
 import {Injectable} from '@angular/core';
 import {GamePlayer, GamePlayerStatus, TeamTip} from '../models/game';
 import {AngularFirestore} from 'angularfire2/firestore';
+import {FirebaseGameService} from "../services/firebasegame.service";
 
 @Injectable()
 export class GuessService {
 
-  constructor(public db: AngularFirestore) {
+  constructor(public db: AngularFirestore,
+              private firebaseGameService: FirebaseGameService) {
   }
 
   // simplify
-
   public onTeamPlayerGuessSelected(selectedPlayers, clickedGamePlayer) {
     const isPlayerSelectedNew = selectedPlayers.indexOf(clickedGamePlayer) === -1;
     if (isPlayerSelectedNew) {
@@ -23,20 +24,13 @@ export class GuessService {
     }
 
     return selectedPlayers;
-
   }
 
-  public saveTeamTip(gameName: string, selectedGamePlayers: GamePlayer[], authUserUID: string, tipDBkey: string, gamePlayerStatus: GamePlayerStatus) {
+  public saveTeamTip(gameName: string, selectedGamePlayers: GamePlayer[], tipDBkey: string, gamePlayerStatus: GamePlayerStatus) {
     // move to model
     const requestModel = this.createGuessModel(selectedGamePlayers, tipDBkey);
     requestModel.status = gamePlayerStatus;
-    return this.db.collection('games')
-      .doc(gameName)
-      .collection<GamePlayer>('players')
-      .doc(authUserUID)
-      .update(
-        requestModel
-      )
+    return this.firebaseGameService.updateGamePlayer(requestModel, gameName);
   }
 
   private createGuessModel(selectedGamePlayers, tipDBkey): GamePlayer {

@@ -9,8 +9,8 @@ import {Observable} from 'rxjs/Observable';
 import {ActivatedRoute} from '@angular/router';
 import {FirebaseGameService} from '../services/firebasegame.service';
 import {EvaluationMock} from './EvaluationMock';
-import {PreparegameMock} from './PreparegameMock';
-import {FirstGuessMock} from "./FirstGuessMock";
+import {PreparegameMock} from './PreparegameAndFirstTipMock';
+import {FirstGuessMock} from './FirstGuessMock';
 
 const players: { [uid: string]: PlayerProfile } = {
   playerA: {
@@ -75,7 +75,7 @@ export class SimulationComponent implements OnInit, OnDestroy {
   }
 
   createForEvaluation() {
-    const requestObject = EvaluationMock(players);
+    const requestObject = EvaluationMock(players, this.gameName);
 
     this.db
       .collection<Game>('games')
@@ -96,7 +96,7 @@ export class SimulationComponent implements OnInit, OnDestroy {
   }
 
   createForPrepareGame() {
-   const requestObject = PreparegameMock(players);
+    const requestObject = PreparegameMock(players, this.gameName);
 
     this.createForPrepareGameResponseCountPlayersCount = requestObject.requestPlayers.length;
     this.createForPrepareGameResponseCount = 0;
@@ -112,8 +112,9 @@ export class SimulationComponent implements OnInit, OnDestroy {
             .doc(this.gameName)
             .collection('players')
             .doc(player.uid)
-            .set(player).then(() => {
-            this.createForPrepareGameResponseCount++;
+            .set(player)
+            .then(() => {
+              this.createForPrepareGameResponseCount++;
           })
         });
       })
@@ -186,18 +187,8 @@ export class SimulationComponent implements OnInit, OnDestroy {
       }).valueChanges();
   }
 
-
-  private random53(): number {
-    return Math.floor(Number.MAX_SAFE_INTEGER * (2 * (Math.random() - 0.5)));
-  }
-
-  ngOnDestroy() {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
-  }
-
   createForFirstGuessGame() {
-    const requestObject = FirstGuessMock(players);
+    const requestObject = FirstGuessMock(players, this.gameName);
 
     this.createForFirstGuessGameResponseCountPlayersCount = requestObject.requestPlayers.length;
     this.createForFirstGuessGameResponseCount = 0;
@@ -213,11 +204,21 @@ export class SimulationComponent implements OnInit, OnDestroy {
             .doc(this.gameName)
             .collection('players')
             .doc(player.uid)
-            .set(player).then(() => {
-            this.createForPrepareGameResponseCount++;
+            .set(player)
+            .then(() => {
+              this.createForFirstGuessGameResponseCount++;
           })
         });
       })
       .catch(() => alert('fail'));
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
+
+  private random53(): number {
+    return Math.floor(Number.MAX_SAFE_INTEGER * (2 * (Math.random() - 0.5)));
   }
 }

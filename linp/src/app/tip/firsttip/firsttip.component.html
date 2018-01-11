@@ -1,5 +1,6 @@
-<div *ngIf="loggedInGamePlayer">
-  <div class="card" id="yourTurn" *ngIf="authUser?.uid === currentPlayer?.uid">
+<div [hidden]="gamePlayers === undefined">
+  <span id="savedResponseFlag" class="d-none" *ngIf="savedResponseFlag"></span>
+  <div class="card" id="yourTurn" *ngIf="isPlayersTurnForAuthUser">
     <div class="card-header text-center">
       <strong>First Synonym</strong>
     </div>
@@ -58,16 +59,22 @@
       <strong id="playersTurnList">Players turn</strong>
     </div>
     <div class="card-body">
-      <span>PlayerName</span> | <span>First Synonym</span>
       <ul class="list-group">
-        <li class="list-group-item list"
+        <li class="list-group-item list list-group-item-light d-flex">
+          <span>Player Name</span>
+          <span class="ml-auto">Given Synonym</span>
+        </li>
+        <li class="list-group-item list d-flex"
             [ngClass]="{
               'list-group-item-action active' : gamePlayer === currentPlayer && show$,
-              'list-group-item-secondary' : gamePlayer.status === FIRST_SYNONYM_GIVEN_PLAYER_STATUS
+              'list-group-item-success' : gamePlayer.status === GAMEPLAYER_STATUS
               }"
             *ngFor="let gamePlayer of gamePlayers"
         >
-          {{gamePlayer.name}} | {{gamePlayer.firstSynonym}}
+          <span>
+            {{gamePlayer.name}} <app-waitingdots></app-waitingdots>
+          </span>
+          <span class="ml-auto badge badge-info">{{gamePlayer.firstSynonym}}</span>
         </li>
       </ul>
     </div>

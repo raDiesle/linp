@@ -9,6 +9,7 @@ const typeSynonymOnYourTurn = async function(t) {
     .expect(Selector('#yourTurn').exists).ok()
     .typeText('#synonymTxt', 'FirstSynonym')
     .click('#sendSynonym')
+    .expect(Selector('#savedResponseFlag').exists).ok()
     .expect(Selector('#yourTurn').exists).notOk()
 }
 
@@ -16,12 +17,12 @@ const gameName = 'test' + Math.floor(Math.random() * 1000000 + 1);
 console.log(gameName);
 
 /*
-playerB
-playerD
-playerE
-playerA Host
-playerF
-playerC
+  playerB
+  playerD
+  playerE
+  playerA Host
+  playerF
+  playerC
  */
 
 fixture `PrepareGameSpec`
@@ -32,12 +33,16 @@ fixture `PrepareGameSpec`
   .afterEach(async t =>{
     await t
       .click('#simulation')
-      .typeText('#gameName', gameName)
+      .typeText('#gameName', gameName, {replace: true})
       .click('#deleteBtn')
       .expect(Selector('#deletedGameFlag').exists).ok();
   });
 
 test('PrepareGame', async t => {
+  await perform(t);
+});
+
+export async function perform(t) {
   const getLocation = ClientFunction(() => document.location.href);
 
   await t
@@ -47,7 +52,6 @@ test('PrepareGame', async t => {
     .click('#createForPrepareGame')
     .expect(Selector('#createForPrepareGameResponseAllFlag').exists).ok()
 
-  await loginByPlayer(t, 'playera@test.de');
   await t
     .useRole(testHelper.playerA)
     .click('#joingame')
@@ -74,7 +78,6 @@ test('PrepareGame', async t => {
     .click('#startGameButton')
     .expect(Selector('#playersTurnList').exists).ok()
     .expect(Selector('#yourTurn').exists).notOk()
-
   await t
     .useRole(testHelper.playerD)
   await t
@@ -89,7 +92,7 @@ test('PrepareGame', async t => {
   await t
     .useRole(testHelper.playerE)
     .click('#joingame')
-    await t.click('#gamename_' + gameName)
+  await t.click('#gamename_' + gameName)
     .expect(Selector('#playersRoleOrWord').innerText).eql('Word2')
     .click('#startGameButton')
   await typeSynonymOnYourTurn(t);
@@ -119,5 +122,5 @@ test('PrepareGame', async t => {
     .click('#startGameButton')
   await typeSynonymOnYourTurn(t);
   await t
-    .expect(getLocation()).contains('/firstguess')
-});
+    .expect(getLocation()).contains('/firstguess');
+}

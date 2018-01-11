@@ -8,6 +8,7 @@ import {GuessService} from '../guess.service';
 import {Observable} from 'rxjs/Observable';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Subject} from 'rxjs/Subject';
+import {FirebaseGameService} from '../../services/firebasegame.service';
 
 const NEXT_PAGE = '/evaluation';
 const tipDBkey = 'firstTeamTip';
@@ -21,7 +22,6 @@ export class SecondguessComponent implements OnInit, OnDestroy {
 
   public PLAYER_STATUS_AFTER_ACTION: GamePlayerStatus = 'SECOND_GUESS_GIVEN';
 
-  authUser: firebase.User;
   gameName: string;
 
   selectedGamePlayers: GamePlayer[] = [];
@@ -35,13 +35,8 @@ export class SecondguessComponent implements OnInit, OnDestroy {
   constructor(private route: ActivatedRoute,
               private router: Router,
               public db: AngularFirestore,
-              public afAuth: AngularFireAuth,
-              public guessService: GuessService) {
-    afAuth.authState
-      .takeUntil(this.ngUnsubscribe)
-      .subscribe(authUser => {
-        this.authUser = authUser;
-      });
+              public guessService: GuessService,
+              public firebaseGameService: FirebaseGameService) {
   }
 
   ngOnInit() {
@@ -61,7 +56,7 @@ export class SecondguessComponent implements OnInit, OnDestroy {
         this.gamePlayers = gamePlayers;
 
         const loggedInGamePlayer = gamePlayers.find(gamePlayer => {
-          return gamePlayer.uid === this.authUser.uid;
+          return gamePlayer.uid === this.firebaseGameService.authUserUid;
         });
         this.isloggedInPlayerGivenSynonym = loggedInGamePlayer.status === this.PLAYER_STATUS_AFTER_ACTION;
 
@@ -79,7 +74,7 @@ export class SecondguessComponent implements OnInit, OnDestroy {
   }
 
   public saveTeamTip(): void {
-    this.guessService.saveTeamTip(this.gameName, this.selectedGamePlayers, this.authUser.uid, tipDBkey, this.PLAYER_STATUS_AFTER_ACTION)
+    this.guessService.saveTeamTip(this.gameName, this.selectedGamePlayers, tipDBkey, this.PLAYER_STATUS_AFTER_ACTION)
       .then(response => {
         alert('Successful saved choice');
       });

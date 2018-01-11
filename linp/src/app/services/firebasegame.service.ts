@@ -17,9 +17,8 @@ export class FirebaseGameService {
               private db: AngularFirestore,
               private httpClient: HttpClient,
               private route: ActivatedRoute) {
-    this.observeAuthUser();
+    // this.observeAuthUser();
   }
-
 
   // deprecated
   public observeAuthUser(): Observable<firebase.User> {
@@ -44,14 +43,14 @@ export class FirebaseGameService {
       .valueChanges()
   }
 
-  observeLoggedInPlayerProfile(): Observable<PlayerProfile> {
+  public observeLoggedInPlayerProfile(): Observable<PlayerProfile> {
     return this.db
       .collection('players')
       .doc(this.afAuth.auth.currentUser.uid)
       .valueChanges();
   }
 
-  writeGame(gameName: string, language: LANGUAGE): Promise<void> {
+  public writeGame(gameName: string, language: LANGUAGE): Promise<void> {
     const newGame = this.getGameObject(gameName, language);
     return this.db
       .collection<Game>('games')
@@ -70,7 +69,7 @@ export class FirebaseGameService {
       });
   }
 
-  observeGamePlayers(gameName: string) {
+  public observeGamePlayers(gameName: string) {
     const observable = this.db
       .collection<Game>('games')
       .doc(gameName)
@@ -116,7 +115,7 @@ export class FirebaseGameService {
     };
   }
 
-  writeNextRoundCleanupData(gameName: string) {
+  public writeNextRoundCleanupData(gameName: string) {
     console.log('to be implemented');
   }
 
@@ -143,6 +142,28 @@ export class FirebaseGameService {
       .set(updatePlayer);
   }
 
+  public sendSynonym(FIRST_SYNONYM_GIVEN_PLAYER_STATUS: string, synonym: string, gameName: string): Promise<void> {
+    const gamePlayerUpdate = {
+      status: FIRST_SYNONYM_GIVEN_PLAYER_STATUS,
+      firstSynonym: synonym
+    };
+    return this.db.collection('games')
+      .doc(gameName)
+      .collection('players')
+      .doc(this.authUserUid)
+      .update(gamePlayerUpdate)
+  }
+
+
+  public updateGamePlayer(requestModel: GamePlayer, gameName: string) {
+    return this.db.collection('games')
+      .doc(gameName)
+      .collection<GamePlayer>('players')
+      .doc(this.authUserUid)
+      .update(
+        requestModel
+      );
+  }
   private random53(): number {
     return Math.floor(Number.MAX_SAFE_INTEGER * (2 * (Math.random() - 0.5)));
   }

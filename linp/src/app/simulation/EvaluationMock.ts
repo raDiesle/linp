@@ -1,8 +1,8 @@
 import {Game} from '../models/game';
 
-export const EvaluationMock = function(players){
+export const EvaluationMock = function (players, gameName: string) {
   const request = <Game>{
-    name: this.gameName,
+    name: gameName,
     host: players.playerA.uid,
     status: 'secondguess',
     players: [],
@@ -244,18 +244,5 @@ export const EvaluationMock = function(players){
   return {
     request : request,
     requestPlayers: requestPlayers
-  }
-
-
-  /*
-      this.db
-        .collection<Game>('games')
-        .doc(this.gameName)
-        .collection('players')
-        .doc()
-        .add()
-
-        .then(() => alert('Successful'))
-        .catch(() => alert('fail'));
-  */
+  };
 }

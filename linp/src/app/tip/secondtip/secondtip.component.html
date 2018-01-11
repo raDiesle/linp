@@ -1,59 +1,81 @@
-<div class="row">
-  <div class="col-sm-6">
-    <div class="card">
-      <div class="card-body">
-        <h4 class="card-title">
-          {{gameName}}
-        </h4>
-        <h6 class="card-subtitle mb-2 text-muted">
-          <span>Express your word: First synonym for</span>
-          <span>{{gamePlayers && loggedInGamePlayer.questionmarkOrWord}}</span>
-        </h6>
-        <div class="form-group row"
-             [ngClass]="{'has-danger' : synonymInput.invalid, 'has-success' : synonymInput.valid}"
-        >
-          <form novalidate #giveSynonymForm="ngForm">
-            <label class="col-3 col-form-label" for="synonym">Synonym</label>
-            <div class="col-9">
+<div [hidden]="gamePlayers === undefined">
+  <div class="card" id="yourTurn" *ngIf="isPlayersTurnForAuthUser">
+    <div class="card-header text-center">
+      <strong>Second Synonym</strong>
+    </div>
+    <div class="card-body text-center">
+      <h4 class="card-title">
+        It's your turn!
+      </h4>
+      <div class="card-text">
+        <form novalidate #giveSynonymForm="ngForm">
+          <div class="form-group">
+            <label for="synonymTxt">
+              <ng-container *ngIf="loggedInGamePlayer?.questionmarkOrWord === '?'">
+                <span class="badge badge-primary">
+                  ?
+                </span>
+                Try to give a word, where people think you are partner of another one.
+              </ng-container>
+              <ng-container *ngIf="loggedInGamePlayer?.questionmarkOrWord !== '?'">
+                Give first synonym for
+                <span class="badge badge-primary">
+                  {{loggedInGamePlayer?.questionmarkOrWord}}
+                </span>
+              </ng-container>
+            </label>
+            <div>
               <input type="text"
                      class="form-control"
-                     [ngClass]="{'form-control-danger' : synonymInput.invalid, 'form-control-success' : synonymInput.valid}"
-                     id="synonym"
+                     [ngClass]="{'is-invalid' : synonymInput?.dirty && synonymInput.errors?.required}"
+                     id="synonymTxt"
                      [(ngModel)]="synonym"
                      #synonymInput="ngModel"
                      name="synonym"
                      required
               >
-              <div *ngIf="synonymInput.errors?.required">
-                Enter your synonym
+              <div *ngIf="synonymInput?.dirty && synonymInput.errors?.required">
+                Provide your synonym
               </div>
-              <button class="btn btn-primary"
-                      [disabled]="synonymInput.invalid"
-                      (click)="sendSynonym()"
-              >Send
-              </button>
             </div>
-          </form>
-        </div>
+          </div>
+          <button id="sendSynonym"
+                  class="btn btn-primary btn-block"
+                  [disabled]="synonymInput.invalid"
+                  (click)="sendSynonym()"
+          >
+            Send
+          </button>
+          <div class="py-2">
+          </div>
+        </form>
       </div>
     </div>
   </div>
 
-  <div class="col-sm-6">
-    <div class="card">
-      <div class="card-title">
-        Status of players
-      </div>
-      <div class="card-body">
-        <ul class="list-group">
-          <li class="list-group-item list-group-item-success"
-              *ngFor="let gamePlayer of gamePlayers"
-          >{{$index}} {{gamePlayer.name}}
-            - <strong>{{gamePlayer.firstSynonym}}</strong>
-            - {{gamePlayer.status}} _dots_
-          </li>
-        </ul>
-      </div>
+  <div class="card mt-4">
+    <div class="card-header text-center">
+      <strong id="playersTurnList">Players turn</strong>
+    </div>
+    <div class="card-body">
+      <ul class="list-group">
+        <li class="list-group-item list list-group-item-light d-flex">
+          <span>Player Name</span>
+          <span class="ml-auto">Given Synonym</span>
+        </li>
+        <li class="list-group-item list d-flex"
+            [ngClass]="{
+              'list-group-item-action active' : gamePlayer === currentPlayer && show$,
+              'list-group-item-success' : gamePlayer.status === GAMEPLAYER_STATUS
+              }"
+            *ngFor="let gamePlayer of gamePlayers"
+        >
+          <span>
+            {{gamePlayer.name}} <app-waitingdots></app-waitingdots>
+          </span>
+          <span class="ml-auto badge badge-info">{{gamePlayer.firstSynonym}}</span>
+        </li>
+      </ul>
     </div>
   </div>
 </div>

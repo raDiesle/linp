@@ -1,11 +1,11 @@
 import {Game, GamePlayerStatus} from "../models/game";
 
-export const FirstGuessMock = function (players) {
+export const FirstGuessMock = function (players, gameName: string) {
 
   const FIRST_SYNONYM_GIVEN_PLAYER_STATUS: GamePlayerStatus = 'FIRST_SYNONYM_GIVEN';
 
   const request = <Game>{
-    name: this.gameName,
+    name: gameName,
     host: players.playerA.uid,
     status: 'firstguess',
     players: [],
@@ -74,16 +74,3 @@ export const FirstGuessMock = function (players) {
     requestPlayers: requestPlayers
   };
 }
-
-
-/*
-    this.db
-      .collection<Game>('games')
-      .doc(this.gameName)
-      .collection('players')
-      .doc()
-      .add()
-
-      .then(() => alert('Successful'))
-      .catch(() => alert('fail'));
-*/
