@@ -35,7 +35,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {PlayerprofileComponent} from './playerprofile/playerprofile.component';
 import {CreategameComponent} from './creategame/creategame.component';
 import {GamerulesComponent} from './gamerules/gamerules.component';
-import {ShareButtonsModule} from 'ngx-sharebuttons';
+
 import {HttpModule} from '@angular/http';
 import {PreparegameComponent} from './preparegame/preparegame.component';
 import {BlinkComponent} from './widgets/blink/blink.component';
@@ -49,6 +49,8 @@ import {FirebaseGameService} from './services/firebasegame.service';
 import {FinalizeroundComponent} from './finalizeround/finalizeround.component';
 import {OrderByPipe} from './finalizeround/order-by.pipe';
 import {AuthGuard} from './services/auth.guard';
+import {ShareModule} from '@ngx-share/core';
+import {ShareButtonModule} from '@ngx-share/button';
 
 @NgModule({
   declarations: [
@@ -172,7 +174,8 @@ import {AuthGuard} from './services/auth.guard';
     ]),
     FormsModule,
     NgbModule.forRoot(),
-    ShareButtonsModule.forRoot(),
+    ShareModule.forRoot(),
+    ShareButtonModule.forRoot(),
     BrowserModule,
     HttpClientModule,
     HttpModule,
