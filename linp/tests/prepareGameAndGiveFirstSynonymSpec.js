@@ -3,13 +3,17 @@ import { waitForAngular} from 'testcafe-angular-selectors';
 import { ClientFunction } from 'testcafe';
 import {testHelper} from "./testHelper";
 
-const typeSynonymOnYourTurn = async function(t) {
-  await t
+const typeSynonymOnly = async function (t) {
+  return await t
     .expect(Selector('#playersTurnList').exists).ok()
     .expect(Selector('#yourTurn').exists).ok()
     .typeText('#synonymTxt', 'FirstSynonym')
     .click('#sendSynonym')
-    .expect(Selector('#savedResponseFlag').exists).ok()
+
+}
+const typeSynonymOnYourTurn = async (t) => {
+  await typeSynonymOnly(t);
+  await t.expect(Selector('#savedResponseFlag').exists).ok()
     .expect(Selector('#yourTurn').exists).notOk()
 }
 
@@ -88,7 +92,6 @@ export async function perform(t) {
     .click('#startGameButton')
   await typeSynonymOnYourTurn(t);
 
-
   await t
     .useRole(testHelper.playerE)
     .click('#joingame')
@@ -120,7 +123,8 @@ export async function perform(t) {
     .click('#joingame')
   await t.click('#gamename_' + gameName)
     .click('#startGameButton')
-  await typeSynonymOnYourTurn(t);
+  await typeSynonymOnly(t);
+
   await t
     .expect(getLocation()).contains('/firstguess');
 }

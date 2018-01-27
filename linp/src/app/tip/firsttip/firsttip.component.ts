@@ -20,6 +20,8 @@ export class FirsttipComponent implements OnInit, OnDestroy {
   READY_FOR_GAME: GamePlayerStatus = 'READY_TO_START';
   readonly NEXT_POSITIVE_ROUTE = 'firstguess';
   GAMEPLAYER_STATUS: GamePlayerStatus = 'FIRST_SYNONYM_GIVEN';
+  readonly CURRENT_INTERMEDIATE_STATE = 'firsttip';
+  readonly INTERMEDIATE_STATUS = 'preparegame';
 
   authUser: firebase.User;
   gamePlayers: GamePlayer[];
@@ -46,7 +48,7 @@ export class FirsttipComponent implements OnInit, OnDestroy {
     this.firebaseGameService.observeGame(this.gameName)
       .takeUntil(this.ngUnsubscribe)
       .subscribe(game => {
-        if (game.status !== 'preparegame') {
+        if (game.status !== this.INTERMEDIATE_STATUS) {
           this.router.navigate(['/' + game.status, this.gameName]);
         }
       });
@@ -59,20 +61,21 @@ export class FirsttipComponent implements OnInit, OnDestroy {
         this.loggedInGamePlayer = this.gamePlayers.find(gamePlayer => {
           return gamePlayer.uid === this.firebaseGameService.authUserUid;
         });
+
         this.currentPlayer = this.gamePlayers.find(gamePlayer => {
           return gamePlayer.status !== this.GAMEPLAYER_STATUS;
         });
-        this.isPlayersTurnForAuthUser = this.currentPlayer.uid === this.firebaseGameService.authUserUid;
-
-        if (this.loggedInGamePlayer.isHost) {
+        const isLastPlayerFinishedTurn = !this.currentPlayer;
+        if (isLastPlayerFinishedTurn) {
           this.checkAndUpdateGameStatus(this.gameName, this.gamePlayers);
         }
+
+        this.isPlayersTurnForAuthUser = !isLastPlayerFinishedTurn ? this.currentPlayer.uid === this.firebaseGameService.authUserUid : false;
       });
 
     Observable.timer(0, 1000).subscribe(number => {
       this.show$ = number % 2 === 0;
     });
-
   }
 
   sendSynonym() {
@@ -88,7 +91,7 @@ export class FirsttipComponent implements OnInit, OnDestroy {
       return gamePlayer.status === this.READY_FOR_GAME;
     });
     if (isAllAreReadyOnPreparedGame) {
-      this.firebaseGameService.updateGameStatus('firsttip', gameName);
+      this.firebaseGameService.updateGameStatus(this.CURRENT_INTERMEDIATE_STATE, gameName);
     }
 
     const isAllGivenFirstSynonym = gamePlayers.every(gamePlayer => {

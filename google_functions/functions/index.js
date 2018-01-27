@@ -4,6 +4,8 @@ const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 const index_1 = require("./evaluate/index");
 const index_2 = require("./word-role-assignment/index");
+const player_status_1 = require("./player-status");
 admin.initializeApp(functions.config().firebase);
 exports.evaluate = new index_1.Evaluate().register();
 exports.wordRoleAssignment = new index_2.WordRoleAssigment().register();
+exports.playerStatusTrigger = new player_status_1.PlayerStatusTrigger().register();

@@ -8,8 +8,7 @@ const gameName = 'test' + Math.floor(Math.random() * 1000000 + 1);
 console.log(gameName);
 
 
-
-fixture `Full testsuite`
+fixture `Create Game and join players in gamelobby`
   .page `http://localhost:4200`
   .beforeEach(async t => {
     await waitForAngular();
@@ -65,6 +64,6 @@ test('Create Game and join players in gamelobby', async t => {
     .click('#gamename_' + gameName)
     // .expect(Selector('#gamestatusButton').hasAttribute('disabled')).notOk()
     .click('#gamestatusButton')
-    .expect(getLocation()).contains('/preparegame',  { timeout: 8000 })
-    .expect(Selector('#isRoleAssigned').exists).ok('are roles assigned on serverside?', { timeout: 5000 })
+    .expect(getLocation()).contains('/preparegame', {timeout: 12000})
+    .expect(Selector('#isRoleAssigned').exists).ok('are roles assigned on serverside?', {timeout: 8000})
 });

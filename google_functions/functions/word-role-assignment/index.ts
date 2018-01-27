@@ -15,7 +15,6 @@ export class WordRoleAssigment {
     register() {
         return functions.https.onRequest((request, response) => {
             cors(request, response, () => {
-                console.log(new Date());
                 const gameRef = admin.firestore()
                     .collection('games')
                     .doc(request.query.gameName);
@@ -24,7 +23,6 @@ export class WordRoleAssigment {
                     .collection('players')
                     .get()
                     .then((results) => {
-                        console.log(new Date());
 
                         // const gameName = results[0].name;
                         const gamePlayers: GamePlayer[] = results.docs.map(player => {

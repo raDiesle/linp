@@ -1,11 +1,39 @@
 import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
 
-export const listener = functions.database.ref('games/{gameName}/players/{uid}/status')
-    .onWrite(async event => {
-        // const original = event.data.val() as string;
-        const gameName = (event.params as any).gameName;
+export class PlayerStatusTrigger {
+    constructor() {
 
-        admin.database().ref('games/' + gameName + '/status')
-            .set('new status');
-    });
+    }
+
+    public register() {
+        return functions.firestore
+            .document('games/{gameName}/players/{uid}')
+            .onUpdate(event => {
+
+                const gameName = (event.params as any).gameName;
+                const playerStatus = (event.params as any).status;
+
+                if (playerStatus === 'FIRST_GUESS_GIVEN') {
+
+                }
+
+                // 'games/' + gameName + '/status'
+
+                // Get an object representing the document
+                // e.g. {'name': 'Marie', 'age': 66}
+                var newValue = event.data.data();
+
+                // ...or the previous value before this update
+                var previousValue = event.data.previous.data();
+
+                // access a particular field as you would any JS property
+                var name = newValue.name;
+
+                console.log(newValue);
+                console.log(gameName);
+                console.log(playerStatus);
+                // perform desired operations ...
+            });
+    }
+}

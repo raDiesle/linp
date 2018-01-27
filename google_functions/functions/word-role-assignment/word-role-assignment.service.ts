@@ -31,8 +31,6 @@ export class WordRoleAssignmentService {
             .doc(language)
             .get()
             .then(sizeObject => {
-                console.log('size');
-                console.log(new Date());
                 const totalSizeOfWordCatalogue = sizeObject.data()['size'];
 
                 const maxPosForStartPick = totalSizeOfWordCatalogue - numberOfWordsNeeded - 1;
@@ -53,8 +51,6 @@ export class WordRoleAssignmentService {
                     .limit(numberOfWordsNeeded)
                     .get()
                     .then(wordsFullLibrary => {
-                        console.log('wordsQuery');
-                        console.log(new Date());
                         // optimize
                         const wordsChosenFromLibrary = wordsFullLibrary.docs.map(word => {
                             return {
