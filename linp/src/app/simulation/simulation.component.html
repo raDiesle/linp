@@ -7,6 +7,20 @@
     </div>
   </div>
 
+
+  <button class="btn btn-primary btn-block"
+          id="createForSecondSynonym"
+          (click)="createForSecondSynonym()">
+    Create for secondTip
+  </button>
+  <div id="createForSecondSynonymResponseAllFlag"
+       class="alert alert-success" role="alert"
+       *ngIf="createForSecondSynonymResponseCountPlayersCount !== 0 && createForSecondSynonymResponseCountPlayersCount === createForSecondSynonymResponseCount"
+  >
+    successful setup data second synonym data
+  </div>
+
+
   <button class="btn btn-primary btn-block"
           id="createForFirstGuessGame"
           (click)="createForFirstGuessGame()">

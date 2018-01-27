@@ -1,13 +1,13 @@
 import {Selector} from 'testcafe';
-import { waitForAngular} from 'testcafe-angular-selectors';
-import { ClientFunction } from 'testcafe';
+import {waitForAngular} from 'testcafe-angular-selectors';
+import {ClientFunction} from 'testcafe';
 import {testHelper} from "./testHelper";
 
 const typeSynonymOnly = async function (t) {
   return await t
     .expect(Selector('#playersTurnList').exists).ok()
     .expect(Selector('#yourTurn').exists).ok()
-    .typeText('#synonymTxt', 'FirstSynonym')
+    .typeText('#synonymTxt', 'SecondSynonym')
     .click('#sendSynonym')
 
 }
@@ -29,12 +29,12 @@ console.log(gameName);
   playerC
  */
 
-fixture `PrepareGameSpec`
+fixture `Second Synonym Spec`
   .page `http://localhost:4200`
   .beforeEach(async t => {
     await waitForAngular();
   })
-  .afterEach(async t =>{
+  .afterEach(async t => {
     await t
       .click('#simulation')
       .typeText('#gameName', gameName, {replace: true})
@@ -42,20 +42,20 @@ fixture `PrepareGameSpec`
       .expect(Selector('#deletedGameFlag').exists).ok();
   });
 
-test('PrepareGame', async t => {
+test('Second synonym', async t => {
   await t
     .click('#simulation')
   await t
     .typeText('#gameName', gameName)
-    .click('#createForPrepareGame')
-    .expect(Selector('#createForPrepareGameResponseAllFlag').exists).ok()
+    .click('#createForSecondSynonym')
+    .expect(Selector('#createForSecondSynonymResponseAllFlag').exists).ok()
 
   await perform(t);
 });
 
-export async function perform(t) {
-  const CURRENT_PAGE = '/preparegame';
-  const NEXT_PAGE = '/firstguess';
+async function perform(t) {
+  const CURRENT_PAGE = '/secondtip';
+  const NEXT_PAGE = '/secondguess';
   const getLocation = ClientFunction(() => document.location.href);
 
   await t
@@ -63,9 +63,6 @@ export async function perform(t) {
     .click('#joingame')
     .click('#gamename_' + gameName)
     .expect(getLocation()).contains(CURRENT_PAGE)
-    .expect(Selector('#playersRoleOrWord').innerText).contains('?')
-    .click('#startGameButton')
-    .expect(getLocation()).contains('/firsttip')
     .expect(Selector('#playersTurnList').exists).ok()
     .expect(Selector('#yourTurn').exists).notOk()
 
@@ -73,15 +70,11 @@ export async function perform(t) {
     .useRole(testHelper.playerB)
     .click('#joingame')
     .click('#gamename_' + gameName)
-    .expect(Selector('#playersRoleOrWord').innerText).eql('Word1')
-    .click('#startGameButton')
   await typeSynonymOnYourTurn(t);
 
   await t
     .useRole(testHelper.playerC)
     .click('#joingame').click('#gamename_' + gameName)
-    .expect(Selector('#playersRoleOrWord').innerText).eql('Word1')
-    .click('#startGameButton')
     .expect(Selector('#playersTurnList').exists).ok()
     .expect(Selector('#yourTurn').exists).notOk()
   await t
@@ -90,16 +83,12 @@ export async function perform(t) {
     .click('#joingame')
   await t
     .click('#gamename_' + gameName)
-    .expect(Selector('#playersRoleOrWord').innerText).eql('Word2')
-    .click('#startGameButton')
   await typeSynonymOnYourTurn(t);
 
   await t
     .useRole(testHelper.playerE)
     .click('#joingame')
   await t.click('#gamename_' + gameName)
-    .expect(Selector('#playersRoleOrWord').innerText).eql('Word2')
-    .click('#startGameButton')
   await typeSynonymOnYourTurn(t);
 
   // all did ready on preparegame to redirect to firsttip
@@ -109,7 +98,6 @@ export async function perform(t) {
     .click('#joingame')
   await t
     .click('#gamename_' + gameName)
-    .click('#startGameButton')
   await typeSynonymOnYourTurn(t);
 
   await t
@@ -117,14 +105,12 @@ export async function perform(t) {
     .click('#joingame')
   await t
     .click('#gamename_' + gameName)
-    .click('#startGameButton')
   await typeSynonymOnYourTurn(t);
 
   await t
     .useRole(testHelper.playerC)
     .click('#joingame')
   await t.click('#gamename_' + gameName)
-    .click('#startGameButton')
   await typeSynonymOnly(t);
 
   await t

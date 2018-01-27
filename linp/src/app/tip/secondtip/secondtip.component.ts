@@ -20,6 +20,8 @@ export class SecondtipComponent implements OnInit, OnDestroy {
   readonly GAMEPLAYER_STATUS: GamePlayerStatus = 'SECOND_SYNONYM_GIVEN';
   readonly NEXT_POSITIVE_ROUTE = 'secondguess';
 
+  readonly INTERMEDIATE_STATUS = '';
+
   authUser: firebase.User;
   gamePlayers: GamePlayer[];
   gameName: string;
@@ -30,6 +32,7 @@ export class SecondtipComponent implements OnInit, OnDestroy {
   public show$: boolean;
   private currentPlayer: GamePlayer;
   private isPlayersTurnForAuthUser = false;
+  private savedResponseFlag = false;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -44,9 +47,7 @@ export class SecondtipComponent implements OnInit, OnDestroy {
     this.firebaseGameService.observeGame(this.gameName)
       .takeUntil(this.ngUnsubscribe)
       .subscribe(game => {
-        if (game.status !== 'preparegame') {
           this.router.navigate(['/' + game.status, this.gameName]);
-        }
       });
 
     this.firebaseGameService.observeGamePlayers(this.gameName)
@@ -60,11 +61,12 @@ export class SecondtipComponent implements OnInit, OnDestroy {
         this.currentPlayer = this.gamePlayers.find(gamePlayer => {
           return gamePlayer.status !== this.GAMEPLAYER_STATUS;
         });
-        this.isPlayersTurnForAuthUser = this.currentPlayer.uid === this.firebaseGameService.authUserUid;
 
-        if (this.loggedInGamePlayer.isHost) {
+        const isLastPlayerFinishedTurn = !this.currentPlayer;
+        if (isLastPlayerFinishedTurn) {
           this.checkAndUpdateGameStatus(this.gameName, this.gamePlayers);
         }
+        this.isPlayersTurnForAuthUser = !isLastPlayerFinishedTurn ? this.currentPlayer.uid === this.firebaseGameService.authUserUid : false;
       });
 
     Observable.timer(0, 1000).subscribe(number => {
@@ -76,8 +78,7 @@ export class SecondtipComponent implements OnInit, OnDestroy {
   sendSynonym() {
     this.firebaseGameService.sendSynonym(this.GAMEPLAYER_STATUS, this.synonym, this.gameName)
       .then(gamePlayerModel => {
-        // TODO
-        console.log('Successful saved');
+        this.savedResponseFlag = true;
       });
   }
 

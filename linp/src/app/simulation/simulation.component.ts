@@ -11,6 +11,7 @@ import {FirebaseGameService} from '../services/firebasegame.service';
 import {EvaluationMock} from './EvaluationMock';
 import {PreparegameMock} from './PreparegameAndFirstTipMock';
 import {FirstGuessMock} from './FirstGuessMock';
+import {SecondSynonymMock} from "./SecondSynonymMock";
 
 const players: { [uid: string]: PlayerProfile } = {
   playerA: {
@@ -48,12 +49,17 @@ export class SimulationComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   private queryResults: Observable<{}[]>;
-  private createForPrepareGameResponseCount = 0;
-  public createForPrepareGameResponseCountPlayersCount = 0;
   private gameName: string | null;
   private deletedGameFlag = false;
+
+  public createForPrepareGameResponseCountPlayersCount = 0;
+  public createForSecondSynonymResponseCountPlayersCount = 0;
+
   private createForFirstGuessGameResponseCountPlayersCount = 0;
   private createForFirstGuessGameResponseCount = 0;
+  private createForPrepareGameResponseCount = 0;
+  private createForSecondSynonymResponseCount = 0;
+
 
   constructor(private route: ActivatedRoute,
               public afAuth: AngularFireAuth,
@@ -119,7 +125,32 @@ export class SimulationComponent implements OnInit, OnDestroy {
         });
       })
       .catch(() => alert('fail'));
+  }
 
+  createForSecondSynonym() {
+    const requestObject = SecondSynonymMock(players, this.gameName);
+
+    this.createForSecondSynonymResponseCountPlayersCount = requestObject.requestPlayers.length;
+    this.createForSecondSynonymResponseCount = 0;
+
+    this.db
+      .collection<Game>('games')
+      .doc(this.gameName)
+      .set(requestObject.request)
+      .then(() => {
+        requestObject.requestPlayers.forEach(player => {
+          this.db
+            .collection<Game>('games')
+            .doc(this.gameName)
+            .collection('players')
+            .doc(player.uid)
+            .set(player)
+            .then(() => {
+              this.createForSecondSynonymResponseCount++;
+            })
+        });
+      })
+      .catch(() => alert('fail'));
   }
 
   updateSinglePlayerScore() {

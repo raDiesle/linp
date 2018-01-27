@@ -1,6 +1,6 @@
 import {Game, GamePlayerStatus} from '../models/game';
 
-export const FirstGuessMock = function (players, gameName: string) {
+export const SecondSynonymMock = function (players, gameName: string) {
 
   const GAMEPLAYER_STATUS: GamePlayerStatus = 'FIRST_GUESS_GIVEN';
   const GAMESTATUS = 'secondtip';
