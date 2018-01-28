@@ -21,7 +21,6 @@ export class EvaluationComponent implements OnInit {
   readonly INTERMEDIATE_STATUS = 'evaluation';
   readonly prevStatus: GameStatus = 'secondguess'; // TODO change to player status
 
-  authUser: firebase.User;
   gameName: string;
   gamePlayers: GamePlayer[] = [];
   evaluatedByHostBrowser = false;
@@ -29,8 +28,9 @@ export class EvaluationComponent implements OnInit {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   @ViewChild('t') public tooltip: NgbTooltip;
   private gameRound = 0;
-  private isResultsCalculated = false;
+  private isCalculationTriggeredOnce = false;
   private currentTooltipIndirectPointsGamePlayer: GamePlayer;
+  private isRealCalculatedHack = false;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -38,9 +38,6 @@ export class EvaluationComponent implements OnInit {
               public afAuth: AngularFireAuth,
               private httpClient: HttpClient,
               private firebaseGameService: FirebaseGameService) {
-    afAuth.authState.subscribe(authUser => {
-      this.authUser = authUser;
-    });
   }
 
   ngOnInit() {
@@ -50,8 +47,22 @@ export class EvaluationComponent implements OnInit {
       .takeUntil(this.ngUnsubscribe)
       .subscribe((gamePlayers) => {
         this.gamePlayers = gamePlayers;
-      });
 
+        this.isRealCalculatedHack = this.gamePlayers.some(gamePlayer => {
+          const notYetCalculatedIndication = 0;
+          return gamePlayer.pointsScored.total !== notYetCalculatedIndication;
+        });
+
+        const isPlayerToTriggerEvaluation = this.gamePlayers.slice(-1)[0].uid === this.firebaseGameService.authUserUid;
+        this.gameObserveActions(isPlayerToTriggerEvaluation);
+      });
+  }
+
+  navigateToFinalizeRound() {
+    this.router.navigate(['finalizeround', this.gameName]);
+  }
+
+  private gameObserveActions(isPlayerToTriggerEvaluation: boolean) {
     const gameObservable = this.db
       .collection('games')
       .doc<Game>(this.gameName)
@@ -62,31 +73,27 @@ export class EvaluationComponent implements OnInit {
         this.gameRound = game.round;
         // Missing reliable check
 
-        this.isResultsCalculated = game.status === this.INTERMEDIATE_STATUS;
-
-        if (this.isResultsCalculated) {
+        /*
+        this.isCalculationTriggeredOnce = game.status === this.INTERMEDIATE_STATUS;
+        if (this.isCalculationTriggeredOnce) {
           gameObservable.unsubscribe();
         }
-        const hostUid = game.host;
-        const isToBeExecutedOnHostBrowserOnceHack = this.authUser.uid === hostUid && this.evaluatedByHostBrowser !== true;
-        if (this.isResultsCalculated !== true && isToBeExecutedOnHostBrowserOnceHack) {
+        */
+
+        const isToBeExecutedOnHostBrowserOnceHack = isPlayerToTriggerEvaluation && this.evaluatedByHostBrowser !== true;
+        if (this.isCalculationTriggeredOnce !== true && isToBeExecutedOnHostBrowserOnceHack) {
           this.evaluatedByHostBrowser = true;
-          this.firebaseGameService.updateGameStatus(this.INTERMEDIATE_STATUS, this.gameName)
-            .then(() => {
-              this.evaluateOnServerside();
-            });
+          gameObservable.unsubscribe();
+          this.evaluateOnServerside();
         }
       });
-  }
-
-  navigateToFinalizeRound() {
-    this.router.navigate(['/finalizeround', this.gameName]);
   }
 
 // move to service
   private evaluateOnServerside() {
     const url = 'https://us-central1-linp-c679b.cloudfunctions.net/evaluate';
-// ONLY SET EVALUATE STATE
+    console.log('triggered calculation on serverside');
+    // ONLY SET EVALUATE STATE
     // const headers = new Headers({'Authorization': 'Bearer ' + this.authUser.uid});
     this.httpClient
       .get(url,

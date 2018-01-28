@@ -1,15 +1,15 @@
 <div class="card">
   <div class="card-header text-center d-flex justify-content-between align-items-center">
     <strong>Round {{gameRound}} finished</strong>
-    <span class="badge badge-warning" *ngIf="isResultsCalculated === false">
+    <span class="badge badge-warning" *ngIf="isRealCalculatedHack === false">
       Calculating Scores
       <app-waitingdots></app-waitingdots>
     </span>
-    <span id="isResultsCalculated" class="d-none" *ngIf="isResultsCalculated"></span>
+    <span id="isRealCalculatedHack" class="d-none" *ngIf="isRealCalculatedHack"></span>
   </div>
 
   <div class="card-body">
-    <button class="btn btn-success btn-block mb-5" (click)="navigateToFinalizeRound()">
+    <button id="finalizeRoundButton" class="btn btn-success btn-block mb-5" (click)="navigateToFinalizeRound()">
       Next
     </button>
 

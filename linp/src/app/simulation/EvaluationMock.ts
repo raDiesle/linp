@@ -2,7 +2,7 @@ import {Game} from '../models/game';
 
 export const EvaluationMock = function (players, gameName: string) {
   const PLAYER_STATUS = 'SECOND_GUESS_GIVEN';
-  const GAME_STATUS = 'secondguess';
+  const GAME_STATUS = 'evaluation';
 
   const request = <Game>{
     name: gameName,

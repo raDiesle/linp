@@ -33,54 +33,67 @@ test('EvaluationGame', async t => {
     .click('#createForEvaluation')
     .expect(Selector('#createForEvaluationResponseAllFlag').exists).ok();
 
+// Last player hack
+  await t
+    .useRole(testHelper.playerC)
+    .click('#joingame')
+    .click('#gamename_' + gameName)
+    .expect(getLocation()).contains(CURRENT_PAGE)
+    .expect(Selector('#isRealCalculatedHack').exists).ok({timeout: 18000})
+    .click('#finalizeRoundButton')
+    .expect(getLocation()).contains(NEXT_PAGE);
+
   await t
     .useRole(testHelper.playerA)
     .click('#joingame')
     .click('#gamename_' + gameName)
     .expect(getLocation()).contains(CURRENT_PAGE)
-    .expect(Selector('#isResultsCalculated').exists).ok({timeout: 10000})
+    .expect(Selector('#isRealCalculatedHack').exists).ok()
+    .click('#finalizeRoundButton')
+    .expect(getLocation()).contains(NEXT_PAGE);
 
   await t
     .useRole(testHelper.playerB)
     .click('#joingame')
     .click('#gamename_' + gameName)
     .expect(getLocation()).contains(CURRENT_PAGE)
-    .expect(Selector('#isResultsCalculated').exists).ok()
-
-  await t
-    .useRole(testHelper.playerC)
-    .click('#joingame')
-    .click('#gamename_' + gameName)
-    .expect(getLocation()).contains(CURRENT_PAGE)
-    .expect(Selector('#isResultsCalculated').exists).ok()
+    .expect(Selector('#isRealCalculatedHack').exists).ok()
+    .click('#finalizeRoundButton')
+    .expect(getLocation()).contains(NEXT_PAGE);
 
   await t
     .useRole(testHelper.playerD)
     .click('#joingame')
     .click('#gamename_' + gameName)
     .expect(getLocation()).contains(CURRENT_PAGE)
-    .expect(Selector('#isResultsCalculated').exists).ok()
+    .expect(Selector('#isRealCalculatedHack').exists).ok()
+    .click('#finalizeRoundButton')
+    .expect(getLocation()).contains(NEXT_PAGE);
 
   await t
     .useRole(testHelper.playerE)
     .click('#joingame')
     .click('#gamename_' + gameName)
     .expect(getLocation()).contains(CURRENT_PAGE)
-    .expect(Selector('#isResultsCalculated').exists).ok()
+    .expect(Selector('#isRealCalculatedHack').exists).ok()
+    .click('#finalizeRoundButton')
+    .expect(getLocation()).contains(NEXT_PAGE);
 
   await t
     .useRole(testHelper.playerF)
     .click('#joingame')
     .click('#gamename_' + gameName)
     .expect(getLocation()).contains(CURRENT_PAGE)
-  // .debug()
-  // .expect(Selector('#isResultsCalculated').exists).ok()
-  await t
-    .expect(getLocation()).contains(NEXT_PAGE)
+    .expect(Selector('#isRealCalculatedHack').exists).ok()
+    .click('#finalizeRoundButton')
+    .expect(getLocation()).contains(NEXT_PAGE);
 
   await t
     .useRole(testHelper.playerF)
     .click('#joingame')
     .click('#gamename_' + gameName)
-    .expect(getLocation()).contains(NEXT_PAGE)
+    .expect(getLocation()).contains(CURRENT_PAGE)
+    .expect(Selector('#isRealCalculatedHack').exists).ok()
+    .click('#finalizeRoundButton')
+    .expect(getLocation()).contains(NEXT_PAGE);
 })

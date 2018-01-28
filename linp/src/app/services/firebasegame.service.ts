@@ -11,6 +11,7 @@ import {ActivatedRoute} from '@angular/router';
 
 @Injectable()
 export class FirebaseGameService {
+  readonly INITIAL_STATUS = 'JOINED_GAME';
   public authUserUid: string;
 
   constructor(private afAuth: AngularFireAuth,
@@ -125,7 +126,7 @@ export class FirebaseGameService {
       uid: this.afAuth.auth.currentUser.uid,
       name: playerName,
       isHost: isHost,
-      status: 'JOINED_GAME',
+      status: this.INITIAL_STATUS,
       //TODO update on all places to order by pos when fetching
       pos: this.random53()
 // substract to initial model object
