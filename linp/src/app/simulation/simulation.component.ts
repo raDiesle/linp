@@ -53,23 +53,26 @@ export class SimulationComponent implements OnInit, OnDestroy {
   private gameName: string | null;
   private deletedGameFlag = false;
 
-  public createForPrepareGameResponseCountPlayersCount = 0;
+
   public createForSecondSynonymResponseCountPlayersCount = 0;
+  public createForPrepareGameResponseCountPlayersCount = 0;
 
   private createForFirstGuessGameResponseCountPlayersCount = 0;
   private createForFirstGuessGameResponseCount = 0;
+  public createForEvaluationResponseCountPlayersCount = 0;
   private createForPrepareGameResponseCount = 0;
-  private createForSecondSynonymResponseCount = 0;
+
   private createForSecondGuessGameResponseCount = 0;
   private createForSecondGuessGameResponseCountPlayersCount = 0;
+  private createForSecondSynonymResponseCount = 0;
+  private createForEvaluationResponseCount = 0;
 
 
   constructor(private route: ActivatedRoute,
               public afAuth: AngularFireAuth,
               public db: AngularFirestore,
               public linpCardsModelService: LinpCardsModelService,
-              public firebaseGameService: FirebaseGameService
-              ) {
+              public firebaseGameService: FirebaseGameService) {
   }
 
   ngOnInit() {
@@ -80,11 +83,14 @@ export class SimulationComponent implements OnInit, OnDestroy {
     this.firebaseGameService.deleteGame(this.gameName)
       .then(() => {
         this.deletedGameFlag = true;
-    });
+      });
   }
 
   createForEvaluation() {
     const requestObject = EvaluationMock(players, this.gameName);
+
+    this.createForEvaluationResponseCountPlayersCount = requestObject.requestPlayers.length;
+    this.createForEvaluationResponseCount = 0;
 
     this.db
       .collection<Game>('games')
@@ -98,8 +104,10 @@ export class SimulationComponent implements OnInit, OnDestroy {
             .collection('players')
             .doc(player.uid)
             .set(player)
+            .then(() => {
+              this.createForEvaluationResponseCount++;
+            })
         });
-        alert('Successful');
       })
       .catch(() => alert('fail'));
   }
@@ -124,7 +132,7 @@ export class SimulationComponent implements OnInit, OnDestroy {
             .set(player)
             .then(() => {
               this.createForPrepareGameResponseCount++;
-          })
+            })
         });
       })
       .catch(() => alert('fail'));

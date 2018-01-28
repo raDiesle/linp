@@ -3,13 +3,11 @@ import {AngularFireAuth} from 'angularfire2/auth/auth';
 import {ActivatedRoute, Router} from '@angular/router';
 import * as firebase from 'firebase/app';
 import {AngularFirestore} from 'angularfire2/firestore';
-import {Game, GamePlayer, GameStatus, PointsScored, TeamTip} from '../models/game';
-import {Observable} from 'rxjs/Observable';
-import {first} from 'rxjs/operator/first';
+import {Game, GamePlayer, GameStatus} from '../models/game';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {FirebaseGameService} from '../services/firebasegame.service';
 import {Subject} from 'rxjs/Subject';
-import {NgbTooltip} from "@ng-bootstrap/ng-bootstrap";
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -19,11 +17,13 @@ import {NgbTooltip} from "@ng-bootstrap/ng-bootstrap";
 })
 export class EvaluationComponent implements OnInit {
 
+  readonly statusToCheck: GameStatus = 'evaluation';
+  readonly INTERMEDIATE_STATUS = 'evaluation';
+  readonly prevStatus: GameStatus = 'secondguess'; // TODO change to player status
+
   authUser: firebase.User;
   gameName: string;
   gamePlayers: GamePlayer[] = [];
-  statusToCheck: GameStatus = 'evaluation';
-  prevStatus: GameStatus = 'secondguess'; // TODO change to player status
   evaluatedByHostBrowser = false;
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
@@ -61,7 +61,8 @@ export class EvaluationComponent implements OnInit {
         const game: Game = gameRef;
         this.gameRound = game.round;
         // Missing reliable check
-        this.isResultsCalculated = game.status === 'evaluation';
+
+        this.isResultsCalculated = game.status === this.INTERMEDIATE_STATUS;
 
         if (this.isResultsCalculated) {
           gameObservable.unsubscribe();
@@ -70,7 +71,7 @@ export class EvaluationComponent implements OnInit {
         const isToBeExecutedOnHostBrowserOnceHack = this.authUser.uid === hostUid && this.evaluatedByHostBrowser !== true;
         if (this.isResultsCalculated !== true && isToBeExecutedOnHostBrowserOnceHack) {
           this.evaluatedByHostBrowser = true;
-          this.firebaseGameService.updateGameStatus('evaluation', this.gameName)
+          this.firebaseGameService.updateGameStatus(this.INTERMEDIATE_STATUS, this.gameName)
             .then(() => {
               this.evaluateOnServerside();
             });
@@ -97,6 +98,8 @@ export class EvaluationComponent implements OnInit {
         })
       .subscribe(response => {
         console.log('calculated evaluation on serverside');
+      }, err => {
+        console.log('calculated with error');
       });
   }
 }

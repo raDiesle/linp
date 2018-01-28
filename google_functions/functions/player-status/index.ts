@@ -22,13 +22,13 @@ export class PlayerStatusTrigger {
 
                 // Get an object representing the document
                 // e.g. {'name': 'Marie', 'age': 66}
-                var newValue = event.data.data();
+                const newValue = event.data.data();
 
                 // ...or the previous value before this update
-                var previousValue = event.data.previous.data();
+                const previousValue = event.data.previous.data();
 
                 // access a particular field as you would any JS property
-                var name = newValue.name;
+                const name = newValue.name;
 
                 console.log(newValue);
                 console.log(gameName);

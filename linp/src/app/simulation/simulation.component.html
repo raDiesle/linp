@@ -63,7 +63,14 @@
           (click)="createForPrepareGame()">Create for preparegame
   </button>
 
-  <button class="btn btn-primary btn-block"
+
+  <div id="createForEvaluationResponseAllFlag"
+       class="alert alert-success" role="alert"
+       *ngIf="createForEvaluationResponseCountPlayersCount !== 0 && createForEvaluationResponseCountPlayersCount === createForEvaluationResponseCount">
+    Sucessful setup all data
+  </div>
+  <button id="createForEvaluation"
+          class="btn btn-primary btn-block"
           (click)="createForEvaluation()">Create for evaluation
   </button>
 
