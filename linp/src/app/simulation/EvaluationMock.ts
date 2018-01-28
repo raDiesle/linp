@@ -1,10 +1,13 @@
 import {Game} from '../models/game';
 
 export const EvaluationMock = function (players, gameName: string) {
+  const PLAYER_STATUS = 'SECOND_GUESS_GIVEN';
+  const GAME_STATUS = 'secondguess';
+
   const request = <Game>{
     name: gameName,
     host: players.playerA.uid,
-    status: 'secondguess',
+    status: GAME_STATUS,
     players: [],
     round: 0,
     createdAt : new Date().getTime(),
@@ -15,7 +18,7 @@ export const EvaluationMock = function (players, gameName: string) {
     uid: players.playerA.uid,
     name: players.playerA.name,
     isHost: true,
-    status: 'SECOND_GUESS_GIVEN',
+    status: PLAYER_STATUS,
     questionmarkOrWord: '?',
     firstSynonym: 'FirstSynA',
     // correct
@@ -54,7 +57,7 @@ export const EvaluationMock = function (players, gameName: string) {
     uid: players.playerB.uid,
     name: players.playerB.name,
     isHost: false,
-    status: 'SECOND_GUESS_GIVEN',
+    status: PLAYER_STATUS,
     questionmarkOrWord: 'Wort1',
     firstSynonym: 'FirstSynB',
     firstTeamTip: {
@@ -93,7 +96,7 @@ export const EvaluationMock = function (players, gameName: string) {
     uid: players.playerC.uid,
     name: players.playerC.name,
     isHost: false,
-    status: 'SECOND_GUESS_GIVEN',
+    status: PLAYER_STATUS,
     questionmarkOrWord: 'Wort1',
     firstSynonym: 'FirstSynC',
     firstTeamTip: {
@@ -131,7 +134,7 @@ export const EvaluationMock = function (players, gameName: string) {
     uid: players.playerD.uid,
     name: players.playerD.name,
     isHost: false,
-    status: 'SECOND_GUESS_GIVEN',
+    status: PLAYER_STATUS,
     questionmarkOrWord: 'Wort2',
     firstSynonym: 'FirstSynD',
     firstTeamTip: {
@@ -169,7 +172,7 @@ export const EvaluationMock = function (players, gameName: string) {
     uid: players.playerE.uid,
     name: players.playerE.name,
     isHost: false,
-    status: 'SECOND_GUESS_GIVEN',
+    status: PLAYER_STATUS,
     questionmarkOrWord: 'Wort2',
     firstSynonym: 'FirstSynE',
     firstTeamTip: {
@@ -207,7 +210,7 @@ export const EvaluationMock = function (players, gameName: string) {
     uid: players.playerF.uid,
     name: players.playerF.name,
     isHost: false,
-    status: 'SECOND_GUESS_GIVEN',
+    status: PLAYER_STATUS,
     questionmarkOrWord: '?',
     firstSynonym: 'FirstSynF',
     firstTeamTip: {

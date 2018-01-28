@@ -11,7 +11,8 @@ import {FirebaseGameService} from '../services/firebasegame.service';
 import {EvaluationMock} from './EvaluationMock';
 import {PreparegameMock} from './PreparegameAndFirstTipMock';
 import {FirstGuessMock} from './FirstGuessMock';
-import {SecondSynonymMock} from "./SecondSynonymMock";
+import {SecondSynonymMock} from './SecondSynonymMock';
+import {SecondGuessMock} from './SecondGuessMock';
 
 const players: { [uid: string]: PlayerProfile } = {
   playerA: {
@@ -59,6 +60,8 @@ export class SimulationComponent implements OnInit, OnDestroy {
   private createForFirstGuessGameResponseCount = 0;
   private createForPrepareGameResponseCount = 0;
   private createForSecondSynonymResponseCount = 0;
+  private createForSecondGuessGameResponseCount = 0;
+  private createForSecondGuessGameResponseCountPlayersCount = 0;
 
 
   constructor(private route: ActivatedRoute,
@@ -153,6 +156,58 @@ export class SimulationComponent implements OnInit, OnDestroy {
       .catch(() => alert('fail'));
   }
 
+  createForFirstGuessGame() {
+    const requestObject = FirstGuessMock(players, this.gameName);
+
+    this.createForFirstGuessGameResponseCountPlayersCount = requestObject.requestPlayers.length;
+    this.createForFirstGuessGameResponseCount = 0;
+
+    this.db
+      .collection<Game>('games')
+      .doc(this.gameName)
+      .set(requestObject.request)
+      .then(() => {
+        requestObject.requestPlayers.forEach(player => {
+          this.db
+            .collection<Game>('games')
+            .doc(this.gameName)
+            .collection('players')
+            .doc(player.uid)
+            .set(player)
+            .then(() => {
+              this.createForFirstGuessGameResponseCount++;
+            })
+        });
+      })
+      .catch(() => alert('fail'));
+  }
+
+  createForSecondGuessGame() {
+    const requestObject = SecondGuessMock(players, this.gameName);
+
+    this.createForSecondGuessGameResponseCountPlayersCount = requestObject.requestPlayers.length;
+    this.createForSecondGuessGameResponseCount = 0;
+
+    this.db
+      .collection<Game>('games')
+      .doc(this.gameName)
+      .set(requestObject.request)
+      .then(() => {
+        requestObject.requestPlayers.forEach(player => {
+          this.db
+            .collection<Game>('games')
+            .doc(this.gameName)
+            .collection('players')
+            .doc(player.uid)
+            .set(player)
+            .then(() => {
+              this.createForSecondGuessGameResponseCount++;
+            })
+        });
+      })
+      .catch(() => alert('fail'));
+  }
+
   updateSinglePlayerScore() {
     const request = {};
     request[players.playerA.uid] = {
@@ -216,32 +271,6 @@ export class SimulationComponent implements OnInit, OnDestroy {
           .orderBy('random', 'desc')
           .limit(2)
       }).valueChanges();
-  }
-
-  createForFirstGuessGame() {
-    const requestObject = FirstGuessMock(players, this.gameName);
-
-    this.createForFirstGuessGameResponseCountPlayersCount = requestObject.requestPlayers.length;
-    this.createForFirstGuessGameResponseCount = 0;
-
-    this.db
-      .collection<Game>('games')
-      .doc(this.gameName)
-      .set(requestObject.request)
-      .then(() => {
-        requestObject.requestPlayers.forEach(player => {
-          this.db
-            .collection<Game>('games')
-            .doc(this.gameName)
-            .collection('players')
-            .doc(player.uid)
-            .set(player)
-            .then(() => {
-              this.createForFirstGuessGameResponseCount++;
-          })
-        });
-      })
-      .catch(() => alert('fail'));
   }
 
   ngOnDestroy() {

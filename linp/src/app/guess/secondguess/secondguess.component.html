@@ -1,65 +1,73 @@
-<div class="row">
-  <div class="col-md-6" *ngIf="isloggedInPlayerGivenSynonym === false">
+<div class="row" [hidden]="gamePlayers === undefined">
+  <span id="savedResponseFlag" class="d-none" *ngIf="savedResponseFlag"></span>
+  <div class="col-12 pb-3" *ngIf="isloggedInPlayerGivenSynonym === false">
     <div class="card">
+      <div class="card-header">
+        <strong>Second Guess</strong>
+      </div>
       <div class="card-body">
-        <div class="card-title">
-          <span>Who?</span>
+        <h6 class="card-subtitle mb-2 text-muted">
+          Who might be a team and having the same word?
+        </h6>
+        <h6 class="card-subtitle mb-2 text-muted">
+          Make sure prioritizing to guess you and your partner as team.
+        </h6>
+
+        <div class="card-text py-2 h6 text-center">
+          <span *ngIf="selectedGamePlayers.length === 0">
+            Select first player
+          </span>
+          <span *ngIf="selectedGamePlayers.length === 1">
+            Select the second player
+          </span>
+          <span *ngIf="selectedGamePlayers.length === 2">
+            Want to save choice?
+          </span>
         </div>
-        <h6 class="card-subtitle mb-2 text-muted">Guess who is in a team</h6>
+
         <div class="list-group">
-          <button class="list-group-item list-group-item-secondary list-group-item-action">
-            Name | <strong>1. Synonym</strong> | <strong>2. Synonym</strong>
-          </button>
-          <button *ngFor="let gamePlayer of gamePlayers"
-                  (click)="onTeamPlayerGuessSelected(gamePlayer)"
-                  class="list-group-item list-group-item-action"
+          <div class="list-group-item list-group-item-light list-group-item-action d-flex">
+            <span>Name</span>
+            <span class="ml-auto">Given 1. Synonym</span>
+            <span class="ml-auto">Given 2. Synonym</span>
+          </div>
+          <button id="guess_{{gamePlayer.name}}"
+                  *ngFor="let gamePlayer of gamePlayers"
+                  class="list-group-item list-group-item-action d-flex"
                   [ngClass]="{'active' : selectedGamePlayers.indexOf(gamePlayer) !== -1}"
+                  (click)="onTeamPlayerGuessSelected(gamePlayer)"
+
           >
-            {{gamePlayer.name}} | <strong>{{gamePlayer.firstSynonym}}</strong> |
-            <strong>{{gamePlayer.secondSynonym}}</strong>
+            <span>{{gamePlayer.name}}</span>
+            <span class="ml-auto badge badge-info">{{gamePlayer.firstSynonym}}</span>
+            <span class="ml-auto badge badge-info">{{gamePlayer.secondSynonym}}</span>
           </button>
         </div>
 
-        <div class="card-text" *ngIf="selectedGamePlayers.length === 0">
-          Start to select a player
-        </div>
-        <div class="card-text" *ngIf="selectedGamePlayers.length === 1">
-          Select the second player
-        </div>
-        <div class="card-text" *ngIf="selectedGamePlayers.length === 2">
-          Are you sure these players belong to each other?
-        </div>
-        <button class="card-link btn btn-block btn-success"
+        <button id="saveGuessBtn"
+                class="card-link btn btn-block btn-success mt-3"
                 [disabled]="selectedGamePlayers.length < 2"
                 (click)="saveTeamTip()"
         >
-          Send
+          Save
         </button>
       </div>
     </div>
   </div>
 
-  <div
-    [ngClass]="{
-      'col-md-6' : isloggedInPlayerGivenSynonym === false,
-      'col-md-12' : isloggedInPlayerGivenSynonym
-      }"
-  >
+  <div class="col-12">
     <div class="card">
+      <div class="card-header">
+        <strong>Status of players</strong>
+      </div>
       <div class="card-body">
-        <div class="card-title">
-          <h4>Status of players</h4>
-        </div>
-
-        <!-- this is dirty, we need a hoverable-responsive table with only one *ngFor
-        https://v4-alpha.getbootstrap.com/content/tables/#hoverable-rows -->
-
         <ul class="list-group">
-          <li class="list-group-item"
+          <li id="status_{{gamePlayer.name}}"
+              class="list-group-item"
               [ngClass]="{
               'list-group-item-action active' :
                 gamePlayer.status !== PLAYER_STATUS_AFTER_ACTION && isBlinkTickerShown$,
-                'list-group-item-secondary' : gamePlayer.status === PLAYER_STATUS_AFTER_ACTION
+                'list-group-item-success' : gamePlayer.status === PLAYER_STATUS_AFTER_ACTION
               }"
               *ngFor="let gamePlayer of gamePlayers"
           >

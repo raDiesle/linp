@@ -2,12 +2,13 @@ import {Game, GamePlayerStatus} from "../models/game";
 
 export const FirstGuessMock = function (players, gameName: string) {
 
-  const FIRST_SYNONYM_GIVEN_PLAYER_STATUS: GamePlayerStatus = 'FIRST_SYNONYM_GIVEN';
+  const PLAYER_STATUS: GamePlayerStatus = 'FIRST_SYNONYM_GIVEN';
+  const GAME_STATUS = 'firstguess';
 
   const request = <Game>{
     name: gameName,
     host: players.playerA.uid,
-    status: 'firstguess',
+    status: GAME_STATUS,
     players: [],
     round: 0,
     createdAt: new Date().getTime(),
@@ -19,7 +20,7 @@ export const FirstGuessMock = function (players, gameName: string) {
     uid: players.playerA.uid,
     name: players.playerA.name,
     isHost: true,
-    status: FIRST_SYNONYM_GIVEN_PLAYER_STATUS,
+    status: PLAYER_STATUS,
     questionmarkOrWord: '?',
     firstSynonym: 'firstSynonym_A'
   });
@@ -28,7 +29,7 @@ export const FirstGuessMock = function (players, gameName: string) {
     uid: players.playerB.uid,
     name: players.playerB.name,
     isHost: false,
-    status: FIRST_SYNONYM_GIVEN_PLAYER_STATUS,
+    status: PLAYER_STATUS,
     questionmarkOrWord: 'Word1',
     firstSynonym: 'firstSynonym_B'
   });
@@ -37,7 +38,7 @@ export const FirstGuessMock = function (players, gameName: string) {
     uid: players.playerC.uid,
     name: players.playerC.name,
     isHost: false,
-    status: FIRST_SYNONYM_GIVEN_PLAYER_STATUS,
+    status: PLAYER_STATUS,
     questionmarkOrWord: 'Word1',
     firstSynonym: 'firstSynonym_C'
   });
@@ -46,7 +47,7 @@ export const FirstGuessMock = function (players, gameName: string) {
     uid: players.playerD.uid,
     name: players.playerD.name,
     isHost: false,
-    status: FIRST_SYNONYM_GIVEN_PLAYER_STATUS,
+    status: PLAYER_STATUS,
     questionmarkOrWord: 'Word2',
     firstSynonym: 'firstSynonym_D'
   });
@@ -55,7 +56,7 @@ export const FirstGuessMock = function (players, gameName: string) {
     uid: players.playerE.uid,
     name: players.playerE.name,
     isHost: false,
-    status: FIRST_SYNONYM_GIVEN_PLAYER_STATUS,
+    status: PLAYER_STATUS,
     questionmarkOrWord: 'Word2',
     firstSynonym: 'firstSynonym_E'
   });
@@ -64,7 +65,7 @@ export const FirstGuessMock = function (players, gameName: string) {
     uid: players.playerF.uid,
     name: players.playerF.name,
     isHost: false,
-    status: FIRST_SYNONYM_GIVEN_PLAYER_STATUS,
+    status: PLAYER_STATUS,
     questionmarkOrWord: '?',
     firstSynonym: 'firstSynonym_F'
   });

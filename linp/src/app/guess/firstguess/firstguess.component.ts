@@ -1,13 +1,12 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AngularFirestore} from 'angularfire2/firestore';
-import {GamePlayer, GamePlayerStatus} from '../../models/game';
+import {GamePlayer, GamePlayerStatus, GameStatus} from '../../models/game';
 import {GuessService} from '../guess.service';
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
 import {FirebaseGameService} from '../../services/firebasegame.service';
 
-const NEXT_PAGE = '/secondtip';
 const tipDBkey = 'firstTeamTip';
 
 @Component({
@@ -20,7 +19,8 @@ export class FirstguessComponent implements OnInit, OnDestroy {
 
   selectedGamePlayers: GamePlayer[] = [];
   gamePlayers: GamePlayer[];
-  public PLAYER_STATUS_AFTER_ACTION: GamePlayerStatus = 'FIRST_GUESS_GIVEN';
+  readonly PLAYER_STATUS_AFTER_ACTION: GamePlayerStatus = 'FIRST_GUESS_GIVEN';
+  readonly NEXT_PAGE: GameStatus = 'secondtip';
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   private isBlinkTickerShown$: boolean;
@@ -58,7 +58,7 @@ export class FirstguessComponent implements OnInit, OnDestroy {
           return gamePlayer.status === this.PLAYER_STATUS_AFTER_ACTION;
         });
         if (allGivenGuess) {
-          this.firebaseGameService.updateGameStatus('secondtip', this.gameName);
+          this.firebaseGameService.updateGameStatus(this.NEXT_PAGE, this.gameName);
         }
       });
 

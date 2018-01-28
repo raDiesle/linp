@@ -33,6 +33,18 @@
     successful setup data
   </div>
 
+  <button class="btn btn-primary btn-block"
+          id="createForSecondGuessGame"
+          (click)="createForSecondGuessGame()">
+    Create for secondguess
+  </button>
+  <div id="createForSecondGuessGameResponseAllFlag"
+       class="alert alert-success" role="alert"
+       *ngIf="createForSecondGuessGameResponseCountPlayersCount !== 0 && createForSecondGuessGameResponseCountPlayersCount === createForSecondGuessGameResponseCount"
+  >
+    successful setup data
+  </div>
+
   <button id="deleteBtn" type="button" class="btn btn-primary btn-block" (click)="deleteGame()">
     Delete Game
   </button>
