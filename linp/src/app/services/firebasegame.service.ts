@@ -59,17 +59,6 @@ export class FirebaseGameService {
       .set(<Game>newGame);
   }
 
-  public addLoggedInPlayerToGame(gameName: string): Promise<void> {
-    return Promise.all([this.observeGame(gameName).first().toPromise(),
-      this.observeLoggedInPlayerProfile().first().toPromise()])
-      .then(responses => {
-        const game = responses[0] as Game;
-        const loggedInPlayerIsHost = this.afAuth.auth.currentUser.uid === game.host;
-        const playerName = (<PlayerProfile>responses[1]).name;
-        return this.addPlayerToGame(gameName, playerName, loggedInPlayerIsHost);
-      });
-  }
-
   public observeGamePlayers(gameName: string) {
     const observable = this.db
       .collection<Game>('games')
@@ -116,8 +105,39 @@ export class FirebaseGameService {
     };
   }
 
-  public writeNextRoundCleanupData(gameName: string) {
-    console.log('to be implemented');
+  public addLoggedInPlayerToGame(gameName: string): Promise<void> {
+    return Promise.all([this.observeGame(gameName).first().toPromise(),
+      this.observeLoggedInPlayerProfile().first().toPromise()])
+      .then(responses => {
+        const game = responses[0] as Game;
+        const loggedInPlayerIsHost = this.afAuth.auth.currentUser.uid === game.host;
+        const playerName = (<PlayerProfile>responses[1]).name;
+        return this.addPlayerToGame(gameName, playerName, loggedInPlayerIsHost);
+      });
+  }
+
+  public resetPlayer(gameName: string) {
+    const requestModel: any = {
+      ['firstSynonym']: firebase.firestore.FieldValue.delete(),
+      ['firstTeamTip']: firebase.firestore.FieldValue.delete(),
+      ['pointsScored']: firebase.firestore.FieldValue.delete(),
+      /*
+        {
+      ['firstTeamTip']: firebase.firestore.FieldValue.delete(),
+        ['indirect']: firebase.firestore.FieldValue.delete(),
+        ['secondTeamTip']: firebase.firestore.FieldValue.delete(),
+        ['total']: firebase.firestore.FieldValue.delete(),
+        // totalRounds
+      },
+      */
+      ['questionmarkOrWord']: firebase.firestore.FieldValue.delete(),
+      ['secondSynonym']: firebase.firestore.FieldValue.delete(),
+      ['secondTeamTip']: firebase.firestore.FieldValue.delete(),
+      ['status']: 'READY_TO_START',
+      ['totalRanking']: firebase.firestore.FieldValue.delete()
+    };
+
+    return this.updateGamePlayer(requestModel, gameName);
   }
 
   private addPlayerToGame(gameName: string, playerName: string, isHost: boolean): Promise<void> {
@@ -127,7 +147,7 @@ export class FirebaseGameService {
       name: playerName,
       isHost: isHost,
       status: this.INITIAL_STATUS,
-      //TODO update on all places to order by pos when fetching
+      // TODO update on all places to order by pos when fetching
       pos: this.random53()
 // substract to initial model object
     };
@@ -154,7 +174,6 @@ export class FirebaseGameService {
       .doc(this.authUserUid)
       .update(gamePlayerUpdate)
   }
-
 
   public updateGamePlayer(requestModel: GamePlayer, gameName: string) {
     return this.db.collection('games')

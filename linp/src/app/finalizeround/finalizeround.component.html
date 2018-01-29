@@ -1,14 +1,27 @@
-<div class="card">
-  <div class="card-header text-center">
-    <strong>Game Summary</strong>
-  </div>
+<div [hidden]="gamePlayers === undefined">
+  <div class="card">
+    <div class="card-header text-center">
+      <strong>Game Summary</strong>
+    </div>
 
-  <div class="card-body">
-    <button class="btn btn-success btn-block my-3" (click)="navigateToFinalizeRound()">
-      Next
-    </button>
+    <div class="card-body">
+      <button id="startNextRound" class="btn btn-success btn-block my-3"
+              [disabled]="isAllPlayersCheckedEvaluation === false"
+              (click)="startNextRound()"
+              *ngIf="isGamePlayerReadyForNextGame === false"
+      >
+        Ready for next game
+      </button>
 
-    <div class="h4 list-group-item d-flex justify-content-between align-items-center">
+      <button id="goToNextGameButton"
+              class="btn btn-success btn-block my-3"
+              (click="goToNextGame()"
+              *ngIf="isNextGameStatus"
+      >
+        Go to next game
+      </button>
+
+      <div class="h4 list-group-item d-flex justify-content-between align-items-center">
       <span>
 
         <span class="badge badge-warning">
@@ -18,29 +31,52 @@
           Player
         </span>
       </span>
-      <span class="badge badge-pill badge-success">
+        <span class="badge badge-pill badge-success">
           Points
       </span>
-    </div>
+      </div>
 
-    <div class="list-group"
-         *ngFor="let gamePlayer of gamePlayers | orderBy: {property: 'totalRanking', direction: 1}; let $index=index;">
-      <div class="h4 list-group-item d-flex justify-content-between align-items-center">
+      <div class="list-group"
+           *ngFor="let score of scores | orderBy: {property: 'ranking', direction: 1}; let $index=index;">
+        <div class="h4 list-group-item d-flex justify-content-between align-items-center">
         <span>
         <span class="badge badge-warning">
-          {{gamePlayer.totalRanking}}
+          {{score.ranking}}
         </span>
         <span>
-          {{gamePlayer.name}}
+          {{score.name}}
         </span>
         </span>
-        <span class="badge badge-pill"
-              [ngClass]="{'badge-success' : gamePlayer.pointsScored.totalRounds > 0,
-                    'badge-primary' : gamePlayer.pointsScored.totalRounds === 0,
-                    'badge-danger' : gamePlayer.pointsScored.totalRounds < 0}">
-              {{gamePlayer.pointsScored.totalRounds}}
-          </span>
+          <span class="badge badge-pill"
+                [ngClass]="{'badge-success' : score.points > 0,
+                    'badge-primary' : score.points === 0,
+                    'badge-danger' : score.points < 0}">
+              {{score.points}}
+        </span>
+        </div>
       </div>
     </div>
   </div>
+
+  <div class="card mt-4">
+    <div class="card-header">
+      <strong>Status of players</strong>
+    </div>
+    <div class="card-body">
+      <ul class="list-group">
+        <li id="status_{{gamePlayer.name}}"
+            class="list-group-item"
+            [ngClass]="{
+              'list-group-item-action active' :
+                gamePlayer.status !== PLAYER_STATUS_AFTER_ACTION && isBlinkTickerShown$,
+                'list-group-item-success' : gamePlayer.status === NEXT_PLAYER_STATUS
+              }"
+            *ngFor="let gamePlayer of gamePlayers"
+        >
+          {{gamePlayer.name}}
+          <app-waitingdots *ngIf="gamePlayer.status !== NEXT_PLAYER_STATUS"></app-waitingdots>
+      </ul>
+    </div>
+  </div>
+
 </div>

@@ -1,4 +1,5 @@
-import {LANGUAGE} from "./context";
+import {LANGUAGE} from './context';
+
 
 export interface Game {
   name: string;
@@ -9,7 +10,14 @@ export interface Game {
   round: number;
   createdAt: number;
   language: LANGUAGE;
-  pointsScored?: PointsScored;
+  pointsScoredTotal?: { [gamePlayerId: string]: GameTotalPoints };
+}
+
+interface GameTotalPoints {
+  uid: string;
+  name: string;
+  points: number;
+  ranking: number;
 }
 
 export interface PointsScored {
@@ -38,7 +46,7 @@ export interface GamePlayer {
 
 
 export type GamePlayerStatus = 'JOINED_GAME' | 'READY_TO_START' | 'FIRST_SYNONYM_GIVEN'
-  | 'FIRST_GUESS_GIVEN' | 'SECOND_SYNONYM_GIVEN' | 'SECOND_GUESS_GIVEN';
+  | 'FIRST_GUESS_GIVEN' | 'SECOND_SYNONYM_GIVEN' | 'SECOND_GUESS_GIVEN' | 'CHECKED_EVALUATION';
 
 export type GameStatus =
   'welcome'
@@ -54,6 +62,7 @@ export type GameStatus =
   | 'secondtip'
   | 'secondguess'
   | 'evaluation'
+  | 'finalizeround'
   | 'simulation'
   | 'createword';
 

@@ -58,13 +58,15 @@ export class SecondguessComponent implements OnInit, OnDestroy {
         });
         this.isloggedInPlayerGivenSynonym = loggedInGamePlayer.status === this.PLAYER_STATUS_AFTER_ACTION;
 
-        // TODO: might be send multiple times, consider to move to server trigger
-        const allGivenGuess = gamePlayers.every(gamePlayer => {
-          return gamePlayer.status === this.PLAYER_STATUS_AFTER_ACTION;
-        });
-        if (allGivenGuess) {
-          this.firebaseGameService.updateGameStatus(this.NEXT_PAGE, this.gameName);
-        }
+        // TODO: WILL be send multiple times, consider to move to server trigger
+        /*
+         const allGivenGuess = gamePlayers.every(gamePlayer => {
+           return gamePlayer.status === this.PLAYER_STATUS_AFTER_ACTION;
+         });
+         if (allGivenGuess) {
+           this.firebaseGameService.updateGameStatus(this.NEXT_PAGE, this.gameName);
+         }
+         */
       });
 
     Observable.timer(0, 1000)

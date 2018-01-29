@@ -3,7 +3,7 @@ import {AngularFireAuth} from 'angularfire2/auth/auth';
 import {ActivatedRoute, Router} from '@angular/router';
 import * as firebase from 'firebase/app';
 import {AngularFirestore} from 'angularfire2/firestore';
-import {Game, GamePlayer, GameStatus} from '../models/game';
+import {Game, GamePlayer, GamePlayerStatus, GameStatus} from '../models/game';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {FirebaseGameService} from '../services/firebasegame.service';
 import {Subject} from 'rxjs/Subject';
@@ -18,8 +18,11 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 export class EvaluationComponent implements OnInit {
 
   readonly statusToCheck: GameStatus = 'evaluation';
-  readonly INTERMEDIATE_STATUS = 'evaluation';
-  readonly prevStatus: GameStatus = 'secondguess'; // TODO change to player status
+  readonly INTERMEDIATE_STATUS: GameStatus = 'evaluation';
+  readonly NEXT_STATUS: GameStatus = 'finalizeround';
+  readonly PREV_STATUS: GameStatus = 'secondguess'; // TODO change to player status
+  readonly NEXT_PLAYER_STATUS: GamePlayerStatus = 'CHECKED_EVALUATION';
+  // readonly PREV_PLAYER_STATUS: GamePlayerStatus = 'SECOND_GUESS_GIVEN';
 
   gameName: string;
   gamePlayers: GamePlayer[] = [];
@@ -31,6 +34,7 @@ export class EvaluationComponent implements OnInit {
   private isCalculationTriggeredOnce = false;
   private currentTooltipIndirectPointsGamePlayer: GamePlayer;
   private isRealCalculatedHack = false;
+  private isLastPlayerToBeReady = false;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -48,18 +52,37 @@ export class EvaluationComponent implements OnInit {
       .subscribe((gamePlayers) => {
         this.gamePlayers = gamePlayers;
 
+        this.isLastPlayerToBeReady = this.gamePlayers.filter(gamePlayer => {
+          return gamePlayer.status !== this.NEXT_PLAYER_STATUS;
+        }).length === 1;
+
         this.isRealCalculatedHack = this.gamePlayers.some(gamePlayer => {
           const notYetCalculatedIndication = 0;
           return gamePlayer.pointsScored.total !== notYetCalculatedIndication;
         });
 
         const isPlayerToTriggerEvaluation = this.gamePlayers.slice(-1)[0].uid === this.firebaseGameService.authUserUid;
-        this.gameObserveActions(isPlayerToTriggerEvaluation);
+        const isTrigger = isPlayerToTriggerEvaluation && this.isRealCalculatedHack !== true;
+        this.gameObserveActions(isTrigger);
       });
   }
 
   navigateToFinalizeRound() {
-    this.router.navigate(['finalizeround', this.gameName]);
+    const isLastPlayerToBeReady = this.isLastPlayerToBeReady;
+    this.firebaseGameService.updateGamePlayerStatus(
+      this.firebaseGameService.authUserUid,
+      this.gameName,
+      this.NEXT_PLAYER_STATUS)
+      .then(() => {
+        if (isLastPlayerToBeReady) {
+          this.firebaseGameService.updateGameStatus(this.NEXT_STATUS, this.gameName)
+            .then(() => {
+              this.router.navigate([this.NEXT_STATUS, this.gameName]);
+            });
+        } else {
+          this.router.navigate([this.NEXT_STATUS, this.gameName]);
+        }
+      });
   }
 
   private gameObserveActions(isPlayerToTriggerEvaluation: boolean) {
@@ -100,7 +123,7 @@ export class EvaluationComponent implements OnInit {
         {
           // headers: headers,
           params: new HttpParams()
-            .set('status', this.prevStatus)
+            .set('status', this.PREV_STATUS)
             .set('gameName', this.gameName)
         })
       .subscribe(response => {

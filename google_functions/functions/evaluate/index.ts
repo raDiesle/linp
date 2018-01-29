@@ -1,7 +1,7 @@
 import {CalculatescoreService} from './calculatescore.service';
 import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin';
-import {GamePlayer, PointsScored, TeamTip} from '../../../linp/src/app/models/game';
+import {GamePlayer, GameTotalPoints, PointsScored, TeamTip} from '../../../linp/src/app/models/game';
 
 const cors = require('cors')({origin: true});
 
@@ -16,7 +16,7 @@ export class Evaluate {
     register() {
         return functions.https.onRequest((request, response) => {
             cors(request, response, () => {
-                    this.performAllEvaluateStatusAction(request, response);
+                this.performAllEvaluateStatusAction(request, response);
                 return response.status(200)
                     .send('"{status : "SUCCESS"}"');
             });
@@ -63,8 +63,8 @@ export class Evaluate {
                         });
                 });
 
-                // JSON.stringify(gamePlayers)
-                // afterwards write calculated data to db
+                this.writePointsToGame(gamePlayerKeys, gamePlayersObject, request.query.gameName);
+
             });
     }
 
@@ -147,5 +147,26 @@ export class Evaluate {
         gamePlayers.forEach((value, index) => {
             gamePlayersObject[value.uid].totalRanking = index + 1;
         });
+    }
+
+    private writePointsToGame(gamePlayerKeys: string[], gamePlayers: { [p: string]: GamePlayer }, gameName: string) {
+
+        // TODO type
+        const pointsScoredTotal: { [p: string]: GameTotalPoints } = {};
+        gamePlayerKeys.forEach(gamePlayerKey => {
+            pointsScoredTotal[gamePlayerKey] = {
+                uid: gamePlayers[gamePlayerKey].uid,
+                name: gamePlayers[gamePlayerKey].name,
+                points: gamePlayers[gamePlayerKey].pointsScored.totalRounds,
+                ranking: gamePlayers[gamePlayerKey].totalRanking
+            };
+        });
+
+        admin.firestore()
+            .collection('games')
+            .doc(gameName)
+            .update({
+                pointsScoredTotal: pointsScoredTotal
+            })
     }
 }
