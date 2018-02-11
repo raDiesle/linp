@@ -26,6 +26,7 @@ export class PreparegameComponent implements OnInit, OnDestroy {
   private currentGamePlayer: GamePlayer;
   private gameName: string;
   private hasStartedGame = false;
+  readonly NEXT_PLAYER_STATUS = 'READY_TO_START';
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -46,22 +47,14 @@ export class PreparegameComponent implements OnInit, OnDestroy {
       });
 */
 
-    const authPromise = this.afAuth.authState
-      .takeUntil(this.ngUnsubscribe)
-      .first()
-      .toPromise();
-
     const gamePromise = this.db.collection('games')
       .doc(this.gameName)
       .valueChanges()
       .first()
-      .toPromise();
-
-    Promise.all([authPromise, gamePromise])
+      .toPromise()
       .then(results => {
-        this.authUser = <firebase.User>results[0];
         // pass to next promise instead . ts bug with type
-        const game = <any>results[1];
+        const game = <Game>results;
         this.hostUid = game.host;
         this.registerGamePlayerChangeActions(this.gameName);
       });
@@ -70,7 +63,8 @@ export class PreparegameComponent implements OnInit, OnDestroy {
   startGameAction(): void {
     this.hasStartedGame = true;
     // TODO solve host starts game navigation for all
-    this.firebaseGameService.updateGamePlayerStatus(this.authUser.uid, this.gameName, 'READY_TO_START')
+
+    this.firebaseGameService.updateGamePlayerStatus(this.authUser.uid, this.gameName, this.NEXT_PLAYER_STATUS)
       .then(done => {
         this.navigateNextPage();
       });
@@ -90,14 +84,14 @@ export class PreparegameComponent implements OnInit, OnDestroy {
         // if should be deprecated because auth promise dependance added
         this.rolesDistributionInformation = this.preparegameService.getRolesNeeded(gamePlayers.length);
         this.currentGamePlayer = this.gamePlayers.find(gamePlayer => {
-          return gamePlayer.uid === this.authUser.uid;
+          return gamePlayer.uid === this.firebaseGameService.authUserUid;
         });
         this.isRoleAssigned = !!this.currentGamePlayer.questionmarkOrWord;
         this.isQuestionmark = this.currentGamePlayer.questionmarkOrWord === '?';
 
         // hack to have cheap non serverside trigger
         const isOnlyExecutedOnHostBrowser = this.authUser.uid === this.hostUid;
-        if (this.isRoleAssigned == false && isOnlyExecutedOnHostBrowser) {
+        if (this.isRoleAssigned === false && isOnlyExecutedOnHostBrowser) {
           this.preparegameService.assignWordOnServerside(gameName)
             .subscribe(response => {
               console.log('words assign on serversidedone');

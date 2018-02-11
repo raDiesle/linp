@@ -12,27 +12,24 @@ export class PlayerStatusTrigger {
         return functions.firestore
             .document('games/{gameName}/players/{uid}')
             .onUpdate(event => {
-
-                // Get an object representing the document
-                // e.g. {'name': 'Marie', 'age': 66}
-                const newValue = event.data.data();
-
-                // ...or the previous value before this update
-                const previousValue = event.data.previous.data();
-
-                // access a particular field as you would any JS property
-                const name = newValue.name;
-
-
-                // console.log(newValue);
-                // console.log(gameName);
-                // console.log(playerStatus);
-
                 const gameName = (event.params as any).gameName as string;
-                const playerStatus = newValue.status as GamePlayerStatus;
 
-                const rulesToSkipApplyNewGameStatus = playerStatus !== 'SECOND_GUESS_GIVEN';
-                if (rulesToSkipApplyNewGameStatus) {
+                const newValue = event.data.data() as GamePlayer;
+                const playerStatus = newValue.status;
+                const previousValue = event.data.previous.data() as GamePlayer;
+                if (newValue.status === previousValue.status) {
+                    return Promise.resolve();
+                }
+
+                const newGameStatusMapping: {[status: string]: GameStatus} = {
+                    'SECOND_GUESS_GIVEN' : 'evaluation',
+                    'CHECKED_EVALUATION' : 'finalizeround',
+                    'READY_FOR_GAME' : 'preparegame'
+                };
+
+                const rulesToApplyNewGameStatus =
+                    Object.keys(newGameStatusMapping).some(status => status === playerStatus)
+                if (rulesToApplyNewGameStatus === false) {
                     // TODO return promise instead
                     return Promise.resolve();
                 }
@@ -41,30 +38,30 @@ export class PlayerStatusTrigger {
                     .collection('games')
                     .doc(gameName)
                     .collection('players')
-                    // .where('status', '==', playerStatus)
                     .get()
                     .then(players => {
                         let countPlayersWithNewStatus = 0;
-                        players.forEach(function (player) {
-                            if (player.data().status === playerStatus) {
+                        players.forEach((player) => {
+                            if (player.data().status === newValue.status) {
                                 countPlayersWithNewStatus++;
                             }
                         });
                         const isNewGameState = countPlayersWithNewStatus === players.size;
 
                         if (isNewGameState) {
+                            // typing
+                            const newGameStatus = newGameStatusMapping[playerStatus];
                             return admin.firestore()
                                 .collection('games')
                                 .doc(gameName)
                                 .update({
-                                    status: 'evaluation' as GameStatus
+                                    status: newGameStatus
                                 }).then(() => {
+                                    // do something
                                 });
                         }
                         return Promise.resolve();
                     });
-
-                // 'games/' + gameName + '/status'
             });
     }
 }

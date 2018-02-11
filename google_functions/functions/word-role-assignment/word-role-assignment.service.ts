@@ -9,6 +9,7 @@ export class WordRoleAssignmentService {
     constructor() {
     }
 
+    // TODO return promise
     assign(gamePlayers: GamePlayer[], gameName: string) {
         const gamePlayerKeys = Object.keys(gamePlayers);
         const gamePlayerSize = gamePlayerKeys.length;
@@ -71,6 +72,7 @@ export class WordRoleAssignmentService {
                         }
 
                         let pos = 0;
+                        // TODO use batch for promise
                         gamePlayers.forEach(gamePlayer => {
                             gamePlayer.questionmarkOrWord = shuffledWordPool[pos]['value']; // fix value accessor
                             pos++;
@@ -99,9 +101,9 @@ export class WordRoleAssignmentService {
 
         const batch = admin.firestore().batch();
         const playersRef = admin.firestore()
-            .collection('games/')
+            .collection('games')
             .doc(gameName)
-            .collection('/players');
+            .collection('players');
 
         gamePlayers.forEach(gamePlayer => {
             batch.set(playersRef.doc(gamePlayer.uid), gamePlayer);

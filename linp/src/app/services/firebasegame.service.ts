@@ -184,6 +184,7 @@ export class FirebaseGameService {
         requestModel
       );
   }
+
   private random53(): number {
     return Math.floor(Number.MAX_SAFE_INTEGER * (2 * (Math.random() - 0.5)));
   }

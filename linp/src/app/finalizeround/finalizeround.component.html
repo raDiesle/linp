@@ -6,19 +6,10 @@
 
     <div class="card-body">
       <button id="startNextRound" class="btn btn-success btn-block my-3"
-              [disabled]="isAllPlayersCheckedEvaluation === false"
               (click)="startNextRound()"
               *ngIf="isGamePlayerReadyForNextGame === false"
       >
         Ready for next game
-      </button>
-
-      <button id="goToNextGameButton"
-              class="btn btn-success btn-block my-3"
-              (click="goToNextGame()"
-              *ngIf="isNextGameStatus"
-      >
-        Go to next game
       </button>
 
       <div class="h4 list-group-item d-flex justify-content-between align-items-center">
