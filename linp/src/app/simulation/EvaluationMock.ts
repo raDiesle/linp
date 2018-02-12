@@ -2,7 +2,9 @@ import {Game} from '../models/game';
 
 export const EvaluationMock = function (players, gameName: string) {
   const PLAYER_STATUS = 'SECOND_GUESS_GIVEN';
-  const GAME_STATUS = 'evaluation';
+  // except one player
+  const MISSING_PLAYER_STATUS = 'SECOND_SYNONYM_GIVEN';
+  const GAME_STATUS = 'secondguess';
 
   const request = <Game>{
     name: gameName,
@@ -18,7 +20,7 @@ export const EvaluationMock = function (players, gameName: string) {
     uid: players.playerA.uid,
     name: players.playerA.name,
     isHost: true,
-    status: PLAYER_STATUS,
+    status: MISSING_PLAYER_STATUS,
     questionmarkOrWord: '?',
     firstSynonym: 'FirstSynA',
     // correct
@@ -34,6 +36,8 @@ export const EvaluationMock = function (players, gameName: string) {
     },
     secondSynonym: 'SecondSynA',
     // correct
+
+    /*
     secondTeamTip: {
       firstPartner: {
         uid: players.playerA.uid,
@@ -44,6 +48,7 @@ export const EvaluationMock = function (players, gameName: string) {
         name: players.playerE.name
       }
     },
+    */
     pointsScored: {
       firstTeamTip: 0,
       secondTeamTip: 0,
