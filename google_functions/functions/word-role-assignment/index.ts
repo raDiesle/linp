@@ -27,6 +27,7 @@ export class WordRoleAssigment {
 
 
     // TODO return proper promise
+    //@deprecated
     public fetchGamePlayersAndAssign(gameName: string): Promise<void>{
         return admin.firestore()
             .collection('games')
@@ -37,7 +38,8 @@ export class WordRoleAssigment {
                 const gamePlayers: GamePlayer[] = results.docs.map(player => {
                     return player.data();
                 });
-
+                console.log('assign triggered');
+                // TODO return promise chain
                 this.wordRoleAssignmentService.assign(gamePlayers, gameName);
             });
     }

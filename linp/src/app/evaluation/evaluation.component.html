@@ -1,6 +1,5 @@
-<div class="card" *ngIf="isRealCalculatedHack">
-  <span id="isRealCalculatedHack" class="d-none"></span>
-
+<div class="card">
+  <span id="isRealCalculatedHack" class="d-none" *ngIf="isRealCalculatedHack"></span>
   <div class="card-header text-center d-flex justify-content-between align-items-center">
     <strong>Round {{gameRound}} finished</strong>
     <span class="badge badge-warning" *ngIf="isRealCalculatedHack === false">
@@ -10,12 +9,11 @@
   </div>
 
   <div class="card-body">
-    <button id="finalizeRoundButton" class="btn btn-success btn-block mb-5" (click)="navigateToFinalizeRound()">
+    <button id="finalizeRoundButton" class="btn btn-success btn-block mb-5" (click)="navigateToFinalizeRound()" *ngIf="isRealCalculatedHack">
       Next
     </button>
 
     <div *ngFor="let gamePlayer of gamePlayers; let $index=index;">
-
       <h4 class="mt-3 d-flex justify-content-between align-items-center">
         {{gamePlayer.name}}
         <span class="badge badge-primary">

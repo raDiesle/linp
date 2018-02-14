@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {GamePlayer, GamePlayerStatus, TeamTip} from '../models/game';
 import {AngularFirestore} from 'angularfire2/firestore';
-import {FirebaseGameService} from "../services/firebasegame.service";
+import {FirebaseGameService} from '../services/firebasegame.service';
 
 @Injectable()
 export class GuessService {
@@ -34,7 +34,7 @@ export class GuessService {
   }
 
   private createGuessModel(selectedGamePlayers, tipDBkey): GamePlayer {
-    const firstTeamTip: TeamTip = {
+    const teamTip: TeamTip = {
       firstPartner: {
         uid: selectedGamePlayers[0].uid,
         name: selectedGamePlayers[0].name
@@ -45,7 +45,7 @@ export class GuessService {
       }
     };
     const request = {};
-    request[tipDBkey] = firstTeamTip;
+    request[tipDBkey] = teamTip;
     return request;
   }
 

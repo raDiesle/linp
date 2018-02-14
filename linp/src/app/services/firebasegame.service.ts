@@ -31,11 +31,11 @@ export class FirebaseGameService {
   }
 
   public observeGame(gameName): Observable<Game> {
-    const promise = this.db
+    const observable = this.db
       .collection('games')
       .doc<Game>(gameName)
       .valueChanges()
-    return promise;
+    return observable;
   }
 
   public observeGames(): Observable<Game[]> {
@@ -82,6 +82,10 @@ export class FirebaseGameService {
       .update(<{ [status: string]: GameStatus }> {status: newStatus});
   }
 
+  public updateCurrentGamePlayerStatus(gameName: string, status: GamePlayerStatus) {
+    return this.updateGamePlayerStatus(this.authUserUid, gameName, status);
+  }
+
   public updateGamePlayerStatus(authUser: string, gameName: string, status: GamePlayerStatus) {
     return this.db
       .collection<Game>('games')
@@ -110,6 +114,7 @@ export class FirebaseGameService {
       this.observeLoggedInPlayerProfile().first().toPromise()])
       .then(responses => {
         const game = responses[0] as Game;
+        // not needed
         const loggedInPlayerIsHost = this.afAuth.auth.currentUser.uid === game.host;
         const playerName = (<PlayerProfile>responses[1]).name;
         return this.addPlayerToGame(gameName, playerName, loggedInPlayerIsHost);

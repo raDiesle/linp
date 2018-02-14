@@ -16,7 +16,7 @@ export class CalculatescoreService {
         const isCorrectGuessOfTeamPartners = (firstGuessGamePlayer.questionmarkOrWord !== '?') && isWordsEqual;
         const himselfIncludedInGuess = currentGamePlayer.uid === firstGuessGamePlayer.uid || currentGamePlayer.uid === secondGuessGamePlayer.uid;
 
-// Rewrite
+// Rewrite a
         const identifiedOtherTeamCorrect = isCorrectGuessOfTeamPartners && !himselfIncludedInGuess;
         if (identifiedOtherTeamCorrect) {
             firstGuessGamePlayer.pointsScored.indirect -= 1;

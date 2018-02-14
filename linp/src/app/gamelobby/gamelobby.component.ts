@@ -6,7 +6,7 @@ import {Game, GamePlayer, GameStatus} from '../models/game';
 import {Subject} from 'rxjs/Subject';
 import {GamelobbyService} from './gamelobby-service';
 import {FirebaseGameService} from '../services/firebasegame.service';
-import {PlayerProfile} from "../models/player";
+import {PlayerProfile} from '../models/player';
 
 @Component({
   selector: 'app-gamelobby',
@@ -16,6 +16,7 @@ import {PlayerProfile} from "../models/player";
 export class GamelobbyComponent implements OnInit, OnDestroy {
 
   gamePlayerKeys: string[] = [];
+  readonly NEXT_PAGE: GameStatus = 'preparegame';
 
   gameName: string;
 // TODO https://cedvdb.github.io/ng2share/
@@ -30,8 +31,6 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router,
               private route: ActivatedRoute,
-              public db: AngularFirestore,
-              public afAuth: AngularFireAuth,
               private gamelobbyService: GamelobbyService,
               private firebaseGameService: FirebaseGameService) {
   }
@@ -60,7 +59,6 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
         });
         this.loggedInPlayerIsHost = loggedInUser && loggedInUser.isHost;
 
-
         const isAlreadyJoined = loggedInUser !== undefined;
         if (isAlreadyJoined === false) {
           this.firebaseGameService.addLoggedInPlayerToGame(this.gameName)
@@ -73,14 +71,7 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
   }
 
   startGame(): void {
-    this.updateGameStatusToNextPage();
-  }
-
-  private updateGameStatusToNextPage() {
-    return this.db
-      .collection<Game>('games')
-      .doc(this.gameName)
-      .update(<{ [status: string]: GameStatus }> {status: 'preparegame'});
+    this.firebaseGameService.updateGameStatus(this.NEXT_PAGE, this.gameName)
   }
 
   public ngOnDestroy() {

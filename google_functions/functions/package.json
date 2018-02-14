@@ -13,7 +13,7 @@
   },
   "private": true,
   "scripts": {
-    "deploy": "cd .. && firebase deploy --only functions:playerStatusTrigger",
+    "deploy": "cd .. && firebase deploy --only functions:gameStatusTrigger",
     "build": "tsc --skipLibCheck",
     "watch": "tsc --watch",
     "test": "echo \"Error: no test specified\" && exit 1"

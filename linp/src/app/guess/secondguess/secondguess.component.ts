@@ -10,7 +10,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Subject} from 'rxjs/Subject';
 import {FirebaseGameService} from '../../services/firebasegame.service';
 
-const tipDBkey = 'firstTeamTip';
+const tipDBkey = 'secondTeamTip';
 
 @Component({
   selector: 'app-secondguess',

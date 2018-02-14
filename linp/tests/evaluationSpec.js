@@ -95,17 +95,54 @@ test('EvaluationGame', async t => {
     .useRole(testHelper.playerF)
     .click('#joingame')
     .click('#gamename_' + gameName)
-    .expect(getLocation()).contains(CURRENT_PAGE)
+    .expect(getLocation()).contains('evaluation')
     .expect(Selector('#isRealCalculatedHack').exists).ok()
     .click('#finalizeRoundButton')
     .expect(getLocation()).contains(NEXT_PAGE);
 
   await t
+    .useRole(testHelper.playerA)
+    .click('#joingame')
+    .click('#gamename_' + gameName)
+    .expect(getLocation()).contains(NEXT_PAGE);
+
+// DO finalizeround
+
+await t
+    .useRole(testHelper.playerA)
+    .click('#joingame')
+    .click('#gamename_' + gameName)
+    .click('#startNextRound')
+
+
+    await t
+    .useRole(testHelper.playerB)
+    .click('#joingame')
+    .click('#gamename_' + gameName)
+    .click('#startNextRound')
+
+    await t
+    .useRole(testHelper.playerC)
+    .click('#joingame')
+    .click('#gamename_' + gameName)
+    .click('#startNextRound')
+
+    await t
+    .useRole(testHelper.playerD)
+    .click('#joingame')
+    .click('#gamename_' + gameName)
+    .click('#startNextRound')
+
+    await t
+    .useRole(testHelper.playerE)
+    .click('#joingame')
+    .click('#gamename_' + gameName)
+    .click('#startNextRound')
+
+    await t
     .useRole(testHelper.playerF)
     .click('#joingame')
     .click('#gamename_' + gameName)
-    .expect(getLocation()).contains(CURRENT_PAGE)
-    .expect(Selector('#isRealCalculatedHack').exists).ok()
-    .click('#finalizeRoundButton')
-    .expect(getLocation()).contains(NEXT_PAGE);
+    .click('#startNextRound')
+
 })

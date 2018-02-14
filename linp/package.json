@@ -11,7 +11,7 @@
     "pree2e": "webdriver-manager update",
     "e2e": "ng e2e",
     "deploy": "firebase deploy",
-    "testc": "testcafe \"chrome --start-fullscreen\" tests/evaluation*Spec.js"
+    "testc": "testcafe \"chrome --start-fullscreen\" tests/createGame*Spec.js"
   },
   "private": true,
   "dependencies": {

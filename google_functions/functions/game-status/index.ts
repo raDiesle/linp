@@ -6,6 +6,9 @@ import {Preparegame} from "../word-role-assignment/preparegame";
 
 export class GameStatusTrigger {
 
+    evaluate = new Evaluate();
+    preparegame = new Preparegame();
+    
     constructor() {
     }
 
@@ -23,12 +26,13 @@ export class GameStatusTrigger {
                 }
 
                 const rulesMapping: { [gameStatus: string]: any } = {
-                    'evaluation': (game: Game, name: string) => new Evaluate().performAllEvaluateStatusAction(game, name),
-                    'preparegame': (game: Game, name: string) => new Preparegame().perform(game, name)
+                    'evaluation': (game: Game, name: string) => this.evaluate.performAllEvaluateStatusAction(game, name),
+                    'preparegame': (game: Game, name: string) => this.preparegame.perform(game, name)
                 };
 
-                const rulesToApplyNewGameStatus = gameStatus === 'evaluation';
-                if (rulesToApplyNewGameStatus === false) {
+                const isARuleToBeApplied = Object.keys(rulesMapping).some(key => key === gameStatus);
+                
+                if (isARuleToBeApplied === false) {
                     return Promise.resolve();
                 }
 

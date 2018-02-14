@@ -101,7 +101,7 @@ test('SecondguessGame', async t => {
     .click('#guess_playerA')
     .click('#guess_playerB')
     .click('#saveGuessBtn')
-  // .debug()
+ 
   // .expect(Selector('#savedResponseFlag').exists).ok()
   await t
     .expect(getLocation()).contains(NEXT_PAGE)

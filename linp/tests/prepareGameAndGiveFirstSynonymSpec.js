@@ -35,6 +35,7 @@ fixture `PrepareGameSpec`
     await waitForAngular();
   })
   .afterEach(async t =>{
+   
     await t
       .click('#simulation')
       .typeText('#gameName', gameName, {replace: true})
@@ -65,9 +66,15 @@ export async function perform(t) {
     .expect(getLocation()).contains(CURRENT_PAGE)
     .expect(Selector('#playersRoleOrWord').innerText).contains('?')
     .click('#startGameButton')
+   
     .expect(getLocation()).contains('/firsttip')
     .expect(Selector('#playersTurnList').exists).ok()
     .expect(Selector('#yourTurn').exists).notOk()
+
+    await t
+    .useRole(testHelper.playerA)
+    .click('#joingame')
+    .click('#gamename_' + gameName);
 
   await t
     .useRole(testHelper.playerB)

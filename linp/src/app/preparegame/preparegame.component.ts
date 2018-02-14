@@ -7,7 +7,7 @@ import {AngularFireAuth} from 'angularfire2/auth';
 
 import * as firebase from 'firebase/app';
 import {PreparegameService} from './preparegame.service';
-import {FirebaseGameService} from "../services/firebasegame.service";
+import {FirebaseGameService} from '../services/firebasegame.service';
 
 @Component({
   selector: 'app-preparegame',
@@ -18,9 +18,7 @@ export class PreparegameComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   private rolesDistributionInformation: { wordsNeeded: number; questionMarksNeeded: number };
-  private hostUid: string;
   private gamePlayers: GamePlayer[];
-  private authUser: firebase.User;
   public isRoleAssigned = false;
   private isQuestionmark = false;
   private currentGamePlayer: GamePlayer;
@@ -39,43 +37,13 @@ export class PreparegameComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.gameName = this.route.snapshot.paramMap.get('gamename');
 
-    /*
     this.firebaseGameService.observeGame(this.gameName)
       .takeUntil(this.ngUnsubscribe)
       .subscribe(game => {
         this.router.navigate(['/' + game.status, this.gameName]);
       });
-*/
 
-    const gamePromise = this.db.collection('games')
-      .doc(this.gameName)
-      .valueChanges()
-      .first()
-      .toPromise()
-      .then(results => {
-        // pass to next promise instead . ts bug with type
-        const game = <Game>results;
-        this.hostUid = game.host;
-        this.registerGamePlayerChangeActions(this.gameName);
-      });
-  }
-
-  startGameAction(): void {
-    this.hasStartedGame = true;
-    // TODO solve host starts game navigation for all
-
-    this.firebaseGameService.updateGamePlayerStatus(this.authUser.uid, this.gameName, this.NEXT_PLAYER_STATUS)
-      .then(done => {
-        this.navigateNextPage();
-      });
-  }
-
-  private registerGamePlayerChangeActions(gameName: string) {
-    this.db
-      .collection('games')
-      .doc(gameName)
-      .collection('players')
-      .valueChanges()
+      this.firebaseGameService.observeGamePlayers(this.gameName)
       .takeUntil(this.ngUnsubscribe)
       // .toPromise()
       .subscribe((gamePlayers: GamePlayer[]) => {
@@ -88,15 +56,15 @@ export class PreparegameComponent implements OnInit, OnDestroy {
         });
         this.isRoleAssigned = !!this.currentGamePlayer.questionmarkOrWord;
         this.isQuestionmark = this.currentGamePlayer.questionmarkOrWord === '?';
+      });
+  }
 
-        // hack to have cheap non serverside trigger
-        const isOnlyExecutedOnHostBrowser = this.authUser.uid === this.hostUid;
-        if (this.isRoleAssigned === false && isOnlyExecutedOnHostBrowser) {
-          this.preparegameService.assignWordOnServerside(gameName)
-            .subscribe(response => {
-              console.log('words assign on serversidedone');
-            });
-        }
+  startGameAction(): void {
+    this.hasStartedGame = true;
+    // TODO solve host starts game navigation for all
+    this.firebaseGameService.updateCurrentGamePlayerStatus(this.gameName, this.NEXT_PLAYER_STATUS)
+      .then(done => {
+        this.navigateNextPage();
       });
   }
 

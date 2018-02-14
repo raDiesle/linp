@@ -22,9 +22,11 @@ export class PlayerStatusTrigger {
                 }
 
                 const newGameStatusMapping: {[status: string]: GameStatus} = {
+                  
+                    'READY_TO_START' : 'firsttip',
+                    'FIRST_SYNONYM_GIVEN' : 'secondguess',
                     'SECOND_GUESS_GIVEN' : 'evaluation',
                     'CHECKED_EVALUATION' : 'finalizeround',
-                    'READY_FOR_GAME' : 'preparegame'
                 };
 
                 const rulesToApplyNewGameStatus =
