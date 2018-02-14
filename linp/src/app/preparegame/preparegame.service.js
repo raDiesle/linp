@@ -1,17 +1,14 @@
-export class RolesandwordsrequiredService {
-// this is duplicated with angular project
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class PreparegameService {
     constructor() {
     }
-
-    getRolesNeeded(gamePlayerSize: number) {
-
+    getRolesNeeded(gamePlayerSize) {
         const notSupporedModel = {
             wordsNeeded: 0,
             questionMarksNeeded: 0
         };
-
-        const ruleSet: any = {
+        const ruleSet = {
             4: {
                 wordsNeeded: 4 / 2,
                 questionMarksNeeded: 1
@@ -33,7 +30,7 @@ export class RolesandwordsrequiredService {
                 questionMarksNeeded: 2
             }
         };
-
         return ruleSet[gamePlayerSize] ? ruleSet[gamePlayerSize] : notSupporedModel;
     }
 }
+exports.PreparegameService = PreparegameService;

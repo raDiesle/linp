@@ -24,13 +24,15 @@ export class PreparegameComponent implements OnInit, OnDestroy {
   private currentGamePlayer: GamePlayer;
   private gameName: string;
   private hasStartedGame = false;
+
   readonly NEXT_PLAYER_STATUS = 'READY_TO_START';
+  readonly NEXT_PAGE: GameStatus = 'firsttip';
+
+  private preparegameService = new PreparegameService();
 
   constructor(private route: ActivatedRoute,
               private router: Router,
               public db: AngularFirestore,
-              public afAuth: AngularFireAuth,
-              private preparegameService: PreparegameService,
               private firebaseGameService: FirebaseGameService) {
   }
 
@@ -69,7 +71,7 @@ export class PreparegameComponent implements OnInit, OnDestroy {
   }
 
   private navigateNextPage() {
-    this.router.navigate(['/firsttip', this.gameName]);
+    this.router.navigate([this.NEXT_PAGE, this.gameName]);
   }
 
   ngOnDestroy() {

@@ -14,11 +14,15 @@ export class FinalizeroundComponent implements OnInit, OnDestroy {
   private gameName: string;
   private gamePlayers: GamePlayer[] = [];
   private ngUnsubscribe: Subject<void> = new Subject<void>();
+
   readonly NEXT_GAME_STATUS: GameStatus = 'preparegame';
-  readonly NEXT_PLAYER_STATUS = 'READY_TO_START';
+  readonly NEXT_PLAYER_STATUS = 'READY_FOR_NEXT_GAME';
   readonly PREV_PLAYER_STATUS = 'CHECKED_EVALUATION';
+
   private isGamePlayerReadyForNextGame = false;
   private scores: GameTotalPoints[] = [];
+
+  public savedResponseFlag = false;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -51,11 +55,17 @@ export class FinalizeroundComponent implements OnInit, OnDestroy {
         const loggedInPlayer = this.gamePlayers.find(gamePlayer => {
           return gamePlayer.uid === this.firebaseGameService.authUserUid;
         });
+
+        this.isGamePlayerReadyForNextGame = loggedInPlayer.status === this.NEXT_PLAYER_STATUS;
       });
   }
 
   startNextRound() {
     this.isGamePlayerReadyForNextGame = true;
+    this.firebaseGameService.updateCurrentGamePlayerStatus(this.gameName, this.NEXT_PLAYER_STATUS)
+    .then(() => {
+      this.savedResponseFlag = true;
+    })
   }
 
   ngOnDestroy(): void {

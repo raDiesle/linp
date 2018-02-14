@@ -18,13 +18,13 @@ fixture `SecondGuessGameSpec`
     await waitForAngular();
   })
   .afterEach(async t => {
-    /*
+    
         await t
           .click('#simulation')
           .typeText('#gameName', gameName)
           .click('#deleteBtn')
           .expect(Selector('#deletedGameFlag').exists).ok();
-      */
+      
   });
 
 test('SecondguessGame', async t => {

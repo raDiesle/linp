@@ -21,12 +21,14 @@ export class PlayerStatusTrigger {
                     return Promise.resolve();
                 }
 
-                const newGameStatusMapping: {[status: string]: GameStatus} = {
-                  
+                const newGameStatusMapping: {[status: string]: GameStatus} = {                  
                     'READY_TO_START' : 'firsttip',
-                    'FIRST_SYNONYM_GIVEN' : 'secondguess',
+                    'FIRST_SYNONYM_GIVEN' : 'firstguess',
+                    'FIRST_GUESS_GIVEN' : 'secondtip',
+                    'SECOND_SYNONYM_GIVEN' : 'secondguess',
                     'SECOND_GUESS_GIVEN' : 'evaluation',
                     'CHECKED_EVALUATION' : 'finalizeround',
+                    'READY_FOR_NEXT_GAME' : 'preparegame'
                 };
 
                 const rulesToApplyNewGameStatus =

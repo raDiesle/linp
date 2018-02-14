@@ -3,7 +3,7 @@ export interface Ruleset {
   questionMarksNeeded: number;
 }
 
-export class PreparegameService {
+export class PrepareGameRuleset {
 
   constructor() {
   }

@@ -1,8 +1,8 @@
 import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
 import {Game, GamePlayer, GamePlayerStatus, GameStatus} from '../../../linp/src/app/models/game';
-import {Evaluate} from '../evaluate';
-import {Preparegame} from "../word-role-assignment/preparegame";
+import {Evaluate} from './evaluate';
+import {Preparegame} from './preparegame';
 
 export class GameStatusTrigger {
 

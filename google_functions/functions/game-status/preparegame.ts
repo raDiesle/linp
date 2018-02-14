@@ -1,20 +1,78 @@
 import * as admin from 'firebase-admin';
-import {GamePlayer} from '../../../linp/src/app/models/game';
-import {RolesandwordsrequiredService} from './rolesandwordsrequired.service';
+import {Game, GamePlayer} from '../../../linp/src/app/models/game';
+import * as firebase from 'firebase';
+import {WriteResult} from '@google-cloud/firestore';
+import { firestore } from 'firebase-functions';
+import { PrepareGameRuleset } from './preparegameRuleset';
 
-export class WordRoleAssignmentService {
+export class Preparegame {
 
-    private rolesandWordsRequiredService = new RolesandwordsrequiredService();
+    private prepareGameRuleset = new PrepareGameRuleset();
 
-    constructor() {
+    constructor() {        
     }
 
-    // TODO return promise
-    assign(gamePlayers: GamePlayer[], gameName: string) {
+    public perform(game: Game, gameName: string): Promise<WriteResult[]> | Promise<void> {
+        // TODO return assignment promise
+         
+        const reference = admin.firestore()
+            .collection('games')
+            .doc(gameName)
+            .collection('players');
+        const playersPromise = reference.get();
+
+        const promise = playersPromise.then((results) => {
+            const gamePlayers: GamePlayer[] = results.docs.map(player => {
+                return player.data();
+            });
+            const gamePlayerIds = gamePlayers.map(gamePlayer => gamePlayer.uid);             
+
+            let resetPromise: Promise<any> = Promise.resolve();
+            if(game.round > 0){
+                const batch = admin.firestore().batch();
+                gamePlayerIds.forEach(gamePlayerId => {
+                    batch.update(reference.doc(gamePlayerId), this.getResetPlayerModel());    
+                });
+                resetPromise = batch.commit();
+            }
+            
+            resetPromise.then(() => {
+                // TODO return promise chain
+                this.assign(gamePlayers, gameName);
+            });        
+        });
+
+        return promise;
+    }
+
+    public getResetPlayerModel() {
+        const requestModel: any = {
+            ['firstSynonym']: firebase.firestore.FieldValue.delete(),
+            ['firstTeamTip']: firebase.firestore.FieldValue.delete(),
+            ['pointsScored']: firebase.firestore.FieldValue.delete(),
+            /*
+              {
+            ['firstTeamTip']: firebase.firestore.FieldValue.delete(),
+              ['indirect']: firebase.firestore.FieldValue.delete(),
+              ['secondTeamTip']: firebase.firestore.FieldValue.delete(),
+              ['total']: firebase.firestore.FieldValue.delete(),
+              // totalRounds
+            },
+            */
+            ['questionmarkOrWord']: firebase.firestore.FieldValue.delete(),
+            ['secondSynonym']: firebase.firestore.FieldValue.delete(),
+            ['secondTeamTip']: firebase.firestore.FieldValue.delete(),
+            // ['status']: 'READY_TO_START',
+            ['totalRanking']: firebase.firestore.FieldValue.delete()
+        };
+        return requestModel;
+    }
+
+    assign(gamePlayers: GamePlayer[], gameName: string): Promise<any> {
         const gamePlayerKeys = Object.keys(gamePlayers);
         const gamePlayerSize = gamePlayerKeys.length;
 
-        const cardsNeededForGame = this.rolesandWordsRequiredService.getRolesNeeded(gamePlayerSize);
+        const cardsNeededForGame = this.prepareGameRuleset.getRolesNeeded(gamePlayerSize);
         const numberOfWordsNeeded: number = cardsNeededForGame.wordsNeeded;
         const numberOfQuestionMarks: number = cardsNeededForGame.questionMarksNeeded;
 
@@ -27,7 +85,7 @@ export class WordRoleAssignmentService {
         const language = 'de';
         const pathOrRef = '/words/size/' + language;
 
-        admin.firestore()
+        return admin.firestore()
             .collection('words')
             .doc(language)
             .get()
@@ -43,7 +101,7 @@ export class WordRoleAssignmentService {
 // query // might change to object. what if player adds word to database at same time with wrong primary key pos?
                 // const randomID = admin.firestore().doc('dummy').id;
 
-                admin.firestore()
+                return admin.firestore()
                     .collection('words')
                     .doc(language)
                     .collection('cards')
@@ -72,17 +130,13 @@ export class WordRoleAssignmentService {
                         }
 
                         let pos = 0;
-                        // TODO use batch for promise
+                        // TODO use batch for promise                        
                         gamePlayers.forEach(gamePlayer => {
                             gamePlayer.questionmarkOrWord = shuffledWordPool[pos]['value']; // fix value accessor
                             pos++;
                         });
-
-                        return this.assignWordOrRoleToUserDB(gamePlayers, gameName);
-                        // TODO animation
-
-                        // was pos of navigate page before
-                        // return null;
+           
+                        return this.assignWordOrRoleToUserDB(gamePlayers, gameName);                        
                     });
             });
     }
@@ -98,7 +152,6 @@ export class WordRoleAssignmentService {
     };
 
     private assignWordOrRoleToUserDB(gamePlayers: GamePlayer[], gameName: string): Promise<any> {
-
         const batch = admin.firestore().batch();
         const playersRef = admin.firestore()
             .collection('games')
@@ -110,4 +163,7 @@ export class WordRoleAssignmentService {
         });
         return batch.commit();
     }
+
+    
+
 }

@@ -12,13 +12,13 @@ fixture `EvaluationGameSpec`
     await waitForAngular();
   })
   .afterEach(async t => {
-    /*
+    
     await t
       .click('#simulation')
       .typeText('#gameName', gameName)
       .click('#deleteBtn')
       .expect(Selector('#deletedGameFlag').exists).ok();
-  */
+  
   });
 
 test('EvaluationGame', async t => {
@@ -26,6 +26,7 @@ test('EvaluationGame', async t => {
   const PREV_PAGE = 'secondguess';
   const NEXT_PAGE = 'finalizeround';
   const CURRENT_PAGE = 'evaluation';
+  const FINAL_PAGE = 'preparegame';
 
   const getLocation = ClientFunction(() => document.location.href);
 
@@ -49,7 +50,7 @@ test('EvaluationGame', async t => {
     .expect(Selector('#savedResponseFlag').exists).ok()
 
 
-    .expect(getLocation()).contains(CURRENT_PAGE, { timeout: 10000})
+    .expect(getLocation()).contains(CURRENT_PAGE, { timeout: 15000})
     .click('#finalizeRoundButton')
     .expect(getLocation()).contains(NEXT_PAGE);
 
@@ -113,36 +114,49 @@ await t
     .click('#joingame')
     .click('#gamename_' + gameName)
     .click('#startNextRound')
-
+    .debug()
+    .expect(Selector('#savedResponseFlag').exists).ok()
 
     await t
     .useRole(testHelper.playerB)
     .click('#joingame')
     .click('#gamename_' + gameName)
     .click('#startNextRound')
+    .expect(Selector('#savedResponseFlag').exists).ok()
 
     await t
     .useRole(testHelper.playerC)
     .click('#joingame')
     .click('#gamename_' + gameName)
     .click('#startNextRound')
+    .expect(Selector('#savedResponseFlag').exists).ok()
 
     await t
     .useRole(testHelper.playerD)
     .click('#joingame')
     .click('#gamename_' + gameName)
     .click('#startNextRound')
+    .expect(Selector('#savedResponseFlag').exists).ok()
 
     await t
     .useRole(testHelper.playerE)
     .click('#joingame')
     .click('#gamename_' + gameName)
     .click('#startNextRound')
+    .expect(Selector('#savedResponseFlag').exists).ok()
 
     await t
     .useRole(testHelper.playerF)
     .click('#joingame')
     .click('#gamename_' + gameName)
     .click('#startNextRound')
+    .expect(Selector('#savedResponseFlag').exists).ok()
+
+    await t
+    .useRole(testHelper.playerA)
+    .click('#joingame')
+    .click('#gamename_' + gameName)
+    .debug()
+    .expect(getLocation()).contains(FINAL_PAGE);
 
 })

@@ -63,9 +63,6 @@ export class SecondtipComponent implements OnInit, OnDestroy {
         });
 
         const isLastPlayerFinishedTurn = !this.currentPlayer;
-        if (isLastPlayerFinishedTurn) {
-          this.checkAndUpdateGameStatus(this.gameName, this.gamePlayers);
-        }
         this.isPlayersTurnForAuthUser = !isLastPlayerFinishedTurn ? this.currentPlayer.uid === this.firebaseGameService.authUserUid : false;
       });
 
@@ -80,15 +77,6 @@ export class SecondtipComponent implements OnInit, OnDestroy {
       .then(gamePlayerModel => {
         this.savedResponseFlag = true;
       });
-  }
-
-  private checkAndUpdateGameStatus(gameName: string, gamePlayers: GamePlayer[]) {
-    const isAllGivenFirstSynonym = gamePlayers.every(gamePlayer => {
-      return gamePlayer.status === this.GAMEPLAYER_STATUS;
-    });
-    if (isAllGivenFirstSynonym) {
-      this.firebaseGameService.updateGameStatus(this.NEXT_POSITIVE_ROUTE, gameName);
-    }
   }
 
   ngOnDestroy() {

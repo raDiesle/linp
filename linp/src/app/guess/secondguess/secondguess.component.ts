@@ -57,16 +57,6 @@ export class SecondguessComponent implements OnInit, OnDestroy {
           return gamePlayer.uid === this.firebaseGameService.authUserUid;
         });
         this.isloggedInPlayerGivenSynonym = loggedInGamePlayer.status === this.PLAYER_STATUS_AFTER_ACTION;
-
-        // TODO: WILL be send multiple times, consider to move to server trigger
-        /*
-         const allGivenGuess = gamePlayers.every(gamePlayer => {
-           return gamePlayer.status === this.PLAYER_STATUS_AFTER_ACTION;
-         });
-         if (allGivenGuess) {
-           this.firebaseGameService.updateGameStatus(this.NEXT_PAGE, this.gameName);
-         }
-         */
       });
 
     Observable.timer(0, 1000)

@@ -6,29 +6,17 @@ import {
 } from '../../../linp/src/app/models/game';
 import {WriteResult} from '@google-cloud/firestore';
 
-const cors = require('cors')({origin: true});
-
 export class Evaluate {
 
     private calculatescoreService = new CalculatescoreService();
-    cors: any;
+
 
     constructor() {
     }
 
-    register() {
-        return functions.https.onRequest((request, response) => {
-                cors(request, response, () => {
-                    console.log('success was send');
-                    return response.status(200)
-                        .send('"{status : "SUCCESS"}"');
-                });
-            }
-        );
-    }
 
     public performAllEvaluateStatusAction(game: Game, gameName: string): Promise<[WriteResult[], WriteResult]> {
-        console.log('perform evaluate');
+        
 
         const promise = admin.firestore()
             .collection('games')
@@ -36,7 +24,7 @@ export class Evaluate {
             .collection('players')
             .get()
             .then((gamePlayersResult) => {
-                console.log('callback');
+               
                 const gamePlayers: GamePlayer[] = gamePlayersResult.docs.map(gamePlayer => {
                     return gamePlayer.data();
                 });

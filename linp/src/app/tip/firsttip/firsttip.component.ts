@@ -19,9 +19,6 @@ export class FirsttipComponent implements OnInit, OnDestroy {
 
   readonly NEXT_POSITIVE_ROUTE = 'firstguess';
   readonly GAMEPLAYER_STATUS: GamePlayerStatus = 'FIRST_SYNONYM_GIVEN';
-
-  readonly READY_FOR_GAME: GamePlayerStatus = 'READY_TO_START';
-  readonly CURRENT_INTERMEDIATE_STATE = 'firsttip';
   readonly INTERMEDIATE_STATUS = 'preparegame';
 
   authUser: firebase.User;
@@ -66,11 +63,8 @@ export class FirsttipComponent implements OnInit, OnDestroy {
         this.currentPlayer = this.gamePlayers.find(gamePlayer => {
           return gamePlayer.status !== this.GAMEPLAYER_STATUS;
         });
-        const isLastPlayerFinishedTurn = !this.currentPlayer;
-        if (isLastPlayerFinishedTurn) {
-          this.checkAndUpdateGameStatus(this.gameName, this.gamePlayers);
-        }
 
+        const isLastPlayerFinishedTurn = !this.currentPlayer;
         this.isPlayersTurnForAuthUser = !isLastPlayerFinishedTurn ? this.currentPlayer.uid === this.firebaseGameService.authUserUid : false;
       });
 
@@ -84,22 +78,6 @@ export class FirsttipComponent implements OnInit, OnDestroy {
       .then(gamePlayerModel => {
         this.savedResponseFlag = true;
       });
-  }
-
-  private checkAndUpdateGameStatus(gameName: string, gamePlayers: GamePlayer[]) {
-    const isAllAreReadyOnPreparedGame = gamePlayers.every(gamePlayer => {
-      return gamePlayer.status === this.READY_FOR_GAME;
-    });
-    if (isAllAreReadyOnPreparedGame) {
-      this.firebaseGameService.updateGameStatus(this.CURRENT_INTERMEDIATE_STATE, gameName);
-    }
-
-    const isAllGivenFirstSynonym = gamePlayers.every(gamePlayer => {
-      return gamePlayer.status === this.GAMEPLAYER_STATUS;
-    });
-    if (isAllGivenFirstSynonym) {
-      this.firebaseGameService.updateGameStatus(this.NEXT_POSITIVE_ROUTE, gameName);
-    }
   }
 
   ngOnDestroy() {

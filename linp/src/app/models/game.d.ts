@@ -1,6 +1,5 @@
 import {LANGUAGE} from './context';
 
-
 export interface Game {
   name: string;
   host: string;
@@ -46,7 +45,7 @@ export interface GamePlayer {
 
 
 export type GamePlayerStatus = 'JOINED_GAME' | 'READY_TO_START' | 'FIRST_SYNONYM_GIVEN'
-  | 'FIRST_GUESS_GIVEN' | 'SECOND_SYNONYM_GIVEN' | 'SECOND_GUESS_GIVEN' | 'CHECKED_EVALUATION';
+  | 'FIRST_GUESS_GIVEN' | 'SECOND_SYNONYM_GIVEN' | 'SECOND_GUESS_GIVEN' | 'CHECKED_EVALUATION' | 'READY_FOR_NEXT_GAME';
 
 export type GameStatus =
   'welcome'
