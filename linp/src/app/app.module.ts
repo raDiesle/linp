@@ -52,6 +52,7 @@ import {AuthGuard} from './services/auth.guard';
 import {ShareModule} from '@ngx-share/core';
 import {ShareButtonModule} from '@ngx-share/button';
 import { ActivegamesComponent } from './welcome/activegames/activegames.component';
+import { FriendlistComponent } from './welcome/friendlist/friendlist.component';
 
 @NgModule({
   declarations: [
@@ -81,11 +82,13 @@ import { ActivegamesComponent } from './welcome/activegames/activegames.componen
     CreateAccountComponent,
     TimeAgoPipe,
     FinalizeroundComponent,
-    OrderByPipe
+    OrderByPipe,
+    FriendlistComponent
   ],
   entryComponents: [
     LoginbyemailComponent,
-    ActivegamesComponent
+    ActivegamesComponent,
+    FriendlistComponent
   ],
   imports: [
     RouterModule.forRoot([

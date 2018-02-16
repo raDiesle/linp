@@ -77,6 +77,10 @@
 
 <ng-template #isLoggedIn>
 
+  <app-activegames class="px-2"></app-activegames>
+
+  <app-friendlist class="px-2"></app-friendlist>
+
   <div class="card">
     <div class="card-header">
       <div class="small">
@@ -100,9 +104,9 @@
       <button
         id="joingameBtn"
         type="button"
-        class="btn btn-primary btn-block"
+        class="btn btn--outline-secondary btn-block"
         routerLink="/joingame">
-        Join Game
+        Join Public Game
       </button>
       <button
         type="button"
@@ -112,8 +116,4 @@
       </button>     
     </div>
   </div>
-
-  
-  <app-activegames class="px-2"></app-activegames>
-  
 </ng-template>

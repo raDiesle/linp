@@ -46,6 +46,13 @@ export interface ActivePlayerGames {
   name: string;
 }
 
+export interface PlayerFriendlist {
+  uid: string;
+  name: string;
+  isOnline: boolean;
+  lastOnline: number;
+}
+
 // export type SynonymKey = Partial<{ [k in 'firstSynonym' | 'secondSynonym']: string }>;
 export type SynonymKey = 'firstSynonym' | 'secondSynonym';
 

@@ -1,15 +1,16 @@
-import {Component, HostBinding, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
-import {AngularFireAuth} from 'angularfire2/auth/auth';
+import { Component, HostBinding, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { AngularFireAuth } from 'angularfire2/auth/auth';
 import * as firebase from 'firebase/app';
-import {AngularFirestore} from 'angularfire2/firestore';
-import {PlayerProfile} from '../models/player';
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
-import {UserprofileService} from './userprofile.service';
-import {LoginbyemailComponent} from './loginbyemail/loginbyemail.component';
-import {Subject} from 'rxjs/Subject';
-import {fadeInAnimation} from '../widgets/animations';
-import {Router} from '@angular/router';
-import {GameStatus} from '../models/game';
+import { AngularFirestore } from 'angularfire2/firestore';
+import { PlayerProfile } from '../models/player';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { UserprofileService } from './userprofile.service';
+import { LoginbyemailComponent } from './loginbyemail/loginbyemail.component';
+import { Subject } from 'rxjs/Subject';
+import { fadeInAnimation } from '../widgets/animations';
+import { Router } from '@angular/router';
+import { GameStatus } from '../models/game';
+import { FirebaseGameService } from '../services/firebasegame.service';
 
 @Component({
   selector: 'app-welcome',
@@ -31,10 +32,11 @@ export class WelcomeComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor(public afAuth: AngularFireAuth,
-              public db: AngularFirestore,
-              private userprofileService: UserprofileService,
-              private modalService: NgbModal,
-              private router: Router) {
+    public db: AngularFirestore,
+    private userprofileService: UserprofileService,
+    public firebaseGameService: FirebaseGameService,
+    private modalService: NgbModal,
+    private router: Router) {
 
     afAuth.authState
       .takeUntil(this.ngUnsubscribe)
@@ -44,7 +46,18 @@ export class WelcomeComponent implements OnInit, OnDestroy {
         if (!this.authUser) {
           return;
         }
-        this.loadPlayerProfile(authUser);
+
+        this.firebaseGameService.observeLoggedInPlayerProfile()
+          .takeUntil(this.ngUnsubscribe)
+          .subscribe(playerProfile => {
+            this.playerProfile = playerProfile;
+
+            this.firstTimeLoggedInEver = playerProfile === null;
+            // executed only when needed
+            if (this.firstTimeLoggedInEver || playerProfile.name === undefined) {
+              this.openUserProfile();
+            }
+          });
       });
   }
 
@@ -74,21 +87,6 @@ export class WelcomeComponent implements OnInit, OnDestroy {
 
   public openUserProfile() {
     this.router.navigate(['playerprofile' as GameStatus]);
-  }
-
-  private loadPlayerProfile(responseData) {
-    const uid = responseData.uid;
-    this.db.doc<PlayerProfile>('/players/' + uid).valueChanges()
-      .takeUntil(this.ngUnsubscribe)
-      .subscribe(playerProfile => {
-        this.playerProfile = playerProfile;
-
-        this.firstTimeLoggedInEver = playerProfile === null;
-        // executed only when needed
-        if (this.firstTimeLoggedInEver || playerProfile.name === undefined) {
-          this.openUserProfile();
-        }
-      });
   }
 
   ngOnDestroy() {

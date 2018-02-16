@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {AngularFirestore} from 'angularfire2/firestore';
 import {HttpClient} from '@angular/common/http';
-import {Game, GamePlayer, GamePlayerStatus, GameStatus, SynonymKey, ActivePlayerGames} from '../models/game';
+import {Game, GamePlayer, GamePlayerStatus, GameStatus, SynonymKey, ActivePlayerGames, PlayerFriendlist} from '../models/game';
 import {Observable} from 'rxjs/Observable';
 import * as firebase from 'firebase';
 import {AngularFireAuth} from 'angularfire2/auth';
@@ -59,6 +59,14 @@ export class FirebaseGameService {
     return this.db
       .collection<Game>('games')
       .valueChanges()
+  }
+
+  observeFriendlist(): Observable<PlayerFriendlist[]> {
+    return this.db
+      .collection<Game>('players')
+      .doc(this.afAuth.auth.currentUser.uid)
+      .collection<PlayerFriendlist>('friendlist')
+      .valueChanges();
   }
 
   public observeLoggedInPlayerProfile(): Observable<PlayerProfile> {
