@@ -27,8 +27,6 @@ export interface PointsScored {
   indirect: number;
 }
 
-
-
 export interface GamePlayer {
   uid?: string;
   pos?: number;
@@ -42,6 +40,10 @@ export interface GamePlayer {
   secondTeamTip?: TeamTip;
   pointsScored?: PointsScored;
   totalRanking?: number;
+}
+
+export interface ActivePlayerGames {
+  name: string;
 }
 
 // export type SynonymKey = Partial<{ [k in 'firstSynonym' | 'secondSynonym']: string }>;

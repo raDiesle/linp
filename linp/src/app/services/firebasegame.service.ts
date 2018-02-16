@@ -1,16 +1,18 @@
 import {Injectable} from '@angular/core';
 import {AngularFirestore} from 'angularfire2/firestore';
 import {HttpClient} from '@angular/common/http';
-import {Game, GamePlayer, GamePlayerStatus, GameStatus, SynonymKey} from '../models/game';
+import {Game, GamePlayer, GamePlayerStatus, GameStatus, SynonymKey, ActivePlayerGames} from '../models/game';
 import {Observable} from 'rxjs/Observable';
 import * as firebase from 'firebase';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {PlayerProfile} from '../models/player';
 import {LANGUAGE} from '../models/context';
 import {ActivatedRoute} from '@angular/router';
+import { DocumentReference } from '@firebase/firestore-types';
 
 @Injectable()
 export class FirebaseGameService {
+
   readonly INITIAL_STATUS = 'JOINED_GAME';
   public authUserUid: string;
 
@@ -36,6 +38,21 @@ export class FirebaseGameService {
       .doc<Game>(gameName)
       .valueChanges()
     return observable;
+  }
+
+  public observePublicGamesToJoin(): Observable<Game[]> {
+    return this.db.collection<Game>('games', (ref) => {
+      return ref.where('status', '==', 'gamelobby');
+    })
+    .valueChanges()
+  }
+
+  public observeActivegamesOfPlayer(): Observable<ActivePlayerGames[]> {
+    return this.db
+    .collection<Game>('players')
+    .doc(this.afAuth.auth.currentUser.uid)
+    .collection<ActivePlayerGames>('activegames')
+    .valueChanges()
   }
 
   public observeGames(): Observable<Game[]> {
@@ -109,7 +126,8 @@ export class FirebaseGameService {
     };
   }
 
-  public addLoggedInPlayerToGame(gameName: string): Promise<void> {
+  public addLoggedInPlayerToGame(gameName: string): Promise<[void, DocumentReference]> {
+    // TODO might be reduced to call
     return Promise.all([this.observeGame(gameName).first().toPromise(),
       this.observeLoggedInPlayerProfile().first().toPromise()])
       .then(responses => {
@@ -117,8 +135,46 @@ export class FirebaseGameService {
         // not needed
         const loggedInPlayerIsHost = this.afAuth.auth.currentUser.uid === game.host;
         const playerName = (<PlayerProfile>responses[1]).name;
-        return this.addPlayerToGame(gameName, playerName, loggedInPlayerIsHost);
+        const gamePromise = this.addPlayerToGame(gameName, playerName, loggedInPlayerIsHost);
+        const playerPromise = this.addActiveGameToPlayer(gameName);
+        return Promise.all([gamePromise, playerPromise]);
       });
+  }
+
+  private addPlayerToGame(gameName: string, playerName: string, isHost: boolean): Promise<void> {
+    // TODO extract to model
+    const updatePlayer: GamePlayer = {
+      uid: this.afAuth.auth.currentUser.uid,
+      name: playerName,
+      isHost: isHost,
+      status: this.INITIAL_STATUS,
+      // TODO update on all places to order by pos when fetching
+      pos: this.random53()
+// substract to initial model object
+    };
+
+// What if he joins again? Handle!
+    console.log(this.afAuth.auth.currentUser.uid);
+
+    return this.db
+      .collection<GamePlayer>('games')
+      .doc(gameName)
+      .collection('players')
+      .doc(this.afAuth.auth.currentUser.uid)
+      .set(updatePlayer);
+  }
+
+  addActiveGameToPlayer(gameName: string): Promise<void> {
+    const activeGameModel = {
+        gameName: gameName
+    };
+    return this.db.collection('games')
+    .doc(gameName)
+    .collection<GamePlayer>('players')
+    .doc(this.afAuth.auth.currentUser.uid)
+    .collection('activegames')
+    .doc(gameName)
+    .set(activeGameModel);
   }
 
   public resetPlayer(gameName: string) {
@@ -143,29 +199,6 @@ export class FirebaseGameService {
     };
 
     return this.updateGamePlayer(requestModel, gameName);
-  }
-
-  private addPlayerToGame(gameName: string, playerName: string, isHost: boolean): Promise<void> {
-    // TODO extract to model
-    const updatePlayer: GamePlayer = {
-      uid: this.afAuth.auth.currentUser.uid,
-      name: playerName,
-      isHost: isHost,
-      status: this.INITIAL_STATUS,
-      // TODO update on all places to order by pos when fetching
-      pos: this.random53()
-// substract to initial model object
-    };
-
-// What if he joins again? Handle!
-    console.log(this.afAuth.auth.currentUser.uid);
-
-    return this.db
-      .collection<GamePlayer>('games')
-      .doc(gameName)
-      .collection('players')
-      .doc(this.afAuth.auth.currentUser.uid)
-      .set(updatePlayer);
   }
 
   public sendSynonym(firstOrSecondGamePlayerUpdate: GamePlayer, gameName: string): Promise<void> {

@@ -14,12 +14,12 @@
     <a href="javascript:void(0)"
        (click)="isExpandInstructions = true"
     >
-      <fade out="false" [(isVisible)]="!isExpandInstructions">Show more ...</fade>
+      <app-fade out="false" [(isVisible)]="!isExpandInstructions">Show more ...</app-fade>
     </a>
     <p
       class="card-text"
     >
-      <fade out="false" [(isVisible)]="isExpandInstructions">
+      <app-fade out="false" [(isVisible)]="isExpandInstructions">
         Briefing phase
         Take a matching card from each deck and
         set the two cards aside. They should be
@@ -47,7 +47,7 @@
         In the second round, each player must
         repeat the word he said in the first round,
         and then say a second word
-      </fade>
+      </app-fade>
     </p>
   </div>
 </div>

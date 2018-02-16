@@ -51,6 +51,7 @@ import {OrderByPipe} from './finalizeround/order-by.pipe';
 import {AuthGuard} from './services/auth.guard';
 import {ShareModule} from '@ngx-share/core';
 import {ShareButtonModule} from '@ngx-share/button';
+import { ActivegamesComponent } from './welcome/activegames/activegames.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import {ShareButtonModule} from '@ngx-share/button';
     EvaluationComponent,
     SimulationComponent,
     LoginbyemailComponent,
+    ActivegamesComponent,
     PlayerprofileComponent,
     CreategameComponent,
     GamerulesComponent,
@@ -82,7 +84,8 @@ import {ShareButtonModule} from '@ngx-share/button';
     OrderByPipe
   ],
   entryComponents: [
-    LoginbyemailComponent
+    LoginbyemailComponent,
+    ActivegamesComponent
   ],
   imports: [
     RouterModule.forRoot([
@@ -185,7 +188,8 @@ import {ShareButtonModule} from '@ngx-share/button';
     AngularFireAuthModule,
     AngularFireStorageModule
   ],
-  providers: [AuthGuard, FirebaseGameService, GuessService, UserprofileService, GamelobbyComponent, GamelobbyService, PreparegameComponent, PreparegameService, LinpCardsModelService],
+  providers: [AuthGuard, FirebaseGameService, GuessService, UserprofileService, GamelobbyComponent, GamelobbyService,
+    PreparegameComponent, PreparegameService, LinpCardsModelService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

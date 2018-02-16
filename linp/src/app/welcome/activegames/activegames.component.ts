@@ -1,21 +1,22 @@
+import { ActivePlayerGames } from './../../models/game.d';
 import {Component, HostBinding, OnDestroy, OnInit} from '@angular/core';
 import {AngularFirestore} from 'angularfire2/firestore';
 import {AngularFireAuth} from 'angularfire2/auth/auth';
 import {Router} from '@angular/router';
-import {Game, GamePlayer, GameStatus, PointsScored} from '../models/game';
+import {Game, GamePlayer, GameStatus, PointsScored} from '../../models/game';
 import {Subject} from 'rxjs/Subject';
 
-import {FirebaseGameService} from '../services/firebasegame.service';
+import {FirebaseGameService} from '../../services/firebasegame.service';
 
 
 @Component({
-  selector: 'app-joingame',
-  templateUrl: './joingame.component.html',
-  styleUrls: ['./joingame.component.css'],
+  selector: 'app-activegames',
+  templateUrl: './activegames.component.html',
+  styleUrls: ['./activegames.component.css'],
 })
-export class JoinGameComponent implements OnInit, OnDestroy {
+export class ActivegamesComponent implements OnInit, OnDestroy {
 
-  games: Game[] = [];
+  games: ActivePlayerGames[] = [];
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor(public router: Router,
@@ -23,10 +24,10 @@ export class JoinGameComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.firebaseGameService.observePublicGamesToJoin()
+    this.firebaseGameService.observeActivegamesOfPlayer()
       .takeUntil(this.ngUnsubscribe)
-      .subscribe(games => {
-        this.games = games;
+      .subscribe(activePlayerGames => {
+        this.games = activePlayerGames;
       });
   }
 

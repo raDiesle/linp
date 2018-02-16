@@ -76,19 +76,20 @@
 </ng-template>
 
 <ng-template #isLoggedIn>
+
   <div class="card">
     <div class="card-header">
       <div class="small">
         Logged in as:
       </div>
       <strong>
-        <fade [out]="false" [(isVisible)]="playerProfile">
+        <app-fade [out]="false" [(isVisible)]="playerProfile">
           <a id="userprofile" href="javascript:void(0)"><i class="material-icons md-18 align-top" (click)="openUserProfile()">mode_edit</i></a>
           <span id="loggedInPlayerName">{{playerProfile?.name}}</span>
           <a id="logout" href="javascript:void(0)">
             <i class="material-icons md-18 align-top text-danger" (click)="logout()">no_encryption</i>
           </a>
-        </fade>
+        </app-fade>
         <div *ngIf="!playerProfile">
           <app-waitingdots></app-waitingdots>
         </div>
@@ -108,7 +109,11 @@
         class="btn btn-primary btn-block"
         routerLink="/creategame">
         Create Game
-      </button>
+      </button>     
     </div>
   </div>
+
+  
+  <app-activegames class="px-2"></app-activegames>
+  
 </ng-template>

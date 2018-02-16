@@ -20,7 +20,7 @@ export class FirsttipComponent implements OnInit, OnDestroy {
   readonly NEXT_PAGE = 'firstguess';
   readonly NEXT_STATUS: GamePlayerStatus = 'FIRST_SYNONYM_GIVEN';
   readonly INTERMEDIATE_STATUS = 'preparegame';
-  readonly SYNONYM_KEY = 'secondSynonym';
+  readonly SYNONYM_KEY = 'firstSynonym';
 
   authUser: firebase.User;
   gamePlayers: GamePlayer[];

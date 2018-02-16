@@ -11,7 +11,7 @@ import {
 } from '@angular/animations';
 
 @Component({
-  selector: 'fade',
+  selector: 'app-fade',
   animations: [
     trigger('isVisibleChanged', [
       state('true', style({opacity: 1, transform: 'scale(1.0)'})),
