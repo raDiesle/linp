@@ -7,3 +7,7 @@
   color: white !important;
   background-color: greenyellow !important;  
 }
+
+[hidden]:not([broken]) {
+  display: none !important;
+}

@@ -13,9 +13,6 @@ import {GamePlayer} from './models/game';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  styles: [`[hidden]:not([broken]) {
-    display: none !important;
-  }`],
   encapsulation: ViewEncapsulation.None,
 
 })
