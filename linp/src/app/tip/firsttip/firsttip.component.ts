@@ -17,9 +17,10 @@ import {AngularFireAuth} from 'angularfire2/auth';
 export class FirsttipComponent implements OnInit, OnDestroy {
   loggedInGamePlayer: GamePlayer;
 
-  readonly NEXT_POSITIVE_ROUTE = 'firstguess';
-  readonly GAMEPLAYER_STATUS: GamePlayerStatus = 'FIRST_SYNONYM_GIVEN';
+  readonly NEXT_PAGE = 'firstguess';
+  readonly NEXT_STATUS: GamePlayerStatus = 'FIRST_SYNONYM_GIVEN';
   readonly INTERMEDIATE_STATUS = 'preparegame';
+  readonly SYNONYM_KEY = 'secondSynonym';
 
   authUser: firebase.User;
   gamePlayers: GamePlayer[];
@@ -61,7 +62,7 @@ export class FirsttipComponent implements OnInit, OnDestroy {
         });
 
         this.currentPlayer = this.gamePlayers.find(gamePlayer => {
-          return gamePlayer.status !== this.GAMEPLAYER_STATUS;
+          return gamePlayer.status !== this.NEXT_STATUS;
         });
 
         const isLastPlayerFinishedTurn = !this.currentPlayer;
@@ -74,7 +75,12 @@ export class FirsttipComponent implements OnInit, OnDestroy {
   }
 
   sendSynonym() {
-    this.firebaseGameService.sendSynonym(this.GAMEPLAYER_STATUS, this.synonym, this.gameName)
+    const firstOrSecondGamePlayerUpdate = {
+      status : this.NEXT_STATUS
+    };
+    firstOrSecondGamePlayerUpdate[this.SYNONYM_KEY] = this.synonym;
+
+    this.firebaseGameService.sendSynonym(firstOrSecondGamePlayerUpdate, this.gameName)
       .then(gamePlayerModel => {
         this.savedResponseFlag = true;
       });

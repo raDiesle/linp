@@ -61,20 +61,22 @@
     <div class="card-body">
       <ul class="list-group">
         <li class="list-group-item list list-group-item-light d-flex">
-          <span>Player Name</span>
-          <span class="ml-auto">Given Synonym</span>
+          <span class="px-2">Player Name</span>
+          <span class="px-2">1. Given Synonym</span>
+          <span class="px-2 ml-auto">2. Given Synonym</span>
         </li>
         <li class="list-group-item list d-flex"
             [ngClass]="{
               'list-group-item-action active' : gamePlayer === currentPlayer && show$,
-              'list-group-item-success' : gamePlayer.status === GAMEPLAYER_STATUS
+              'list-group-item-success' : gamePlayer.status === NEXT_STATUS
               }"
             *ngFor="let gamePlayer of gamePlayers"
         >
-          <span>
-            {{gamePlayer.name}} <app-waitingdots></app-waitingdots>
+          <span class="px-2 mr-auto">
+            {{gamePlayer.name}}
           </span>
-          <span class="ml-auto badge badge-info">{{gamePlayer.firstSynonym}}</span>
+          <span class="px-2 badge badge-info">{{gamePlayer.firstSynonym}}</span>
+          <span class="px-2 badge badge-info ml-auto">{{gamePlayer.secondSynonym}}</span>
         </li>
       </ul>
     </div>

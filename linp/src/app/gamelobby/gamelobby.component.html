@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card" *ngIf="isGameDataFetchedFlag">
   <div class="card-header text-center">
     <strong>
       Game Preparation of {{gameName}}
@@ -32,6 +32,9 @@
           ></share-button>
         </div>
       </div>
+    </div>
+    <div class="alert alert-primary">
+      Bookmark this page to continue playing game
     </div>
     <div>
       <ngb-alert *ngIf="!staticAlertClosed" (close)="staticAlertClosed = true">

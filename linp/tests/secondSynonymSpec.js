@@ -13,6 +13,7 @@ const typeSynonymOnly = async function (t) {
 }
 const typeSynonymOnYourTurn = async (t) => {
   await typeSynonymOnly(t);
+
   await t.expect(Selector('#savedResponseFlag').exists).ok()
     .expect(Selector('#yourTurn').exists).notOk()
 }
@@ -54,8 +55,8 @@ test('Second synonym', async t => {
 });
 
 async function perform(t) {
-  const CURRENT_PAGE = '/secondtip';
-  const NEXT_PAGE = '/secondguess';
+  const CURRENT_PAGE = 'secondtip';
+  const NEXT_PAGE = 'secondguess';
   const getLocation = ClientFunction(() => document.location.href);
 
   await t

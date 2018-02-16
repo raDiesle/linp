@@ -114,7 +114,6 @@ await t
     .click('#joingame')
     .click('#gamename_' + gameName)
     .click('#startNextRound')
-    .debug()
     .expect(Selector('#savedResponseFlag').exists).ok()
 
     await t
@@ -156,7 +155,6 @@ await t
     .useRole(testHelper.playerA)
     .click('#joingame')
     .click('#gamename_' + gameName)
-    .debug()
     .expect(getLocation()).contains(FINAL_PAGE);
 
 })

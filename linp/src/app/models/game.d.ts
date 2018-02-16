@@ -28,6 +28,7 @@ export interface PointsScored {
 }
 
 
+
 export interface GamePlayer {
   uid?: string;
   pos?: number;
@@ -35,7 +36,7 @@ export interface GamePlayer {
   isHost?: boolean;
   questionmarkOrWord?: string;
   status?: GamePlayerStatus;
-  firstSynonym?: string;
+  firstSynonym? : string;
   firstTeamTip?: TeamTip;
   secondSynonym?: string;
   secondTeamTip?: TeamTip;
@@ -43,6 +44,8 @@ export interface GamePlayer {
   totalRanking?: number;
 }
 
+// export type SynonymKey = Partial<{ [k in 'firstSynonym' | 'secondSynonym']: string }>;
+export type SynonymKey = 'firstSynonym' | 'secondSynonym';
 
 export type GamePlayerStatus = 'JOINED_GAME' | 'READY_TO_START' | 'FIRST_SYNONYM_GIVEN'
   | 'FIRST_GUESS_GIVEN' | 'SECOND_SYNONYM_GIVEN' | 'SECOND_GUESS_GIVEN' | 'CHECKED_EVALUATION' | 'READY_FOR_NEXT_GAME';

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {AngularFirestore} from 'angularfire2/firestore';
 import {HttpClient} from '@angular/common/http';
-import {Game, GamePlayer, GamePlayerStatus, GameStatus} from '../models/game';
+import {Game, GamePlayer, GamePlayerStatus, GameStatus, SynonymKey} from '../models/game';
 import {Observable} from 'rxjs/Observable';
 import * as firebase from 'firebase';
 import {AngularFireAuth} from 'angularfire2/auth';
@@ -168,16 +168,12 @@ export class FirebaseGameService {
       .set(updatePlayer);
   }
 
-  public sendSynonym(FIRST_SYNONYM_GIVEN_PLAYER_STATUS: string, synonym: string, gameName: string): Promise<void> {
-    const gamePlayerUpdate = {
-      status: FIRST_SYNONYM_GIVEN_PLAYER_STATUS,
-      firstSynonym: synonym
-    };
+  public sendSynonym(firstOrSecondGamePlayerUpdate: GamePlayer, gameName: string): Promise<void> {
     return this.db.collection('games')
       .doc(gameName)
       .collection('players')
       .doc(this.authUserUid)
-      .update(gamePlayerUpdate)
+      .update(firstOrSecondGamePlayerUpdate)
   }
 
   public updateGamePlayer(requestModel: GamePlayer, gameName: string) {

@@ -67,7 +67,7 @@
         <li class="list-group-item list d-flex"
             [ngClass]="{
               'list-group-item-action active' : gamePlayer === currentPlayer && show$,
-              'list-group-item-success' : gamePlayer.status === GAMEPLAYER_STATUS
+              'list-group-item-success' : gamePlayer.status === NEXT_STATUS
               }"
             *ngFor="let gamePlayer of gamePlayers"
         >

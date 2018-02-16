@@ -15,6 +15,7 @@ import {PlayerProfile} from '../models/player';
 })
 export class GamelobbyComponent implements OnInit, OnDestroy {
 
+  isGameDataFetchedFlag = false;
   gamePlayerKeys: string[] = [];
   readonly NEXT_PAGE: GameStatus = 'preparegame';
 
@@ -39,35 +40,37 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
     const gameName = this.route.snapshot.paramMap.get('gamename');
     this.gameName = gameName;
 
-    this.firebaseGameService.observeGame(this.gameName)
+    const observable = this.firebaseGameService.observeGame(this.gameName);
+    observable
       .takeUntil(this.ngUnsubscribe)
       .subscribe(game => {
         this.router.navigate(['/' + game.status, this.gameName]);
       });
+      observable.first().toPromise()
+      .then(() => {
+        this.isGameDataFetchedFlag = true;
 
-    this.firebaseGameService.observeGamePlayers(gameName)
-      .takeUntil(this.ngUnsubscribe)
-      .subscribe((gamePlayers: GamePlayer[]) => {
-        this.gamePlayers = gamePlayers;
-
-        this.hostPlayer = gamePlayers.find(gamePlayr => {
-          return gamePlayr.isHost;
+        this.firebaseGameService.observeGamePlayers(gameName)
+        .takeUntil(this.ngUnsubscribe)
+        .subscribe((gamePlayers: GamePlayer[]) => {
+          this.gamePlayers = gamePlayers;
+          this.hostPlayer = gamePlayers.find(gamePlayr => {
+            return gamePlayr.isHost;
+          });
+          const loggedInUser = gamePlayers.find(gamePlayr => {
+            return gamePlayr.uid === this.firebaseGameService.authUserUid;
+          });
+          this.loggedInPlayerIsHost = loggedInUser && loggedInUser.isHost;
+          const isAlreadyJoined = loggedInUser !== undefined;
+          if (isAlreadyJoined === false) {
+            this.firebaseGameService.addLoggedInPlayerToGame(this.gameName)
+              .then(() => {
+                // if page changes e.g. in test before handler, it will show new user, but not persist to db
+                this.loggedInPlayerSuccessfulAddedStatusFlag = true;
+              });
+          }
         });
-
-        const loggedInUser = gamePlayers.find(gamePlayr => {
-          return gamePlayr.uid === this.firebaseGameService.authUserUid;
-        });
-        this.loggedInPlayerIsHost = loggedInUser && loggedInUser.isHost;
-
-        const isAlreadyJoined = loggedInUser !== undefined;
-        if (isAlreadyJoined === false) {
-          this.firebaseGameService.addLoggedInPlayerToGame(this.gameName)
-            .then(() => {
-              // if page changes e.g. in test before handler, it will show new user, but not persist to db
-              this.loggedInPlayerSuccessfulAddedStatusFlag = true;
-            });
-        }
-      });
+      })
   }
 
   startGame(): void {

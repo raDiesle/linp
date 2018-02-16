@@ -17,9 +17,9 @@ import {FirebaseGameService} from '../../services/firebasegame.service';
 export class SecondtipComponent implements OnInit, OnDestroy {
   loggedInGamePlayer: GamePlayer;
 
-  readonly GAMEPLAYER_STATUS: GamePlayerStatus = 'SECOND_SYNONYM_GIVEN';
-  readonly NEXT_POSITIVE_ROUTE = 'secondguess';
-
+  readonly NEXT_STATUS: GamePlayerStatus = 'SECOND_SYNONYM_GIVEN';
+  readonly NEXT_PAGE = 'secondguess';
+  readonly SYNONYM_KEY = 'secondSynonym';
   readonly INTERMEDIATE_STATUS = '';
 
   authUser: firebase.User;
@@ -36,8 +36,6 @@ export class SecondtipComponent implements OnInit, OnDestroy {
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              public db: AngularFirestore,
-              public afAuth: AngularFireAuth,
               private firebaseGameService: FirebaseGameService) {
   }
 
@@ -59,7 +57,7 @@ export class SecondtipComponent implements OnInit, OnDestroy {
           return gamePlayer.uid === this.firebaseGameService.authUserUid;
         });
         this.currentPlayer = this.gamePlayers.find(gamePlayer => {
-          return gamePlayer.status !== this.GAMEPLAYER_STATUS;
+          return gamePlayer.status !== this.NEXT_STATUS;
         });
 
         const isLastPlayerFinishedTurn = !this.currentPlayer;
@@ -73,7 +71,12 @@ export class SecondtipComponent implements OnInit, OnDestroy {
   }
 
   sendSynonym() {
-    this.firebaseGameService.sendSynonym(this.GAMEPLAYER_STATUS, this.synonym, this.gameName)
+    const firstOrSecondGamePlayerUpdate = {
+      status : this.NEXT_STATUS
+    };
+    firstOrSecondGamePlayerUpdate[this.SYNONYM_KEY] = this.synonym;
+
+    this.firebaseGameService.sendSynonym(firstOrSecondGamePlayerUpdate, this.gameName)
       .then(gamePlayerModel => {
         this.savedResponseFlag = true;
       });
