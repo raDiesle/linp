@@ -126,7 +126,7 @@ export class FirebaseGameService {
     };
   }
 
-  public addLoggedInPlayerToGame(gameName: string): Promise<[void, DocumentReference]> {
+  public addLoggedInPlayerToGame(gameName: string): Promise<[void, void]> {
     // TODO might be reduced to call
     return Promise.all([this.observeGame(gameName).first().toPromise(),
       this.observeLoggedInPlayerProfile().first().toPromise()])
