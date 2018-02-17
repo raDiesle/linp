@@ -41,7 +41,7 @@ import {PreparegameComponent} from './preparegame/preparegame.component';
 import {BlinkComponent} from './widgets/blink/blink.component';
 import {CreatewordComponent} from './createword/createword.component';
 import {LinpCardsModelService} from './simulation/linpcardsinit.service';
-import {CreateAccountComponent} from './create-account/create-account.component';
+
 import {GamelobbyService} from './gamelobby/gamelobby-service';
 import {PreparegameService} from './preparegame/preparegame.service';
 import {TimeAgoPipe} from 'time-ago-pipe';
@@ -53,6 +53,27 @@ import {ShareModule} from '@ngx-share/core';
 import {ShareButtonModule} from '@ngx-share/button';
 import { ActivegamesComponent } from './welcome/activegames/activegames.component';
 import { FriendlistComponent } from './welcome/friendlist/friendlist.component';
+import {
+  AuthMethods,
+  AuthProvider,
+  AuthProviderWithCustomConfig,
+  CredentialHelper,
+  FirebaseUIAuthConfig,
+  FirebaseUIModule
+} from 'firebaseui-angular';
+
+const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
+  providers: [
+    AuthProvider.Google,
+    AuthProvider.Facebook,
+    AuthProvider.Twitter,
+    AuthProvider.Github,
+    AuthProvider.Password
+  ],
+  method: AuthMethods.Popup,
+  tos: '<your-tos-link>',
+  credentialHelper: CredentialHelper.AccountChooser
+};
 
 @NgModule({
   declarations: [
@@ -79,7 +100,6 @@ import { FriendlistComponent } from './welcome/friendlist/friendlist.component';
     PreparegameComponent,
     BlinkComponent,
     CreatewordComponent,
-    CreateAccountComponent,
     TimeAgoPipe,
     FinalizeroundComponent,
     OrderByPipe,
@@ -169,10 +189,6 @@ import { FriendlistComponent } from './welcome/friendlist/friendlist.component';
         canActivate: [AuthGuard]
       },
       {
-        path: 'createaccount',
-        component: CreateAccountComponent
-      },
-      {
         path: '',
         redirectTo: '/welcome',
         pathMatch: 'full'
@@ -189,7 +205,8 @@ import { FriendlistComponent } from './welcome/friendlist/friendlist.component';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
-    AngularFireStorageModule
+    AngularFireStorageModule,
+    FirebaseUIModule.forRoot(firebaseUiAuthConfig)
   ],
   providers: [AuthGuard, FirebaseGameService, GuessService, UserprofileService, GamelobbyComponent, GamelobbyService,
     PreparegameComponent, PreparegameService, LinpCardsModelService],

@@ -61,7 +61,7 @@ export async function perform(t) {
 
   await t
     .useRole(testHelper.playerA)
-    .click('#joingame')
+    .click('#welcome')
     .click('#gamename_' + gameName)
     .expect(getLocation()).contains(CURRENT_PAGE)
     .expect(Selector('#playersRoleOrWord').innerText).contains('?')
@@ -73,12 +73,12 @@ export async function perform(t) {
 
     await t
     .useRole(testHelper.playerA)
-    .click('#joingame')
+    .click('#welcome')
     .click('#gamename_' + gameName);
 
   await t
     .useRole(testHelper.playerB)
-    .click('#joingame')
+    .click('#welcome')
     .click('#gamename_' + gameName)
     .expect(Selector('#playersRoleOrWord').innerText).eql('Word1')
     .click('#startGameButton')
@@ -86,7 +86,7 @@ export async function perform(t) {
 
   await t
     .useRole(testHelper.playerC)
-    .click('#joingame').click('#gamename_' + gameName)
+    .click('#welcome').click('#gamename_' + gameName)
     .expect(Selector('#playersRoleOrWord').innerText).eql('Word1')
     .click('#startGameButton')
     .expect(Selector('#playersTurnList').exists).ok()
@@ -94,7 +94,7 @@ export async function perform(t) {
   await t
     .useRole(testHelper.playerD)
   await t
-    .click('#joingame')
+    .click('#welcome')
   await t
     .click('#gamename_' + gameName)
     .expect(Selector('#playersRoleOrWord').innerText).eql('Word2')
@@ -103,7 +103,7 @@ export async function perform(t) {
 
   await t
     .useRole(testHelper.playerE)
-    .click('#joingame')
+    .click('#welcome')
   await t.click('#gamename_' + gameName)
     .expect(Selector('#playersRoleOrWord').innerText).eql('Word2')
     .click('#startGameButton')
@@ -113,7 +113,7 @@ export async function perform(t) {
 
   await t
     .useRole(testHelper.playerA)
-    .click('#joingame')
+    .click('#welcome')
   await t
     .click('#gamename_' + gameName)
     .click('#startGameButton')
@@ -121,7 +121,7 @@ export async function perform(t) {
 
   await t
     .useRole(testHelper.playerF)
-    .click('#joingame')
+    .click('#welcome')
   await t
     .click('#gamename_' + gameName)
     .click('#startGameButton')
@@ -129,7 +129,7 @@ export async function perform(t) {
 
   await t
     .useRole(testHelper.playerC)
-    .click('#joingame')
+    .click('#welcome')
   await t.click('#gamename_' + gameName)
     .click('#startGameButton')
   await typeSynonymOnly(t);

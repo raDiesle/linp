@@ -5,9 +5,12 @@ const url = 'http://localhost:4200';
 let loginByPlayer = async function (t, userEmail) {
   await t
     .click('#welcome')
-    .typeText('#userProfileEmail', userEmail, {replace: true})
-    .typeText('#userProfilePassword', 'pass123')
-    .click('#loginButtonByEmail')
+
+    .click('button[data-provider-id="password"]')    
+    .typeText('input[name="email"]', userEmail, {replace: true})
+    .click('button[type="submit"]')    
+    .typeText('input[type="password"]', 'pass123')
+    .click('button[type="submit"]')
     // .expect(Selector('#loggedInPlayerName').innerText).contains('playerB')
     .expect(Selector('#logout').exists).ok()
 };

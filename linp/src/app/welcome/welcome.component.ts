@@ -68,17 +68,9 @@ export class WelcomeComponent implements OnInit, OnDestroy {
   ngOnInit() {
   }
 
-  loginByGoogle(): void {
-    this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
-  }
-
+// @deprecated
   loginAnonymous(): void {
     this.afAuth.auth.signInAnonymously();
-  }
-
-  loginEmailPassword(content) {
-    const modalRef = this.modalService.open(LoginbyemailComponent);
-    // modalRef.componentInstance.name = 'World';
   }
 
   logout() {

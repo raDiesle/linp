@@ -12,13 +12,11 @@ fixture `EvaluationGameSpec`
     await waitForAngular();
   })
   .afterEach(async t => {
-    
     await t
       .click('#simulation')
       .typeText('#gameName', gameName)
       .click('#deleteBtn')
       .expect(Selector('#deletedGameFlag').exists).ok();
-  
   });
 
 test('EvaluationGame', async t => {
@@ -41,7 +39,7 @@ test('EvaluationGame', async t => {
 
   await t
     .useRole(testHelper.playerA)
-    .click('#joingame')
+    .click('#welcome')
     .click('#gamename_' + gameName)
     .expect(getLocation()).contains(PREV_PAGE)
     .click('#guess_playerA')
@@ -59,7 +57,7 @@ test('EvaluationGame', async t => {
 // Last player hack
   await t
     .useRole(testHelper.playerC)
-    .click('#joingame')
+    .click('#welcome')
     .click('#gamename_' + gameName)
     .expect(getLocation()).contains(CURRENT_PAGE)
     .click('#finalizeRoundButton')
@@ -67,7 +65,7 @@ test('EvaluationGame', async t => {
 
   await t
     .useRole(testHelper.playerB)
-    .click('#joingame')
+    .click('#welcome')
     .click('#gamename_' + gameName)
     .expect(getLocation()).contains(CURRENT_PAGE)
     .expect(Selector('#isRealCalculatedHack').exists).ok()
@@ -76,7 +74,7 @@ test('EvaluationGame', async t => {
 
   await t
     .useRole(testHelper.playerD)
-    .click('#joingame')
+    .click('#welcome')
     .click('#gamename_' + gameName)
     .expect(getLocation()).contains(CURRENT_PAGE)
     .expect(Selector('#isRealCalculatedHack').exists).ok()
@@ -85,7 +83,7 @@ test('EvaluationGame', async t => {
 
   await t
     .useRole(testHelper.playerE)
-    .click('#joingame')
+    .click('#welcome')
     .click('#gamename_' + gameName)
     .expect(getLocation()).contains(CURRENT_PAGE)
     .expect(Selector('#isRealCalculatedHack').exists).ok()
@@ -94,7 +92,7 @@ test('EvaluationGame', async t => {
 
   await t
     .useRole(testHelper.playerF)
-    .click('#joingame')
+    .click('#welcome')
     .click('#gamename_' + gameName)
     .expect(getLocation()).contains('evaluation')
     .expect(Selector('#isRealCalculatedHack').exists).ok()
@@ -103,7 +101,7 @@ test('EvaluationGame', async t => {
 
   await t
     .useRole(testHelper.playerA)
-    .click('#joingame')
+    .click('#welcome')
     .click('#gamename_' + gameName)
     .expect(getLocation()).contains(NEXT_PAGE);
 
@@ -111,49 +109,49 @@ test('EvaluationGame', async t => {
 
 await t
     .useRole(testHelper.playerA)
-    .click('#joingame')
+    .click('#welcome')
     .click('#gamename_' + gameName)
     .click('#startNextRound')
     .expect(Selector('#savedResponseFlag').exists).ok()
 
     await t
     .useRole(testHelper.playerB)
-    .click('#joingame')
+    .click('#welcome')
     .click('#gamename_' + gameName)
     .click('#startNextRound')
     .expect(Selector('#savedResponseFlag').exists).ok()
 
     await t
     .useRole(testHelper.playerC)
-    .click('#joingame')
+    .click('#welcome')
     .click('#gamename_' + gameName)
     .click('#startNextRound')
     .expect(Selector('#savedResponseFlag').exists).ok()
 
     await t
     .useRole(testHelper.playerD)
-    .click('#joingame')
+    .click('#welcome')
     .click('#gamename_' + gameName)
     .click('#startNextRound')
     .expect(Selector('#savedResponseFlag').exists).ok()
 
     await t
     .useRole(testHelper.playerE)
-    .click('#joingame')
+    .click('#welcome')
     .click('#gamename_' + gameName)
     .click('#startNextRound')
     .expect(Selector('#savedResponseFlag').exists).ok()
 
     await t
     .useRole(testHelper.playerF)
-    .click('#joingame')
+    .click('#welcome')
     .click('#gamename_' + gameName)
     .click('#startNextRound')
     .expect(Selector('#savedResponseFlag').exists).ok()
 
     await t
     .useRole(testHelper.playerA)
-    .click('#joingame')
+    .click('#welcome')
     .click('#gamename_' + gameName)
     .expect(getLocation()).contains(FINAL_PAGE);
 

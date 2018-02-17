@@ -1,3 +1,4 @@
+import { FirebaseGameService } from './services/firebasegame.service';
 import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute, NavigationEnd, NavigationStart, ParamMap, Router} from '@angular/router';
 import {AngularFireAuth} from 'angularfire2/auth/auth';
@@ -29,13 +30,19 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(private router: Router,
               private changeDetectorRef: ChangeDetectorRef,
               public afAuth: AngularFireAuth,
-              public db: AngularFirestore) {
+              public db: AngularFirestore,
+              private firebaseGameService: FirebaseGameService
+            ) {
   }
 
   ngOnInit() {
+    // deprecated
     this.afAuth.authState
       .takeUntil(this.ngUnsubscribe)
       .subscribe(authUser => {
+        console.log('auth updated');
+        // TODO
+       // this.firebaseGameService.updatePlayerProfileIsOnline(true);
         this.authUser = authUser;
       });
 

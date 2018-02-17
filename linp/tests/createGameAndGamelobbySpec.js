@@ -62,11 +62,13 @@ test('Create Game and join players in gamelobby', async t => {
     .expect(Selector('#loggedInPlayerSuccessfulAddedStatusFlag').exists).ok()
   await t
     .useRole(testHelper.playerA)
-    .click('#joingame')
+    .click('#welcome')
     .click('#gamename_' + gameName)
-    // .expect(Selector('#gamestatusButton').hasAttribute('disabled')).notOk()
+    // ASYNC issue
+    .expect(Selector('#gamestatusButton').hasAttribute('disabled')).notOk('ready', {timeout: 5000 })
     
     .click('#gamestatusButton')
+    
     .expect(getLocation()).contains('preparegame', {timeout: 20000})
     .expect(Selector('#isRoleAssigned').exists).ok('are roles assigned on serverside?', {timeout: 10000})
 });

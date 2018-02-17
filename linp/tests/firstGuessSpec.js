@@ -35,7 +35,7 @@ test('FirstguessGame', async t => {
 
   await t
     .useRole(testHelper.playerA)
-    .click('#joingame')
+    .click('#welcome')
     .click('#gamename_' + gameName)
     .expect(getLocation()).contains(CURRENT_PAGE)
     .click('#guess_playerC')
@@ -45,7 +45,7 @@ test('FirstguessGame', async t => {
 
   await t
     .useRole(testHelper.playerB)
-    .click('#joingame')
+    .click('#welcome')
     .click('#gamename_' + gameName)
     .expect(getLocation()).contains(CURRENT_PAGE)
     .click('#guess_playerA')
@@ -55,7 +55,7 @@ test('FirstguessGame', async t => {
 
   await t
     .useRole(testHelper.playerC)
-    .click('#joingame')
+    .click('#welcome')
     .click('#gamename_' + gameName)
     .expect(getLocation()).contains(CURRENT_PAGE)
     .click('#guess_playerC')
@@ -65,7 +65,7 @@ test('FirstguessGame', async t => {
 
   await t
     .useRole(testHelper.playerD)
-    .click('#joingame')
+    .click('#welcome')
     .click('#gamename_' + gameName)
     .expect(getLocation()).contains(CURRENT_PAGE)
     .click('#guess_playerD')
@@ -75,7 +75,7 @@ test('FirstguessGame', async t => {
 
   await t
     .useRole(testHelper.playerE)
-    .click('#joingame')
+    .click('#welcome')
     .click('#gamename_' + gameName)
     .expect(getLocation()).contains(CURRENT_PAGE)
     .click('#guess_playerC')
@@ -85,7 +85,7 @@ test('FirstguessGame', async t => {
 
   await t
     .useRole(testHelper.playerF)
-    .click('#joingame')
+    .click('#welcome')
     .click('#gamename_' + gameName)
     .expect(getLocation()).contains(CURRENT_PAGE)
     .click('#guess_playerC')
@@ -98,7 +98,7 @@ test('FirstguessGame', async t => {
 
   await t
     .useRole(testHelper.playerF)
-    .click('#joingame')
+    .click('#welcome')
     .click('#gamename_' + gameName)
     .expect(getLocation()).contains(NEXT_PAGE)
 })

@@ -172,15 +172,14 @@ export class FirebaseGameService {
       .set(updatePlayer);
   }
 
-  addActiveGameToPlayer(gameName: string): Promise<void> {
-    const activeGameModel = {
-        gameName: gameName
+  private addActiveGameToPlayer(gameName: string): Promise<void> {
+    const activeGameModel: ActivePlayerGames = {
+        name: gameName
     };
-    return this.db.collection('games')
-    .doc(gameName)
+    return this.db
     .collection<GamePlayer>('players')
     .doc(this.afAuth.auth.currentUser.uid)
-    .collection('activegames')
+    .collection<ActivePlayerGames>('activegames')
     .doc(gameName)
     .set(activeGameModel);
   }
@@ -225,6 +224,15 @@ export class FirebaseGameService {
       .update(
         requestModel
       );
+  }
+
+  // TODO
+  public updatePlayerProfileIsOnline(isOnline: boolean): Promise<void> {
+    return this.db.collection('players')
+    .doc(this.authUserUid)
+    .set({
+      isOnline : isOnline
+    }, {merge: true});
   }
 
   private random53(): number {

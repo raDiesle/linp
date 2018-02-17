@@ -18,12 +18,14 @@
             <a class="material-icons md-18 align-middle" href="javascript:void(0);" (click)="openPrivateChat(friend)">chat</a>              
             {{friend.name}}
           </div>
-          <span class="p2 ml-auto badge badge-primary" *ngIf="friend.isOnline">
+          <!--
+          <span class="p2 ml-auto badge badge-success" *ngIf="friend.isOnline">
             Online
           </span>
           <span class="p2 ml-auto badge badge-secondary" *ngIf="!friend.isOnline">
               Offline {{friend.lastOnline | timeAgo}} 
-          </span>          
+          </span>
+        -->
         </div>
     </div>  
     
