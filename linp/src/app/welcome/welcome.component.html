@@ -40,20 +40,20 @@
       </strong>
     </div>
 
-    <div class="card-body" *ngIf="!firstTimeLoggedInEver">
-      <button
-        id="joingameBtn"
-        type="button"
-        class="btn btn--outline-secondary btn-block"
-        routerLink="/joingame">
-        Join Public Game
-      </button>
+    <div class="card-body" *ngIf="!firstTimeLoggedInEver">      
       <button
         type="button"
         class="btn btn-primary btn-block"
         routerLink="/creategame">
         Create Game
-      </button>     
+      </button>
+      <button
+        id="joingameBtn"
+        type="button"
+        class="btn btn-light btn-block"
+        routerLink="/joingame">
+        Join Public Game
+      </button>
     </div>
   </div>
 </ng-template>

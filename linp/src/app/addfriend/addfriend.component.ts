@@ -11,28 +11,47 @@ export class AddfriendComponent implements OnInit, OnDestroy {
 
   public isFriendYourself = false;
 
-  constructor(public router: Router,
+  constructor(
+    private router: Router,
     private route: ActivatedRoute,
-    private firebaseGameService: FirebaseGameService
+    private firebaseGameService: FirebaseGameService,
+    private window: Window
   ) { }
 
   ngOnInit() {
     const uid: string = this.route.snapshot.paramMap.get('uid');
 
-    const addedCurrentUserPromise = this.firebaseGameService.observePlayerProfile(uid).first().toPromise()
-      .then(playerProfile => this.firebaseGameService.addFriendToCurrentUser(uid, playerProfile.name))
+    // TODO: its ugly, because he accesses data of other player.
+    const addFriendToOriginUserPromise = this.firebaseGameService.observeLoggedInPlayerProfile().first().toPromise()
+      .then(playerProfile => {
+      // CHECK for non registered user call, new invited to linp
+        const isFirstTimeRegisteredUser = playerProfile === null;
+        if (isFirstTimeRegisteredUser) {
+          this.router.navigate(['/playerprofile'], {
+            queryParams: {
+              callbackUrl : this.window.location.pathname
+            },
+            queryParamsHandling : 'merge'}
+          );
+        }
+
+        this.firebaseGameService.addCurrentUserAsFriendToOtherPlayer(uid, playerProfile.name);
+      })
       .catch(reason => {
         this.isFriendYourself = true;
         throw reason;
       });
 
-    // TODO: its ugly, because he accesses data of other player.
-    const addFriendToOriginUserPromise = this.firebaseGameService.observeLoggedInPlayerProfile().first().toPromise()
-      .then(playerProfile => this.firebaseGameService.addCurrentUserAsFriendToOtherPlayer(uid, playerProfile.name))
+      // will be called twice for new registered
+    const addedCurrentUserPromise = this.firebaseGameService.observePlayerProfile(uid).first().toPromise()
+      .then(playerProfile => {
+        this.firebaseGameService.addFriendToCurrentUser(uid, playerProfile.name)
+      })
       .catch(reason => {
         this.isFriendYourself = true;
         throw reason;
       });
+
 
     Promise.all([addedCurrentUserPromise, addFriendToOriginUserPromise])
       .then(response => {

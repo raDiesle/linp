@@ -4,28 +4,19 @@
       Invite Linp Friends
     </strong>
   </div>
-  <div class="card-body">    
-      
-    <div *ngIf="friendlist">      
-      <div class="list-group" *ngFor="let friend of friendlist">
-          <div class="list-group-item d-flex">
-            <div class="p2">
-              <a class="material-icons md-18 align-middle" href="javascript:void(0);" (click)="openPrivateChat(friend)">chat</a>              
-              {{friend.name}}
-            </div>
-            <span class="p2 ml-auto badge badge-primary" *ngIf="friend.isOnline">
-              Online
-            </span>
-            <span class="p2 ml-auto badge badge-secondary" *ngIf="!friend.isOnline">
-                Offline {{friend.lastOnline | timeAgo}} 
-            </span>          
+  <div class="card-body">
+    
+        <div class="btn-group btn-block" ngbDropdown role="group" aria-label="Add friend" *ngIf="friendList">
+          <button class="btn btn-outline-primary btn-block" ngbDropdownToggle>Add friend</button>
+          <div class="dropdown-menu" ngbDropdownMenu>
+              <button class="dropdown-item">-- cancel --</button>            
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item" (click)="onFriendSelection(friend);" *ngFor="let friend of friendList">{{friend.name}}</button>            
           </div>
-      </div>
-    </div>
-
-    <div *ngIf="!friendlist">
+        </div>            
+    <div *ngIf="!friendList">
       <div class="alert alert-danger">You do not have Linp friends yet!</div>
-      <div>        
+      <div>    
         <button class="btn btn-block btn-primary" routerLink="/welcome">Invite players to linp</button>
       </div>
     </div>

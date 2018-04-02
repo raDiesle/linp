@@ -13,8 +13,6 @@ import { DocumentReference } from '@firebase/firestore-types';
 
 @Injectable()
 export class FirebaseGameService {
-
-
   readonly INITIAL_STATUS = 'JOINED_GAME';
   public authUserUid: string;
 
@@ -64,7 +62,7 @@ export class FirebaseGameService {
       .valueChanges()
   }
 
-  observeFriendlist(): Observable<PlayerFriendlist[]> {
+  observeCurrentPlayersFriendslist(): Observable<PlayerFriendlist[]> {
     return this.db
       .collection<PlayerProfile>('players')
       .doc(this.afAuth.auth.currentUser.uid)
@@ -153,16 +151,21 @@ export class FirebaseGameService {
         // not needed
         const loggedInPlayerIsHost = this.afAuth.auth.currentUser.uid === game.host;
         const playerName = (<PlayerProfile>responses[1]).name;
-        const gamePromise = this.addPlayerToGame(gameName, playerName, loggedInPlayerIsHost);
+        const gamePromise = this.addCurrentPlayerToGame(gameName, playerName, loggedInPlayerIsHost);
         const playerPromise = this.addActiveGameToPlayer(gameName);
         return Promise.all([gamePromise, playerPromise]);
       });
   }
 
-  private addPlayerToGame(gameName: string, playerName: string, isHost: boolean): Promise<void> {
+  public addCurrentPlayerToGame(gameName: string, playerName: string, isHost: boolean): Promise<void> {
+    const uid = this.afAuth.auth.currentUser.uid;
+    return this.addAPlayerToGame(gameName, playerName, isHost, uid);
+  }
+
+  public addAPlayerToGame(gameName: string, playerName: string, isHost: boolean, uid: string): Promise<void> {
     // TODO extract to model
     const updatePlayer: GamePlayer = {
-      uid: this.afAuth.auth.currentUser.uid,
+      uid: uid,
       name: playerName,
       isHost: isHost,
       status: this.INITIAL_STATUS,
@@ -170,15 +173,12 @@ export class FirebaseGameService {
       pos: this.random53()
       // substract to initial model object
     };
-
     // What if he joins again? Handle!
-    console.log(this.afAuth.auth.currentUser.uid);
-
     return this.db
       .collection<GamePlayer>('games')
       .doc(gameName)
       .collection('players')
-      .doc(this.afAuth.auth.currentUser.uid)
+      .doc(uid)
       .set(updatePlayer);
   }
 

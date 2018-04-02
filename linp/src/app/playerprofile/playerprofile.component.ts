@@ -1,10 +1,11 @@
+import { ActivatedRoute } from '@angular/router';
 import {Component, OnInit} from '@angular/core';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {Subject} from 'rxjs/Subject';
 import * as firebase from 'firebase/app';
-import {AngularFirestore} from "angularfire2/firestore";
-import {PlayerProfile} from "../models/player";
-import {Router} from "@angular/router";
+import {AngularFirestore} from 'angularfire2/firestore';
+import {PlayerProfile} from '../models/player';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-playerprofile',
@@ -12,6 +13,7 @@ import {Router} from "@angular/router";
   styleUrls: ['./playerprofile.component.css']
 })
 export class PlayerprofileComponent implements OnInit {
+  callbackUrl = '/welcome';
   isToGenerateFirstTimeProfile: boolean;
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
@@ -19,19 +21,26 @@ export class PlayerprofileComponent implements OnInit {
   private playerName: string = undefined;
   private successfulSavedPlayername = false;
 
-  constructor(public afAuth: AngularFireAuth,
-              public db: AngularFirestore,
-              private router: Router) {
-    afAuth.authState
-      .takeUntil(this.ngUnsubscribe)
-      .subscribe(authUser => {
-        this.authUser = authUser;
-
-        this.loadPlayerProfile(authUser.uid);
-      });
+  constructor(
+    public afAuth: AngularFireAuth,
+    public db: AngularFirestore,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
   }
 
   ngOnInit() {
+    // why it is not possible to read synchronously with snapshot?
+    this.route.queryParamMap.subscribe(params => {
+      this.callbackUrl = params.get('callbackUrl');
+    });
+
+    this.afAuth.authState
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(authUser => {
+        this.authUser = authUser;
+        this.loadPlayerProfile(authUser.uid);
+      });
   }
 
   updateOrCreateAccountAction() {
@@ -47,13 +56,13 @@ export class PlayerprofileComponent implements OnInit {
       doc
         .set(newPlayerProfile)
         .then(a => {
-          this.router.navigate(['/welcome']);
+          this.router.navigate([this.callbackUrl]);
         });
     } else {
       doc
         .update(newPlayerProfile)
         .then(a => {
-          this.router.navigate(['/welcome']);
+          this.router.navigate([this.callbackUrl]);
         });
     }
   }

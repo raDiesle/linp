@@ -23,7 +23,7 @@ export class FriendlistComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.firebaseGameService.observeFriendlist()
+    this.firebaseGameService.observeCurrentPlayersFriendslist()
     .takeUntil(this.ngUnsubscribe)
     .subscribe(friendlist => {
       this.friendlist = friendlist;
