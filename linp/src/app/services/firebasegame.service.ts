@@ -200,7 +200,7 @@ export class FirebaseGameService {
 
   public addCurrentUserAsFriendToOtherPlayer(targetUid: string, nameOfCurrentUser: string): Promise<void> {
     if (targetUid === this.afAuth.auth.currentUser.uid) {
-      return Promise.reject(Error('Does not make sense to add yourself as friend.');
+      return Promise.reject(Error('Does not make sense to add yourself as friend.'));
     }
     return this.addFriendToUser(targetUid, this.afAuth.auth.currentUser.uid, nameOfCurrentUser);
   }
