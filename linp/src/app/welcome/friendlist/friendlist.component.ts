@@ -1,7 +1,9 @@
-import { PlayerFriendlist } from './../../models/game.d';
+import { AngularFireAuth } from 'angularfire2/auth/auth';
+
 import { FirebaseGameService } from './../../services/firebasegame.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import {Subject} from 'rxjs/Subject';
+import { PlayerFriendlist } from '../../models/player';
 
 @Component({
   selector: 'app-friendlist',
@@ -12,8 +14,12 @@ export class FriendlistComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   friendlist: PlayerFriendlist[];
+  public friendsinvitationlink = '/';
 
-  constructor(public firebaseGameService: FirebaseGameService) {
+  constructor(private firebaseGameService: FirebaseGameService,
+    private afAuth: AngularFireAuth,
+    @Inject(Window) private _window: Window
+  ) {
   }
 
   ngOnInit() {
@@ -22,6 +28,8 @@ export class FriendlistComponent implements OnInit, OnDestroy {
     .subscribe(friendlist => {
       this.friendlist = friendlist;
     });
+
+    this.friendsinvitationlink = `${this._window.location.origin}/addfriend/${this.afAuth.auth.currentUser.uid}`;
 
     /*
     TODO to add friends !!!

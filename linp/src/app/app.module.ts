@@ -61,6 +61,7 @@ import {
   FirebaseUIAuthConfig,
   FirebaseUIModule
 } from 'firebaseui-angular';
+import { AddfriendComponent } from './addfriend/addfriend.component';
 
 const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
   providers: [
@@ -70,6 +71,7 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     AuthProvider.Github,
     AuthProvider.Password
   ],
+  signInSuccessUrl: '/',
   method: AuthMethods.Popup,
   tos: '<your-tos-link>',
   credentialHelper: CredentialHelper.AccountChooser
@@ -103,7 +105,8 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     TimeAgoPipe,
     FinalizeroundComponent,
     OrderByPipe,
-    FriendlistComponent
+    FriendlistComponent,
+    AddfriendComponent
   ],
   entryComponents: [
     LoginbyemailComponent,
@@ -119,6 +122,11 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
       {
         path: 'joingame',
         component: JoinGameComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'addfriend/:uid',
+        component: AddfriendComponent,
         canActivate: [AuthGuard]
       },
       {
@@ -192,7 +200,7 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
         path: '',
         redirectTo: '/welcome',
         pathMatch: 'full'
-      },
+      }
     ]),
     FormsModule,
     NgbModule.forRoot(),
@@ -209,7 +217,9 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     FirebaseUIModule.forRoot(firebaseUiAuthConfig)
   ],
   providers: [AuthGuard, FirebaseGameService, GuessService, UserprofileService, GamelobbyComponent, GamelobbyService,
-    PreparegameComponent, PreparegameService, LinpCardsModelService],
+    PreparegameComponent, PreparegameService, LinpCardsModelService,
+    {provide: Window, useValue: window},
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

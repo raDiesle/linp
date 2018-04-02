@@ -3,15 +3,6 @@
     <strong>Your Friends</strong>
   </div>
   <div class="card-body">  
-    <div class="row form-group">
-      <div class="col-8">
-        <input type="text" class="form-control" placeholder="Enter new friends name"/>
-      </div>
-      <div class="col-4">
-        <button class="btn btn-primary btn-block">Add</button>
-      </div>
-    </div>
-
     <div class="list-group" *ngFor="let friend of friendlist">
         <div class="list-group-item d-flex">
           <div class="p2">
@@ -31,9 +22,17 @@
     
   <hr style="margin-bottom: 0;"/>
   <div class="text-muted text-center">      
-      Invite new players to Linp
+      Send friend request invitation link
           <div class="container">
             <div class="row d-flex justify-content-between">
+              <share-button
+                button="copy"
+                [url]="friendsinvitationlink"
+              ></share-button>              
+              <share-button
+                button="email"
+                [url]="friendsinvitationlink"
+              ></share-button>  
               <share-button
                 button="facebook"
               ></share-button>              
@@ -42,13 +41,8 @@
               ></share-button>
               <share-button
                 button="whatsapp"
-              ></share-button>
-              <share-button
-                button="email"
-              ></share-button>
-              <share-button
-                button="copy"
-              ></share-button>                
+                [url]="friendsinvitationlink"
+              ></share-button>                          
             </div>
           </div>
   </div>

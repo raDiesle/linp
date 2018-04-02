@@ -24,7 +24,14 @@ export class AuthGuard implements CanActivate {
       .take(1)
       .do(allowed => {
         if (!allowed) {
-          this.router.navigate(['/']);
+          this.router.navigate(['/welcome'], {
+            queryParams: {
+              mode: 'select',
+              signInSuccessUrl: state.url
+            },
+            queryParamsHandling: 'merge'
+          }
+          );
         }
       });
   }

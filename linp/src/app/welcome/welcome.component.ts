@@ -1,3 +1,4 @@
+import { ActivatedRoute } from '@angular/router';
 import { Component, HostBinding, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth/auth';
 import * as firebase from 'firebase/app';
@@ -36,7 +37,8 @@ export class WelcomeComponent implements OnInit, OnDestroy {
     private userprofileService: UserprofileService,
     public firebaseGameService: FirebaseGameService,
     private modalService: NgbModal,
-    private router: Router) {
+    private router: Router,
+    private route: ActivatedRoute) {
 
     afAuth.authState
       .takeUntil(this.ngUnsubscribe)
@@ -66,6 +68,8 @@ export class WelcomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    const prevPage = this.route.snapshot.paramMap.get('signInSuccessUrl');
+    console.log(prevPage);
   }
 
 // @deprecated

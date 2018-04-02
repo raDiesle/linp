@@ -1,0 +1,19 @@
+
+<div class="card">
+  <div class="card-header">
+    <strong>Accept friend invitation</strong>
+  </div>
+  <div class="card-body">
+    <div class="alert alert-primary" role="alert" *ngIf="isFriendYourself === false">
+      Performing friend invitation <app-waitingdots></app-waitingdots>
+    </div>
+    <div class="alert alert-warning" role="alert" *ngIf="isFriendYourself">      
+      <div>
+        You try to add yourself as friend.
+      </div>
+      <div>      
+        Send link invitation to another person.
+      </div>
+    </div>
+  </div>
+</div>
