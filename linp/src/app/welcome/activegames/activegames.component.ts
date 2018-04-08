@@ -16,7 +16,7 @@ import {FirebaseGameService} from '../../services/firebasegame.service';
 })
 export class ActivegamesComponent implements OnInit, OnDestroy {
 
-  games: ActivePlayerGames[] = [];
+  public games: ActivePlayerGames[] = null;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor(public router: Router,

@@ -26,16 +26,12 @@
       <div class="small">
         Logged in as:
       </div>
-      <strong>
-        <app-fade [out]="false" [(isVisible)]="playerProfile">
-          <a id="userprofile" href="javascript:void(0)"><i class="material-icons md-18 align-top" (click)="openUserProfile()">mode_edit</i></a>
-          <span id="loggedInPlayerName">{{playerProfile?.name}}</span>
-          <a id="logout" href="javascript:void(0)">
-            <i class="material-icons md-18 align-top text-danger" (click)="logout()">no_encryption</i>
-          </a>
-        </app-fade>
+      <strong>        
         <div *ngIf="!playerProfile">
           <app-waitingdots></app-waitingdots>
+        </div>
+        <div id="loggedInPlayerName" *ngIf="playerProfile">
+          {{playerProfile?.name}}
         </div>
       </strong>
     </div>
@@ -45,15 +41,29 @@
         type="button"
         class="btn btn-primary btn-block"
         routerLink="/creategame">
-        Create Game
+        Create New Game
       </button>
       <button
         id="joingameBtn"
         type="button"
-        class="btn btn-light btn-block"
+        class="btn btn-light btn-block btn-sm"
         routerLink="/joingame">
         Join Public Game
       </button>
+          <button id="userprofile" 
+                type="button"
+                class="btn btn-primary btn-block"
+                href="javascript:void(0)"
+                (click)="openUserProfile()"
+                >
+            Settings
+          </button>          
+          <button id="logout"
+              type="button"
+              class="btn btn-danger btn-block"
+              href="javascript:void(0)" (click)="logout()">
+            Logout
+          </button>      
     </div>
   </div>
 </ng-template>

@@ -1,15 +1,17 @@
 <div class="card">
   <div class="card-header text-center">
-    <strong>Your Friends</strong>
+    <strong>Friendlist</strong>
   </div>
-  <div class="card-body">  
-    <div class="list-group" *ngFor="let friend of friendlist">
-        <div class="list-group-item d-flex">
-          <div class="p2">
-            <a class="material-icons md-18 align-middle" href="javascript:void(0);" (click)="openPrivateChat(friend)">chat</a>              
-            {{friend.name}}
-          </div>
+  <div class="card-body">
+    <div class="list-group">
+      <div class="list-group-item d-flex" *ngFor="let friend of friendlist">
+        <div class="p2">
           <!--
+            <a class="material-icons md-18 align-middle" href="javascript:void(0);" (click)="openPrivateChat(friend)">chat</a>
+          -->
+          {{friend.name}}
+        </div>
+        <!--
           <span class="p2 ml-auto badge badge-success" *ngIf="friend.isOnline">
             Online
           </span>
@@ -17,34 +19,34 @@
               Offline {{friend.lastOnline | timeAgo}} 
           </span>
         -->
+      </div>
+      <div *ngIf="friendlist === null">
+        <app-waitingdots></app-waitingdots>
+      </div>
+      <div class="alert alert-warning text-center" *ngIf="friendlist !== null && friendlist?.length === 0">
+        <div class="alert-heading h6">
+            You do not have friends yet.
         </div>
-    </div>  
-    
-  <hr style="margin-bottom: 0;"/>
-  <div class="text-muted text-center">      
-      Send friend request invitation link
-          <div class="container">
-            <div class="row d-flex justify-content-between">
-              <share-button
-                button="copy"
-                [url]="friendsinvitationlink"
-              ></share-button>              
-              <share-button
-                button="email"
-                [url]="friendsinvitationlink"
-              ></share-button>  
-              <share-button
-                button="facebook"
-              ></share-button>              
-              <share-button
-                button="google"
-              ></share-button>
-              <share-button
-                button="whatsapp"
-                [url]="friendsinvitationlink"
-              ></share-button>                          
-            </div>
-          </div>
+        <div>
+            Send the link above to friends
+        </div>
+        <div>
+            to invite them to your friendlist.
+        </div>
+      </div>
+    </div>
+    <hr style="margin-bottom: 0;" />
+    <div class="text-muted text-center">
+      Send request link to invite friends to list
+      <div class="container">
+        <div class="row d-flex justify-content-between">
+          <share-button button="copy" [url]="friendsinvitationlink"></share-button>
+          <share-button button="email" [url]="friendsinvitationlink"></share-button>
+          <share-button button="facebook"></share-button>
+          <share-button button="google"></share-button>
+          <share-button button="whatsapp" [url]="friendsinvitationlink"></share-button>
+        </div>
+      </div>
+    </div>
   </div>
-</div>    
 </div>

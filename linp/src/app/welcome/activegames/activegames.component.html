@@ -23,15 +23,23 @@
                 Current Player
               </div>
             </div>
-
-          </button>
-          <!-- visualization hack, still needed? -->
-          <div [hidden]="game !== -1">
-            <app-waitingdots></app-waitingdots>
-          </div>
+          </button>          
         </ng-container>
-        <div *ngIf="games.length <= 0">
+        <div *ngIf="games === null">
           <app-waitingdots></app-waitingdots>
+        </div>
+        <div *ngIf="games !== null && games.length === 0">
+          <div class="alert alert-warning text-center">
+            <div class="alert-heading h6">
+              There are no active games yet.
+            </div>
+            <div>
+              Wait for a friend to invite you              
+            </div>
+            <div>
+                or create new game.
+            </div>
+          </div>
         </div>
 
       </div>

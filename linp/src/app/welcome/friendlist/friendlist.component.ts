@@ -13,7 +13,7 @@ import { PlayerFriendlist } from '../../models/player';
 export class FriendlistComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
-  friendlist: PlayerFriendlist[];
+  friendlist: PlayerFriendlist[] = null;
   public friendsinvitationlink = '/';
 
   constructor(private firebaseGameService: FirebaseGameService,
