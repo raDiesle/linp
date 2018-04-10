@@ -1,6 +1,14 @@
 <div [hidden]="gamePlayers === undefined">
+  
+  <input type="button"
+    class="btn btn-primary btn-block mb-2" 
+    value="Switch to another game"
+    (click)="isOpened = !isOpened"
+    [hidden]="isOpened"/>
+  <app-activegames class="mb-2" [ngbCollapse]="isOpened === false || isOpened === null || isOpened === undefined"></app-activegames>
+
   <span id="savedResponseFlag" class="d-none" *ngIf="savedResponseFlag"></span>
-  <div class="card" id="yourTurn" *ngIf="isPlayersTurnForAuthUser">
+  <div class="card mb-4" id="yourTurn" *ngIf="isPlayersTurnForAuthUser">
     <div class="card-header text-center">
       <strong>First Synonym</strong>
     </div>
@@ -54,7 +62,7 @@
     </div>
   </div>
 
-  <div class="card mt-4">
+  <div class="card">
     <div class="card-header text-center">
       <strong id="playersTurnList">Players turn</strong>
     </div>
@@ -72,7 +80,7 @@
             *ngFor="let gamePlayer of gamePlayers"
         >
           <span>
-            {{gamePlayer.name}} <app-waitingdots></app-waitingdots>
+            {{gamePlayer.name}}
           </span>
           <span class="ml-auto badge badge-info">{{gamePlayer.firstSynonym}}</span>
         </li>
