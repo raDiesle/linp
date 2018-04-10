@@ -142,27 +142,32 @@ export class FirebaseGameService {
     };
   }
 
-  public addLoggedInPlayerToGame(gameName: string): Promise<[void, void]> {
+  public addLoggedInPlayerToGame(gameName: string): Promise<[[void, void], void]> {
     // TODO might be reduced to call
+    const uid = this.afAuth.auth.currentUser.uid;
     return Promise.all([this.observeGame(gameName).first().toPromise(),
     this.observeLoggedInPlayerProfile().first().toPromise()])
       .then(responses => {
         const game = responses[0] as Game;
         // not needed
-        const loggedInPlayerIsHost = this.afAuth.auth.currentUser.uid === game.host;
+        const loggedInPlayerIsHost = uid === game.host;
         const playerName = (<PlayerProfile>responses[1]).name;
         const gamePromise = this.addCurrentPlayerToGame(gameName, playerName, loggedInPlayerIsHost);
-        const playerPromise = this.addActiveGameToPlayer(gameName);
+        const playerPromise = this.addActiveGameToPlayer(gameName, uid);
         return Promise.all([gamePromise, playerPromise]);
       });
   }
 
-  public addCurrentPlayerToGame(gameName: string, playerName: string, isHost: boolean): Promise<void> {
+  public addCurrentPlayerToGame(gameName: string, playerName: string, isHost: boolean): Promise<[void, void]> {
     const uid = this.afAuth.auth.currentUser.uid;
-    return this.addAPlayerToGame(gameName, playerName, isHost, uid);
+    return Promise.all([this.addAPlayerToGameDB(gameName, playerName, isHost, uid), this.addActiveGameToPlayer(gameName, uid)]);
   }
 
-  public addAPlayerToGame(gameName: string, playerName: string, isHost: boolean, uid: string): Promise<void> {
+  public addAPlayerToGame(gameName: string, playerName: string, isHost: boolean, uid: string): Promise<[void, void]> {
+    return Promise.all([this.addAPlayerToGameDB(gameName, playerName, isHost, uid), this.addActiveGameToPlayer(gameName, uid)]);
+  }
+
+  public addAPlayerToGameDB(gameName: string, playerName: string, isHost: boolean, uid: string): Promise<void> {
     // TODO extract to model
     const updatePlayer: GamePlayer = {
       uid: uid,
@@ -180,6 +185,18 @@ export class FirebaseGameService {
       .collection('players')
       .doc(uid)
       .set(updatePlayer);
+  }
+
+  private addActiveGameToPlayer(gameName: string, uid: string): Promise<void> {
+    const activeGameModel: ActivePlayerGames = {
+      name: gameName
+    };
+    return this.db
+      .collection<GamePlayer>('players')
+      .doc(uid)
+      .collection<ActivePlayerGames>('activegames')
+      .doc(gameName)
+      .set(activeGameModel);
   }
 
   private addFriendToUser(toUid: string, newFriendUid: string, name: string): Promise<void> {
@@ -204,23 +221,12 @@ export class FirebaseGameService {
     }
     return this.addFriendToUser(targetUid, this.afAuth.auth.currentUser.uid, nameOfCurrentUser);
   }
+
   public addFriendToCurrentUser(newFriendUid: string, name: string): Promise<void> {
     if (newFriendUid === this.afAuth.auth.currentUser.uid) {
       return Promise.reject('Does not make sense to add yourself as friend.');
     }
     return this.addFriendToUser(this.afAuth.auth.currentUser.uid, newFriendUid, name);
-  }
-
-  private addActiveGameToPlayer(gameName: string): Promise<void> {
-    const activeGameModel: ActivePlayerGames = {
-      name: gameName
-    };
-    return this.db
-      .collection<GamePlayer>('players')
-      .doc(this.afAuth.auth.currentUser.uid)
-      .collection<ActivePlayerGames>('activegames')
-      .doc(gameName)
-      .set(activeGameModel);
   }
 
   public resetPlayer(gameName: string) {
