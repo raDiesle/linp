@@ -1,5 +1,5 @@
 import * as admin from 'firebase-admin';
-import {Game, GamePlayer} from '../../../linp/src/app/models/game';
+import {Game, GamePlayer, PlayerRolesCounts} from '../../../linp/src/app/models/game';
 import * as firebase from 'firebase';
 import {WriteResult} from '@google-cloud/firestore';
 import { firestore } from 'firebase-functions';
@@ -76,6 +76,20 @@ export class Preparegame {
         const numberOfWordsNeeded: number = cardsNeededForGame.wordsNeeded;
         const numberOfQuestionMarks: number = cardsNeededForGame.questionMarksNeeded;
 
+        const rolesInformation: PlayerRolesCounts = {            
+            total: gamePlayerSize,
+            questionmark: numberOfQuestionMarks,
+            words: numberOfWordsNeeded
+        };
+        const gameRolesWrittenPromise = this.writeRolesRequiredToGame(rolesInformation, gameName);
+                
+        return Promise.all([gameRolesWrittenPromise, this.fetchWordsAndAssignRoles(rolesInformation, gamePlayers, gameName)]);
+    }
+
+    private fetchWordsAndAssignRoles(rolesInformation: PlayerRolesCounts, gamePlayers: GamePlayer[], gameName: string): Promise<void>{
+        const numberOfQuestionMarks = rolesInformation.questionmark;
+        const numberOfWordsNeeded: number = rolesInformation.words;
+        
         const QUESTIONMARK_ROLE: { value: string } = {
             value: '?'
         };
@@ -84,7 +98,7 @@ export class Preparegame {
 
         const language = 'de';
         const pathOrRef = '/words/size/' + language;
-
+        
         return admin.firestore()
             .collection('words')
             .doc(language)
@@ -124,9 +138,9 @@ export class Preparegame {
 
                         const shuffledWordPool = this.shuffle(questionmarkOrWordPool);
                         // TODO not nice, because lengths have to exactly match
-                        if (gamePlayerKeys.length !== shuffledWordPool.length) {
+                        if (gamePlayers.length !== shuffledWordPool.length) {
                             const unexpectedPref = 'Unexpected error. Should match key length: ';
-                            console.log(unexpectedPref + gamePlayerKeys.length + ' with wordPool: ' + shuffledWordPool.length);
+                            console.log(unexpectedPref + gamePlayers.length + ' with wordPool: ' + shuffledWordPool.length);
                         }
 
                         let pos = 0;
@@ -140,6 +154,15 @@ export class Preparegame {
                     });
             });
     }
+
+    private writeRolesRequiredToGame(rolesInformation: PlayerRolesCounts, gameName: string): Promise<WriteResult> {        
+        return admin.firestore()
+        .collection('games')
+        .doc(gameName)
+        .update({
+            playerRolesCounts : rolesInformation
+        })     
+    }    
 
     private generateRandomNumber(): number {
         return Math.floor(Number.MAX_SAFE_INTEGER * (2 * (Math.random() - 0.5)));

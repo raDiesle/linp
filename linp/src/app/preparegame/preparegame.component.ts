@@ -1,3 +1,4 @@
+import { PlayerRolesCounts } from './../models/game.d';
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 import {AngularFirestore} from 'angularfire2/firestore';
@@ -6,7 +7,6 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {AngularFireAuth} from 'angularfire2/auth';
 
 import * as firebase from 'firebase/app';
-import {PreparegameService} from './preparegame.service';
 import {FirebaseGameService} from '../services/firebasegame.service';
 
 @Component({
@@ -17,18 +17,16 @@ import {FirebaseGameService} from '../services/firebasegame.service';
 export class PreparegameComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
-  private rolesDistributionInformation: { wordsNeeded: number; questionMarksNeeded: number };
+  private rolesDistributionInformation: PlayerRolesCounts;
   private gamePlayers: GamePlayer[];
   public isRoleAssigned = false;
   private isQuestionmark = false;
-  private currentGamePlayer: GamePlayer;
+  private currentGamePlayersRoleWord: string;
   private gameName: string;
   private hasStartedGame = false;
 
   readonly NEXT_PLAYER_STATUS = 'READY_TO_START';
   readonly NEXT_PAGE: GameStatus = 'firsttip';
-
-  private preparegameService = new PreparegameService();
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -43,21 +41,16 @@ export class PreparegameComponent implements OnInit, OnDestroy {
       .takeUntil(this.ngUnsubscribe)
       .subscribe(game => {
         this.router.navigate(['/' + game.status, this.gameName]);
+        this.rolesDistributionInformation = game.playerRolesCounts;
+        this.isRoleAssigned = this.rolesDistributionInformation !== null;
       });
 
-      this.firebaseGameService.observeGamePlayers(this.gameName)
+      this.firebaseGameService.observeLoggedInGamePlayer(this.gameName)
       .takeUntil(this.ngUnsubscribe)
       // .toPromise()
-      .subscribe((gamePlayers: GamePlayer[]) => {
-        this.gamePlayers = gamePlayers;
-        // trigger once
-        // if should be deprecated because auth promise dependance added
-        this.rolesDistributionInformation = this.preparegameService.getRolesNeeded(gamePlayers.length);
-        this.currentGamePlayer = this.gamePlayers.find(gamePlayer => {
-          return gamePlayer.uid === this.firebaseGameService.authUserUid;
-        });
-        this.isRoleAssigned = !!this.currentGamePlayer.questionmarkOrWord;
-        this.isQuestionmark = this.currentGamePlayer.questionmarkOrWord === '?';
+      .subscribe((currentGamePlayer: GamePlayer) => {
+        this.isQuestionmark = currentGamePlayer.questionmarkOrWord === '?';
+        this.currentGamePlayersRoleWord = currentGamePlayer.questionmarkOrWord;
       });
   }
 

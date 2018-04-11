@@ -92,13 +92,21 @@ export class FirebaseGameService {
       .set(<Game>newGame);
   }
 
-  public observeGamePlayers(gameName: string) {
-    const observable = this.db
+  public observeGamePlayers(gameName: string): Observable<GamePlayer[]> {
+    return this.db
       .collection<Game>('games')
       .doc(gameName)
       .collection('players')
       .valueChanges();
-    return observable;
+  }
+
+  public observeLoggedInGamePlayer(gameName: string): Observable<GamePlayer> {
+    return this.db
+    .collection<Game>('games')
+    .doc(gameName)
+    .collection('players')
+    .doc(this.afAuth.auth.currentUser.uid)
+    .valueChanges();
   }
 
   public deleteGame(gameName: string): Promise<void> {

@@ -43,7 +43,6 @@ import {CreatewordComponent} from './createword/createword.component';
 import {LinpCardsModelService} from './simulation/linpcardsinit.service';
 
 import {GamelobbyService} from './gamelobby/gamelobby-service';
-import {PreparegameService} from './preparegame/preparegame.service';
 import {TimeAgoPipe} from 'time-ago-pipe';
 import {FirebaseGameService} from './services/firebasegame.service';
 import {FinalizeroundComponent} from './finalizeround/finalizeround.component';
@@ -217,7 +216,7 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     FirebaseUIModule.forRoot(firebaseUiAuthConfig)
   ],
   providers: [AuthGuard, FirebaseGameService, GuessService, UserprofileService, GamelobbyComponent, GamelobbyService,
-    PreparegameComponent, PreparegameService, LinpCardsModelService,
+    PreparegameComponent, LinpCardsModelService,
     {provide: Window, useValue: window},
   ],
   bootstrap: [AppComponent]

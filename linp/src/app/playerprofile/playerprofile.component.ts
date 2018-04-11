@@ -32,7 +32,7 @@ export class PlayerprofileComponent implements OnInit {
   ngOnInit() {
     // why it is not possible to read synchronously with snapshot?
     this.route.queryParamMap.subscribe(params => {
-      this.callbackUrl = params.get('callbackUrl');
+      this.callbackUrl = params.get('callbackUrl') || this.callbackUrl;
     });
 
     this.afAuth.authState

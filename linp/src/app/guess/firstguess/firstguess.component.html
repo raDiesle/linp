@@ -7,13 +7,6 @@
     [hidden]="isOpened"/>
   <app-activegames class="mb-2" [ngbCollapse]="isOpened === false || isOpened === null || isOpened === undefined"></app-activegames>
 
-  <input type="button"
-    class="btn btn-primary btn-block mb-2" 
-    value="Switch to another game"
-    (click)="isOpened = !isOpened"
-    [hidden]="isOpened"/>
-  <app-activegames class="mb-2" [ngbCollapse]="isOpened === false || isOpened === null || isOpened === undefined"></app-activegames>
-
   <span id="savedResponseFlag" class="d-none" *ngIf="savedResponseFlag"></span>
   <div class="col-12 pb-3" *ngIf="isloggedInPlayerGivenSynonym === false">
     <div class="card">
@@ -22,7 +15,7 @@
       </div>
       <div class="card-body">
         <h6 class="card-subtitle mb-2 text-muted">
-          Who might be a team and having the same word?
+          Who might be teaming up and having the same word?
         </h6>
         <h6 class="card-subtitle mb-2 text-muted">
           Make sure prioritizing to guess you and your partner as team.

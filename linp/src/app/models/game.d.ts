@@ -10,6 +10,13 @@ export interface Game {
   createdAt: number;
   language: LANGUAGE;
   pointsScoredTotal?: { [gamePlayerId: string]: GameTotalPoints };
+  playerRolesCounts? : PlayerRolesCounts;
+}
+
+export interface PlayerRolesCounts {
+    total: number;
+    questionmark: number;
+    words: number;
 }
 
 interface GameTotalPoints {

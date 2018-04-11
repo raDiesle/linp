@@ -26,13 +26,13 @@
             Your word is
             <!--suppress XmlDuplicatedId -->
             <span class="badge badge-primary" id="playersRoleOrWord">
-              {{this.currentGamePlayer.questionmarkOrWord}}
+              {{currentGamePlayersRoleWord}}
             </span>
           </h1>
           <h4 class="mt-5">
             Find your partner having
             <span class="badge badge-primary">
-                {{this.currentGamePlayer.questionmarkOrWord}}
+                {{currentGamePlayersRoleWord}}
               </span>
           </h4>
         </div>
@@ -58,7 +58,7 @@
             <li>
               Give synonym for
               <span class="badge badge-primary">
-                  {{this.currentGamePlayer.questionmarkOrWord}}
+                  {{currentGamePlayersRoleWord}}
                 </span>
             </li>
             <li>
@@ -86,7 +86,7 @@
             <li>
               Give synonym for
               <span class="badge badge-primary">
-                  {{this.currentGamePlayer.questionmarkOrWord}}
+                  {{currentGamePlayersRoleWord}}
                 </span>
             </li>
             <li>
@@ -125,7 +125,7 @@
               Total Players
             </span>
           <span class="badge badge-primary badge-pill">
-              {{gamePlayers?.length}}
+              {{rolesDistributionInformation?.total}}
             </span>
         </div>
 
@@ -134,7 +134,7 @@
             Team-Players
           </span>
           <span class="badge badge-primary badge-pill">
-            2 x {{rolesDistributionInformation?.wordsNeeded}}
+            2 x {{rolesDistributionInformation?.words}}
           </span>
         </div>
 
@@ -143,7 +143,7 @@
               Questionmarks
             </span>
           <span class="badge badge-primary badge-pill">
-              {{rolesDistributionInformation?.questionMarksNeeded}}
+              {{rolesDistributionInformation?.questionmark}}
             </span>
         </div>
 
