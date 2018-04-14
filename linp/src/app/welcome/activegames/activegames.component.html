@@ -11,17 +11,21 @@
             *ngIf="game !== -1"
             type="button"
             (click)="onSelectGameToJoin(game)"
-            class="list-group-item list-group-item-action container-fluid"
+            class="list-group-item list-group-item-action"
+            [ngClass]="{'list-group-item-primary' : game.isActionRequired, 'list-group-item-secondary' : !game.isActionRequired}"
           >
-            <div class="row">
-              <div class="col-6">
+          <div class="row">
+              <div class="col-5">
                 <strong>
                   {{game.name}}
                 </strong>
               </div>              
-              <div class="col-6">
-                Current Player
+              <div class="col-7 text-right" id="{{game.name}}_actionRequired" *ngIf="game.isActionRequired === true">                
+                  <span class="bold badge badge-danger">Your action is required</span>
               </div>
+              <div class="col-6 text-right" id="{{game.name}}_noActionRequired" *ngIf="game.isActionRequired === false">
+                Wait for players turn
+               </div>
             </div>
           </button>          
         </ng-container>

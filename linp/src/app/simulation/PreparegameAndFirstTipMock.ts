@@ -13,6 +13,7 @@ export const PreparegameMock = function (players, gameName: string) {
   const requestPlayers = [];
 
   const GAMEPLAYER_STATUS = 'JOINED_GAME';
+
   requestPlayers.push({
     uid: players.playerA.uid,
     name: players.playerA.name,

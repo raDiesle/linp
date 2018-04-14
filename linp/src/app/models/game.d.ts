@@ -49,12 +49,6 @@ export interface GamePlayer {
   totalRanking?: number;
 }
 
-export interface ActivePlayerGames {
-  name: string;
-}
-
-
-
 // export type SynonymKey = Partial<{ [k in 'firstSynonym' | 'secondSynonym']: string }>;
 export type SynonymKey = 'firstSynonym' | 'secondSynonym';
 

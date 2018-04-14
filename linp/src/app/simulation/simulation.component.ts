@@ -1,8 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AngularFirestore} from 'angularfire2/firestore';
 import {AngularFireAuth} from 'angularfire2/auth/auth';
-import {Game, GamePlayer, ActivePlayerGames} from '../models/game';
-import {PlayerProfile} from '../models/player';
+import {Game, GamePlayer} from '../models/game';
+import {PlayerProfile, ActivePlayerGame} from '../models/player';
 import {Subject} from 'rxjs/Subject';
 import {LinpCardsModelService} from './linpcardsinit.service';
 import {Observable} from 'rxjs/Observable';
@@ -24,7 +24,7 @@ const players: { [uid: string]: PlayerProfile } = {
     name: 'playerB'
   },
   playerC: {
-    uid: 'q4PvJOKoPJNjlzqWI8STHpRcil22',
+    uid: 'MQx0kDr1wiceZIO6xAk6Ba2ICLB2',
     name: 'playerC'
   },
   playerD: {
@@ -112,7 +112,7 @@ export class SimulationComponent implements OnInit, OnDestroy {
               this.db
               .collection<GamePlayer>('players')
               .doc(player.uid)
-              .collection<ActivePlayerGames>('activegames')
+              .collection<ActivePlayerGame>('activegames')
               .doc(this.gameName)
               .set(activeGameModel)
               .then(() => {
@@ -144,13 +144,18 @@ export class SimulationComponent implements OnInit, OnDestroy {
             .set(player)
             .then(() => {
 
-              const activeGameModel = {
-                name: this.gameName
+              const activeGameModel: ActivePlayerGame = {
+                name: this.gameName,
+                isActionRequired: false
               };
+              const isPlayerToSimulateHeIsFirstPlayersTurn = player.name === 'playerB';
+              if (isPlayerToSimulateHeIsFirstPlayersTurn) {
+                activeGameModel.isActionRequired = true;
+              }
               this.db
               .collection<GamePlayer>('players')
               .doc(player.uid)
-              .collection<ActivePlayerGames>('activegames')
+              .collection<ActivePlayerGame>('activegames')
               .doc(this.gameName)
               .set(activeGameModel)
               .then(() => {
@@ -188,7 +193,7 @@ export class SimulationComponent implements OnInit, OnDestroy {
               this.db
               .collection<GamePlayer>('players')
               .doc(player.uid)
-              .collection<ActivePlayerGames>('activegames')
+              .collection<ActivePlayerGame>('activegames')
               .doc(this.gameName)
               .set(activeGameModel)
               .then(() => {
@@ -226,7 +231,7 @@ export class SimulationComponent implements OnInit, OnDestroy {
               this.db
               .collection<GamePlayer>('players')
               .doc(player.uid)
-              .collection<ActivePlayerGames>('activegames')
+              .collection<ActivePlayerGame>('activegames')
               .doc(this.gameName)
               .set(activeGameModel)
               .then(() => {
@@ -264,7 +269,7 @@ export class SimulationComponent implements OnInit, OnDestroy {
               this.db
               .collection<GamePlayer>('players')
               .doc(player.uid)
-              .collection<ActivePlayerGames>('activegames')
+              .collection<ActivePlayerGame>('activegames')
               .doc(this.gameName)
               .set(activeGameModel)
               .then(() => {

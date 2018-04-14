@@ -1,12 +1,11 @@
-
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { HttpClient } from '@angular/common/http';
-import { Game, GamePlayer, GamePlayerStatus, GameStatus, SynonymKey, ActivePlayerGames } from '../models/game';
+import { Game, GamePlayer, GamePlayerStatus, GameStatus, SynonymKey } from '../models/game';
 import { Observable } from 'rxjs/Observable';
 import * as firebase from 'firebase';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { PlayerProfile, PlayerFriendlist } from '../models/player';
+import { PlayerProfile, PlayerFriendlist, ActivePlayerGame } from '../models/player';
 import { LANGUAGE } from '../models/context';
 import { ActivatedRoute } from '@angular/router';
 import { DocumentReference } from '@firebase/firestore-types';
@@ -48,11 +47,11 @@ export class FirebaseGameService {
       .valueChanges()
   }
 
-  public observeActivegamesOfPlayer(): Observable<ActivePlayerGames[]> {
+  public observeActivegamesOfPlayer(): Observable<ActivePlayerGame[]> {
     return this.db
       .collection<Game>('players')
       .doc(this.afAuth.auth.currentUser.uid)
-      .collection<ActivePlayerGames>('activegames')
+      .collection<ActivePlayerGame>('activegames')
       .valueChanges()
   }
 
@@ -102,18 +101,51 @@ export class FirebaseGameService {
 
   public observeLoggedInGamePlayer(gameName: string): Observable<GamePlayer> {
     return this.db
-    .collection<Game>('games')
-    .doc(gameName)
-    .collection('players')
-    .doc(this.afAuth.auth.currentUser.uid)
-    .valueChanges();
-  }
-
-  public deleteGame(gameName: string): Promise<void> {
-    return this.db
       .collection<Game>('games')
       .doc(gameName)
-      .delete()
+      .collection('players')
+      .doc(this.afAuth.auth.currentUser.uid)
+      .valueChanges();
+  }
+
+  public deleteGame(gameName: string): Promise<any> {
+
+    const deleteGamePromise: Promise<any> = this.db
+      .collection<Game>('games')
+      .doc(gameName)
+      .delete().then(() => {
+        console.error('deleted');
+        return Promise.resolve();
+      }).catch(error => {
+        console.error(error);
+      });
+
+    const removeFromReferencesGamesPromise = this.observeGamePlayers(gameName).first().toPromise()
+      .then(gamePlayers => {
+        const allDeleted: Promise<any>[] = [];
+        gamePlayers.forEach(gamePlayer => {
+          allDeleted.push(this.deleteActiveGameRef(gamePlayer, gameName));
+          allDeleted.push(this.deleteGamePlayersRef(gamePlayer, gameName));
+        });
+        return Promise.all(allDeleted);
+      });
+    return Promise.all([deleteGamePromise, removeFromReferencesGamesPromise]);
+  }
+
+  private deleteActiveGameRef(gamePlayer: GamePlayer, gameName: string): Promise<any> {
+    return this.db.collection('players')
+      .doc(gamePlayer.uid)
+      .collection('activegames')
+      .doc(gameName)
+      .delete();
+  }
+
+  private deleteGamePlayersRef(gamePlayer: GamePlayer, gameName: string): Promise<any> {
+    return this.db.collection('games')
+      .doc(gameName)
+      .collection('players')
+      .doc(gamePlayer.uid)
+      .delete();
   }
 
   public updateGameStatus(newStatus: GameStatus, gameName: string): Promise<void> {
@@ -196,13 +228,14 @@ export class FirebaseGameService {
   }
 
   private addActiveGameToPlayer(gameName: string, uid: string): Promise<void> {
-    const activeGameModel: ActivePlayerGames = {
-      name: gameName
+    const activeGameModel: ActivePlayerGame = {
+      name: gameName,
+      isActionRequired: false
     };
     return this.db
       .collection<GamePlayer>('players')
       .doc(uid)
-      .collection<ActivePlayerGames>('activegames')
+      .collection<ActivePlayerGame>('activegames')
       .doc(gameName)
       .set(activeGameModel);
   }

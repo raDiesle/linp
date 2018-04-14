@@ -46,7 +46,7 @@ export class PlayerprofileComponent implements OnInit {
   updateOrCreateAccountAction() {
     this.successfulSavedPlayername = true;
     const playerPath = '/players/' + this.authUser.uid;
-    const newPlayerProfile = {
+    const newPlayerProfile: PlayerProfile = {
       uid: this.authUser.uid,
       name: this.playerName
     };

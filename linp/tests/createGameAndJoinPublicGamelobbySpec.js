@@ -14,13 +14,13 @@ fixture `Create Game and join players in gamelobby`
     await waitForAngular();
   })
   .afterEach(async t => {
-  /*  
+  
     await t
     .click('#simulation')
     .typeText('#gameName', gameName)
     .click('#deleteBtn')
     .expect(Selector('#deletedGameFlag').exists).ok();
-    */
+    
   });
 
 test('Create Game and join players in gamelobby', async t => {
@@ -69,7 +69,6 @@ test('Create Game and join players in gamelobby', async t => {
     
     .click('#gamestatusButton')
     
-    .expect(getLocation()).contains('preparegame', {timeout: 20000})
-    .debug()
+    .expect(getLocation()).contains('preparegame', {timeout: 25000})
     .expect(Selector('#isRoleAssigned').exists).ok('are roles assigned on serverside?', {timeout: 15000})
 });

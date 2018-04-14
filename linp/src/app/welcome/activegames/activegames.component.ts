@@ -1,4 +1,3 @@
-import { ActivePlayerGames } from './../../models/game.d';
 import {Component, HostBinding, OnDestroy, OnInit} from '@angular/core';
 import {AngularFirestore} from 'angularfire2/firestore';
 import {AngularFireAuth} from 'angularfire2/auth/auth';
@@ -7,6 +6,7 @@ import {Game, GamePlayer, GameStatus, PointsScored} from '../../models/game';
 import {Subject} from 'rxjs/Subject';
 
 import {FirebaseGameService} from '../../services/firebasegame.service';
+import { ActivePlayerGame } from 'app/models/player';
 
 
 @Component({
@@ -16,7 +16,7 @@ import {FirebaseGameService} from '../../services/firebasegame.service';
 })
 export class ActivegamesComponent implements OnInit, OnDestroy {
 
-  public games: ActivePlayerGames[] = null;
+  public games: ActivePlayerGame[] = null;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor(public router: Router,

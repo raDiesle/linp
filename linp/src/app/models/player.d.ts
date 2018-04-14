@@ -5,7 +5,12 @@ export interface PlayerProfile {
 
 export interface PlayerFriendlist {
   uid: string;
-  name: string;
+  name: string;  
   isOnline: boolean;
   lastOnline: number;
+}
+
+export interface ActivePlayerGame {
+  name: string;
+  isActionRequired: boolean;
 }
