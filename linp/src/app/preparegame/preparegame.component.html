@@ -154,14 +154,9 @@
         class="btn btn-block"
         [ngClass]="{'btn-outline-success' : !hasStartedGame, 'btn-success' : hasStartedGame}"
         (click)="startGameAction()"
-        [disabled]="hasStartedGame"
-      >
-          <span *ngIf="hasStartedGame === false">
-            Ready to start
-          </span>
-        <span *ngIf="hasStartedGame">
-            Waiting for others <app-waitingdots></app-waitingdots>
-          </span>
+        [disabled]="hasStartedGame || isNeededToUpdateStatus === null"
+      >          
+        Ready to start       
       </button>
     </div>
   </div>

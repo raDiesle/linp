@@ -31,39 +31,37 @@ export class ActiveGameStatusTrigger {
                 const uid: string = context.params.uid;
                 const gameName: string = context.params.gameName;
 
-                if(change.after.data().isActionRequired === true && change.before.data().isActionRequired === false){
+                const isTestUser = gameName.startsWith('test');
+                if(isTestUser || change.after.data().isActionRequired === true && change.before.data().isActionRequired === false){
                     return Promise.resolve();
                 }                
                 
                 // const link = // 'http://www.adventurio.de/' + 'gamelobby/' + gameName
+                
                 console.log('will send mail');
                 return admin.auth()
                     .getUser(uid)
-                    .then(user => {           
-                        console.log('auth fetched');   
-                        const email = user.email;
-                        console.log(email);
-                        return this.sendMail(email, gameName);
+                    .then(user => {
+                        return this.sendMail(user.email, gameName);
                 }) 
             });
     }
 
-   
 // Authorize a client with the loaded c
     
-
-    private sendMail(email: string, gameName: string): Promise<any>{
+    private sendMail(receiver: string, gameName: string): Promise<any>{
         const mailOptions: any = {
             from: `LINP <LINP Game>`,
-            to: 'david.amend@it-amend.de',
+            to: receiver,
           };
         
           // The user subscribed to the newsletter.
           mailOptions.subject = gameName + `: your turn!`;
-          mailOptions.text = `It is your turn on ` + "http://www.adventurio.de/gamelobby/" + gameName;
+        const messageBody = "http://www.adventurio.de/gamelobby/" + gameName;
+          mailOptions.text = `It is your turn on ` + encodeURI(messageBody);
           // '<a href="http://www.adventurio.de/' + 'gamelobby/' + gameName + '">'+ gameName+ '</a>'
           return transporter.sendMail(mailOptions).then(() => {
-            return console.log('New welcome email sent to:', 'david.amend@it-amend.de');
+            return console.log('New welcome email sent to:', receiver);
           }).catch(e => {
               console.error(e);
           });

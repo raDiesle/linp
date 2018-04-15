@@ -34,7 +34,6 @@ fixture `PrepareGameSpec`
     await waitForAngular();
   })
   .afterEach(async t =>{
-   
     await t    
     .click('#simulation')
       .typeText('#gameName', gameName, {replace: true})
@@ -48,7 +47,7 @@ test('PrepareGame', async t => {
   await t
     .typeText('#gameName', gameName)
     .click('#createForPrepareGame')
-    .expect(Selector('#createForPrepareGameResponseAllFlag').exists).ok()
+    .expect(Selector('#createForPrepareGameResponseAllFlag').exists).ok('be ready', {timeout: 8000});
 
   await perform(t);
 });
@@ -97,11 +96,15 @@ export async function perform(t) {
     .expect(Selector('#' + gameName + '_actionRequired').exists).ok()
     .click('#gamename_' + gameName)
     .expect(Selector('#playersRoleOrWord').innerText).eql('Word1')
-    .click('#startGameButton')    
+    .click('#startGameButton')
   await typeSynonymOnYourTurn(t);
   await t
     .click('#welcome')
-    .expect(Selector('#' + gameName + '_noActionRequired').exists).ok()
+    .expect(Selector('#' + gameName + '_noActionRequired').exists).ok('be ready', {timeout: 8000})
+    // check bug if state resettet
+    .click('#gamename_' + gameName)
+    .click('#startGameButton')
+    .expect(Selector('#playerB_status').innerText).eql('FIRST_SYNONYM_GIVEN');
 
   await t
     .useRole(testHelper.playerD)

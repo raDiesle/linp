@@ -21,25 +21,26 @@ export class Preparegame {
             .collection('players');
         const playersPromise = reference.get();
 
-        const promise = playersPromise.then((results: QuerySnapshot) => {
-            const gamePlayers: GamePlayer[] = results.docs.map(player => {
-                return player.data();
-            });
-            const gamePlayerIds = gamePlayers.map(gamePlayer => gamePlayer.uid);             
+        const promise = playersPromise
+                    .then((results: QuerySnapshot) => {
+                        const gamePlayers: GamePlayer[] = results.docs.map(player => {
+                            return player.data();
+                        });
+                        const gamePlayerIds = gamePlayers.map(gamePlayer => gamePlayer.uid);             
 
-            let resetPromise: Promise<any> = Promise.resolve();
-            if(game.round > 0){
-                const batch = admin.firestore().batch();
-                gamePlayerIds.forEach(gamePlayerId => {
-                    batch.update(reference.doc(gamePlayerId), this.getResetPlayerModel());    
-                });
-                resetPromise = batch.commit();
-            }
-            
-            resetPromise.then(() => {
-                // TODO return promise chain
-                this.assign(gamePlayers, gameName);
-            });        
+                        let resetPromise: Promise<any> = Promise.resolve();
+                        if(game.round > 0){
+                            const batch = admin.firestore().batch();
+                            gamePlayerIds.forEach(gamePlayerId => {
+                                batch.update(reference.doc(gamePlayerId), this.getResetPlayerModel());    
+                            });
+                            resetPromise = batch.commit();
+                        }
+                        
+                        resetPromise.then(() => {
+                            // TODO return promise chain
+                            this.assign(gamePlayers, gameName);
+                        });        
         });
 
         return promise;

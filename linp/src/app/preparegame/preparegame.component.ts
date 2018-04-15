@@ -23,9 +23,13 @@ export class PreparegameComponent implements OnInit, OnDestroy {
   private isQuestionmark = false;
   private currentGamePlayersRoleWord: string;
   private gameName: string;
+
+  // TODO remove, deprecated and wrong
   private hasStartedGame = false;
+  private isNeededToUpdateStatus: boolean = null;
 
   readonly NEXT_PLAYER_STATUS = 'READY_TO_START';
+  readonly CURRENT_STATUS = 'JOINED_GAME';
   readonly NEXT_PAGE: GameStatus = 'firsttip';
 
   constructor(private route: ActivatedRoute,
@@ -51,16 +55,21 @@ export class PreparegameComponent implements OnInit, OnDestroy {
       .subscribe((currentGamePlayer: GamePlayer) => {
         this.isQuestionmark = currentGamePlayer.questionmarkOrWord === '?';
         this.currentGamePlayersRoleWord = currentGamePlayer.questionmarkOrWord;
+        this.isNeededToUpdateStatus = currentGamePlayer.status === this.CURRENT_STATUS;
       });
   }
 
   startGameAction(): void {
     this.hasStartedGame = true;
-    // TODO solve host starts game navigation for all
-    this.firebaseGameService.updateCurrentGamePlayerStatus(this.gameName, this.NEXT_PLAYER_STATUS)
-      .then(done => {
-        this.navigateNextPage();
-      });
+
+    let promise = Promise.resolve();
+    if (this.isNeededToUpdateStatus === true) {
+      promise = this.firebaseGameService.updateCurrentGamePlayerStatus(this.gameName, this.NEXT_PLAYER_STATUS);
+    }
+
+    promise.then(done => {
+      this.navigateNextPage();
+    });
   }
 
   private navigateNextPage() {

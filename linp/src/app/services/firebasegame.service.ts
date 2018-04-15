@@ -32,6 +32,10 @@ export class FirebaseGameService {
     return this.afAuth.authState;
   }
 
+  public getAuthUid() {
+    return this.afAuth.auth.currentUser.uid;
+  }
+
   public observeGame(gameName): Observable<Game> {
     const observable = this.db
       .collection('games')

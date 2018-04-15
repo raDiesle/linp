@@ -58,7 +58,7 @@ export class FirsttipComponent implements OnInit, OnDestroy {
         this.gamePlayers = gamePlayers;
 
         this.loggedInGamePlayer = this.gamePlayers.find(gamePlayer => {
-          return gamePlayer.uid === this.firebaseGameService.authUserUid;
+          return gamePlayer.uid === this.firebaseGameService.getAuthUid();
         });
 
         this.currentPlayer = this.gamePlayers.find(gamePlayer => {
@@ -66,7 +66,8 @@ export class FirsttipComponent implements OnInit, OnDestroy {
         });
 
         const isLastPlayerFinishedTurn = !this.currentPlayer;
-        this.isPlayersTurnForAuthUser = !isLastPlayerFinishedTurn ? this.currentPlayer.uid === this.firebaseGameService.authUserUid : false;
+        const isYourTurn = this.currentPlayer.uid === this.loggedInGamePlayer.uid;
+        this.isPlayersTurnForAuthUser = !isLastPlayerFinishedTurn ? isYourTurn : false;
       });
 
     Observable.timer(0, 1000).subscribe(number => {

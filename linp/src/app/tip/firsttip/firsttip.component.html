@@ -79,6 +79,7 @@
               }"
             *ngFor="let gamePlayer of gamePlayers"
         >
+          <span [hidden]="true" id="{{gamePlayer.name}}_status">{{gamePlayer.status}}</span>
           <span>
             {{gamePlayer.name}}
           </span>
