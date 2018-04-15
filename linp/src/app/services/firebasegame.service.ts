@@ -190,21 +190,21 @@ export class FirebaseGameService {
       .then(responses => {
         const game = responses[0] as Game;
         // not needed
-        const loggedInPlayerIsHost = uid === game.host;
+        const isLoggedInPlayerHost = uid === game.host;
         const playerName = (<PlayerProfile>responses[1]).name;
-        const gamePromise = this.addCurrentPlayerToGame(gameName, playerName, loggedInPlayerIsHost);
-        const playerPromise = this.addActiveGameToPlayer(gameName, uid);
+        const gamePromise = this.addCurrentPlayerToGame(gameName, playerName, isLoggedInPlayerHost);
+        const playerPromise = this.addActiveGameToPlayer(gameName, uid, isLoggedInPlayerHost);
         return Promise.all([gamePromise, playerPromise]);
       });
   }
 
   public addCurrentPlayerToGame(gameName: string, playerName: string, isHost: boolean): Promise<[void, void]> {
     const uid = this.afAuth.auth.currentUser.uid;
-    return Promise.all([this.addAPlayerToGameDB(gameName, playerName, isHost, uid), this.addActiveGameToPlayer(gameName, uid)]);
+    return Promise.all([this.addAPlayerToGameDB(gameName, playerName, isHost, uid), this.addActiveGameToPlayer(gameName, uid, isHost)]);
   }
 
   public addAPlayerToGame(gameName: string, playerName: string, isHost: boolean, uid: string): Promise<[void, void]> {
-    return Promise.all([this.addAPlayerToGameDB(gameName, playerName, isHost, uid), this.addActiveGameToPlayer(gameName, uid)]);
+    return Promise.all([this.addAPlayerToGameDB(gameName, playerName, isHost, uid), this.addActiveGameToPlayer(gameName, uid, isHost)]);
   }
 
   public addAPlayerToGameDB(gameName: string, playerName: string, isHost: boolean, uid: string): Promise<void> {
@@ -227,10 +227,10 @@ export class FirebaseGameService {
       .set(updatePlayer);
   }
 
-  private addActiveGameToPlayer(gameName: string, uid: string): Promise<void> {
+  private addActiveGameToPlayer(gameName: string, uid: string, isLoggedInPlayerHost): Promise<void> {
     const activeGameModel: ActivePlayerGame = {
       name: gameName,
-      isActionRequired: false
+      isActionRequired: isLoggedInPlayerHost
     };
     return this.db
       .collection<GamePlayer>('players')

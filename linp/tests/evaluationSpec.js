@@ -35,8 +35,6 @@ test('EvaluationGame', async t => {
     .click('#createForEvaluation')
     .expect(Selector('#createForEvaluationResponseAllFlag').exists).ok();
 
-
-
   await t
     .useRole(testHelper.playerA)
     .click('#welcome')
@@ -46,7 +44,6 @@ test('EvaluationGame', async t => {
     .click('#guess_playerE')
     .click('#saveGuessBtn')
     .expect(Selector('#savedResponseFlag').exists).ok()
-
 
     .expect(getLocation()).contains(CURRENT_PAGE, { timeout: 15000})
     .click('#finalizeRoundButton')

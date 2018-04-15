@@ -1,8 +1,9 @@
-import * as functions from 'firebase-functions'
-import * as admin from 'firebase-admin'
+import * as functions from 'firebase-functions';
+import * as admin from 'firebase-admin';
 import {Game, GamePlayer, GamePlayerStatus, GameStatus} from '../../../linp/src/app/models/game';
 import {Evaluate} from './evaluate';
 import {Preparegame} from './preparegame';
+import { QuerySnapshot } from '@google-cloud/firestore';
 
 export class GameStatusTrigger {
 
@@ -15,12 +16,12 @@ export class GameStatusTrigger {
     public register() {
         return functions.firestore
             .document('games/{gameName}')
-            .onUpdate(event => {
+            .onUpdate((change, context) => {
                 console.info('change game event');
-                const gameName = (event.params as any).gameName as string;
+                const gameName = (context.params as any).gameName as string;
 
-                const newValue = event.data.data() as Game;
-                const previousValue = event.data.previous.data() as Game;
+                const newValue = change.after.data() as Game;
+                const previousValue = change.before.data() as Game;
                 const gameStatus = newValue.status;
                 if (gameStatus === previousValue.status) {
                     return Promise.resolve();
@@ -30,10 +31,13 @@ export class GameStatusTrigger {
                     'evaluation': (game: Game, name: string) => this.evaluate.performAllEvaluateStatusAction(game, name),
                     'preparegame': (game: Game, name: string) => {
                         console.info('preparegame');
-                        return Promise.all([
-                            this.updateFirstPlayerToActionRequired(name),
-                            this.preparegame.perform(game, name)
-                        ])        
+                        return this.updateHostToNoRequiredAction(game, gameName)
+                                .then(() => 
+                                    Promise.all([                        
+                                        this.updateFirstPlayerToActionRequired(name),
+                                        this.preparegame.perform(game, name)
+                                    ])
+                                )        
                     },
                     'firstguess': (game: Game, name: string) => this.updateAllPlayersToActionRequired(gameName),
                     'secondtip' : (game: Game, name: string) => this.updateFirstPlayerToActionRequired(name),
@@ -51,6 +55,17 @@ export class GameStatusTrigger {
             });
     }
 
+    private updateHostToNoRequiredAction(game: Game, gameName: string): Promise<any> {
+        return admin.firestore()
+        .collection('players')
+        .doc(game.host)
+        .collection('activegames')
+        .doc(gameName)
+        .update({
+            isActionRequired: false
+        });
+    }
+
     private updateFirstPlayerToActionRequired(gameName: string): Promise<any> {
         console.info('triggered required');
         return admin.firestore()
@@ -58,15 +73,12 @@ export class GameStatusTrigger {
         .doc(gameName)
         .collection('players')
         .get()
-        .then(players => {
-            const isFirstPlayerNotIdentified = true;
-            let firstPlayerUid = "";
-            players.forEach(player => {
-                if(isFirstPlayerNotIdentified){
-                    firstPlayerUid = player.data().uid;
-                }
-            });
-            console.info('required update'+ firstPlayerUid);
+        .then((players: QuerySnapshot) => {
+            let firstPlayerUid = this.getFirstPlayer(players);
+            console.info('required update');
+            console.info(firstPlayerUid);
+            console.info(gameName);            
+
             return admin.firestore()
                 .collection('players')
                 .doc(firstPlayerUid)
@@ -81,13 +93,26 @@ export class GameStatusTrigger {
         });
     }
 
+    private getFirstPlayer(players: FirebaseFirestore.QuerySnapshot) {
+        let isFirstPlayerNotIdentified = true;
+        let firstPlayerUid = "";
+        players.forEach(player => {
+            console.log(player.data().uid);
+            if (isFirstPlayerNotIdentified) {
+                firstPlayerUid = player.data().uid;
+                isFirstPlayerNotIdentified = false;
+            }
+        });
+        return firstPlayerUid;
+    }
+
     private updateAllPlayersToActionRequired(gameName: string): Promise<any>{
         return admin.firestore()
         .collection('games')
         .doc(gameName)
         .collection('players')
         .get()
-        .then(players => {
+        .then((players: QuerySnapshot) => {
             let promises: Promise<any>[] = [];
             players.forEach(player => {                
                 const promise = admin.firestore()

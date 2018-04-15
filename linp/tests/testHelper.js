@@ -12,7 +12,7 @@ let loginByPlayer = async function (t, userEmail) {
     .typeText('input[type="password"]', 'pass123')
     .click('button[type="submit"]')
     // .expect(Selector('#loggedInPlayerName').innerText).contains('playerB')
-    .expect(Selector('#logout').exists).ok()
+    .expect(Selector('#logout').exists).ok('ready', {timeout: 7000 })
 };
 
 const playerA = Role(url, async t => {

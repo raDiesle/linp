@@ -35,40 +35,63 @@ test('Create Game and join players in gamelobby', async t => {
     .typeText('#gamename', gameName, {replace: true})
     .click('#createGameButton')
     .expect(Selector("#gamePlayers_0").innerText).contains('PlayerA')
+
+/*
+  playerB
+  playerD
+  playerC
+  playerE
+  playerA Host
+  playerF
+ */
+
   await t
     .useRole(testHelper.playerB)
     .click('button[routerLink="/joingame"]')
-    .click('#gamename_' + gameName)
+    .click('#gamename_' + gameName)    
     .expect(Selector('#gamePlayers_0').innerText).contains('playerB')
-    // need to wait for successhandler of addplayer response to persist to db
     .expect(Selector('#loggedInPlayerSuccessfulAddedStatusFlag').exists).ok()
-  await t
-    .useRole(testHelper.playerC)
-    .click('button[routerLink="/joingame"]')
-    .click('#gamename_' + gameName)
- //   .expect(Selector('#gamePlayers_2').innerText).contains('playerC')
-    .expect(Selector('#loggedInPlayerSuccessfulAddedStatusFlag').exists).ok()
+  
   await t
     .useRole(testHelper.playerD)
     .click('button[routerLink="/joingame"]')
     .click('#gamename_' + gameName)
- //   .expect(Selector('#gamePlayers_1').innerText).contains('playerD')
+    .expect(Selector('#gamePlayers_1').innerText).contains('playerD')
     .expect(Selector('#loggedInPlayerSuccessfulAddedStatusFlag').exists).ok()
+
+    await t
+    .useRole(testHelper.playerC)
+    .click('button[routerLink="/joingame"]')
+    .click('#gamename_' + gameName)
+    .expect(Selector('#gamePlayers_2').innerText).contains('playerC')
+    .expect(Selector('#loggedInPlayerSuccessfulAddedStatusFlag').exists).ok()
+
   await t
     .useRole(testHelper.playerE)
     .click('button[routerLink="/joingame"]')
     .click('#gamename_' + gameName)
- //   .expect(Selector('#gamePlayers_2').innerText).contains('playerE')
+    .expect(Selector('#gamePlayers_3').innerText).contains('playerE')
     .expect(Selector('#loggedInPlayerSuccessfulAddedStatusFlag').exists).ok()
+// Not allowed to press startGame Button
+    .expect(Selector('#gamestatusButton').hasAttribute('disabled')).ok('ready', {timeout: 5000 })
+  
+// startGame
   await t
     .useRole(testHelper.playerA)
     .click('#welcome')
+    .expect(Selector('#' + gameName + '_actionRequired').exists).ok()
     .click('#gamename_' + gameName)
     // ASYNC issue
-    // .expect(Selector('#gamestatusButton').hasAttribute('disabled')).notOk('ready', {timeout: 5000 })
-    
+    .expect(Selector('#gamestatusButton').hasAttribute('disabled')).notOk('ready', {timeout: 5000 })
     .click('#gamestatusButton')
     
     .expect(getLocation()).contains('preparegame', {timeout: 25000})
     .expect(Selector('#isRoleAssigned').exists).ok('are roles assigned on serverside?', {timeout: 15000})
+    .click('#welcome')
+    .expect(Selector('#' + gameName + '_noActionRequired').exists).ok()
+
+    // Is first Players roles turn ?
+    await t
+      .useRole(testHelper.playerB)
+      .expect(Selector('#' + gameName + '_actionRequired').exists).ok()
 });

@@ -22,10 +22,10 @@ console.log(gameName);
 /*
   playerB
   playerD
+  playerC
   playerE
   playerA Host
   playerF
-  playerC
  */
 
 fixture `PrepareGameSpec`
@@ -35,8 +35,7 @@ fixture `PrepareGameSpec`
   })
   .afterEach(async t =>{
    
-    await t
-    .debug()  
+    await t    
     .click('#simulation')
       .typeText('#gameName', gameName, {replace: true})
       .click('#deleteBtn')
@@ -61,13 +60,7 @@ export async function perform(t) {
 
 
   /*
-  await t
-    .useRole(testHelper.playerA)
-    //.click('#welcome')
-    .click('#gamename_' + gameName)
-  //  .expect(getLocation()).contains('/gamelobby')
-  //  .expect(Selector('#gamestatusButton').hasAttribute('disabled')).notOk('ready', {timeout: 8000 })
-  //  .click('#gamestatusButton')
+  
 
     .expect(getLocation()).contains(CURRENT_PAGE, {timeout: 25000})
     .expect(Selector('#playersRoleOrWord').innerText).contains('?')
@@ -104,7 +97,7 @@ export async function perform(t) {
     .expect(Selector('#' + gameName + '_actionRequired').exists).ok()
     .click('#gamename_' + gameName)
     .expect(Selector('#playersRoleOrWord').innerText).eql('Word1')
-    .click('#startGameButton')
+    .click('#startGameButton')    
   await typeSynonymOnYourTurn(t);
   await t
     .click('#welcome')
@@ -169,13 +162,17 @@ export async function perform(t) {
     .click('#gamename_' + gameName)
     .click('#startGameButton')
   await typeSynonymOnYourTurn(t);
-  await t
-    .click('#welcome')
-    .expect(Selector('#' + gameName + '_noActionRequired').exists).ok();
-
+  
+  
   await t
     .expect(getLocation()).contains(NEXT_PAGE);
   await t
     .click('#welcome')
     .expect(Selector('#' + gameName + '_noActionRequired').exists).ok();
+
+// First players turn
+    await t
+    .useRole(testHelper.playerB)
+    .expect(Selector('#' + gameName + '_actionRequired').exists).ok();
+
 }

@@ -24,10 +24,11 @@ console.log(gameName);
 /*
   playerB
   playerD
+  playerC
   playerE
   playerA Host
   playerF
-  playerC
+
  */
 
 fixture `Second Synonym Spec`
@@ -67,23 +68,38 @@ async function perform(t) {
     .expect(Selector('#playersTurnList').exists).ok()
     .expect(Selector('#yourTurn').exists).notOk()
 
+/* 
+Order
+*/
+
+// non
+await t
+    .useRole(testHelper.playerC)
+    .click('#welcome').click('#gamename_' + gameName)
+    .expect(Selector('#playersTurnList').exists).ok()
+    .expect(Selector('#yourTurn').exists).notOk()
+
+
   await t
     .useRole(testHelper.playerB)
     .click('#welcome')
     .click('#gamename_' + gameName)
   await typeSynonymOnYourTurn(t);
 
-  await t
-    .useRole(testHelper.playerC)
-    .click('#welcome').click('#gamename_' + gameName)
-    .expect(Selector('#playersTurnList').exists).ok()
-    .expect(Selector('#yourTurn').exists).notOk()
+  
   await t
     .useRole(testHelper.playerD)
   await t
     .click('#welcome')
   await t
     .click('#gamename_' + gameName)
+  await typeSynonymOnYourTurn(t);
+
+  await t
+    .useRole(testHelper.playerC)
+  await t
+    .click('#welcome')
+  await t.click('#gamename_' + gameName)
   await typeSynonymOnYourTurn(t);
 
   await t
@@ -107,12 +123,6 @@ async function perform(t) {
   await t
     .click('#gamename_' + gameName)
   await typeSynonymOnYourTurn(t);
-
-  await t
-    .useRole(testHelper.playerC)
-    .click('#welcome')
-  await t.click('#gamename_' + gameName)
-  await typeSynonymOnly(t);
 
   await t
     .expect(getLocation()).contains(NEXT_PAGE);

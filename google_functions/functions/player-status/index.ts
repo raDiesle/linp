@@ -1,7 +1,7 @@
-import * as functions from 'firebase-functions'
-import * as admin from 'firebase-admin'
+import * as functions from 'firebase-functions';
+import * as admin from 'firebase-admin';
 import { Game, GamePlayer, GameStatus, GamePlayerStatus } from '../../../linp/src/app/models/game';
-import { DocumentSnapshot, WriteResult } from '@google-cloud/firestore';
+import { DocumentSnapshot, WriteResult, QuerySnapshot } from '@google-cloud/firestore';
 
 export class PlayerStatusTrigger {
 
@@ -11,15 +11,18 @@ export class PlayerStatusTrigger {
     public register() {
         return functions.firestore
             .document('games/{gameName}/players/{uid}')
-            .onUpdate(event => {
-                console.info('playerUpdate');
-                const gameName = (event.params as any).gameName as string;
-                const uid = (event.params as any).uid as string;
+            .onUpdate((change, context) => {
+                
+                const gameName = (context.params as any).gameName as string;
+                const uid = (context.params as any).uid as string;
+                
+                console.info(uid);
 
-                const newValue = event.data.data() as GamePlayer;
+                const newValue = change.after.data() as GamePlayer;
                 const playerStatus = newValue.status;
-                const previousValue = event.data.previous.data() as GamePlayer;
+                const previousValue = change.before.data() as GamePlayer;
                 if (newValue.status === previousValue.status) {
+                    console.log('status is same');
                     return Promise.resolve();
                 }
                
@@ -37,15 +40,14 @@ export class PlayerStatusTrigger {
             .doc(gameName)
             .collection('players')
             .get()
-            .then(players => {
+            .then((players: QuerySnapshot) => {
 
                 // TODO better code                       
                 // single player handling in new game state: 1. & 2. Tip
 
                 // To not need call to /game                                                
 
-                // set first simple case: all players turn, and just to set player to finish                        
-                console.log('players:' + players);
+                // set first simple case: all players turn, and just to set player to finish                
                 let nextSinglePlayersTurn: GamePlayer = this.handleIfSinglePlayersTurn(playerStatus, players);
                 let playerProfileActionPromise: Promise<any> = Promise.resolve();
                 console.log(nextSinglePlayersTurn);
@@ -64,8 +66,10 @@ export class PlayerStatusTrigger {
                 // on any action, expect that current player did done action
                 // const playerToSetToDone: GamePlayer = this.getCurrentPlayer(uid, players);
                 let playerProfileNoActionPromise: Promise<any> = Promise.resolve();
+                
                 if (nextSinglePlayersTurn === null || nextSinglePlayersTurn.uid !== uid) {
                     // set current player to done
+                    console.log('do required false');
                     playerProfileNoActionPromise = admin.firestore()
                         .collection('players')
                         .doc(uid)
@@ -122,13 +126,6 @@ export class PlayerStatusTrigger {
     }
 
     private identifyNextSinglePlayersTurn(playerStatus: string, STATUS_TO_CHECK: { [id: string]: GamePlayerStatus }, players: FirebaseFirestore.QuerySnapshot, nextPlayersTurn: GamePlayer) {
-        // console.log('entering' + this.isEnteringTipStatus(playerStatus, STATUS_TO_CHECK.PREV_PLAYER_STATUS, players));
-        /*
-        if (this.isEnteringTipStatus(playerStatus, STATUS_TO_CHECK.PREV_PLAYER_STATUS, players)) {
-            nextPlayersTurn = this.getFirstPlayerInList(players);
-        }
-        */
-        console.log('within' + this.isWithinTipStatus(players, playerStatus, STATUS_TO_CHECK.DONE_HIS_TIP_STATUS));
         if (this.isWithinTipStatus(players, playerStatus, STATUS_TO_CHECK.DONE_HIS_TIP_STATUS)) {
             nextPlayersTurn = this.getFirstPlayerWithDifferentStatus(STATUS_TO_CHECK.DONE_HIS_TIP_STATUS, players);
         }

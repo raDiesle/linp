@@ -36,6 +36,7 @@ test('FirstguessGame', async t => {
   await t
     .useRole(testHelper.playerA)
     .click('#welcome')
+    .expect(Selector('#' + gameName + '_actionRequired').exists).ok()
     .click('#gamename_' + gameName)
     .expect(getLocation()).contains(CURRENT_PAGE)
     .click('#guess_playerC')
@@ -46,6 +47,7 @@ test('FirstguessGame', async t => {
   await t
     .useRole(testHelper.playerB)
     .click('#welcome')
+    .expect(Selector('#' + gameName + '_actionRequired').exists).ok()
     .click('#gamename_' + gameName)
     .expect(getLocation()).contains(CURRENT_PAGE)
     .click('#guess_playerA')
@@ -56,6 +58,7 @@ test('FirstguessGame', async t => {
   await t
     .useRole(testHelper.playerC)
     .click('#welcome')
+    .expect(Selector('#' + gameName + '_actionRequired').exists).ok()
     .click('#gamename_' + gameName)
     .expect(getLocation()).contains(CURRENT_PAGE)
     .click('#guess_playerC')
@@ -66,6 +69,7 @@ test('FirstguessGame', async t => {
   await t
     .useRole(testHelper.playerD)
     .click('#welcome')
+    .expect(Selector('#' + gameName + '_actionRequired').exists).ok()
     .click('#gamename_' + gameName)
     .expect(getLocation()).contains(CURRENT_PAGE)
     .click('#guess_playerD')
@@ -76,6 +80,7 @@ test('FirstguessGame', async t => {
   await t
     .useRole(testHelper.playerE)
     .click('#welcome')
+    .expect(Selector('#' + gameName + '_actionRequired').exists).ok()
     .click('#gamename_' + gameName)
     .expect(getLocation()).contains(CURRENT_PAGE)
     .click('#guess_playerC')
@@ -86,6 +91,7 @@ test('FirstguessGame', async t => {
   await t
     .useRole(testHelper.playerF)
     .click('#welcome')
+    .expect(Selector('#' + gameName + '_actionRequired').exists).ok()
     .click('#gamename_' + gameName)
     .expect(getLocation()).contains(CURRENT_PAGE)
     .click('#guess_playerC')
@@ -95,10 +101,13 @@ test('FirstguessGame', async t => {
   // .expect(Selector('#savedResponseFlag').exists).ok()
   await t
     .expect(getLocation()).contains(NEXT_PAGE)
+    .click('#welcome')
+    .expect(Selector('#' + gameName + '_noActionRequired').exists).ok()
 
   await t
-    .useRole(testHelper.playerF)
+    .useRole(testHelper.playerB)
     .click('#welcome')
+    .expect(Selector('#' + gameName + '_actionRequired').exists).ok()
     .click('#gamename_' + gameName)
     .expect(getLocation()).contains(NEXT_PAGE)
 })

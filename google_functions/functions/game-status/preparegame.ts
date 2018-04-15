@@ -1,7 +1,7 @@
 import * as admin from 'firebase-admin';
 import {Game, GamePlayer, PlayerRolesCounts} from '../../../linp/src/app/models/game';
 import * as firebase from 'firebase';
-import {WriteResult} from '@google-cloud/firestore';
+import { WriteResult, QuerySnapshot } from '@google-cloud/firestore';
 import { firestore } from 'firebase-functions';
 import { PrepareGameRuleset } from './preparegameRuleset';
 
@@ -21,7 +21,7 @@ export class Preparegame {
             .collection('players');
         const playersPromise = reference.get();
 
-        const promise = playersPromise.then((results) => {
+        const promise = playersPromise.then((results: QuerySnapshot) => {
             const gamePlayers: GamePlayer[] = results.docs.map(player => {
                 return player.data();
             });
@@ -186,7 +186,5 @@ export class Preparegame {
         });
         return batch.commit();
     }
-
-    
 
 }

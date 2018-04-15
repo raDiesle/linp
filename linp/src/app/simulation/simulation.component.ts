@@ -224,9 +224,9 @@ export class SimulationComponent implements OnInit, OnDestroy {
             .doc(player.uid)
             .set(player)
             .then(() => {
-
-              const activeGameModel = {
-                name: this.gameName
+              const activeGameModel: ActivePlayerGame = {
+                name: this.gameName,
+                isActionRequired: true
               };
               this.db
               .collection<GamePlayer>('players')
@@ -263,8 +263,9 @@ export class SimulationComponent implements OnInit, OnDestroy {
             .set(player)
             .then(() => {
 
-              const activeGameModel = {
-                name: this.gameName
+              const activeGameModel: ActivePlayerGame = {
+                name: this.gameName,
+                isActionRequired: true
               };
               this.db
               .collection<GamePlayer>('players')
