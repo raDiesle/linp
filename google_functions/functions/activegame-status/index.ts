@@ -34,16 +34,24 @@ export class ActiveGameStatusTrigger {
                 const isTestUser = gameName.startsWith('test');
                 if(isTestUser || change.after.data().isActionRequired === true && change.before.data().isActionRequired === false){
                     return Promise.resolve();
-                }                
-                
-                // const link = // 'http://www.adventurio.de/' + 'gamelobby/' + gameName
-                
-                console.log('will send mail');
-                return admin.auth()
-                    .getUser(uid)
-                    .then(user => {
-                        return this.sendMail(user.email, gameName);
-                }) 
+                }
+                            
+                return admin.firestore()
+                    .doc('/status/' + uid)
+                    .get()
+                    .then((doc) => {
+                        console.log(doc.data().state);
+                        const isOnline = doc.data().state === 'online';
+                        // const link = // 'http://www.adventurio.de/' + 'gamelobby/' + gameName                
+                        if(isOnline){
+                            return Promise.resolve();
+                        }
+                        return admin.auth()
+                            .getUser(uid)
+                            .then(user => {
+                                return this.sendMail(user.email, gameName);
+                        });
+                }); 
             });
     }
 
@@ -60,10 +68,14 @@ export class ActiveGameStatusTrigger {
         const messageBody = "http://www.adventurio.de/gamelobby/" + gameName;
           mailOptions.text = `It is your turn on ` + encodeURI(messageBody);
           // '<a href="http://www.adventurio.de/' + 'gamelobby/' + gameName + '">'+ gameName+ '</a>'
-          return transporter.sendMail(mailOptions).then(() => {
-            return console.log('New welcome email sent to:', receiver);
-          }).catch(e => {
+          return transporter.sendMail(mailOptions)
+            .then(() => {
+                console.log('New welcome email sent to:', receiver);
+                return Promise.resolve();
+          })
+          .catch(e => {
               console.error(e);
+              return Promise.resolve();
           });
     }
 
