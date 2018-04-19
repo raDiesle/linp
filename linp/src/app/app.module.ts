@@ -3,6 +3,7 @@ import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { MissingTranslationStrategy } from '@angular/core';
 
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
@@ -215,6 +216,7 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     AngularFireStorageModule,
     FirebaseUIModule.forRoot(firebaseUiAuthConfig)
   ],
+ // missingTranslation: MissingTranslationStrategy.Error,
   providers: [AuthGuard, FirebaseGameService, GuessService, UserprofileService, GamelobbyComponent, GamelobbyService,
     PreparegameComponent, LinpCardsModelService,
     {provide: Window, useValue: window},

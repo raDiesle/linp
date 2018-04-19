@@ -32,13 +32,15 @@ export class WelcomeComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
-  constructor(public afAuth: AngularFireAuth,
+  constructor(
+    public afAuth: AngularFireAuth,
     public db: AngularFirestore,
     private userprofileService: UserprofileService,
     public firebaseGameService: FirebaseGameService,
     private modalService: NgbModal,
     private router: Router,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute
+  ) {
 
     afAuth.authState
       .takeUntil(this.ngUnsubscribe)
@@ -49,6 +51,7 @@ export class WelcomeComponent implements OnInit, OnDestroy {
           return;
         }
 
+      // TODO move to init
         this.firebaseGameService.observeLoggedInPlayerProfile()
           .takeUntil(this.ngUnsubscribe)
           .subscribe(playerProfile => {

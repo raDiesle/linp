@@ -32,6 +32,10 @@ export class FirebaseGameService {
     return this.afAuth.authState;
   }
 
+  public isLoggedIn(): boolean {
+    return this.afAuth.auth.currentUser !== null;
+  }
+
   public getAuthUid() {
     return this.afAuth.auth.currentUser.uid;
   }

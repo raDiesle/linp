@@ -36,15 +36,18 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // deprecated
+    // deprecated use firebaseGameService
     this.afAuth.authState
       .takeUntil(this.ngUnsubscribe)
       .subscribe(authUser => {
         console.log('auth updated');
         // TODO
         // this.firebaseGameService.updatePlayerProfileIsOnline(true);
-        this.authUser = authUser;
-        this.updateGamePlayerOnline();
+
+        if (this.authUser !== null && this.firebaseGameService.isLoggedIn()) {
+          this.authUser = authUser;
+          this.updateGamePlayerOnline();
+        }
       });
 
     this.router.events

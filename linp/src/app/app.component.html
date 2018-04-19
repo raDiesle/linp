@@ -1,6 +1,9 @@
 <div>
   <nav class="navbar navbar-expand-lg navbar-light bg-topheader">
-    <a class="navbar-brand" href="#"><strong>LINP</strong> - Find your partner</a>
+    <a class="navbar-brand" href="#">
+      <strong>LINP</strong>
+      <span>- Find your partner</span>
+    </a>
     <ngb-alert [type]="'warning'"
                *ngIf="isUserAuthOfflane"
                (click)="isUserAuthOfflane=!isUserAuthOfflane">

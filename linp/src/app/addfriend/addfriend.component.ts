@@ -6,6 +6,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
   selector: 'app-addfriend',
   templateUrl: './addfriend.component.html',
   styleUrls: ['./addfriend.component.scss']
+  // ,providers: [FirebaseGameService]
 })
 export class AddfriendComponent implements OnInit, OnDestroy {
 
@@ -16,7 +17,9 @@ export class AddfriendComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private firebaseGameService: FirebaseGameService,
     private window: Window
-  ) { }
+  ) {
+
+  }
 
   ngOnInit() {
     const uid: string = this.route.snapshot.paramMap.get('uid');
