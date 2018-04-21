@@ -20,7 +20,6 @@ export class FirebaseGameService {
     private db: AngularFirestore,
     private httpClient: HttpClient,
     private route: ActivatedRoute) {
-    // this.observeAuthUser();
   }
 
   // deprecated

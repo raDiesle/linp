@@ -62,6 +62,7 @@ import {
   FirebaseUIModule
 } from 'firebaseui-angular';
 import { AddfriendComponent } from './addfriend/addfriend.component';
+import { windowFactory } from './window.factory';
 
 const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
   providers: [
@@ -102,7 +103,7 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     PreparegameComponent,
     BlinkComponent,
     CreatewordComponent,
-    TimeAgoPipe,
+ //   TimeAgoPipe,
     FinalizeroundComponent,
     OrderByPipe,
     FriendlistComponent,
@@ -114,6 +115,7 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     FriendlistComponent
   ],
   imports: [
+  //  TimeAgoPipe,
     RouterModule.forRoot([
       {
         path: 'welcome',
@@ -218,8 +220,7 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
   ],
  // missingTranslation: MissingTranslationStrategy.Error,
   providers: [AuthGuard, FirebaseGameService, GuessService, UserprofileService, GamelobbyComponent, GamelobbyService,
-    PreparegameComponent, LinpCardsModelService,
-    {provide: Window, useValue: window},
+    PreparegameComponent, LinpCardsModelService, {provide: Window, useFactory: windowFactory},
   ],
   bootstrap: [AppComponent]
 })

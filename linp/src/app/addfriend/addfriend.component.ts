@@ -1,22 +1,23 @@
 import { FirebaseGameService } from './../services/firebasegame.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 
 @Component({
   selector: 'app-addfriend',
   templateUrl: './addfriend.component.html',
   styleUrls: ['./addfriend.component.scss']
-  // ,providers: [FirebaseGameService]
+//   ,providers: [FirebaseGameService, Window]
 })
 export class AddfriendComponent implements OnInit, OnDestroy {
 
   public isFriendYourself = false;
 
   constructor(
+    @Inject(Window) private window: Window,
     private router: Router,
     private route: ActivatedRoute,
     private firebaseGameService: FirebaseGameService,
-    private window: Window
+
   ) {
 
   }
@@ -32,7 +33,7 @@ export class AddfriendComponent implements OnInit, OnDestroy {
         if (isFirstTimeRegisteredUser) {
           this.router.navigate(['/playerprofile'], {
             queryParams: {
-              callbackUrl : this.window.location.pathname
+          callbackUrl : this.window.location.pathname
             },
             queryParamsHandling : 'merge'}
           );
