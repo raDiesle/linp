@@ -49,24 +49,25 @@ const players: { [uid: string]: PlayerProfile } = {
 export class SimulationComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
-  private queryResults: Observable<{}[]>;
-  private gameName: string | null;
-  private deletedGameFlag = false;
-
+  public queryResults: Observable<{}[]>;
+  public gameName: string | null;
+  public deletedGameFlag = false;
 
   public createForSecondSynonymResponseCountPlayersCount = 0;
   public createForPrepareGameResponseCountPlayersCount = 0;
 
-  private createForFirstGuessGameResponseCountPlayersCount = 0;
-  private createForFirstGuessGameResponseCount = 0;
+  public createForFirstGuessGameResponseCountPlayersCount = 0;
+  public createForFirstGuessGameResponseCount = 0;
   public createForEvaluationResponseCountPlayersCount = 0;
-  private createForPrepareGameResponseCount = 0;
+  public createForPrepareGameResponseCount = 0;
 
-  private createForSecondGuessGameResponseCount = 0;
-  private createForSecondGuessGameResponseCountPlayersCount = 0;
-  private createForSecondSynonymResponseCount = 0;
-  private createForEvaluationResponseCount = 0;
+  public createForSecondGuessGameResponseCount = 0;
+  public createForSecondGuessGameResponseCountPlayersCount = 0;
+  public createForSecondSynonymResponseCount = 0;
+  public createForEvaluationResponseCount = 0;
 
+
+  public createGaneWithUsers
 
   constructor(private route: ActivatedRoute,
               public afAuth: AngularFireAuth,

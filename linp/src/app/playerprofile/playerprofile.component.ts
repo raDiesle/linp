@@ -18,8 +18,8 @@ export class PlayerprofileComponent implements OnInit {
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   private authUser: firebase.User;
-  private playerName: string = undefined;
-  private successfulSavedPlayername = false;
+  public playerName: string = undefined;
+  public successfulSavedPlayername = false;
 
   constructor(
     public afAuth: AngularFireAuth,

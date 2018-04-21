@@ -25,14 +25,18 @@ export class SecondtipComponent implements OnInit, OnDestroy {
   authUser: firebase.User;
   gamePlayers: GamePlayer[];
   gameName: string;
+  public isOpened: boolean;
+  public savedResponseFlag = false;
+  public isPlayersTurnForAuthUser = false;
+
   // @input
   private synonym: string;
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public show$: boolean;
   private currentPlayer: GamePlayer;
-  private isPlayersTurnForAuthUser = false;
-  private savedResponseFlag = false;
+
+
 
   constructor(private route: ActivatedRoute,
               private router: Router,

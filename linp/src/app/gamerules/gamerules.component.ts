@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GamerulesComponent implements OnInit {
 
+  public isExpandInstructions: boolean;
   constructor() { }
 
   ngOnInit() {

@@ -44,7 +44,7 @@ import {CreatewordComponent} from './createword/createword.component';
 import {LinpCardsModelService} from './simulation/linpcardsinit.service';
 
 import {GamelobbyService} from './gamelobby/gamelobby-service';
-import {TimeAgoPipe} from 'time-ago-pipe';
+// import {TimeAgoPipe} from 'time-ago-pipe';
 import {FirebaseGameService} from './services/firebasegame.service';
 import {FinalizeroundComponent} from './finalizeround/finalizeround.component';
 import {OrderByPipe} from './finalizeround/order-by.pipe';
@@ -62,7 +62,11 @@ import {
   FirebaseUIModule
 } from 'firebaseui-angular';
 import { AddfriendComponent } from './addfriend/addfriend.component';
-import { windowFactory } from './window.factory';
+import { WindowRef } from './WindowRef';
+
+export function windowFactory() {
+  return window;
+}
 
 const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
   providers: [
@@ -220,7 +224,7 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
   ],
  // missingTranslation: MissingTranslationStrategy.Error,
   providers: [AuthGuard, FirebaseGameService, GuessService, UserprofileService, GamelobbyComponent, GamelobbyService,
-    PreparegameComponent, LinpCardsModelService, {provide: Window, useFactory: windowFactory},
+    PreparegameComponent, LinpCardsModelService, WindowRef
   ],
   bootstrap: [AppComponent]
 })

@@ -15,17 +15,21 @@ const tipDBkey = 'firstTeamTip';
   styleUrls: ['./firstguess.component.css']
 })
 export class FirstguessComponent implements OnInit, OnDestroy {
-  gameName: string;
 
   selectedGamePlayers: GamePlayer[] = [];
   gamePlayers: GamePlayer[];
   readonly PLAYER_STATUS_AFTER_ACTION: GamePlayerStatus = 'FIRST_GUESS_GIVEN';
   readonly NEXT_PAGE: GameStatus = 'secondtip';
 
+  gameName: string;
+  public isOpened: boolean;
+  public savedResponseFlag = false;
+  public isloggedInPlayerGivenSynonym = false;
+
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   private isBlinkTickerShown$: boolean;
-  private isloggedInPlayerGivenSynonym = false;
-  private savedResponseFlag = false;
+
+
 
   constructor(private route: ActivatedRoute,
               private router: Router,

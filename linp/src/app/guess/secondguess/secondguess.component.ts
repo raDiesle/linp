@@ -23,14 +23,14 @@ export class SecondguessComponent implements OnInit, OnDestroy {
   readonly NEXT_PAGE: GameStatus = 'evaluation';
 
   gameName: string;
-
+  public isOpened: boolean;
   selectedGamePlayers: GamePlayer[] = [];
   gamePlayers: GamePlayer[];
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   private isBlinkTickerShown$: boolean;
-  private isloggedInPlayerGivenSynonym = false;
-  private savedResponseFlag = false;
+  public isloggedInPlayerGivenSynonym = false;
+  public savedResponseFlag = false;
 
   constructor(private route: ActivatedRoute,
               private router: Router,

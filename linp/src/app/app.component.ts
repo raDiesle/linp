@@ -25,9 +25,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   private ngUnsubscribeNewGameChosen: Subject<void> = new Subject<void>();
-  private isUserAuthOfflane = false;
+  public isUserAuthOfflane = false;
 
-  constructor(private router: Router,
+  constructor(
+    private router: Router,
     private changeDetectorRef: ChangeDetectorRef,
     public afAuth: AngularFireAuth,
     public db: AngularFirestore,

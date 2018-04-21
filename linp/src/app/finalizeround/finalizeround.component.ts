@@ -12,15 +12,15 @@ import {Subject} from 'rxjs/Subject';
 export class FinalizeroundComponent implements OnInit, OnDestroy {
 
   private gameName: string;
-  private gamePlayers: GamePlayer[] = [];
+  public gamePlayers: GamePlayer[] = [];
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   readonly NEXT_GAME_STATUS: GameStatus = 'preparegame';
   readonly NEXT_PLAYER_STATUS = 'READY_FOR_NEXT_GAME';
   readonly PREV_PLAYER_STATUS = 'CHECKED_EVALUATION';
 
-  private isGamePlayerReadyForNextGame = false;
-  private scores: GameTotalPoints[] = [];
+  public isGamePlayerReadyForNextGame = false;
+  public scores: GameTotalPoints[] = [];
 
   public savedResponseFlag = false;
 

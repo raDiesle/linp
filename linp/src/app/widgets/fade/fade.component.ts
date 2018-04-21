@@ -27,7 +27,7 @@ export class FadeComponent {
 
   @Output()
   isVisibleChange = new EventEmitter();
-  private isVisibleInternal = false;
+  public isVisibleInternal = false;
 
   @Input()
   out;

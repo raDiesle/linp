@@ -29,8 +29,9 @@ export class EvaluationComponent implements OnInit {
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   @ViewChild('t') public tooltip: NgbTooltip;
-  private gameRound = 0;
-  private isRealCalculatedHack = false;
+  public gameRound = 0;
+  // deprecated
+  public isRealCalculatedHack = false;
 
   constructor(private route: ActivatedRoute,
               private router: Router,

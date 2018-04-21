@@ -22,6 +22,11 @@ export class FirsttipComponent implements OnInit, OnDestroy {
   readonly INTERMEDIATE_STATUS = 'preparegame';
   readonly SYNONYM_KEY = 'firstSynonym';
 
+
+  public show$: boolean;
+  public isOpened: boolean;
+  public isPlayersTurnForAuthUser = false;
+  public savedResponseFlag = false;
   authUser: firebase.User;
   gamePlayers: GamePlayer[];
   gameName: string;
@@ -29,10 +34,8 @@ export class FirsttipComponent implements OnInit, OnDestroy {
   private synonym: string;
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
-  public show$: boolean;
+
   private currentPlayer: GamePlayer;
-  private isPlayersTurnForAuthUser = false;
-  private savedResponseFlag = false;
 
   constructor(private route: ActivatedRoute,
               private router: Router,

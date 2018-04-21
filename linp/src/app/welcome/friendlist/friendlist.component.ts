@@ -4,6 +4,7 @@ import { FirebaseGameService } from './../../services/firebasegame.service';
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 import { PlayerFriendlist } from '../../models/player';
+import { WindowRef } from '../../WindowRef';
 
 @Component({
   selector: 'app-friendlist',
@@ -18,7 +19,7 @@ export class FriendlistComponent implements OnInit, OnDestroy {
 
   constructor(private firebaseGameService: FirebaseGameService,
     private afAuth: AngularFireAuth,
-    @Inject(Window) private _window: Window
+    @Inject(WindowRef) private windowRef: WindowRef
   ) {
   }
 
@@ -29,7 +30,7 @@ export class FriendlistComponent implements OnInit, OnDestroy {
       this.friendlist = friendlist;
     });
 
-    this.friendsinvitationlink = `${this._window.location.origin}/addfriend/${this.afAuth.auth.currentUser.uid}`;
+    this.friendsinvitationlink = `${this.windowRef.nativeWindow.location.origin}/addfriend/${this.afAuth.auth.currentUser.uid}`;
 
     /*
     TODO to add friends !!!
