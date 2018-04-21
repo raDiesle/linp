@@ -76,10 +76,10 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     AuthProvider.Github,
     AuthProvider.Password
   ],
-  signInSuccessUrl: '/',
+ // signInSuccessUrl: '/',
   method: AuthMethods.Popup,
   tos: '<your-tos-link>',
-  credentialHelper: CredentialHelper.AccountChooser
+  credentialHelper: CredentialHelper.None
 };
 
 @NgModule({

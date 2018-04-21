@@ -41,12 +41,12 @@ export class AppComponent implements OnInit, OnDestroy {
     this.afAuth.authState
       .takeUntil(this.ngUnsubscribe)
       .subscribe(authUser => {
-        console.log('auth updated');
+
         // TODO
         // this.firebaseGameService.updatePlayerProfileIsOnline(true);
-
-        if (this.authUser !== null && this.firebaseGameService.isLoggedIn()) {
-          this.authUser = authUser;
+        console.log(authUser, this.firebaseGameService.isLoggedIn());
+        this.authUser = authUser;
+        if (authUser !== null) {
           this.updateGamePlayerOnline();
         }
       });
@@ -99,57 +99,6 @@ export class AppComponent implements OnInit, OnDestroy {
       );
   }
 
-  private updateGamePlayerOnline() {
-    // Fetch the current user's ID from Firebase Authentication.
-    const uid = this.firebaseGameService.getAuthUid();
-
-    // Create a reference to this user's specific status node.
-    // This is where we will store data about being online/offline.
-    const userStatusDatabaseRef = firebase.database().ref('/status/' + uid);
-    const userStatusFirestoreRef = firebase.firestore().doc('/status/' + uid);
-    // We'll create two constants which we will write to
-    // the Realtime database when this device is offline
-    // or online.
-    const isOfflineForDatabase = {
-      state: 'offline',
-      last_changed: firebase.database.ServerValue.TIMESTAMP,
-    };
-
-    const isOnlineForDatabase = {
-      state: 'online',
-      last_changed: firebase.database.ServerValue.TIMESTAMP,
-    };
-
-    // Firestore uses a different server timestamp value, so we'll
-    // create two more constants for Firestore state.
-    const isOfflineForFirestore = {
-      state: 'offline',
-      last_changed: firebase.firestore.FieldValue.serverTimestamp(),
-    };
-
-    const isOnlineForFirestore = {
-      state: 'online',
-      last_changed: firebase.firestore.FieldValue.serverTimestamp(),
-    };
-
-    firebase.database().ref('.info/connected').on('value', function (snapshot) {
-      if (snapshot.val() === false) {
-        // Instead of simply returning, we'll also set Firestore's state
-        // to 'offline'. This ensures that our Firestore cache is aware
-        // of the switch to 'offline.'
-        userStatusFirestoreRef.set(isOfflineForFirestore);
-        return;
-      };
-
-      userStatusDatabaseRef.onDisconnect().set(isOfflineForDatabase).then(function () {
-        userStatusDatabaseRef.set(isOnlineForDatabase);
-
-        // We'll also add Firestore set here for when we come online.
-        userStatusFirestoreRef.set(isOnlineForFirestore);
-      });
-    });
-
-  }
 
   ngOnDestroy() {
     this.ngUnsubscribe.next();

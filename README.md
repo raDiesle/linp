@@ -1,7 +1,8 @@
 # linp
 linq clone app
 
-# Helpful documentations
+# Helpful documentations of used frameworks
+* https://github.com/DavidOndrus/xliff-translator-tool
 * https://material.io/icons/
 * http://valor-software.com/ngx-bootstrap/#/
 * https://v4-alpha.getbootstrap.com/

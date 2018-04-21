@@ -12,6 +12,7 @@ import { DocumentReference } from '@firebase/firestore-types';
 
 @Injectable()
 export class FirebaseGameService {
+
   readonly INITIAL_STATUS = 'JOINED_GAME';
   public authUserUid: string;
 
@@ -33,6 +34,69 @@ export class FirebaseGameService {
 
   public isLoggedIn(): boolean {
     return this.afAuth.auth.currentUser !== null;
+  }
+
+  private registerUpdateGamePlayerOnlineTrigger() {
+    // Fetch the current user's ID from Firebase Authentication.
+    const uid = this.getAuthUid();
+
+    // Create a reference to this user's specific status node.
+    // This is where we will store data about being online/offline.
+    const userStatusDatabaseRef = firebase.database().ref('/status/' + uid);
+    const userStatusFirestoreRef = firebase.firestore().doc('/status/' + uid);
+
+    // We'll create two constants which we will write to
+    // the Realtime database when this device is offline
+    // or online.
+    const isOfflineForDatabase = {
+      state: 'offline',
+      last_changed: firebase.database.ServerValue.TIMESTAMP,
+    };
+
+    const isOnlineForDatabase = {
+      state: 'online',
+      last_changed: firebase.database.ServerValue.TIMESTAMP,
+    };
+
+    const isOnlineForFirestore = {
+      state: 'online',
+      last_changed: firebase.firestore.FieldValue.serverTimestamp(),
+    };
+
+    firebase.database()
+      .ref('.info/connected')
+      .on('value', function (snapshot) {
+        console.log('OFFLINE');
+        if (snapshot.val() === false) {
+          // Instead of simply returning, we'll also set Firestore's state
+          // to 'offline'. This ensures that our Firestore cache is aware
+          // of the switch to 'offline.'
+
+          this.setAuthUserOffline();
+          return;
+        };
+
+      userStatusDatabaseRef
+        .onDisconnect()
+        .set(isOfflineForDatabase)
+        .then(function () {
+          userStatusDatabaseRef.set(isOnlineForDatabase);
+          // We'll also add Firestore set here for when we come online.
+          userStatusFirestoreRef.set(isOnlineForFirestore);
+      });
+    });
+  }
+
+  public setAuthUserOffline(): Promise<any> {
+    // Firestore uses a different server timestamp value, so we'll
+    // create two more constants for Firestore state.
+    const isOfflineForFirestore = {
+      state: 'offline',
+      last_changed: firebase.firestore.FieldValue.serverTimestamp(),
+    };
+    const userStatusFirestoreRef = firebase.firestore().doc('/status/' + this.getAuthUid());
+    // might also update firestore
+    return userStatusFirestoreRef.set(isOfflineForFirestore);
   }
 
   public getAuthUid() {

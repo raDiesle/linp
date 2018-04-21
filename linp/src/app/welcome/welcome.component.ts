@@ -81,7 +81,8 @@ export class WelcomeComponent implements OnInit, OnDestroy {
   }
 
   logout() {
-    this.afAuth.auth.signOut();
+    this.firebaseGameService.setAuthUserOffline()
+    .then(() => this.afAuth.auth.signOut());
   }
 
   public openUserProfile() {
