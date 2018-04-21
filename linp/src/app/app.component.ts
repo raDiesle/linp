@@ -47,7 +47,7 @@ export class AppComponent implements OnInit, OnDestroy {
         console.log(authUser, this.firebaseGameService.isLoggedIn());
         this.authUser = authUser;
         if (authUser !== null) {
-          this.updateGamePlayerOnline();
+          this.firebaseGameService.registerUpdateGamePlayerOnlineTrigger();
         }
       });
 
@@ -98,7 +98,6 @@ export class AppComponent implements OnInit, OnDestroy {
       }
       );
   }
-
 
   ngOnDestroy() {
     this.ngUnsubscribe.next();

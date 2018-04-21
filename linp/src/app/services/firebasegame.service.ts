@@ -36,7 +36,7 @@ export class FirebaseGameService {
     return this.afAuth.auth.currentUser !== null;
   }
 
-  private registerUpdateGamePlayerOnlineTrigger() {
+  public registerUpdateGamePlayerOnlineTrigger() {
     // Fetch the current user's ID from Firebase Authentication.
     const uid = this.getAuthUid();
 
