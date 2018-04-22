@@ -40,7 +40,7 @@ export class ActiveGameStatusTrigger {
                     .doc('/status/' + uid)
                     .get()
                     .then((doc) => {
-                        console.log(doc.data().state);
+                        
                         const isOnline = doc.data().state === 'online';
                         // const link = // 'http://www.adventurio.de/' + 'gamelobby/' + gameName                
                         if(isOnline){
@@ -70,7 +70,7 @@ export class ActiveGameStatusTrigger {
           // '<a href="http://www.adventurio.de/' + 'gamelobby/' + gameName + '">'+ gameName+ '</a>'
           return transporter.sendMail(mailOptions)
             .then(() => {
-                console.log('New welcome email sent to:', receiver);
+                console.log('email sent to:', receiver);
                 return Promise.resolve();
           })
           .catch(e => {

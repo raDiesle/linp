@@ -17,7 +17,7 @@ export class GameStatusTrigger {
         return functions.firestore
             .document('games/{gameName}')
             .onUpdate((change, context) => {
-                console.info('change game event');
+                
                 const gameName = (context.params as any).gameName as string;
 
                 const newValue = change.after.data() as Game;
@@ -30,7 +30,7 @@ export class GameStatusTrigger {
                 const rulesMapping: { [gameStatus: string]: any } = {
                     'evaluation': (game: Game, name: string) => this.evaluate.performAllEvaluateStatusAction(game, name),
                     'preparegame': (game: Game, name: string) => {
-                        console.info('preparegame');
+                        
                         return this.updateHostToNoRequiredAction(game, gameName)
                                 .then(() => 
                                     Promise.all([                        
@@ -67,17 +67,14 @@ export class GameStatusTrigger {
     }
 
     private updateFirstPlayerToActionRequired(gameName: string): Promise<any> {
-        console.info('triggered required');
+        
         return admin.firestore()
         .collection('games')
         .doc(gameName)
         .collection('players')
         .get()
         .then((players: QuerySnapshot) => {
-            let firstPlayerUid = this.getFirstPlayer(players);
-            console.info('required update');
-            console.info(firstPlayerUid);
-            console.info(gameName);            
+            let firstPlayerUid = this.getFirstPlayer(players);         
 
             return admin.firestore()
                 .collection('players')
@@ -86,8 +83,8 @@ export class GameStatusTrigger {
                 .doc(gameName)
                 .update({
                     isActionRequired: true
-                }).then(() =>{
-                    console.log('updated action');
+                })
+                .then(() =>{                    
                     return Promise.resolve();
                 });
         });
@@ -96,8 +93,7 @@ export class GameStatusTrigger {
     private getFirstPlayer(players: FirebaseFirestore.QuerySnapshot) {
         let isFirstPlayerNotIdentified = true;
         let firstPlayerUid = "";
-        players.forEach(player => {
-            console.log(player.data().uid);
+        players.forEach(player => {            
             if (isFirstPlayerNotIdentified) {
                 firstPlayerUid = player.data().uid;
                 isFirstPlayerNotIdentified = false;

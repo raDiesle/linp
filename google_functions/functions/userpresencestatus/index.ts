@@ -32,7 +32,7 @@ export class UserPresencestatus {
                     // and compare the timestamps.
                     return change.after.ref.once('value').then((statusSnapshot: any) => {
                         const status = statusSnapshot.val();
-                        console.log(status, eventStatus);
+                        
                         // If the current timestamp for this data is newer than
                         // the data that triggered this event, we exit this function.
                         if (status.last_changed > eventStatus.last_changed) {

@@ -72,7 +72,6 @@ export class WelcomeComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     const prevPage = this.route.snapshot.paramMap.get('signInSuccessUrl');
-    console.log(prevPage);
   }
 
 // @deprecated

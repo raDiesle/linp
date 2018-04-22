@@ -283,19 +283,18 @@ export class SimulationComponent implements OnInit, OnDestroy {
       .catch(() => alert('fail'));
   }
 
-  updateSinglePlayerScore() {
+  updateSinglePlayerScore(): Promise<any> {
     const request = {};
     request[players.playerA.uid] = {
       pointsScored: {
         total: 667
       }
     };
-    this.db
+    return this.db
       .collection<PlayerProfile>('games')
       .doc(this.gameName)
       .collection('players')
-      .add(request)
-      .then(result => console.log('done'));
+      .add(request);
   }
 
   addInitialWords() {
@@ -314,10 +313,8 @@ export class SimulationComponent implements OnInit, OnDestroy {
       this.db.collection('words')
         .doc('de')
         .collection('cards')
-        .add(singleCard)
-        .then(result => console.log('done'));
-
-      console.log(singleCard.random);
+        .add(singleCard);
+        // wtf
       pos++;
     }
 
@@ -336,7 +333,6 @@ export class SimulationComponent implements OnInit, OnDestroy {
 
   public testQuery() {
     const random = this.random53();
-    console.log('called ' + random);
     this.queryResults = this.db
       .collection('words')
       .doc('de')

@@ -14,15 +14,12 @@ export class PlayerStatusTrigger {
             .onUpdate((change, context) => {
                 
                 const gameName = (context.params as any).gameName as string;
-                const uid = (context.params as any).uid as string;
-                
-                console.info(uid);
+                const uid = (context.params as any).uid as string;                                
 
                 const newValue = change.after.data() as GamePlayer;
                 const playerStatus = newValue.status;
                 const previousValue = change.before.data() as GamePlayer;
-                if (newValue.status === previousValue.status) {
-                    console.log('status is same');
+                if (newValue.status === previousValue.status) {                    
                     return Promise.resolve();
                 }
                
@@ -50,7 +47,7 @@ export class PlayerStatusTrigger {
                 // set first simple case: all players turn, and just to set player to finish                
                 let nextSinglePlayersTurn: GamePlayer = this.handleIfSinglePlayersTurn(playerStatus, players);
                 let playerProfileActionPromise: Promise<any> = Promise.resolve();
-                console.log(nextSinglePlayersTurn);
+                
                 if (nextSinglePlayersTurn !== null) {
                     // set next players turn
                     playerProfileActionPromise = admin.firestore()
@@ -69,7 +66,7 @@ export class PlayerStatusTrigger {
                 
                 if (nextSinglePlayersTurn === null || nextSinglePlayersTurn.uid !== uid) {
                     // set current player to done
-                    console.log('do required false');
+                    
                     playerProfileNoActionPromise = admin.firestore()
                         .collection('players')
                         .doc(uid)
@@ -102,8 +99,7 @@ export class PlayerStatusTrigger {
             }
         };
         let nextSinglePlayersTurn: GamePlayer = null;
-        
-        // console.info('isFirstTip' + isFirstTip);
+                
         if (this.isWithinTipStatus(players, playerStatus, SINGLE_PLAYERS_TURN_CASES.FIRST_TIP.DONE_HIS_TIP_STATUS)) {            
             nextSinglePlayersTurn = this.identifyNextSinglePlayersTurn(playerStatus, SINGLE_PLAYERS_TURN_CASES.FIRST_TIP, players, nextSinglePlayersTurn);
         }

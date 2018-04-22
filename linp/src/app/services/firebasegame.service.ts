@@ -65,8 +65,8 @@ export class FirebaseGameService {
 
     firebase.database()
       .ref('.info/connected')
-      .on('value', function (snapshot) {
-        console.log('OFFLINE');
+      .on('value', (snapshot) => {
+
         if (snapshot.val() === false) {
           // Instead of simply returning, we'll also set Firestore's state
           // to 'offline'. This ensures that our Firestore cache is aware
@@ -79,7 +79,7 @@ export class FirebaseGameService {
       userStatusDatabaseRef
         .onDisconnect()
         .set(isOfflineForDatabase)
-        .then(function () {
+        .then(() => {
           userStatusDatabaseRef.set(isOnlineForDatabase);
           // We'll also add Firestore set here for when we come online.
           userStatusFirestoreRef.set(isOnlineForFirestore);

@@ -44,7 +44,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
         // TODO
         // this.firebaseGameService.updatePlayerProfileIsOnline(true);
-        console.log(authUser, this.firebaseGameService.isLoggedIn());
         this.authUser = authUser;
         if (authUser !== null) {
           this.firebaseGameService.registerUpdateGamePlayerOnlineTrigger();
@@ -70,7 +69,6 @@ export class AppComponent implements OnInit, OnDestroy {
         }
         this.gameName = urlRequestedGameName;
         this.changeDetectorRef.markForCheck();
-        console.log('changed game');
         this.ngUnsubscribeNewGameChosen.next();
         this.ngUnsubscribeNewGameChosen.complete();
       }
@@ -92,7 +90,6 @@ export class AppComponent implements OnInit, OnDestroy {
         // change
         const doNothing = null;
         if (allGivenFirstSynonym) {
-          console.log('allHaveSameStatus');
           // this.router.navigate([nextPositiveRoute, this.gameName])
         }
       }

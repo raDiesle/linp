@@ -11,8 +11,8 @@
     "pree2e": "webdriver-manager update",
     "e2e": "ng e2e",
     "deploy": "firebase deploy",
-    "testc": "testcafe \"chrome --start-fullscreen\" tests/prepareGame*Spec.js",
-    "i18n" : "ng xi18n --i18nFormat=xlf2 --outputPath src/locale --outFile messages.en.xlf --locale en"
+    "testc": "testcafe \"chrome --start-fullscreen\" tests/*Spec.js",
+    "i18n": "ng xi18n --i18nFormat=xlf2 --outputPath src/locale --outFile messages.en.xlf --locale en"
   },
   "private": true,
   "dependencies": {
@@ -25,11 +25,11 @@
     "@angular/platform-browser": "5.0.5",
     "@angular/platform-browser-dynamic": "5.0.5",
     "@angular/router": "5.0.5",
-    "@ng-bootstrap/ng-bootstrap": "1.0.0-beta.8",
+    "@ng-bootstrap/ng-bootstrap": "1.1.2",
     "@ngx-share/button": "^5.0.0",
     "@ngx-share/core": "^5.0.0",
     "angularfire2": "5.0.0-rc.6",
-    "bootstrap": "4.0.0-beta.3",
+    "bootstrap": "4.1.0",
     "classlist.js": "^1.1.20150312",
     "core-js": "2.4.1",
     "firebase": "4.9.0",
@@ -37,11 +37,11 @@
     "firebaseui-angular": "2.6.2",
     "font-awesome": "^4.7.0",
     "material-design-icons": "3.0.1",
-    "node-sass": "^4.7.2",
     "rxjs": "^5.1.0",
     "zone.js": "^0.8.4"
   },
   "devDependencies": {
+    "node-sass": "^4.7.2",
     "@angular-devkit/build-optimizer": "^0.5.7",
     "@angular/cli": "^1.7.4",
     "@angular/compiler-cli": "^5.0.5",
