@@ -1,14 +1,34 @@
 <div [hidden]="gamePlayers === undefined">
-  
-  <input type="button"
-    class="btn btn-primary btn-block mb-2" 
-    value="Switch to another game"
-    (click)="isOpened = !isOpened"
-    [hidden]="isOpened"/>
-  <app-activegames class="mb-2" [ngbCollapse]="isOpened === false || isOpened === null || isOpened === undefined"></app-activegames>
 
   <span id="savedResponseFlag" class="d-none" *ngIf="savedResponseFlag"></span>
-  <div class="card mb-4" id="yourTurn" *ngIf="isPlayersTurnForAuthUser">
+
+  <div class="card mb-4" *ngIf="isPlayersTurnForAuthUser === false">
+        
+    <div class="card-header text-center">
+      <strong>Gameprocess</strong>
+    </div>
+    
+    <div class="card-body text-center">
+      <div class="card-text">
+          <p><ngb-progressbar type="success" striped="'true'" height="2.5rem" [value]="25"><b>1/4</b>First Word</ngb-progressbar></p>        
+               
+      </div>
+      <h4 class="card-title">
+        You are <span class="badge badge-primary" id="isRoleAssigned">{{loggedInGamePlayer?.questionmarkOrWord}}</span>
+      </h4>
+
+      <ngb-accordion #acc="ngbAccordion" id="gameRulesLink" (click)="acc.toggle('gameRulesPanel')">
+          <ngb-panel id="gameRulesPanel">
+            <ng-template ngbPanelTitle>Gamerules</ng-template>
+            <ng-template ngbPanelContent>
+              <app-ingameprogressrules></app-ingameprogressrules>
+            </ng-template>
+          </ngb-panel>
+      </ngb-accordion>
+    </div>
+  </div>
+
+  <div class="card mb-4" id="yourTurn" *ngIf="isPlayersTurnForAuthUser === true">
     <div class="card-header text-center">
       <strong>First Synonym</strong>
     </div>
@@ -28,7 +48,7 @@
               </ng-container>
               <ng-container *ngIf="loggedInGamePlayer?.questionmarkOrWord !== '?'">
                 Give first synonym for
-                <span class="badge badge-primary">
+                <span class="badge badge-primary" id="isRoleAssigned">
                   {{loggedInGamePlayer?.questionmarkOrWord}}
                 </span>
               </ng-container>
@@ -64,7 +84,7 @@
 
   <div class="card">
     <div class="card-header text-center">
-      <strong id="playersTurnList">Players turn</strong>
+      <strong id="playersTurnList">Wait for other players turn</strong>
     </div>
     <div class="card-body">
       <ul class="list-group">

@@ -63,6 +63,7 @@ import {
 } from 'firebaseui-angular';
 import { AddfriendComponent } from './addfriend/addfriend.component';
 import { WindowRef } from './WindowRef';
+import { IngameprogressrulesComponent } from './ingameprogressrules/ingameprogressrules.component';
 
 export function windowFactory() {
   return window;
@@ -111,7 +112,8 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     FinalizeroundComponent,
     OrderByPipe,
     FriendlistComponent,
-    AddfriendComponent
+    AddfriendComponent,
+    IngameprogressrulesComponent
   ],
   entryComponents: [
     LoginbyemailComponent,

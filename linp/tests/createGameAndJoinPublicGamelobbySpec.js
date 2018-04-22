@@ -85,8 +85,8 @@ test('Create Game and join players in gamelobby', async t => {
     .expect(Selector('#gamestatusButton').hasAttribute('disabled')).notOk('ready', {timeout: 5000 })
     .click('#gamestatusButton')
     
-    .expect(getLocation()).contains('preparegame', {timeout: 25000})
-    .expect(Selector('#isRoleAssigned').exists).ok('are roles assigned on serverside?', {timeout: 15000})
+    .expect(getLocation()).contains('firsttip', {timeout: 25000})
+    .expect(Selector('#isRoleAssigned').innerText).notEql('')
     .click('#welcome')
     .expect(Selector('#' + gameName + '_noActionRequired').exists).ok('from action to non', {timeout: 5000})
 

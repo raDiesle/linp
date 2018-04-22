@@ -17,16 +17,9 @@ import {FirebaseGameService} from '../services/firebasegame.service';
 export class PreparegameComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
-  private rolesDistributionInformation: PlayerRolesCounts;
-  private gamePlayers: GamePlayer[];
   public isRoleAssigned = false;
-  private isQuestionmark = false;
-  private currentGamePlayersRoleWord: string;
-  private gameName: string;
 
-  // TODO remove, deprecated and wrong
-  private hasStartedGame = false;
-  private isNeededToUpdateStatus: boolean = null;
+  private gameName: string;
 
   readonly NEXT_PLAYER_STATUS = 'READY_TO_START';
   readonly CURRENT_STATUS = 'JOINED_GAME';
@@ -45,35 +38,7 @@ export class PreparegameComponent implements OnInit, OnDestroy {
       .takeUntil(this.ngUnsubscribe)
       .subscribe(game => {
         this.router.navigate(['/' + game.status, this.gameName]);
-        this.rolesDistributionInformation = game.playerRolesCounts;
-        this.isRoleAssigned = this.rolesDistributionInformation !== null;
       });
-
-      this.firebaseGameService.observeLoggedInGamePlayer(this.gameName)
-      .takeUntil(this.ngUnsubscribe)
-      // .toPromise()
-      .subscribe((currentGamePlayer: GamePlayer) => {
-        this.isQuestionmark = currentGamePlayer.questionmarkOrWord === '?';
-        this.currentGamePlayersRoleWord = currentGamePlayer.questionmarkOrWord;
-        this.isNeededToUpdateStatus = currentGamePlayer.status === this.CURRENT_STATUS;
-      });
-  }
-
-  startGameAction(): void {
-    this.hasStartedGame = true;
-
-    let promise = Promise.resolve();
-    if (this.isNeededToUpdateStatus === true) {
-      promise = this.firebaseGameService.updateCurrentGamePlayerStatus(this.gameName, this.NEXT_PLAYER_STATUS);
-    }
-
-    promise.then(done => {
-      this.navigateNextPage();
-    });
-  }
-
-  private navigateNextPage() {
-    this.router.navigate([this.NEXT_PAGE, this.gameName]);
   }
 
   ngOnDestroy() {

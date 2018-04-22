@@ -19,9 +19,7 @@ export class FirsttipComponent implements OnInit, OnDestroy {
 
   readonly NEXT_PAGE = 'firstguess';
   readonly NEXT_STATUS: GamePlayerStatus = 'FIRST_SYNONYM_GIVEN';
-  readonly INTERMEDIATE_STATUS = 'preparegame';
   readonly SYNONYM_KEY = 'firstSynonym';
-
 
   public show$: boolean;
   public isOpened: boolean;
@@ -50,9 +48,7 @@ export class FirsttipComponent implements OnInit, OnDestroy {
     this.firebaseGameService.observeGame(this.gameName)
       .takeUntil(this.ngUnsubscribe)
       .subscribe(game => {
-        if (game.status !== this.INTERMEDIATE_STATUS) {
           this.router.navigate(['/' + game.status, this.gameName]);
-        }
       });
 
     this.firebaseGameService.observeGamePlayers(this.gameName)
@@ -77,9 +73,9 @@ export class FirsttipComponent implements OnInit, OnDestroy {
     });
   }
 
-private isYourTurn() {
-  return this.currentPlayer.uid === this.loggedInGamePlayer.uid;
-}
+  private isYourTurn() {
+    return this.currentPlayer.uid === this.loggedInGamePlayer.uid;
+  }
 
   sendSynonym() {
     const firstOrSecondGamePlayerUpdate = {

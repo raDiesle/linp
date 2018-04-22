@@ -13,7 +13,8 @@ const typeSynonymOnly = async function (t) {
 const typeSynonymOnYourTurn = async (t) => {
   await typeSynonymOnly(t);
   await t.expect(Selector('#savedResponseFlag').exists).ok('wait', {timeout: 5000})
-    .expect(Selector('#yourTurn').exists).notOk()
+
+  .expect(Selector('#yourTurn').exists).notOk()
 }
 
 const gameName = 'test' + Math.floor(Math.random() * 1000000 + 1);
@@ -28,20 +29,21 @@ console.log(gameName);
   playerF
  */
 
-fixture `PrepareGameSpec`
+fixture `FirstSynonym PrepareGameSpec`
   .page `http://localhost:4200`
   .beforeEach(async t => {
     await waitForAngular();
   })
   .afterEach(async t =>{
     await t    
+    // .debug()  
     .click('#simulation')
       .typeText('#gameName', gameName, {replace: true})
       .click('#deleteBtn')
       .expect(Selector('#deletedGameFlag').exists).ok();
   });
 
-test('PrepareGame', async t => {
+test('FirstSynonym  PrepareGame', async t => {
   await t
     .click('#simulation')
   await t
@@ -52,58 +54,25 @@ test('PrepareGame', async t => {
   await perform(t);
 });
 
+const $wordOrRole = '#isRoleAssigned'; //'#playersRoleOrWord';
 export async function perform(t) {
-  const CURRENT_PAGE = '/preparegame';
+  
   const NEXT_PAGE = '/firstguess';
   const getLocation = ClientFunction(() => document.location.href);
-
-
-  /*
-  
-
-    .expect(getLocation()).contains(CURRENT_PAGE, {timeout: 25000})
-    .expect(Selector('#playersRoleOrWord').innerText).contains('?')
-    
-    .click('#startGameButton')
-   
-    .expect(getLocation()).contains('/firsttip')
-    .expect(Selector('#playersTurnList').exists).ok()
-    .expect(Selector('#yourTurn').exists).notOk()
-*/
-
-    /*
-    await t
-    .useRole(testHelper.playerA)
-    .click('#welcome')
-    .click('#gamename_' + gameName);
-*/
-/* ORDER MATTERS */
-/*
-  check if NOT players turn
-  await t
-    .useRole(testHelper.playerC)
-    .click('#welcome')
-    .click('#gamename_' + gameName)
-    .expect(Selector('#playersRoleOrWord').innerText).eql('Word1')
-    .click('#startGameButton')
-    .expect(Selector('#playersTurnList').exists).ok()
-    .expect(Selector('#yourTurn').exists).notOk()
-*/
 
   await t
     .useRole(testHelper.playerB)
     .click('#welcome')
     .expect(Selector('#' + gameName + '_actionRequired').exists).ok()
     .click('#gamename_' + gameName)
-    .expect(Selector('#playersRoleOrWord').innerText).eql('Word1')
-    .click('#startGameButton')
+    .expect(getLocation()).contains('firsttip', {timeout: 15000})
+    .expect(Selector($wordOrRole).innerText).eql('Word1')    
   await typeSynonymOnYourTurn(t);
   await t
     .click('#welcome')
     .expect(Selector('#' + gameName + '_noActionRequired').exists).ok('be ready', {timeout: 8000})
     // check bug if state resettet
     .click('#gamename_' + gameName)
-    .click('#startGameButton')
     .expect(Selector('#playerB_status').innerText).eql('FIRST_SYNONYM_GIVEN');
 
   await t
@@ -113,8 +82,7 @@ export async function perform(t) {
     .expect(Selector('#' + gameName + '_actionRequired').exists).ok()
   await t
     .click('#gamename_' + gameName)
-    .expect(Selector('#playersRoleOrWord').innerText).eql('Word2')    
-    .click('#startGameButton')
+    .expect(Selector($wordOrRole).innerText).eql('Word2')    
   await typeSynonymOnYourTurn(t)
   await t
     .click('#welcome')
@@ -124,8 +92,7 @@ export async function perform(t) {
     .useRole(testHelper.playerC)
     .click('#welcome')
     .expect(Selector('#' + gameName + '_actionRequired').exists).ok()
-  await t.click('#gamename_' + gameName)
-    .click('#startGameButton')
+  await t.click('#gamename_' + gameName)    
   await typeSynonymOnly(t)
   await t
     .click('#welcome')
@@ -136,12 +103,11 @@ export async function perform(t) {
     .click('#welcome')
     .expect(Selector('#' + gameName + '_actionRequired').exists).ok()
   await t.click('#gamename_' + gameName)
-    .expect(Selector('#playersRoleOrWord').innerText).eql('Word2')
-    .click('#startGameButton')
+    .expect(Selector($wordOrRole).innerText).eql('Word2')
   await typeSynonymOnYourTurn(t);
   await t
   .click('#welcome')
-  .expect(Selector('#' + gameName + '_noActionRequired').exists).ok();
+  .expect(Selector('#' + gameName + '_actionRequired').exists).ok();
 
 // all did ready on preparegame to redirect to firsttip
 
@@ -150,8 +116,7 @@ export async function perform(t) {
     .click('#welcome')
     .expect(Selector('#' + gameName + '_actionRequired').exists).ok()
   await t
-    .click('#gamename_' + gameName)
-    .click('#startGameButton')
+    .click('#gamename_' + gameName)    
   await typeSynonymOnYourTurn(t);
   await t
     .click('#welcome')
@@ -163,9 +128,7 @@ export async function perform(t) {
     .expect(Selector('#' + gameName + '_actionRequired').exists).ok()
   await t
     .click('#gamename_' + gameName)
-    .click('#startGameButton')
   await typeSynonymOnYourTurn(t);
-  
   
   await t
     .expect(getLocation()).contains(NEXT_PAGE);

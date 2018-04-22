@@ -1,5 +1,5 @@
 import * as admin from 'firebase-admin';
-import {Game, GamePlayer, PlayerRolesCounts} from '../../../linp/src/app/models/game';
+import { Game, GamePlayer, PlayerRolesCounts } from '../../../linp/src/app/models/game';
 import * as firebase from 'firebase';
 import { WriteResult, QuerySnapshot } from '@google-cloud/firestore';
 import { firestore } from 'firebase-functions';
@@ -8,13 +8,14 @@ import { PrepareGameRuleset } from './preparegameRuleset';
 export class Preparegame {
 
     private prepareGameRuleset = new PrepareGameRuleset();
+    readonly NEXT_STATUS = 'firsttip';
 
-    constructor() {        
+    constructor() {
     }
 
     public perform(game: Game, gameName: string): Promise<WriteResult[]> | Promise<void> {
         // TODO return assignment promise
-         
+
         const reference = admin.firestore()
             .collection('games')
             .doc(gameName)
@@ -22,26 +23,36 @@ export class Preparegame {
         const playersPromise = reference.get();
 
         const promise = playersPromise
-                    .then((results: QuerySnapshot) => {
-                        const gamePlayers: GamePlayer[] = results.docs.map(player => {
-                            return player.data();
-                        });
-                        const gamePlayerIds = gamePlayers.map(gamePlayer => gamePlayer.uid);             
+            .then((results: QuerySnapshot) => {
+                const gamePlayers: GamePlayer[] = results.docs.map(player => {
+                    return player.data();
+                });
+                const gamePlayerIds = gamePlayers.map(gamePlayer => gamePlayer.uid);
 
-                        let resetPromise: Promise<any> = Promise.resolve();
-                        if(game.round > 0){
-                            const batch = admin.firestore().batch();
-                            gamePlayerIds.forEach(gamePlayerId => {
-                                batch.update(reference.doc(gamePlayerId), this.getResetPlayerModel());    
-                            });
-                            resetPromise = batch.commit();
-                        }
-                        
-                        resetPromise.then(() => {
-                            // TODO return promise chain
-                            this.assign(gamePlayers, gameName);
-                        });        
-        });
+                let resetPromise: Promise<any> = Promise.resolve();
+                if (game.round > 0) {
+                    const batch = admin.firestore().batch();
+                    gamePlayerIds.forEach(gamePlayerId => {
+                        batch.update(reference.doc(gamePlayerId), this.getResetPlayerModel());
+                    });
+                    resetPromise = batch.commit();
+                }
+
+                resetPromise.then(() => {
+                    // TODO return promise chain
+                    this.assign(gamePlayers, gameName);
+                });
+            });
+
+        promise
+            .then(() => {
+                return admin.firestore()
+                    .collection('games')
+                    .doc(gameName)
+                    .update({
+                        status: this.NEXT_STATUS
+                    });
+            });
 
         return promise;
     }
@@ -77,20 +88,20 @@ export class Preparegame {
         const numberOfWordsNeeded: number = cardsNeededForGame.wordsNeeded;
         const numberOfQuestionMarks: number = cardsNeededForGame.questionMarksNeeded;
 
-        const rolesInformation: PlayerRolesCounts = {            
+        const rolesInformation: PlayerRolesCounts = {
             total: gamePlayerSize,
             questionmark: numberOfQuestionMarks,
             words: numberOfWordsNeeded
         };
         const gameRolesWrittenPromise = this.writeRolesRequiredToGame(rolesInformation, gameName);
-                
+
         return Promise.all([gameRolesWrittenPromise, this.fetchWordsAndAssignRoles(rolesInformation, gamePlayers, gameName)]);
     }
 
-    private fetchWordsAndAssignRoles(rolesInformation: PlayerRolesCounts, gamePlayers: GamePlayer[], gameName: string): Promise<void>{
+    private fetchWordsAndAssignRoles(rolesInformation: PlayerRolesCounts, gamePlayers: GamePlayer[], gameName: string): Promise<void> {
         const numberOfQuestionMarks = rolesInformation.questionmark;
         const numberOfWordsNeeded: number = rolesInformation.words;
-        
+
         const QUESTIONMARK_ROLE: { value: string } = {
             value: '?'
         };
@@ -99,7 +110,7 @@ export class Preparegame {
 
         const language = 'de';
         const pathOrRef = '/words/size/' + language;
-        
+
         return admin.firestore()
             .collection('words')
             .doc(language)
@@ -113,7 +124,7 @@ export class Preparegame {
                 // TODO unused atm because not working
                 const endPickWordsAtPos = startPickWordsAtPos + numberOfWordsNeeded - 1;
 
-// query // might change to object. what if player adds word to database at same time with wrong primary key pos?
+                // query // might change to object. what if player adds word to database at same time with wrong primary key pos?
                 // const randomID = admin.firestore().doc('dummy').id;
 
                 return admin.firestore()
@@ -150,20 +161,20 @@ export class Preparegame {
                             gamePlayer.questionmarkOrWord = shuffledWordPool[pos]['value']; // fix value accessor
                             pos++;
                         });
-           
-                        return this.assignWordOrRoleToUserDB(gamePlayers, gameName);                        
+
+                        return this.assignWordOrRoleToUserDB(gamePlayers, gameName);
                     });
             });
     }
 
-    private writeRolesRequiredToGame(rolesInformation: PlayerRolesCounts, gameName: string): Promise<WriteResult> {        
+    private writeRolesRequiredToGame(rolesInformation: PlayerRolesCounts, gameName: string): Promise<WriteResult> {
         return admin.firestore()
-        .collection('games')
-        .doc(gameName)
-        .update({
-            playerRolesCounts : rolesInformation
-        })     
-    }    
+            .collection('games')
+            .doc(gameName)
+            .update({
+                playerRolesCounts: rolesInformation
+            })
+    }
 
     private generateRandomNumber(): number {
         return Math.floor(Number.MAX_SAFE_INTEGER * (2 * (Math.random() - 0.5)));

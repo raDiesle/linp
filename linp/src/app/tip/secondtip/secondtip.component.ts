@@ -65,13 +65,16 @@ export class SecondtipComponent implements OnInit, OnDestroy {
         });
 
         const isLastPlayerFinishedTurn = !this.currentPlayer;
-        this.isPlayersTurnForAuthUser = !isLastPlayerFinishedTurn ? this.currentPlayer.uid === this.firebaseGameService.authUserUid : false;
+        this.isPlayersTurnForAuthUser = !isLastPlayerFinishedTurn ? this.isYourTurn() : false;
       });
 
     Observable.timer(0, 1000).subscribe(number => {
       this.show$ = number % 2 === 0;
     });
+  }
 
+  private isYourTurn() {
+    return this.currentPlayer.uid === this.loggedInGamePlayer.uid;
   }
 
   sendSynonym() {

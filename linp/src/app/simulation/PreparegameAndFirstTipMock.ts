@@ -4,7 +4,7 @@ export const PreparegameMock = function (players, gameName: string) {
   const request = <Game>{
     name: gameName,
     host: players.playerA.uid,
-    status: 'preparegame',
+    status: 'firsttip',
     players: [],
     round: 0,
     createdAt: new Date().getTime(),
