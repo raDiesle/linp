@@ -12,7 +12,7 @@ const typeSynonymOnly = async function (t) {
 }
 const typeSynonymOnYourTurn = async (t) => {
   await typeSynonymOnly(t);
-  await t.expect(Selector('#savedResponseFlag').exists).ok()
+  await t.expect(Selector('#savedResponseFlag').exists).ok('wait', {timeout: 5000})
     .expect(Selector('#yourTurn').exists).notOk()
 }
 

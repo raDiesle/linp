@@ -69,14 +69,17 @@ export class FirsttipComponent implements OnInit, OnDestroy {
         });
 
         const isLastPlayerFinishedTurn = !this.currentPlayer;
-        const isYourTurn = this.currentPlayer.uid === this.loggedInGamePlayer.uid;
-        this.isPlayersTurnForAuthUser = !isLastPlayerFinishedTurn ? isYourTurn : false;
+        this.isPlayersTurnForAuthUser = !isLastPlayerFinishedTurn ? this.isYourTurn() : false;
       });
 
     Observable.timer(0, 1000).subscribe(number => {
       this.show$ = number % 2 === 0;
     });
   }
+
+private isYourTurn() {
+  return this.currentPlayer.uid === this.loggedInGamePlayer.uid;
+}
 
   sendSynonym() {
     const firstOrSecondGamePlayerUpdate = {

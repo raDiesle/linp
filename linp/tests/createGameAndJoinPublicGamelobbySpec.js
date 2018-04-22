@@ -88,7 +88,7 @@ test('Create Game and join players in gamelobby', async t => {
     .expect(getLocation()).contains('preparegame', {timeout: 25000})
     .expect(Selector('#isRoleAssigned').exists).ok('are roles assigned on serverside?', {timeout: 15000})
     .click('#welcome')
-    .expect(Selector('#' + gameName + '_noActionRequired').exists).ok()
+    .expect(Selector('#' + gameName + '_noActionRequired').exists).ok('from action to non', {timeout: 5000})
 
     // Is first Players roles turn ?
     await t
