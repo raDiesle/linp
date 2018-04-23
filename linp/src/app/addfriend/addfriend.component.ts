@@ -8,8 +8,7 @@ import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 @Component({
   selector: 'app-addfriend',
   templateUrl: './addfriend.component.html',
-  styleUrls: ['./addfriend.component.scss'],
- // providers: [FirebaseGameService]
+  styleUrls: ['./addfriend.component.scss']
 })
 export class AddfriendComponent implements OnInit, OnDestroy {
 

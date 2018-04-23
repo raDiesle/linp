@@ -32,7 +32,7 @@ export class ActivegamesComponent implements OnInit, OnDestroy {
   }
 
   onSelectGameToJoin(game: Game): void {
-    this.router.navigate([<GameStatus>'gamelobby', game.name]);
+    this.router.navigate([<GameStatus>'gamelobby', game.name], {skipLocationChange: true});
   }
 
   ngOnDestroy() {

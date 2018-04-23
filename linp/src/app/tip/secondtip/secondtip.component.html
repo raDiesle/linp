@@ -1,10 +1,7 @@
 <div [hidden]="gamePlayers === undefined">
 
-  <input type="button"
-    class="btn btn-primary btn-block mb-2" 
-    value="Switch to another game"
-    (click)="isOpened = !isOpened"
-    [hidden]="isOpened"/>
+  <input type="button" class="btn btn-primary btn-block mb-2" value="Switch to another game" (click)="isOpened = !isOpened"
+    [hidden]="isOpened" />
   <app-activegames class="mb-2" [ngbCollapse]="isOpened === false || isOpened === null || isOpened === undefined"></app-activegames>
 
   <span id="savedResponseFlag" class="d-none" *ngIf="savedResponseFlag"></span>
@@ -34,25 +31,14 @@
               </ng-container>
             </label>
             <div>
-              <input type="text"
-                     class="form-control"
-                     [ngClass]="{'is-invalid' : synonymInput?.dirty && synonymInput.errors?.required}"
-                     id="synonymTxt"
-                     [(ngModel)]="synonym"
-                     #synonymInput="ngModel"
-                     name="synonym"
-                     required
-              >
+              <input type="text" class="form-control" [ngClass]="{'is-invalid' : synonymInput?.dirty && synonymInput.errors?.required}"
+                id="synonymTxt" [(ngModel)]="synonym" #synonymInput="ngModel" name="synonym" required>
               <div *ngIf="synonymInput?.dirty && synonymInput.errors?.required">
                 Provide your synonym
               </div>
             </div>
           </div>
-          <button id="sendSynonym"
-                  class="btn btn-primary btn-block"
-                  [disabled]="synonymInput.invalid"
-                  (click)="sendSynonym()"
-          >
+          <button id="sendSynonym" class="btn btn-primary btn-block" [disabled]="synonymInput.invalid" (click)="sendSynonym()">
             Send
           </button>
           <div class="py-2">
@@ -66,27 +52,36 @@
     <div class="card-header text-center">
       <strong id="playersTurnList">Second Synonym: Players turn</strong>
     </div>
-    <div class="card-body">
-      <ul class="list-group">
+   
+      <ul class="list-group list-group-flush">
         <li class="list-group-item list list-group-item-light d-flex">
           <span class="px-2">Player Name</span>
           <span class="px-2">1. Given Synonym</span>
           <span class="px-2 ml-auto">2. Given Synonym</span>
         </li>
-        <li class="list-group-item list d-flex"
-            [ngClass]="{
+        <li class="list-group-item" [ngClass]="{
               'list-group-item-action active' : gamePlayer === currentPlayer && show$,
               'list-group-item-success' : gamePlayer.status === NEXT_STATUS
-              }"
-            *ngFor="let gamePlayer of gamePlayers"
-        >
-          <span class="px-2 mr-auto">
-            {{gamePlayer.name}}
-          </span>
-          <span class="px-2 badge badge-info">{{gamePlayer.firstSynonym}}</span>
-          <span class="px-2 badge badge-info ml-auto">{{gamePlayer.secondSynonym}}</span>
+              }" *ngFor="let gamePlayer of gamePlayers">
+          <div class="row">
+            <div class="col-3">
+              {{gamePlayer.name}}
+            </div>
+            <div class="col-4 badge badge-info mr-1">
+                  {{gamePlayer.firstSynonym}}
+            </div>
+         
+            <div class="col-4 text-center badge badge-info" [hidden]="!gamePlayer.secondSynonym">
+                {{gamePlayer.secondSynonym}}
+            </div>
+            <div class="col-4 badge badge-warning" [hidden]="gamePlayer.secondSynonym || gamePlayer === currentPlayer">
+                to be given after                              
+            </div>
+            <div class="col-4 badge badge-danger" [hidden]="gamePlayer.secondSynonym || gamePlayer !== currentPlayer">
+                to be given now
+            </div>
+          </div>
         </li>
       </ul>
     </div>
-  </div>
 </div>

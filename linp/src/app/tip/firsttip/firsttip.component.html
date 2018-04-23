@@ -3,21 +3,23 @@
   <span id="savedResponseFlag" class="d-none" *ngIf="savedResponseFlag"></span>
 
   <div class="card mb-4" *ngIf="isPlayersTurnForAuthUser === false">
-        
+        <!--
     <div class="card-header text-center">
       <strong>Gameprocess</strong>
     </div>
-    
+    -->
+
     <div class="card-body text-center">
       <div class="card-text">
-          <p><ngb-progressbar type="success" striped="'true'" height="2.5rem" [value]="25"><b>1/4</b>First Word</ngb-progressbar></p>        
-               
+          <p><ngb-progressbar type="success" striped="'true'" height="2.5rem" [value]="25"><b>1/4</b>First Word</ngb-progressbar></p>               
       </div>
       <h4 class="card-title">
-        You are <span class="badge badge-primary" id="isRoleAssigned">{{loggedInGamePlayer?.questionmarkOrWord}}</span>
+        You are <span class="badge badge-primary" id="isRoleAssigned">{{loggedInGamePlayer?.questionmarkOrWord}}</span>        
       </h4>
+      Waiting for {{currentPlayer?.name}} to give first assoziation        
 
-      <ngb-accordion #acc="ngbAccordion" id="gameRulesLink" (click)="acc.toggle('gameRulesPanel')">
+      <span id="gameRulesLink" [hidden]="true" (click)="!acc.toggle('gameRulesPanel')"></span>
+      <ngb-accordion #acc="ngbAccordion">
           <ngb-panel id="gameRulesPanel">
             <ng-template ngbPanelTitle>Gamerules</ng-template>
             <ng-template ngbPanelContent>
@@ -83,9 +85,6 @@
   </div>
 
   <div class="card">
-    <div class="card-header text-center">
-      <strong id="playersTurnList">Wait for other players turn</strong>
-    </div>
     <div class="card-body">
       <ul class="list-group">
         <li class="list-group-item list list-group-item-light d-flex">
@@ -102,8 +101,16 @@
           <span [hidden]="true" id="{{gamePlayer.name}}_status">{{gamePlayer.status}}</span>
           <span>
             {{gamePlayer.name}}
-          </span>
-          <span class="ml-auto badge badge-info">{{gamePlayer.firstSynonym}}</span>
+          </span>                    
+          <span class="pl-5 badge badge-info ml-auto" [hidden]="!gamePlayer.firstSynonym">
+              {{gamePlayer.firstSynonym}}
+            </span>
+            <span class="badge badge-warning ml-auto" [hidden]="gamePlayer.firstSynonym || gamePlayer === currentPlayer">
+              to be given after
+            </span>
+            <span class="badge badge-danger ml-auto" [hidden]="gamePlayer.firstSynonym || gamePlayer !== currentPlayer">
+              to be given next
+            </span>         
         </li>
       </ul>
     </div>
