@@ -1,21 +1,36 @@
 <div [hidden]="gamePlayers === undefined">
-
-  <input type="button" class="btn btn-primary btn-block mb-2" value="Switch to another game" (click)="isOpened = !isOpened"
-    [hidden]="isOpened" />
-  <app-activegames class="mb-2" [ngbCollapse]="isOpened === false || isOpened === null || isOpened === undefined"></app-activegames>
-
   <span id="savedResponseFlag" class="d-none" *ngIf="savedResponseFlag"></span>
-  <div class="card" id="yourTurn" *ngIf="isPlayersTurnForAuthUser">
-    <div class="card-header text-center">
-      <strong>Second Synonym</strong>
-    </div>
+  
+  <div class="card" id="yourTurn" *ngIf="isPlayersTurnForAuthUser === false">
+    <div class="card-body">
+        <div class="row">
+          <div class="col-8">
+              Waiting for <strong>{{currentPlayer.name}}</strong> to give his 2. password.
+          </div>          
+          <div class="col-4 text-right">
+              <img src="/assets/agent_small.jpg">
+          </div>
+        </div> 
+        
+    </div>    
+  </div>
+
+  <div class="card" id="yourTurn" *ngIf="isPlayersTurnForAuthUser === true">
     <div class="card-body text-center">
-      <h4 class="card-title">
-        It's your turn!
-      </h4>
+      <div class="row align-items-center">
+        <div class="col-8">
+            <h4 class="card-title">
+                It's your turn!
+              </h4>
+        </div>
+        <div class="col-4">
+            <img src="/assets/whisper_small.jpg">
+        </div>
+      </div> 
+      
       <div class="card-text">
         <form novalidate #giveSynonymForm="ngForm">
-          <div class="form-group">
+          <div class="form-group text-left">
             <label for="synonymTxt">
               <ng-container *ngIf="loggedInGamePlayer?.questionmarkOrWord === '?'">
                 <span class="badge badge-primary">
@@ -49,36 +64,46 @@
   </div>
 
   <div class="card mt-4">
-    <div class="card-header text-center">
-      <strong id="playersTurnList">Second Synonym: Players turn</strong>
-    </div>
-   
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item list list-group-item-light d-flex">
-          <span class="px-2">Player Name</span>
-          <span class="px-2">1. Given Synonym</span>
-          <span class="px-2 ml-auto">2. Given Synonym</span>
+      <ul class="list-group">
+        <li class="list-group-item list-group-item-light">
+          <div class="row text-center">
+            <div class="col-4">
+                &nbsp;
+            </div>
+            <div class="col-4 small">
+                1. Password
+            </div>
+            <div class="col-4 small">
+                2. Password
+            </div>
+          </div>
         </li>
         <li class="list-group-item" [ngClass]="{
               'list-group-item-action active' : gamePlayer === currentPlayer && show$,
               'list-group-item-success' : gamePlayer.status === NEXT_STATUS
               }" *ngFor="let gamePlayer of gamePlayers">
           <div class="row">
-            <div class="col-3">
+            <div class="col-4">
               {{gamePlayer.name}}
             </div>
-            <div class="col-4 badge badge-info mr-1">
+            <div class="col-4">
+              <span class="badge badge-info w-100">
                   {{gamePlayer.firstSynonym}}
+              </span>                
             </div>
          
-            <div class="col-4 text-center badge badge-info" [hidden]="!gamePlayer.secondSynonym">
-                {{gamePlayer.secondSynonym}}
-            </div>
-            <div class="col-4 badge badge-warning" [hidden]="gamePlayer.secondSynonym || gamePlayer === currentPlayer">
-                to be given after                              
-            </div>
-            <div class="col-4 badge badge-danger" [hidden]="gamePlayer.secondSynonym || gamePlayer !== currentPlayer">
-                to be given now
+            <div class="col-4">
+                <span class="text-center badge badge-info w-100" [hidden]="!gamePlayer.secondSynonym">
+                    {{gamePlayer.secondSynonym}}
+                </span>
+                <!--
+                <span class="text-center badge badge-danger w-100" [hidden]="gamePlayer.secondSynonym || gamePlayer !== currentPlayer">
+                  action    
+                </span>
+                <span class="text-center badge badge-warning w-100" [hidden]="gamePlayer.secondSynonym || gamePlayer === currentPlayer">
+                    waiting
+                </span>
+                -->
             </div>
           </div>
         </li>
