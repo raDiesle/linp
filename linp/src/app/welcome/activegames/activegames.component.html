@@ -1,54 +1,43 @@
-<div class="card-deck">
-  <div class="card text-white bg-primary border-primary">
-    <div class="card-header text-center">
-      <strong>Your active games</strong>
-    </div>
-    <div class="card-body">
-      <div class="list-group">
-        <ng-container *ngFor="let game of games">
-          <button
-            id="gamename_{{game.name}}"
-            *ngIf="game !== -1"
-            type="button"
-            (click)="onSelectGameToJoin(game)"
-            class="list-group-item list-group-item-action"
-            [ngClass]="{'list-group-item-primary' : game.isActionRequired, 'list-group-item-secondary' : !game.isActionRequired}"
-          >
+<div class="card border-dark">
+  <div class="card-header text-center">
+    <strong>Your active games</strong>
+  </div>
+  <div class="card-body">
+    <div class="list-group">
+      <ng-container *ngFor="let game of games">
+        <button id="gamename_{{game.name}}" *ngIf="game !== -1" type="button" (click)="onSelectGameToJoin(game)" 
+        class="list-group-item list-group-item-action"
+        [ngClass]="{'active' : game.isActionRequired, 'list-group-item-dark' : !game.isActionRequired}"
+>       
           <div class="row">
-              <div class="col-5">
-                <strong>
-                  {{game.name}}
-                </strong>
-              </div>              
-              <div class="col-7 text-right" id="{{game.name}}_actionRequired" *ngIf="game.isActionRequired === true">                
-                  <span class="bold badge badge-danger">action</span>
-              </div>
-              <div class="col-6 text-right" id="{{game.name}}_noActionRequired" *ngIf="game.isActionRequired === false">
-                Wait for players turn
-               </div>
+            <div class="col-8">
+                {{game.name}}
             </div>
-          </button>          
-        </ng-container>
-        <div *ngIf="games === null">
-          <app-waitingdots></app-waitingdots>
-        </div>
-        <div *ngIf="games !== null && games.length === 0">
-          <div class="alert alert-warning text-center">
-            <div class="alert-heading h6">
-              There are no active games yet.
+            <div class="col-4 text-right" id="{{game.name}}_actionRequired" *ngIf="game.isActionRequired === true">
+              <span class="badge badge-danger">action</span>
             </div>
-            <div>
-              Wait for a friend to invite you              
-            </div>
-            <div>
-                or create new game.
+            <div class="col-4 text-right" id="{{game.name}}_noActionRequired" *ngIf="game.isActionRequired === false">
+              Waiting
             </div>
           </div>
+        </button>
+      </ng-container>
+      <div *ngIf="games === null">
+        <app-waitingdots></app-waitingdots>
+      </div>
+      <div *ngIf="games !== null && games.length === 0">
+        <div class="alert alert-warning text-center">
+          <div class="alert-heading h6">
+            There are no active games yet.
+          </div>
+          <div>
+            Wait for a friend to invite you
+          </div>
+          <div>
+            or create new game.
+          </div>
         </div>
-
       </div>
     </div>
   </div>
-
-
 </div>

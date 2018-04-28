@@ -64,6 +64,9 @@ import {
 import { AddfriendComponent } from './addfriend/addfriend.component';
 import { WindowRef } from './WindowRef';
 import { IngameprogressrulesComponent } from './ingameprogressrules/ingameprogressrules.component';
+import { HeaderComponent } from './header/header.component';
+import { LoggedinactionsComponent } from './welcome/loggedinactions/loggedinactions.component';
+import { MaintenanceComponent } from './welcome/maintenance/maintenance.component';
 
 export function windowFactory() {
   return window;
@@ -113,7 +116,10 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     OrderByPipe,
     FriendlistComponent,
     AddfriendComponent,
-    IngameprogressrulesComponent
+    IngameprogressrulesComponent,
+    HeaderComponent,
+    LoggedinactionsComponent,
+    MaintenanceComponent
   ],
   entryComponents: [
     LoginbyemailComponent,

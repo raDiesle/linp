@@ -1,42 +1,50 @@
+<div class="small bold text-center text-white">
+
+  <div class="row">
+    <div class="col-4 border-right border-bottom bg-success" style="border-top-right-radius: 0.25rem">
+      <strong>First</strong>
+    </div>
+    <div class="col-4 border-bottom bg-primary rounded-top progress-bar-striped progress-bar-animated">
+      <strong>Second</strong>
+    </div>
+    <div class="col-4 border-left bg-secondary" style="border-top-left-radius: 0.25rem">
+        <strong>Exposture</strong>
+    </div>
+  </div>
+
+  <div class="row small text-center">
+    <div class="col-2 border-right border-bottom bg-success">
+      Pass
+    </div>
+    <div class="col-2 border-right border-bottom bg-success" style="border-bottom-right-radius: 0.25rem">
+      Guess
+    </div>
+    <div class="col-2 border-right border-bottom bg-primary progress-bar-striped progress-bar-animated" style="border-bottom-left-radius: 0.25rem">
+        Pass
+      </div>
+      <div class="col-2 bg-secondary border-bottom" style="border-bottom-right-radius: 0.25rem">
+        Guess
+      </div>
+      <div class="col-4 border-left border-bottom bg-secondary" style="border-bottom-left-radius: 0.25rem">
+        spy partners
+      </div>
+  </div>
+</div>
+
 <div [hidden]="gamePlayers === undefined">
   <span id="savedResponseFlag" class="d-none" *ngIf="savedResponseFlag"></span>
 
-  
+ 
+      
 
 
   <div class="card" id="yourTurn" *ngIf="isPlayersTurnForAuthUser === false">
       
-    <div class="card-text">
-        
-        <div class="progress" style="height: 2.5rem;">
-            <div class="progress-bar bg-success" role="progressbar" style="width: 20%;" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">              
-              First<br>Password
-            </div>
-            <div class="progress-bar  bg-success" role="progressbar" style="width: 20%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">
-              First<br>Guess
-            </div>
-            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 20%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
-              Second<br>Password
-            </div>
-            <div class="progress-bar  bg-secondary" role="progressbar" style="width: 20%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
-              Second<br>Guess
-            </div>
-            <div class="progress-bar  bg-secondary" role="progressbar" style="width: 20%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
-                Exposure
-            </div>
-          </div>
+    <div class="card-text">                
+
+
     </div>
-      <!--
-      <span id="gameRulesLink" [hidden]="true" (click)="!acc.toggle('gameRulesPanel')"></span>
-      <ngb-accordion #acc="ngbAccordion">
-          <ngb-panel id="gameRulesPanel">
-            <ng-template ngbPanelTitle>Gamerules</ng-template>
-            <ng-template ngbPanelContent>
-              <app-ingameprogressrules></app-ingameprogressrules>
-            </ng-template>
-          </ngb-panel>
-      </ngb-accordion>
-      -->
+   
     <div class="card-body">
         <div class="row">
           <div class="col-8">

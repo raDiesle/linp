@@ -1,90 +1,36 @@
-<div class="card border-secondary">
+<div class="card-deck text-white">
+  <div class="card border-dark mt-1">
     <div class="card-body">
-      <strong>
-      Two spies have to meet each other.              
+      <div class="card-text">
+        Two spies have to meet each other.
+        <br> All they have in common is a password.
+        <br> All the others players are counterspies trying to identify and confuse them.
         <br>
-            All they have in common is a password.
-            <br>
-          All the others players are counterspies trying to identify and confuse them.                    
-          <br>  
-      </strong>    
-    </div>
-</div>
-
-<div *ngIf="authUser; then isLoggedIn else isNotLoggedIn">
-</div>
-
-<ng-template #isNotLoggedIn>
-  <div class="card">
-    <div class="card-header">
-      <strong i18n="@@loginHeader">Login</strong>
-    </div>
-    <div class="card-body">
-      <firebase-ui></firebase-ui>
-    </div>
-  </div>
-
-</ng-template>
-
-<ng-template #isLoggedIn>
-    <div [hidden]="true" class="card mb-4">
-          <div class="card-header">
-            <h2>WARTUNG</h2>
-          </div>
-          <div class="card-body">
-            <div class="alert alert-warning text-center">
-                Spiel ist gerade in der Wartung.
-                Bitte nicht benutzen.
-            </div>
-          </div>     
-    </div>  
-  
-  <app-activegames class="px-2"></app-activegames>
-  <app-friendlist class="px-2"></app-friendlist>
-
-  <div class="card">
-    <div class="card-header">
-      <div class="small">
-        Logged in as:
       </div>
-      <strong>        
-        <div *ngIf="!playerProfile">
-          <app-waitingdots></app-waitingdots>
-        </div>
-        <div id="loggedInPlayerName" *ngIf="playerProfile">
-          {{playerProfile?.name}}
-        </div>
-      </strong>
-    </div>
-
-    <div class="card-body" *ngIf="!firstTimeLoggedInEver">      
-      <button
-        type="button"
-        class="btn btn-primary btn-block"
-        routerLink="/creategame">
-        Create New Game
-      </button>
-      <button
-        id="joingameBtn"
-        type="button"
-        class="btn btn-light btn-block btn-sm"
-        routerLink="/joingame">
-        Join Public Game
-      </button>
-          <button id="userprofile" 
-                type="button"
-                class="btn btn-primary btn-block"
-                href="javascript:void(0)"
-                (click)="openUserProfile()"
-                >
-            Settings
-          </button>          
-          <button id="logout"
-              type="button"
-              class="btn btn-danger btn-block"
-              href="javascript:void(0)" (click)="logout()">
-            Logout
-          </button>      
+      <div class="text-right">
+        <a routerLink="/gamerules" class="card-link" routerLinkActive="active">more...</a>
+      </div>
     </div>
   </div>
-</ng-template>
+
+  <div *ngIf="authUser; then isLoggedIn else isNotLoggedIn">
+  </div>
+
+  <ng-template #isNotLoggedIn>
+    <div class="card">
+      <div class="card-header">
+        <strong i18n="@@loginHeader">Login</strong>
+      </div>
+      <div class="card-body">
+        <firebase-ui></firebase-ui>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #isLoggedIn>
+    <app-maintenance></app-maintenance>
+    <app-activegames></app-activegames>
+    <app-friendlist></app-friendlist>
+    <app-loggedinactions></app-loggedinactions>
+  </ng-template>
+</div>

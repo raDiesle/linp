@@ -1,0 +1,45 @@
+<div class="card border-dark">
+    <div class="card-header">
+      <span class="small">
+        Logged in as:
+      </span>
+      <strong>        
+        <span *ngIf="!playerProfile">
+          <app-waitingdots></app-waitingdots>
+        </span>
+        <span id="loggedInPlayerName" *ngIf="playerProfile">
+          {{playerProfile?.name}}
+        </span>
+      </strong>
+    </div>
+
+    <div class="card-body" *ngIf="!firstTimeLoggedInEver">      
+      <button
+        type="button"
+        class="btn btn-primary btn-block"
+        routerLink="/creategame">
+        Create New Game
+      </button>
+      <button
+        id="joingameBtn"
+        type="button"
+        class="btn btn-light btn-block btn-sm"
+        routerLink="/joingame">
+        Join Public Game
+      </button>
+          <button id="userprofile" 
+                type="button"
+                class="btn btn-primary btn-block"
+                href="javascript:void(0)"
+                (click)="openUserProfile()"
+                >
+            Settings
+          </button>          
+          <button id="logout"
+              type="button"
+              class="btn btn-danger btn-block"
+              href="javascript:void(0)" (click)="logout()">
+            Logout
+          </button>      
+    </div>
+  </div>

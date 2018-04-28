@@ -20,7 +20,7 @@ import { GamePlayer } from './models/game';
 export class AppComponent implements OnInit, OnDestroy {
   gameName: string;
   title = 'app';
-  isMenuCollapsed = true;
+
   authUser: firebase.User;
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
