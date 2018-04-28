@@ -1,3 +1,16 @@
+<div class="card border-secondary">
+    <div class="card-body">
+      <strong>
+      Two spies have to meet each other.              
+        <br>
+            All they have in common is a password.
+            <br>
+          All the others players are counterspies trying to identify and confuse them.                    
+          <br>  
+      </strong>    
+    </div>
+</div>
+
 <div *ngIf="authUser; then isLoggedIn else isNotLoggedIn">
 </div>
 
@@ -14,7 +27,6 @@
 </ng-template>
 
 <ng-template #isLoggedIn>
-  
     <div [hidden]="true" class="card mb-4">
           <div class="card-header">
             <h2>WARTUNG</h2>
@@ -27,13 +39,6 @@
           </div>     
     </div>  
   
-    <div class="card">
-      <div class="card-body">
-        Two spies have to meet each other. All they have in common is a password.
-
-        All the others players are counterspies trying to identify and confuse them.
-      </div>
-    </div>
   <app-activegames class="px-2"></app-activegames>
   <app-friendlist class="px-2"></app-friendlist>
 

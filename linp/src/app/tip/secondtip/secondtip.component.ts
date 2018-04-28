@@ -58,7 +58,7 @@ export class SecondtipComponent implements OnInit, OnDestroy {
         this.gamePlayers = gamePlayers;
 
         this.loggedInGamePlayer = this.gamePlayers.find(gamePlayer => {
-          return gamePlayer.uid === this.firebaseGameService.authUserUid;
+          return gamePlayer.uid === this.firebaseGameService.getAuthUid();
         });
         this.currentPlayer = this.gamePlayers.find(gamePlayer => {
           return gamePlayer.status !== this.NEXT_STATUS;

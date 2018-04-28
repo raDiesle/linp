@@ -52,14 +52,19 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
       .takeUntil(this.ngUnsubscribe)
       .subscribe(game => {
         const isDevelopmentEnv = this.windowRef.nativeWindow.location.host.includes('localhost');
-        this.router.navigate(['/' + game.status, this.gameName], {skipLocationChange: isDevelopmentEnv === false});
-        this.gamePlayerAction(observable);
+        const currentRouteName = this.route.snapshot.url[0].path;
+        if ( game.status !== currentRouteName) {
+          this.router.navigate(['/' + game.status, this.gameName], {skipLocationChange: isDevelopmentEnv === false});
+          return Promise.resolve();
+        }
+
+        if (this.isGameDataFetchedFlag === false) {
+          this.gamePlayerAction();
+        }
       });
   }
 
-  private gamePlayerAction(observable): any {
-    observable.first().toPromise()
-    .then(() => {
+  private gamePlayerAction(): any {
       this.isGameDataFetchedFlag = true;
 
       this.firebaseGameService.observeGamePlayers(this.gameName)
@@ -84,7 +89,6 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
               });
           }
         });
-    });
   }
 
   onFriendSelection(friend: PlayerFriendlist): void {

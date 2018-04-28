@@ -10,23 +10,10 @@
     -->
 
     <div class="card-body text-center">
-      <div class="card-text">
-          <p><ngb-progressbar type="success" striped="'true'" height="2.5rem" [value]="25"><b>1/4</b>First Word</ngb-progressbar></p>               
-      </div>
       <h4 class="card-title">
         You are <span class="badge badge-primary" id="isRoleAssigned">{{loggedInGamePlayer?.questionmarkOrWord}}</span>        
       </h4>
       Waiting for {{currentPlayer?.name}} to give first assoziation        
-
-      <span id="gameRulesLink" [hidden]="true" (click)="!acc.toggle('gameRulesPanel')"></span>
-      <ngb-accordion #acc="ngbAccordion">
-          <ngb-panel id="gameRulesPanel">
-            <ng-template ngbPanelTitle>Gamerules</ng-template>
-            <ng-template ngbPanelContent>
-              <app-ingameprogressrules></app-ingameprogressrules>
-            </ng-template>
-          </ngb-panel>
-      </ngb-accordion>
     </div>
   </div>
 

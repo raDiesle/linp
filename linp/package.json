@@ -30,6 +30,7 @@
     "@ngx-share/core": "^5.0.0",
     "angularfire2": "5.0.0-rc.6",
     "bootstrap": "4.1.0",
+    "bootswatch": "^4.1.0",
     "classlist.js": "^1.1.20150312",
     "core-js": "2.4.1",
     "firebase": "4.9.0",

@@ -1,9 +1,9 @@
 <div class="card-deck">
-  <div class="card">
+  <div class="card text-white bg-primary border-primary">
     <div class="card-header text-center">
       <strong>Your active games</strong>
     </div>
-    <div class="card-body ">
+    <div class="card-body">
       <div class="list-group">
         <ng-container *ngFor="let game of games">
           <button
@@ -21,7 +21,7 @@
                 </strong>
               </div>              
               <div class="col-7 text-right" id="{{game.name}}_actionRequired" *ngIf="game.isActionRequired === true">                
-                  <span class="bold badge badge-danger">Your action is required</span>
+                  <span class="bold badge badge-danger">action</span>
               </div>
               <div class="col-6 text-right" id="{{game.name}}_noActionRequired" *ngIf="game.isActionRequired === false">
                 Wait for players turn

@@ -7,13 +7,11 @@ import * as nodemailer from 'nodemailer';
 
 var transporter = nodemailer.createTransport({
     service: 'gmail',
-    
     auth: {
            user: functions.config().gmail.email,
            pass: functions.config().gmail.password
        }
    });
-
 
 // Your company name to include in the emails
 // TODO: Change this to your app or company name to customize the email sent.
@@ -32,7 +30,10 @@ export class ActiveGameStatusTrigger {
                 const gameName: string = context.params.gameName;
 
                 const isTestUser = gameName.startsWith('test');
-                if(isTestUser || change.after.data().isActionRequired === true && change.before.data().isActionRequired === false){
+                const isTwicePlayersTurnInRowWasInformedBefore = change.before.data().isActionRequired === true;
+                const isNoActionRequired = change.after.data().isActionRequired === false;
+                // correct so that  actionRequired is true, also when before true
+                if(isTestUser || isNoActionRequired || isTwicePlayersTurnInRowWasInformedBefore){
                     return Promise.resolve();
                 }
                             
@@ -44,6 +45,7 @@ export class ActiveGameStatusTrigger {
                         const isOnline = doc.data().state === 'online';
                         // const link = // 'http://www.adventurio.de/' + 'gamelobby/' + gameName                
                         if(isOnline){
+                            console.log('user was online so no mail.', uid);
                             return Promise.resolve();
                         }
                         return admin.auth()
