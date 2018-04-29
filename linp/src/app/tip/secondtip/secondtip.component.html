@@ -1,47 +1,12 @@
-<div class="small bold text-center text-white">
 
-  <div class="row">
-    <div class="col-4 border-right border-bottom bg-success" style="border-top-right-radius: 0.25rem">
-      <strong>First</strong>
-    </div>
-    <div class="col-4 border-bottom bg-primary rounded-top progress-bar-striped progress-bar-animated">
-      <strong>Second</strong>
-    </div>
-    <div class="col-4 border-left bg-secondary" style="border-top-left-radius: 0.25rem">
-        <strong>Exposture</strong>
-    </div>
-  </div>
-
-  <div class="row small text-center">
-    <div class="col-2 border-right border-bottom bg-success">
-      Pass
-    </div>
-    <div class="col-2 border-right border-bottom bg-success" style="border-bottom-right-radius: 0.25rem">
-      Guess
-    </div>
-    <div class="col-2 border-right border-bottom bg-primary progress-bar-striped progress-bar-animated" style="border-bottom-left-radius: 0.25rem">
-        Pass
-      </div>
-      <div class="col-2 bg-secondary border-bottom" style="border-bottom-right-radius: 0.25rem">
-        Guess
-      </div>
-      <div class="col-4 border-left border-bottom bg-secondary" style="border-bottom-left-radius: 0.25rem">
-        spy partners
-      </div>
-  </div>
-</div>
 
 <div [hidden]="gamePlayers === undefined">
   <span id="savedResponseFlag" class="d-none" *ngIf="savedResponseFlag"></span>
 
  
-      
-
-
   <div class="card" id="yourTurn" *ngIf="isPlayersTurnForAuthUser === false">
       
     <div class="card-text">                
-
 
     </div>
    
@@ -51,7 +16,7 @@
               Waiting for <strong>{{currentPlayer?.name}}</strong> to give his 2. password.
           </div>          
           <div class="col-4 text-right">
-              <img src="/assets/agent_small.jpg">
+              <img src="assets/agent_small.jpg">
           </div>
         </div> 
         
@@ -67,7 +32,7 @@
               </h4>
         </div>
         <div class="col-4">
-            <img src="/assets/whisper_small.jpg">
+          <img src="assets/whisper_small.jpg">
         </div>
       </div> 
       

@@ -67,6 +67,7 @@ import { IngameprogressrulesComponent } from './ingameprogressrules/ingameprogre
 import { HeaderComponent } from './header/header.component';
 import { LoggedinactionsComponent } from './welcome/loggedinactions/loggedinactions.component';
 import { MaintenanceComponent } from './welcome/maintenance/maintenance.component';
+import { GameprogressComponent } from './widgets/gameprogress/gameprogress.component';
 
 export function windowFactory() {
   return window;
@@ -119,7 +120,8 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     IngameprogressrulesComponent,
     HeaderComponent,
     LoggedinactionsComponent,
-    MaintenanceComponent
+    MaintenanceComponent,
+    GameprogressComponent
   ],
   entryComponents: [
     LoginbyemailComponent,

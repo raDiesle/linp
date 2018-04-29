@@ -1,0 +1,64 @@
+<div class="small bold text-center text-white">
+
+  <div class="row">
+    <div class="col-4 border-right border-bottom" style="border-top-right-radius: 0.25rem" [ngClass]="{
+              'bg-success' : parent > 1, 
+              'bg-primary progress-bar-striped progress-bar-animated' : parent == 1,
+              'bg-secondary' : parent < 1 
+            }">
+      <strong>First</strong>
+    </div>
+    <div class="col-4 border-bottom rounded-top" [ngClass]="{
+        'bg-success' : parent > 2, 
+        'bg-primary progress-bar-striped progress-bar-animated' : parent == 2,
+        'bg-secondary' : parent < 2
+      }">
+      <strong>Second</strong>
+    </div>
+    <div class="col-4 border-left" style="border-top-left-radius: 0.25rem" [ngClass]="{
+      'bg-success' : parent > 3, 
+      'bg-primary progress-bar-striped progress-bar-animated' : parent == 3,
+      'bg-secondary' : parent < 3 
+    }">
+      <strong>Exposture</strong>
+    </div>
+  </div>
+
+  <div class="row small text-center">
+    <div class="col-2 border-right border-bottom" [ngClass]="{
+      'bg-success' : child > 1, 
+      'bg-primary progress-bar-striped progress-bar-animated' : child == 1,
+      'bg-secondary' : child < 1 
+    }">
+      Pass
+    </div>
+    <div class="col-2 border-right border-bottom" style="border-bottom-right-radius: 0.25rem" [ngClass]="{
+          'bg-success' : child > 2, 
+          'bg-primary progress-bar-striped progress-bar-animated' : child == 2,
+          'bg-secondary' : child < 2 
+        }">
+      Guess
+    </div>
+    <div class="col-2 border-right border-bottom" style="border-bottom-left-radius: 0.25rem" [ngClass]="{
+          'bg-success' : child > 3, 
+          'bg-primary progress-bar-striped progress-bar-animated' : child == 3,
+          'bg-secondary' : child < 3 
+        }">
+      Pass
+    </div>
+    <div class="col-2 border-bottom" style="border-bottom-right-radius: 0.25rem" [ngClass]="{
+          'bg-success' : child > 4, 
+          'bg-primary progress-bar-striped progress-bar-animated' : child == 4,
+          'bg-secondary' : child < 4 
+        }">
+      Guess
+    </div>
+    <div class="col-4 border-left border-bottom" style="border-bottom-left-radius: 0.25rem" [ngClass]="{
+            'bg-success' : child > 5, 
+            'bg-primary progress-bar-striped progress-bar-animated' : child == 5,
+            'bg-secondary' : child < 5 
+          }">
+      spy partners
+    </div>
+  </div>
+</div>
