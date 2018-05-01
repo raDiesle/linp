@@ -19,6 +19,7 @@ export class UserPresencestatus {
             .ref('/status/{uid}')
             .onUpdate(
                 (change: any, context: any) => {
+                    console.log('online', context.params.uid, change.after.val());
                     // Get the data written to Realtime Database
                     const eventStatus = change.after.val();
 
@@ -32,7 +33,7 @@ export class UserPresencestatus {
                     // and compare the timestamps.
                     return change.after.ref.once('value').then((statusSnapshot: any) => {
                         const status = statusSnapshot.val();
-                        
+
                         // If the current timestamp for this data is newer than
                         // the data that triggered this event, we exit this function.
                         if (status.last_changed > eventStatus.last_changed) {

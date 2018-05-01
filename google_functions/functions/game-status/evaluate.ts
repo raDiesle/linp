@@ -89,13 +89,14 @@ export class Evaluate {
         for (const gamePlayerKey of gamePlayerKeys) {
             const gamePlayer = gamePlayers[gamePlayerKey];
 
+            const totalPoints = gamePlayer.pointsScored === undefined ? 0 : gamePlayer.pointsScored.totalRounds;
             // to be moved
             const initialPointsScored = <PointsScored>{
                 firstTeamTip: 0,
                 secondTeamTip: 0,
                 indirect: 0,
                 total: 0,
-                totalRounds: gamePlayer.pointsScored.totalRounds
+                totalRounds: totalPoints
             };
             gamePlayer.pointsScored = initialPointsScored;
         }

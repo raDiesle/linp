@@ -18,11 +18,11 @@
         {{gamePlayer.name}}
         <span class="badge badge-primary">
             {{gamePlayer.questionmarkOrWord}}
-          </span>
+        </span>
         <span class="badge badge-primary badge-pill"
-              [ngClass]="{'badge-success' : gamePlayer.pointsScored.total > 0,
-                    'badge-primary' : gamePlayer.pointsScored.total === 0,
-                    'badge-danger' : gamePlayer.pointsScored.total < 0}">
+              [ngClass]="{'badge-success' : gamePlayer?.pointsScored.total > 0,
+                    'badge-primary' : gamePlayer?.pointsScored.total === 0,
+                    'badge-danger' : gamePlayer?.pointsScored.total < 0}">
             {{gamePlayer.pointsScored.total}}
         </span>
       </h4>
@@ -50,7 +50,7 @@
               {{gamePlayer.firstTeamTip?.firstPartner?.name}}
             </span>
             <span class="badge badge-primary">
-              {{gamePlayer.firstTeamTip?.secondPartner?.name}}
+              {{gamePlayer.firstTeamTip?.secondPartner?.name.name}}
             </span>
           </span>
           <span class="badge badge-pill"
@@ -68,10 +68,10 @@
           </span>
           <span>
             <span class="badge badge-primary">
-                {{gamePlayer.secondTeamTip?.firstPartner?.name}}
+              {{gamePlayer.secondTeamTip?.firstPartner?.name}}
             </span>
             <span class="badge badge-primary">
-              {{gamePlayer.secondTeamTip?.secondPartner?.name}}
+              {{gamePlayer.secondTeamTip?.secondPartner?.name.name}}
             </span>
           </span>
           <span class="badge badge-pill"

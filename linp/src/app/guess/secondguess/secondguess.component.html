@@ -1,5 +1,5 @@
 <app-gameprogress parent="2" child="4"></app-gameprogress>
-
+<br>
 <div class="row" [hidden]="gamePlayers === undefined">  
 
   <span id="savedResponseFlag" class="d-none" *ngIf="savedResponseFlag"></span>
@@ -29,21 +29,39 @@
         </div>
 
         <div class="list-group">
-          <div class="list-group-item list-group-item-light list-group-item-action d-flex">
-            <span>Name</span>
-            <span class="ml-auto">Given 1. Synonym</span>
-            <span class="ml-auto">Given 2. Synonym</span>
+          <div class="list-group-item list-group-item-light list-group-item-action">
+              <div class="row text-center">
+                  <div class="col-4 small">
+                      &nbsp;
+                  </div>
+                  <div class="col-4 small">
+                    1 Pass
+                  </div>
+                  <div class="col-4 small">
+                    2 Pass
+                  </div>
+                </div>
           </div>
           <button id="guess_{{gamePlayer.name}}"
                   *ngFor="let gamePlayer of gamePlayers"
-                  class="list-group-item list-group-item-action d-flex"
+                  class="list-group-item list-group-item-action"
                   [ngClass]="{'active' : selectedGamePlayers.indexOf(gamePlayer) !== -1}"
                   (click)="onTeamPlayerGuessSelected(gamePlayer)"
-
           >
-            <span>{{gamePlayer.name}}</span>
-            <span class="ml-auto badge badge-info">{{gamePlayer.firstSynonym}}</span>
-            <span class="ml-auto badge badge-info">{{gamePlayer.secondSynonym}}</span>
+          <div class="row">
+            <div class="col-4">
+              <span>
+                  {{gamePlayer.name}}
+              </span>                
+            </div>
+            <div class="col-4">
+                <span class="badge badge-info w-100">{{gamePlayer.firstSynonym}}</span>
+            </div>
+            <div class="col-4">
+                <span class="badge badge-info w-100">{{gamePlayer.secondSynonym}}</span>
+            </div>
+          </div>
+          
           </button>
         </div>
 
