@@ -17,6 +17,7 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 })
 export class EvaluationComponent implements OnInit {
 
+  numberOfQuestionmarks: number;
   readonly statusToCheck: GameStatus = 'evaluation';
   readonly INTERMEDIATE_STATUS: GameStatus = 'evaluation';
   readonly NEXT_STATUS: GameStatus = 'finalizeround';
@@ -47,7 +48,9 @@ export class EvaluationComponent implements OnInit {
     this.firebaseGameService.observeGamePlayers(this.gameName)
       .takeUntil(this.ngUnsubscribe)
       .subscribe((gamePlayers) => {
-        this.gamePlayers = gamePlayers;
+
+        this.numberOfQuestionmarks = gamePlayers.filter(gamePlayer => gamePlayer.questionmarkOrWord === '?').length;
+        this.gamePlayers = gamePlayers.sort(this.sortByWord);
 
         this.isRealCalculatedHack = this.gamePlayers.some(gamePlayer => {
           const notYetCalculatedIndication = 0;
@@ -59,6 +62,19 @@ export class EvaluationComponent implements OnInit {
       .subscribe(game => {
         this.gameRound = game.round;
       });
+  }
+
+private sortByWord(a, b) {
+    const nameA = a.questionmarkOrWord.toUpperCase();
+    const nameB = b.questionmarkOrWord.toUpperCase();
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
+    // same names
+    return 0;
   }
 
   navigateToFinalizeRound() {

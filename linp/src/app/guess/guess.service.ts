@@ -41,7 +41,7 @@ export class GuessService {
       },
       secondPartner: {
         uid: selectedGamePlayers[1].uid,
-        name: selectedGamePlayers[0]
+        name: selectedGamePlayers[1].name
       }
     };
     const request = {};
