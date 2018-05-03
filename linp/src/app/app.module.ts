@@ -68,6 +68,8 @@ import { HeaderComponent } from './header/header.component';
 import { LoggedinactionsComponent } from './welcome/loggedinactions/loggedinactions.component';
 import { MaintenanceComponent } from './welcome/maintenance/maintenance.component';
 import { GameprogressComponent } from './widgets/gameprogress/gameprogress.component';
+import { ScorecardComponent } from './evaluation/scorecard/scorecard.component';
+import { NextbuttonComponent } from './evaluation/nextbutton/nextbutton.component';
 
 export function windowFactory() {
   return window;
@@ -121,7 +123,9 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     HeaderComponent,
     LoggedinactionsComponent,
     MaintenanceComponent,
-    GameprogressComponent
+    GameprogressComponent,
+    ScorecardComponent,
+    NextbuttonComponent
   ],
   entryComponents: [
     LoginbyemailComponent,

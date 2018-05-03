@@ -20,13 +20,14 @@ export class EvaluationComponent implements OnInit {
   numberOfQuestionmarks: number;
   readonly statusToCheck: GameStatus = 'evaluation';
   readonly INTERMEDIATE_STATUS: GameStatus = 'evaluation';
-  readonly NEXT_STATUS: GameStatus = 'finalizeround';
+
   readonly PREV_STATUS: GameStatus = 'secondguess'; // TODO change to player status
-  readonly NEXT_PLAYER_STATUS: GamePlayerStatus = 'CHECKED_EVALUATION';
+
   // readonly PREV_PLAYER_STATUS: GamePlayerStatus = 'SECOND_GUESS_GIVEN';
 
   gameName: string;
-  gamePlayers: GamePlayer[] = [];
+  // gamePlayers: GamePlayer[] = [];
+  gamePlayerContainer: any;
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   @ViewChild('t') public tooltip: NgbTooltip;
@@ -48,11 +49,27 @@ export class EvaluationComponent implements OnInit {
     this.firebaseGameService.observeGamePlayers(this.gameName)
       .takeUntil(this.ngUnsubscribe)
       .subscribe((gamePlayers) => {
+/*
+        gamePlayers.push({questionmarkOrWord: '?',  pointsScored: {
+          firstTeamTip: 0,
+          secondTeamTip: 0,
+          total: 0,
+          totalRounds: 0,
+          indirect: 0
+        }});
+*/
+        const questionmarkPlayers = gamePlayers.filter(gamePlayer => gamePlayer.questionmarkOrWord === '?');
+        const wordPlayers = gamePlayers.filter(gamePlayer => gamePlayer.questionmarkOrWord !== '?').sort(this.sortByWord);
 
-        this.numberOfQuestionmarks = gamePlayers.filter(gamePlayer => gamePlayer.questionmarkOrWord === '?').length;
-        this.gamePlayers = gamePlayers.sort(this.sortByWord);
+        this.numberOfQuestionmarks = questionmarkPlayers.length;
 
-        this.isRealCalculatedHack = this.gamePlayers.some(gamePlayer => {
+        // this.gamePlayers = gamePlayers.sort(this.sortByWord);
+        this.gamePlayerContainer = {
+            'QUESTIONMARK' : questionmarkPlayers,
+            'WORD' : wordPlayers
+          };
+
+        this.isRealCalculatedHack = gamePlayers.some(gamePlayer => {
           const notYetCalculatedIndication = 0;
           return gamePlayer.pointsScored.total !== notYetCalculatedIndication;
         });
@@ -77,13 +94,4 @@ private sortByWord(a, b) {
     return 0;
   }
 
-  navigateToFinalizeRound() {
-    this.firebaseGameService.updateGamePlayerStatus(
-      this.firebaseGameService.authUserUid,
-      this.gameName,
-      this.NEXT_PLAYER_STATUS)
-      .then(() => {
-          this.router.navigate([this.NEXT_STATUS, this.gameName]);
-      });
-  }
 }

@@ -1,0 +1,16 @@
+<div class="card">
+  <span id="isRealCalculatedHack" class="d-none" *ngIf="isRealCalculatedHack"></span>
+  <div class="card-header text-center d-flex justify-content-between align-items-center">
+    <strong>Round {{gameRound}} finished</strong>
+    <span class="badge badge-warning" *ngIf="isRealCalculatedHack === false">
+      Calculating Scores
+      <app-waitingdots></app-waitingdots>
+    </span>
+  </div>
+
+  <div class="card-body">
+    <button id="finalizeRoundButton" class="btn btn-primary btn-block mb-2" (click)="navigateToFinalizeRound()" *ngIf="isRealCalculatedHack">
+      Start new round
+    </button>
+  </div>
+</div>
