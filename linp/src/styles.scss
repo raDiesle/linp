@@ -7,6 +7,7 @@
 
 @import "~bootswatch/dist/cyborg/variables";
 
+
 $card-cap-bg: #1f1919;
 
 @import "~bootstrap/scss/bootstrap";
@@ -25,6 +26,11 @@ $card-cap-bg: #1f1919;
 @import '~font-awesome/css/font-awesome.min.css';
 @import '~@ngx-share/button/styles/share-buttons';
 @import '~@ngx-share/button/styles/themes/default/default-theme';
+
+.list-group-item:hover{
+  color: $list-group-disabled-color;
+  background-color: $list-group-disabled-bg;
+}
 
 /*
 Produces warnings

@@ -11,12 +11,14 @@ import {FirebaseGameService} from '../../services/firebasegame.service';
 
 @Component({
   selector: 'app-secondtip',
-  templateUrl: './secondtip.component.html',
+  templateUrl: '../tiptemplate.outlet.html',
   styleUrls: ['./secondtip.component.css']
 })
 export class SecondtipComponent implements OnInit, OnDestroy {
+
   loggedInGamePlayer: GamePlayer;
 
+  isSecondtip = true;
   readonly NEXT_STATUS: GamePlayerStatus = 'SECOND_SYNONYM_GIVEN';
   readonly NEXT_PAGE = 'secondguess';
   readonly SYNONYM_KEY = 'secondSynonym';
@@ -35,8 +37,6 @@ export class SecondtipComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public show$: boolean;
   private currentPlayer: GamePlayer;
-
-
 
   constructor(private route: ActivatedRoute,
               private router: Router,

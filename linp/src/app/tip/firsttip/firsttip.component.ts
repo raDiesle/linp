@@ -11,12 +11,13 @@ import {AngularFireAuth} from 'angularfire2/auth';
 
 @Component({
   selector: 'app-firsttip',
-  templateUrl: './firsttip.component.html',
+  templateUrl: '../tiptemplate.outlet.html',
   styleUrls: ['./firsttip.component.css']
 })
 export class FirsttipComponent implements OnInit, OnDestroy {
   loggedInGamePlayer: GamePlayer;
 
+  isSecondtip = false;
   readonly NEXT_PAGE = 'firstguess';
   readonly NEXT_STATUS: GamePlayerStatus = 'FIRST_SYNONYM_GIVEN';
   readonly SYNONYM_KEY = 'firstSynonym';
