@@ -1,14 +1,14 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {AngularFirestore} from 'angularfire2/firestore';
-import {Game, GamePlayer, GamePlayerStatus, GameStatus, TeamTip} from '../../models/game';
-import {AngularFireAuth} from 'angularfire2/auth/auth';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AngularFirestore } from 'angularfire2/firestore';
+import { Game, GamePlayer, GamePlayerStatus, GameStatus, TeamTip } from '../../models/game';
+import { AngularFireAuth } from 'angularfire2/auth/auth';
 import * as firebase from 'firebase/app';
-import {GuessService} from '../guess.service';
-import {Observable} from 'rxjs/Observable';
-import {HttpClient, HttpParams} from '@angular/common/http';
-import {Subject} from 'rxjs/Subject';
-import {FirebaseGameService} from '../../services/firebasegame.service';
+import { GuessService } from '../guess.service';
+import { Observable } from 'rxjs/Observable';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Subject } from 'rxjs/Subject';
+import { FirebaseGameService } from '../../services/firebasegame.service';
 
 const tipDBkey = 'secondTeamTip';
 
@@ -19,6 +19,8 @@ const tipDBkey = 'secondTeamTip';
 })
 export class SecondguessComponent implements OnInit, OnDestroy {
 
+  playerUidToDisableForSelection: string;
+  private loggedInGamePlayer: GamePlayer;
   readonly PLAYER_STATUS_AFTER_ACTION: GamePlayerStatus = 'SECOND_GUESS_GIVEN';
   readonly NEXT_PAGE: GameStatus = 'evaluation';
 
@@ -33,10 +35,10 @@ export class SecondguessComponent implements OnInit, OnDestroy {
   public savedResponseFlag = false;
 
   constructor(private route: ActivatedRoute,
-              private router: Router,
-              public db: AngularFirestore,
-              public guessService: GuessService,
-              private firebaseGameService: FirebaseGameService) {
+    private router: Router,
+    public db: AngularFirestore,
+    public guessService: GuessService,
+    private firebaseGameService: FirebaseGameService) {
   }
 
   ngOnInit() {
@@ -56,6 +58,7 @@ export class SecondguessComponent implements OnInit, OnDestroy {
         const loggedInGamePlayer = gamePlayers.find(gamePlayer => {
           return gamePlayer.uid === this.firebaseGameService.authUserUid;
         });
+        this.loggedInGamePlayer = loggedInGamePlayer;
         this.isloggedInPlayerGivenSynonym = loggedInGamePlayer.status === this.PLAYER_STATUS_AFTER_ACTION;
       });
 
@@ -66,6 +69,39 @@ export class SecondguessComponent implements OnInit, OnDestroy {
   }
 
   onTeamPlayerGuessSelected(clickedGamePlayer): void {
+
+    // const canSelectDeselectToBeOneSelected = this.selectedGamePlayers.length !== 1;
+    // const isPossibleDuplicatedChoiceOfTeamGuess = canSelectDeselectToBeOneSelected;
+
+
+
+
+    if (clickedGamePlayer.uid === this.playerUidToDisableForSelection) {
+      return;
+    }
+
+    const isFirstSelected = clickedGamePlayer.uid === this.loggedInGamePlayer.firstTeamTip.firstPartner.uid
+      || (this.selectedGamePlayers.filter(gamePlayer =>
+        gamePlayer.uid === this.loggedInGamePlayer.firstTeamTip.firstPartner.uid).length === 1)
+
+    const isSecondSelected = clickedGamePlayer.uid === this.loggedInGamePlayer.firstTeamTip.secondPartner.uid
+      || (this.selectedGamePlayers.filter(gamePlayer =>
+        gamePlayer.uid === this.loggedInGamePlayer.firstTeamTip.secondPartner.uid).length === 1)
+
+    if (isFirstSelected) {
+      this.playerUidToDisableForSelection = this.loggedInGamePlayer.firstTeamTip.secondPartner.uid;
+    }
+    if (isSecondSelected) {
+      this.playerUidToDisableForSelection = this.loggedInGamePlayer.firstTeamTip.firstPartner.uid;
+    }
+
+    if (this.selectedGamePlayers.filter(gamePlayer => gamePlayer.uid === clickedGamePlayer.uid).length === 1) {
+      if (clickedGamePlayer.uid === this.loggedInGamePlayer.firstTeamTip.firstPartner.uid
+        || clickedGamePlayer.uid === this.loggedInGamePlayer.firstTeamTip.secondPartner.uid) {
+        this.playerUidToDisableForSelection = '';
+      }
+    }
+
     this.selectedGamePlayers = this.guessService.onTeamPlayerGuessSelected(this.selectedGamePlayers, clickedGamePlayer);
   }
 

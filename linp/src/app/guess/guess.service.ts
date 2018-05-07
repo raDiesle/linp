@@ -1,13 +1,13 @@
-import {Injectable} from '@angular/core';
-import {GamePlayer, GamePlayerStatus, TeamTip} from '../models/game';
-import {AngularFirestore} from 'angularfire2/firestore';
-import {FirebaseGameService} from '../services/firebasegame.service';
+import { Injectable } from '@angular/core';
+import { GamePlayer, GamePlayerStatus, TeamTip } from '../models/game';
+import { AngularFirestore } from 'angularfire2/firestore';
+import { FirebaseGameService } from '../services/firebasegame.service';
 
 @Injectable()
 export class GuessService {
 
   constructor(public db: AngularFirestore,
-              private firebaseGameService: FirebaseGameService) {
+    private firebaseGameService: FirebaseGameService) {
   }
 
   // simplify
@@ -26,7 +26,10 @@ export class GuessService {
     return selectedPlayers;
   }
 
-  public saveTeamTip(gameName: string, selectedGamePlayers: GamePlayer[], tipDBkey: string, gamePlayerStatus: GamePlayerStatus) {
+  public saveTeamTip(gameName: string,
+    selectedGamePlayers: GamePlayer[],
+    tipDBkey: string,
+    gamePlayerStatus: GamePlayerStatus): Promise<any> {
     // move to model
     const requestModel = this.createGuessModel(selectedGamePlayers, tipDBkey);
     requestModel.status = gamePlayerStatus;

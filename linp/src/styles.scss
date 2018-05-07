@@ -5,13 +5,22 @@
 //$grey: #0096FF;
 // $card-cap-bg: rgba(0, 150, 255, 0.3);
 
-@import "~bootswatch/dist/cyborg/variables";
+
+@import "~bootswatch/dist/flatly/variables";
 
 
-$card-cap-bg: #1f1919;
+$card-cap-bg: #2c3e50;
+$card-spacer-x:                     0.5rem !default;
+
 
 @import "~bootstrap/scss/bootstrap";
-@import "~bootswatch/dist/cyborg/bootswatch";
+
+
+
+
+
+
+@import "~bootswatch/dist/flatly/bootswatch";
 
 .sb-wrapper {
   min-width: 45px;
@@ -26,11 +35,12 @@ $card-cap-bg: #1f1919;
 @import '~font-awesome/css/font-awesome.min.css';
 @import '~@ngx-share/button/styles/share-buttons';
 @import '~@ngx-share/button/styles/themes/default/default-theme';
-
+/*
 .list-group-item:hover{
   color: $list-group-disabled-color;
   background-color: $list-group-disabled-bg;
 }
+*/
 
 /*
 Produces warnings
