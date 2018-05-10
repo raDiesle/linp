@@ -5,50 +5,43 @@
     </div>
 
     <div class="card-body">
-      <button id="startNextRound" class="btn btn-success btn-block my-3"
-              (click)="startNextRound()"
-              *ngIf="isGamePlayerReadyForNextGame === false"
-      >
-        Ready for next game
+      <button id="startNextRound" class="btn btn-primary btn-block my-3" (click)="startNextRound()" *ngIf="isGamePlayerReadyForNextGame === false">
+        Next
       </button>
 
       <span id="savedResponseFlag" class="d-none" *ngIf="savedResponseFlag"></span>
 
-      <div class="h4 list-group-item d-flex justify-content-between align-items-center">
-      <span>
-        <span class="badge badge-warning">
-          Rank
-        </span>
-        <span>
-          Player
-        </span>
-      </span>
-        <span class="badge badge-pill badge-success">
-          Points
-      </span>
-      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item disabled text-muted d-flex justify-content-between align-items-center">
+          <span>
+            Rank
+          </span>
+          <span>
+            Player
+          </span>
+          <span>
+            Points
+          </span>
+        </li>
 
-      <div class="list-group"
-           *ngFor="let score of scores | orderBy: {property: 'ranking', direction: 1}; let $index=index;">
-        <div class="h4 list-group-item d-flex justify-content-between align-items-center">
-        <span>
-        <span class="badge badge-warning">
-          {{score.ranking}}
-        </span>
-        <span>
-          {{score.name}}
-        </span>
-        </span>
-          <span class="badge badge-pill"
-                [ngClass]="{'badge-success' : score.points > 0,
+        <li class="list-group-item d-flex justify-content-between align-items-center h5" *ngFor="let score of scores; let $index=index;">
+          <span class="badge badge-warning">
+            {{score.ranking}}
+          </span>
+          <span>
+            {{score.name}}
+          </span>
+
+          <span class="badge badge-pill" [ngClass]="{'badge-success' : score.points > 0,
                     'badge-primary' : score.points === 0,
                     'badge-danger' : score.points < 0}">
-              {{score.points}}
-        </span>
-        </div>
-      </div>
+            {{score.points}}
+          </span>
+        </li>
+      </ul>
     </div>
   </div>
+
 
   <div class="card mt-4">
     <div class="card-header">
@@ -56,15 +49,11 @@
     </div>
     <div class="card-body">
       <ul class="list-group">
-        <li id="status_{{gamePlayer.name}}"
-            class="list-group-item"
-            [ngClass]="{
+        <li id="status_{{gamePlayer.name}}" class="list-group-item" [ngClass]="{
               'list-group-item-action active' :
                 gamePlayer.status !== PLAYER_STATUS_AFTER_ACTION && isBlinkTickerShown$,
                 'list-group-item-success' : gamePlayer.status === NEXT_PLAYER_STATUS
-              }"
-            *ngFor="let gamePlayer of gamePlayers"
-        >
+              }" *ngFor="let gamePlayer of gamePlayers">
           {{gamePlayer.name}}
           <app-waitingdots *ngIf="gamePlayer.status !== NEXT_PLAYER_STATUS"></app-waitingdots>
       </ul>

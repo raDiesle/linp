@@ -1,8 +1,8 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FirebaseGameService} from '../services/firebasegame.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {GamePlayer, GameStatus, GameTotalPoints} from '../models/game';
-import {Subject} from 'rxjs/Subject';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FirebaseGameService } from '../services/firebasegame.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { GamePlayer, GameStatus, GameTotalPoints } from '../models/game';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'app-finalizeround',
@@ -25,8 +25,8 @@ export class FinalizeroundComponent implements OnInit, OnDestroy {
   public savedResponseFlag = false;
 
   constructor(private route: ActivatedRoute,
-              private router: Router,
-              private firebaseGameService: FirebaseGameService) {
+    private router: Router,
+    private firebaseGameService: FirebaseGameService) {
   }
 
   ngOnInit() {
@@ -45,6 +45,7 @@ export class FinalizeroundComponent implements OnInit, OnDestroy {
             this.scores.push(game.pointsScoredTotal[uid]);
           }
         }
+        this.scores = this.getSortedScore(this.scores);
       });
 
     this.firebaseGameService.observeGamePlayers(this.gameName)
@@ -63,10 +64,22 @@ export class FinalizeroundComponent implements OnInit, OnDestroy {
   startNextRound() {
     this.isGamePlayerReadyForNextGame = true;
     this.firebaseGameService.updateCurrentGamePlayerStatus(this.gameName, this.NEXT_PLAYER_STATUS)
-    .then(() => {
-      this.savedResponseFlag = true;
-    })
+      .then(() => {
+        this.savedResponseFlag = true;
+      })
   }
+
+getSortedScore(scores) {
+  return scores.sort((a, b) => {
+    if (a.ranking > b.ranking) {
+      return 1;
+    }
+    if (a.value < b.value) {
+      return -1;
+    }
+    return 0;
+  });
+}
 
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();

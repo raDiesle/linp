@@ -47,7 +47,6 @@ import {GamelobbyService} from './gamelobby/gamelobby-service';
 // import {TimeAgoPipe} from 'time-ago-pipe';
 import {FirebaseGameService} from './services/firebasegame.service';
 import {FinalizeroundComponent} from './finalizeround/finalizeround.component';
-import {OrderByPipe} from './finalizeround/order-by.pipe';
 import {AuthGuard} from './services/auth.guard';
 import {ShareModule} from '@ngx-share/core';
 import {ShareButtonModule} from '@ngx-share/button';
@@ -116,7 +115,6 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     CreatewordComponent,
  //   TimeAgoPipe,
     FinalizeroundComponent,
-    OrderByPipe,
     FriendlistComponent,
     AddfriendComponent,
     IngameprogressrulesComponent,
