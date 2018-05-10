@@ -12,23 +12,23 @@ export class PlayerStatusTrigger {
         return functions.firestore
             .document('games/{gameName}/players/{uid}')
             .onUpdate((change, context) => {
-                
+
                 const gameName = (context.params as any).gameName as string;
-                const uid = (context.params as any).uid as string;                                
+                const uid = (context.params as any).uid as string;
 
                 const newValue = change.after.data() as GamePlayer;
                 const playerStatus = newValue.status;
                 const previousValue = change.before.data() as GamePlayer;
-                if (newValue.status === previousValue.status) {                    
+                if (newValue.status === previousValue.status) {
                     return Promise.resolve();
                 }
-               
+
                 return this.checkPlayersAndHandleActions(playerStatus, uid, gameName);
             });
     }
 
     private checkPlayersAndHandleActions(
-        playerStatus: GamePlayerStatus,        
+        playerStatus: GamePlayerStatus,
         uid: string,
         gameName: string
     ): Promise<any> {
@@ -47,7 +47,7 @@ export class PlayerStatusTrigger {
                 // set first simple case: all players turn, and just to set player to finish                
                 let nextSinglePlayersTurn: GamePlayer = this.handleIfSinglePlayersTurn(playerStatus, players);
                 let playerProfileActionPromise: Promise<any> = Promise.resolve();
-                
+
                 if (nextSinglePlayersTurn !== null) {
                     // set next players turn
                     playerProfileActionPromise = admin.firestore()
@@ -63,10 +63,12 @@ export class PlayerStatusTrigger {
                 // on any action, expect that current player did done action
                 // const playerToSetToDone: GamePlayer = this.getCurrentPlayer(uid, players);
                 let playerProfileNoActionPromise: Promise<any> = Promise.resolve();
-                
-                if (nextSinglePlayersTurn === null || nextSinglePlayersTurn.uid !== uid) {
-                    // set current player to done
-                    
+
+                const isNotSpecialIntermediaPlayerStatusWithDoubleActionRequired = playerStatus !== 'CHECKED_EVALUATION';
+                const isResetActionToNone = nextSinglePlayersTurn === null || nextSinglePlayersTurn.uid !== uid;
+                if (isResetActionToNone && isNotSpecialIntermediaPlayerStatusWithDoubleActionRequired) {
+                    // set current player to done                                        
+
                     playerProfileNoActionPromise = admin.firestore()
                         .collection('players')
                         .doc(uid)
@@ -99,8 +101,8 @@ export class PlayerStatusTrigger {
             }
         };
         let nextSinglePlayersTurn: GamePlayer = null;
-                
-        if (this.isWithinTipStatus(players, playerStatus, SINGLE_PLAYERS_TURN_CASES.FIRST_TIP.DONE_HIS_TIP_STATUS)) {            
+
+        if (this.isWithinTipStatus(players, playerStatus, SINGLE_PLAYERS_TURN_CASES.FIRST_TIP.DONE_HIS_TIP_STATUS)) {
             nextSinglePlayersTurn = this.identifyNextSinglePlayersTurn(playerStatus, SINGLE_PLAYERS_TURN_CASES.FIRST_TIP, players, nextSinglePlayersTurn);
         }
         else if (this.isWithinTipStatus(players, playerStatus, SINGLE_PLAYERS_TURN_CASES.SECOND_TIP.DONE_HIS_TIP_STATUS)) {
@@ -128,7 +130,7 @@ export class PlayerStatusTrigger {
         return nextPlayersTurn;
     }
 
-    private isWithinTipStatus(players: FirebaseFirestore.QuerySnapshot, playerStatus: string, DONE_HIS_TIP_STATUS: string) {                
+    private isWithinTipStatus(players: FirebaseFirestore.QuerySnapshot, playerStatus: string, DONE_HIS_TIP_STATUS: string) {
         return this.hasAllPlayersSameStatus(players, playerStatus) === false && DONE_HIS_TIP_STATUS === playerStatus;
     }
 

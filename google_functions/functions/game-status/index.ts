@@ -27,16 +27,7 @@ export class GameStatusTrigger {
                     return Promise.resolve();
                 }
 
-                const rulesMapping: { [gameStatus: string]: any } = {
-                    'evaluation': (game: Game, name: string) => {
-                        return this.evaluate.performAllEvaluateStatusAction(game, name)                           
-                        .then(() => {
-                                return Promise.all([
-                                    this.updateFirstPlayerToActionRequired(name)
-                                    , this.preparegame.perform(game, name)
-                                ])
-                            });
-                    },
+                const rulesMapping: { [gameStatus: string]: any } = {                    
                     'preparegame': (game: Game, name: string) => {
                         return this.updateHostToNoRequiredAction(game, gameName)
                             .then(() => {
@@ -49,7 +40,16 @@ export class GameStatusTrigger {
                     },
                     'firstguess': (game: Game, name: string) => this.updateAllPlayersToActionRequired(gameName),
                     'secondtip': (game: Game, name: string) => this.updateFirstPlayerToActionRequired(name),
-                    'secondguess': (game: Game, name: string) => this.updateAllPlayersToActionRequired(gameName)
+                    'secondguess': (game: Game, name: string) => this.updateAllPlayersToActionRequired(gameName),
+                    'evaluation': (game: Game, name: string) => {
+                        return this.evaluate.performAllEvaluateStatusAction(game, name)                           
+                        .then(() => {
+                                return Promise.all([
+                                    this.updateFirstPlayerToActionRequired(name)
+                                    , this.preparegame.perform(game, name)
+                                ])
+                            });
+                    },
                 };
 
                 const isARuleToBeApplied = Object.keys(rulesMapping).some(key => key === gameStatus);
