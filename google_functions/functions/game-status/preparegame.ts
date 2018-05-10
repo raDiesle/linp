@@ -47,10 +47,11 @@ export class Preparegame {
     }
 
     public getResetPlayerModel() {
+       console.log(firebase.firestore);
         const requestModel: any = {
-            ['firstSynonym']: firebase.firestore.FieldValue.delete(),
-            ['firstTeamTip']: firebase.firestore.FieldValue.delete(),
-            ['pointsScored']: firebase.firestore.FieldValue.delete(),
+            ['firstSynonym'] : admin.firestore.FieldValue.delete(),
+            ['firstTeamTip']: admin.firestore.FieldValue.delete(),
+            ['pointsScored']: admin.firestore.FieldValue.delete(),
             /*
               {
             ['firstTeamTip']: firebase.firestore.FieldValue.delete(),
@@ -60,11 +61,11 @@ export class Preparegame {
               // totalRounds
             },
             */
-            ['questionmarkOrWord']: firebase.firestore.FieldValue.delete(),
-            ['secondSynonym']: firebase.firestore.FieldValue.delete(),
-            ['secondTeamTip']: firebase.firestore.FieldValue.delete(),
+            ['questionmarkOrWord']: admin.firestore.FieldValue.delete(),
+            ['secondSynonym']: admin.firestore.FieldValue.delete(),
+            ['secondTeamTip']: admin.firestore.FieldValue.delete(),
             // ['status']: 'READY_TO_START',
-            ['totalRanking']: firebase.firestore.FieldValue.delete()
+            ['totalRanking']: admin.firestore.FieldValue.delete()
         };
         return requestModel;
     }
