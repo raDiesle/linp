@@ -47,6 +47,8 @@ export class EvaluationComponent implements OnInit {
 
   ngOnInit() {
     this.gameName = this.route.snapshot.paramMap.get('gamename');
+    // deprecated
+    this.isRealCalculatedHack = true;
 
     this.firebaseGameService.observeLoggedInGamePlayer(this.gameName)
       .takeUntil(this.ngUnsubscribe)
@@ -61,7 +63,11 @@ export class EvaluationComponent implements OnInit {
           this.firebaseGameService.observeGame(this.gameName)
             .takeUntil(this.ngUnsubscribe)
             .subscribe(game => {
-              this.router.navigate(['/' + this.NEXT_STATUS, this.gameName]);
+              if (game.status !== this.statusToCheck) {
+                this.router.navigate(['/' + game.status, this.gameName]);
+                return;
+              }
+
               this.gameRound = game.round;
               this.dataSetup(game.evaluationSummary);
             });
