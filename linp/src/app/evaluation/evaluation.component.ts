@@ -49,6 +49,7 @@ export class EvaluationComponent implements OnInit {
     this.firebaseGameService.observeGamePlayers(this.gameName)
       .takeUntil(this.ngUnsubscribe)
       .subscribe((gamePlayers) => {
+        return;
 /*
         gamePlayers.push({questionmarkOrWord: '?',  pointsScored: {
           firstTeamTip: 0,
@@ -58,27 +59,30 @@ export class EvaluationComponent implements OnInit {
           indirect: 0
         }});
 */
-        const questionmarkPlayers = gamePlayers.filter(gamePlayer => gamePlayer.questionmarkOrWord === '?');
-        const wordPlayers = gamePlayers.filter(gamePlayer => gamePlayer.questionmarkOrWord !== '?').sort(this.sortByWord);
-
-        this.numberOfQuestionmarks = questionmarkPlayers.length;
-
-        // this.gamePlayers = gamePlayers.sort(this.sortByWord);
-        this.gamePlayerContainer = {
-            'QUESTIONMARK' : questionmarkPlayers,
-            'WORD' : wordPlayers
-          };
-
-        this.isRealCalculatedHack = gamePlayers.some(gamePlayer => {
-          const notYetCalculatedIndication = 0;
-          return gamePlayer.pointsScored.total !== notYetCalculatedIndication;
-        });
+ //       this.dataSetup(gamePlayers);
       });
 
     this.firebaseGameService.observeGame(this.gameName)
       .subscribe(game => {
         this.gameRound = game.round;
+
+        this.dataSetup(game.evaluationSummary);
       });
+  }
+
+  private dataSetup(gamePlayers: GamePlayer[]) {
+    const questionmarkPlayers = gamePlayers.filter(gamePlayer => gamePlayer.questionmarkOrWord === '?');
+    const wordPlayers = gamePlayers.filter(gamePlayer => gamePlayer.questionmarkOrWord !== '?').sort(this.sortByWord);
+    this.numberOfQuestionmarks = questionmarkPlayers.length;
+    // this.gamePlayers = gamePlayers.sort(this.sortByWord);
+    this.gamePlayerContainer = {
+      'QUESTIONMARK': questionmarkPlayers,
+      'WORD': wordPlayers
+    };
+    this.isRealCalculatedHack = gamePlayers.some(gamePlayer => {
+      const notYetCalculatedIndication = 0;
+      return gamePlayer.pointsScored.total !== notYetCalculatedIndication;
+    });
   }
 
 private sortByWord(a, b) {

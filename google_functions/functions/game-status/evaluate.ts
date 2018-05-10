@@ -1,22 +1,19 @@
-import {CalculatescoreService} from './calculatescore.service';
+import { CalculatescoreService } from './calculatescore.service';
 import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin';
 import {
     Game, GamePlayer, GameTotalPoints, PointsScored, TeamTip
 } from '../../../linp/src/app/models/game';
-import {WriteResult} from '@google-cloud/firestore';
+import { WriteResult } from '@google-cloud/firestore';
 
 export class Evaluate {
 
     private calculatescoreService = new CalculatescoreService();
 
-
     constructor() {
     }
 
-
     public performAllEvaluateStatusAction(game: Game, gameName: string): Promise<[WriteResult[], WriteResult]> {
-        
 
         const promise = admin.firestore()
             .collection('games')
@@ -24,7 +21,7 @@ export class Evaluate {
             .collection('players')
             .get()
             .then((gamePlayersResult) => {
-               
+
                 const gamePlayers: GamePlayer[] = gamePlayersResult.docs.map(gamePlayer => {
                     return gamePlayer.data();
                 });
@@ -52,7 +49,8 @@ export class Evaluate {
                 const gameUpdateRequest: any = this.getScoresDbStructureRequest(gameName, gamePlayerKeys, gamePlayersObject);
 
                 const gamePlayersPromise = this.updateGamePlayers(gamePlayerKeys, gameName, gameUpdateRequest);
-                const gamePromise = this.updateGame(gamePlayerKeys, gamePlayersObject, game.round, gameName);
+
+                const gamePromise = this.updateGame(gamePlayerKeys, gamePlayersObject, game.round, gameName, gameUpdateRequest);
 
                 return Promise.all([gamePlayersPromise, gamePromise]);
             });
@@ -67,7 +65,7 @@ export class Evaluate {
         }
     }
 
-    private updateGamePlayers(gamePlayerKeys: string[], gameName: string, gameUpdateRequest: any) {
+    private updateGamePlayers(gamePlayerKeys: string[], gameName: string, gameUpdateRequest: any): Promise<any> {
         const batch = admin.firestore().batch();
         gamePlayerKeys.forEach((key: string) => {
             const gameRef = admin.firestore()
@@ -78,11 +76,44 @@ export class Evaluate {
 
             batch.update(gameRef, {
                 pointsScored: gameUpdateRequest.pointsScored[key],
+                // obsolete
                 totalRanking: gameUpdateRequest[key].totalRanking
             });
         });
         const gamePlayersPromise = batch.commit();
         return gamePlayersPromise;
+    }
+
+    private updateGame(gamePlayerKeys: string[],
+        gamePlayers: { [p: string]: GamePlayer },
+        round: number,
+        gameName: string,
+        gameUpdateRequest: any): Promise<WriteResult> {
+        // TODO type
+        const pointsScoredTotal: { [p: string]: GameTotalPoints } = {};
+        const evaluationSummary: any = [];
+        gamePlayerKeys.forEach(gamePlayerKey => {
+            const gamePlayer = gamePlayers[gamePlayerKey];
+            gamePlayer.pointsScored = gameUpdateRequest.pointsScored[gamePlayerKey];
+            evaluationSummary.push(gamePlayer);
+
+            pointsScoredTotal[gamePlayerKey] = {
+                uid: gamePlayers[gamePlayerKey].uid,
+                name: gamePlayers[gamePlayerKey].name,
+                points: gamePlayers[gamePlayerKey].pointsScored.totalRounds,
+                ranking: gamePlayers[gamePlayerKey].totalRanking
+            };
+        });
+
+        const gameRequest: Game | any = {
+            evaluationSummary: evaluationSummary,
+            pointsScoredTotal: pointsScoredTotal,
+            round: round + 1
+        };
+        return admin.firestore()
+            .collection('games')
+            .doc(gameName)
+            .update(gameRequest)
     }
 
     resetPoints(gamePlayerKeys: string[], gamePlayers: { [uid: string]: GamePlayer }) {
@@ -105,7 +136,7 @@ export class Evaluate {
     evaluate(gamePlayerKeys: string[], gamePlayers: { [uid: string]: GamePlayer }): void {
         // Rewrite to not manipulate outer objects
         for (const gamePlayerKey of gamePlayerKeys
-            ) {
+        ) {
             const gamePlayer = gamePlayers[gamePlayerKey];
 
             const scoreOfFirstGuess = this.calculateScoresOfGuess(gamePlayers, gamePlayer, gamePlayer.firstTeamTip);
@@ -119,16 +150,16 @@ export class Evaluate {
     }
 
     calculateScoresOfGuess(gamePlayers: { [uid: string]: GamePlayer },
-                           currentGamePlayer: GamePlayer,
-                           teamTip: TeamTip): number {
+        currentGamePlayer: GamePlayer,
+        teamTip: TeamTip): number {
         const firstTeamPlayer = gamePlayers[teamTip.firstPartner.uid];
         const secondTeamPlayer = gamePlayers[teamTip.secondPartner.uid];
         return this.calculatescoreService.calculateScoreForOneGuess(currentGamePlayer, firstTeamPlayer, secondTeamPlayer);
     }
 
     private getScoresDbStructureRequest(gameName: string,
-                                        gamePlayerKeys: string[],
-                                        gamePlayers: { [p: string]: GamePlayer }) {
+        gamePlayerKeys: string[],
+        gamePlayers: { [p: string]: GamePlayer }) {
         const request: any = {
             pointsScored: {} as any,
             totalRanking: 0 as number
@@ -149,8 +180,8 @@ export class Evaluate {
     }
 
     private addRanking(gamePlayerKeys: string[],
-                       gamePlayersObject: { [p: string]: GamePlayer },
-                       gamePlayers: GamePlayer[]) {
+        gamePlayersObject: { [p: string]: GamePlayer },
+        gamePlayers: GamePlayer[]) {
         gamePlayers.sort((a, b) => {
             if (a.pointsScored.total > b.pointsScored.total) {
                 return -1;
@@ -165,29 +196,5 @@ export class Evaluate {
             gamePlayersObject[value.uid].totalRanking = index + 1;
         });
     }
-
-    private updateGame(gamePlayerKeys: string[],
-                       gamePlayers: { [p: string]: GamePlayer },
-                       round: number,
-                       gameName: string): Promise<WriteResult> {
-        // TODO type
-        const pointsScoredTotal: { [p: string]: GameTotalPoints } = {};
-        gamePlayerKeys.forEach(gamePlayerKey => {
-            pointsScoredTotal[gamePlayerKey] = {
-                uid: gamePlayers[gamePlayerKey].uid,
-                name: gamePlayers[gamePlayerKey].name,
-                points: gamePlayers[gamePlayerKey].pointsScored.totalRounds,
-                ranking: gamePlayers[gamePlayerKey].totalRanking
-            };
-        });
-
-        const gameRequest: Game | any = {
-            pointsScoredTotal: pointsScoredTotal,
-            round: round + 1
-        };
-        return admin.firestore()
-            .collection('games')
-            .doc(gameName)
-            .update(gameRequest)
-    }
 }
+

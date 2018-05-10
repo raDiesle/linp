@@ -9,6 +9,7 @@ export interface Game {
   round: number;
   createdAt: number;
   language: LANGUAGE;
+  evaluationSummary?: any; // TODO
   pointsScoredTotal?: { [gamePlayerId: string]: GameTotalPoints };
   playerRolesCounts? : PlayerRolesCounts;
 }
