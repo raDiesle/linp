@@ -1,21 +1,21 @@
 <div class="container px-2 small bold text-center text-white">
 
   <div class="row px-1">
-    <div class="col-4 border-right border-bottom" style="border-top-right-radius: 0.25rem" [ngClass]="{
+    <div class="col-4 border-right border-bottom" [ngClass]="{
               'bg-success' : parent > 1, 
               'bg-primary progress-bar-striped progress-bar-animated' : parent == 1,
               'bg-secondary' : parent < 1 
             }">
       <strong>First</strong>
     </div>
-    <div class="col-4 border-bottom rounded-top" [ngClass]="{
+    <div class="col-4 border-bottom" [ngClass]="{
         'bg-success' : parent > 2, 
         'bg-primary progress-bar-striped progress-bar-animated' : parent == 2,
         'bg-secondary' : parent < 2
       }">
       <strong>Second</strong>
     </div>
-    <div class="col-4 border-left" style="border-top-left-radius: 0.25rem" [ngClass]="{
+    <div class="col-4 border-left" [ngClass]="{
       'bg-success' : parent > 3, 
       'bg-primary progress-bar-striped progress-bar-animated' : parent == 3,
       'bg-secondary' : parent < 3 
