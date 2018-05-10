@@ -35,7 +35,6 @@ export class FinalizeroundComponent implements OnInit, OnDestroy {
     this.firebaseGameService.observeGame(this.gameName)
       .takeUntil(this.ngUnsubscribe)
       .subscribe(game => {
-
         if (game.status !== 'evaluation') {
           this.router.navigate(['/' + game.status, this.gameName]);
         }
@@ -62,24 +61,28 @@ export class FinalizeroundComponent implements OnInit, OnDestroy {
   }
 
   startNextRound() {
-    this.isGamePlayerReadyForNextGame = true;
-    this.firebaseGameService.updateCurrentGamePlayerStatus(this.gameName, this.NEXT_PLAYER_STATUS)
-      .then(() => {
-        this.savedResponseFlag = true;
-      })
+    if (this.isGamePlayerReadyForNextGame === true) {
+      this.router.navigate(['/' + 'firsttip', this.gameName]);
+    } else {
+      this.firebaseGameService.updateCurrentGamePlayerStatus(this.gameName, this.NEXT_PLAYER_STATUS)
+        .then(() => {
+          this.savedResponseFlag = true;
+          this.router.navigate(['/' + 'firsttip', this.gameName]);
+        })
+    }
   }
 
-getSortedScore(scores) {
-  return scores.sort((a, b) => {
-    if (a.ranking > b.ranking) {
-      return 1;
-    }
-    if (a.value < b.value) {
-      return -1;
-    }
-    return 0;
-  });
-}
+  getSortedScore(scores) {
+    return scores.sort((a, b) => {
+      if (a.ranking > b.ranking) {
+        return 1;
+      }
+      if (a.value < b.value) {
+        return -1;
+      }
+      return 0;
+    });
+  }
 
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();

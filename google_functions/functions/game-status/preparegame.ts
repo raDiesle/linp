@@ -43,17 +43,6 @@ export class Preparegame {
                     this.assign(gamePlayers, gameName);
                 });
             });
-
-        promise
-            .then(() => {
-                return admin.firestore()
-                    .collection('games')
-                    .doc(gameName)
-                    .update({
-                        status: this.NEXT_STATUS
-                    });
-            });
-
         return promise;
     }
 

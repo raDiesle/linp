@@ -193,7 +193,7 @@ export class PlayerStatusTrigger {
             'SECOND_SYNONYM_GIVEN': 'secondguess',
             'SECOND_GUESS_GIVEN': 'evaluation',
             'CHECKED_EVALUATION': 'finalizeround',
-            'READY_FOR_NEXT_GAME': 'preparegame'
+            'READY_FOR_NEXT_GAME': 'firsttip'
         };
         // typing
         const newGameStatus = newGameStatusMapping[playerStatus];

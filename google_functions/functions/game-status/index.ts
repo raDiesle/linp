@@ -1,15 +1,15 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
-import {Game, GamePlayer, GamePlayerStatus, GameStatus} from '../../../linp/src/app/models/game';
-import {Evaluate} from './evaluate';
-import {Preparegame} from './preparegame';
+import { Game, GamePlayer, GamePlayerStatus, GameStatus } from '../../../linp/src/app/models/game';
+import { Evaluate } from './evaluate';
+import { Preparegame } from './preparegame';
 import { QuerySnapshot } from '@google-cloud/firestore';
 
 export class GameStatusTrigger {
 
     evaluate = new Evaluate();
     preparegame = new Preparegame();
-    
+
     constructor() {
     }
 
@@ -17,7 +17,7 @@ export class GameStatusTrigger {
         return functions.firestore
             .document('games/{gameName}')
             .onUpdate((change, context) => {
-                
+
                 const gameName = (context.params as any).gameName as string;
 
                 const newValue = change.after.data() as Game;
@@ -28,24 +28,32 @@ export class GameStatusTrigger {
                 }
 
                 const rulesMapping: { [gameStatus: string]: any } = {
-                    'evaluation': (game: Game, name: string) => this.evaluate.performAllEvaluateStatusAction(game, name),
+                    'evaluation': (game: Game, name: string) => {
+                        return this.evaluate.performAllEvaluateStatusAction(game, name)                           
+                        .then(() => {
+                                return Promise.all([
+                                    this.updateFirstPlayerToActionRequired(name)
+                                    , this.preparegame.perform(game, name)
+                                ])
+                            });
+                    },
                     'preparegame': (game: Game, name: string) => {
-                        
                         return this.updateHostToNoRequiredAction(game, gameName)
-                                .then(() => 
-                                    Promise.all([                        
-                                        this.updateFirstPlayerToActionRequired(name),
-                                        this.preparegame.perform(game, name)
-                                    ])
-                                )        
+                            .then(() => {
+                                return Promise.all([
+                                    this.updateFirstPlayerToActionRequired(name),
+                                    this.preparegame.perform(game, name)                                    
+                                ])
+                                .then(() => this.updateGameStatus('firsttip', gameName))
+                            });
                     },
                     'firstguess': (game: Game, name: string) => this.updateAllPlayersToActionRequired(gameName),
-                    'secondtip' : (game: Game, name: string) => this.updateFirstPlayerToActionRequired(name),
+                    'secondtip': (game: Game, name: string) => this.updateFirstPlayerToActionRequired(name),
                     'secondguess': (game: Game, name: string) => this.updateAllPlayersToActionRequired(gameName)
                 };
 
                 const isARuleToBeApplied = Object.keys(rulesMapping).some(key => key === gameStatus);
-                
+
                 if (isARuleToBeApplied === false) {
                     return Promise.resolve();
                 }
@@ -55,45 +63,53 @@ export class GameStatusTrigger {
             });
     }
 
+    private updateGameStatus(nextStatus: GameStatus, gameName: string): Promise<any> {
+        return admin.firestore()
+            .collection('games')
+            .doc(gameName)
+            .update({
+                status: nextStatus
+            });
+    }
     private updateHostToNoRequiredAction(game: Game, gameName: string): Promise<any> {
         return admin.firestore()
-        .collection('players')
-        .doc(game.host)
-        .collection('activegames')
-        .doc(gameName)
-        .update({
-            isActionRequired: false
-        });
+            .collection('players')
+            .doc(game.host)
+            .collection('activegames')
+            .doc(gameName)
+            .update({
+                isActionRequired: false
+            });
     }
 
     private updateFirstPlayerToActionRequired(gameName: string): Promise<any> {
-        
-        return admin.firestore()
-        .collection('games')
-        .doc(gameName)
-        .collection('players')
-        .get()
-        .then((players: QuerySnapshot) => {
-            let firstPlayerUid = this.getFirstPlayer(players);         
 
-            return admin.firestore()
-                .collection('players')
-                .doc(firstPlayerUid)
-                .collection('activegames')
-                .doc(gameName)
-                .update({
-                    isActionRequired: true
-                })
-                .then(() =>{                    
-                    return Promise.resolve();
-                });
-        });
+        return admin.firestore()
+            .collection('games')
+            .doc(gameName)
+            .collection('players')
+            .get()
+            .then((players: QuerySnapshot) => {
+                let firstPlayerUid = this.getFirstPlayer(players);
+
+                return admin.firestore()
+                    .collection('players')
+                    .doc(firstPlayerUid)
+                    .collection('activegames')
+                    .doc(gameName)
+                    .update({
+                        isActionRequired: true
+                    })
+                    .then(() => {
+                        return Promise.resolve();
+                    });
+            });
     }
 
     private getFirstPlayer(players: FirebaseFirestore.QuerySnapshot) {
         let isFirstPlayerNotIdentified = true;
         let firstPlayerUid = "";
-        players.forEach(player => {            
+        players.forEach(player => {
             if (isFirstPlayerNotIdentified) {
                 firstPlayerUid = player.data().uid;
                 isFirstPlayerNotIdentified = false;
@@ -102,27 +118,27 @@ export class GameStatusTrigger {
         return firstPlayerUid;
     }
 
-    private updateAllPlayersToActionRequired(gameName: string): Promise<any>{
+    private updateAllPlayersToActionRequired(gameName: string): Promise<any> {
         return admin.firestore()
-        .collection('games')
-        .doc(gameName)
-        .collection('players')
-        .get()
-        .then((players: QuerySnapshot) => {
-            let promises: Promise<any>[] = [];
-            players.forEach(player => {                
-                const promise = admin.firestore()
-                .collection('players')
-                .doc(player.data().uid)
-                .collection('activegames')
-                .doc(gameName)
-                .update({
-                    isActionRequired: true
+            .collection('games')
+            .doc(gameName)
+            .collection('players')
+            .get()
+            .then((players: QuerySnapshot) => {
+                let promises: Promise<any>[] = [];
+                players.forEach(player => {
+                    const promise = admin.firestore()
+                        .collection('players')
+                        .doc(player.data().uid)
+                        .collection('activegames')
+                        .doc(gameName)
+                        .update({
+                            isActionRequired: true
+                        });
+                    promises.push(promise);
                 });
-                promises.push(promise);
+                return promises;
             });
-            return promises;
-        });
-        
+
     }
 }

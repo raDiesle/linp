@@ -1,12 +1,12 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Observable} from 'rxjs/Rx';
-import {ActivatedRoute, Router} from '@angular/router';
-import {AngularFirestore} from 'angularfire2/firestore';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable } from 'rxjs/Rx';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AngularFirestore } from 'angularfire2/firestore';
 import * as firebase from 'firebase/app';
-import {GamePlayer, GamePlayerStatus} from '../../models/game';
-import {Subject} from 'rxjs/Subject';
-import {FirebaseGameService} from '../../services/firebasegame.service';
-import {AngularFireAuth} from 'angularfire2/auth';
+import { GamePlayer, GamePlayerStatus } from '../../models/game';
+import { Subject } from 'rxjs/Subject';
+import { FirebaseGameService } from '../../services/firebasegame.service';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 
 @Component({
@@ -37,10 +37,10 @@ export class FirsttipComponent implements OnInit, OnDestroy {
   private currentPlayer: GamePlayer;
 
   constructor(private route: ActivatedRoute,
-              private router: Router,
-              public db: AngularFirestore,
-              public afAuth: AngularFireAuth,
-              private firebaseGameService: FirebaseGameService) {
+    private router: Router,
+    public db: AngularFirestore,
+    public afAuth: AngularFireAuth,
+    private firebaseGameService: FirebaseGameService) {
   }
 
   ngOnInit() {
@@ -49,7 +49,10 @@ export class FirsttipComponent implements OnInit, OnDestroy {
     this.firebaseGameService.observeGame(this.gameName)
       .takeUntil(this.ngUnsubscribe)
       .subscribe(game => {
-          this.router.navigate(['/' + game.status, this.gameName], {skipLocationChange: true});
+        if (game.status === 'evaluation' || game.status === 'finalizeround') {
+          return;
+        }
+        this.router.navigate(['/' + game.status, this.gameName], { skipLocationChange: true });
       });
 
     this.firebaseGameService.observeGamePlayers(this.gameName)
@@ -80,7 +83,7 @@ export class FirsttipComponent implements OnInit, OnDestroy {
 
   sendSynonym() {
     const firstOrSecondGamePlayerUpdate = {
-      status : this.NEXT_STATUS
+      status: this.NEXT_STATUS
     };
     firstOrSecondGamePlayerUpdate[this.SYNONYM_KEY] = this.synonym;
 

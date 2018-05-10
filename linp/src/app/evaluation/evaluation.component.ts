@@ -1,13 +1,13 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {AngularFireAuth} from 'angularfire2/auth/auth';
-import {ActivatedRoute, Router} from '@angular/router';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { AngularFireAuth } from 'angularfire2/auth/auth';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as firebase from 'firebase/app';
-import {AngularFirestore} from 'angularfire2/firestore';
-import {Game, GamePlayer, GamePlayerStatus, GameStatus} from '../models/game';
-import {HttpClient, HttpParams} from '@angular/common/http';
-import {FirebaseGameService} from '../services/firebasegame.service';
-import {Subject} from 'rxjs/Subject';
-import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import { AngularFirestore } from 'angularfire2/firestore';
+import { Game, GamePlayer, GamePlayerStatus, GameStatus } from '../models/game';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { FirebaseGameService } from '../services/firebasegame.service';
+import { Subject } from 'rxjs/Subject';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -22,6 +22,8 @@ export class EvaluationComponent implements OnInit {
   readonly INTERMEDIATE_STATUS: GameStatus = 'evaluation';
 
   readonly PREV_STATUS: GameStatus = 'secondguess'; // TODO change to player status
+  readonly NEXT_STATUS: GameStatus = 'finalizeround';
+  readonly NEXT_NEXT_STATUS: GameStatus = 'firsttip';
 
   // readonly PREV_PLAYER_STATUS: GamePlayerStatus = 'SECOND_GUESS_GIVEN';
 
@@ -36,39 +38,51 @@ export class EvaluationComponent implements OnInit {
   public isRealCalculatedHack = false;
 
   constructor(private route: ActivatedRoute,
-              private router: Router,
-              public db: AngularFirestore,
-              public afAuth: AngularFireAuth,
-              private httpClient: HttpClient,
-              private firebaseGameService: FirebaseGameService) {
+    private router: Router,
+    public db: AngularFirestore,
+    public afAuth: AngularFireAuth,
+    private httpClient: HttpClient,
+    private firebaseGameService: FirebaseGameService) {
   }
 
   ngOnInit() {
     this.gameName = this.route.snapshot.paramMap.get('gamename');
 
-    this.firebaseGameService.observeGamePlayers(this.gameName)
+    this.firebaseGameService.observeLoggedInGamePlayer(this.gameName)
       .takeUntil(this.ngUnsubscribe)
-      .subscribe((gamePlayers) => {
-        return;
-/*
-        gamePlayers.push({questionmarkOrWord: '?',  pointsScored: {
-          firstTeamTip: 0,
-          secondTeamTip: 0,
-          total: 0,
-          totalRounds: 0,
-          indirect: 0
-        }});
-*/
- //       this.dataSetup(gamePlayers);
-      });
-
-    this.firebaseGameService.observeGame(this.gameName)
-      .subscribe(game => {
-        this.gameRound = game.round;
-
-        this.dataSetup(game.evaluationSummary);
+      .subscribe(gamePlayer => {
+        if (gamePlayer.status === 'CHECKED_EVALUATION') {
+          this.router.navigate(['/' + this.NEXT_STATUS, this.gameName]);
+          return;
+        } else if (gamePlayer.status === 'READY_FOR_NEXT_GAME') {
+          this.router.navigate(['/' + this.NEXT_NEXT_STATUS, this.gameName]);
+          return;
+        } else {
+          this.firebaseGameService.observeGame(this.gameName)
+            .takeUntil(this.ngUnsubscribe)
+            .subscribe(game => {
+              this.router.navigate(['/' + this.NEXT_STATUS, this.gameName]);
+              this.gameRound = game.round;
+              this.dataSetup(game.evaluationSummary);
+            });
+        }
       });
   }
+
+
+  /*
+  this.firebaseGameService.observeGamePlayers(this.gameName)
+    .takeUntil(this.ngUnsubscribe)
+    .subscribe((gamePlayers) => {
+      this.isRealCalculatedHack = gamePlayers.some(gamePlayer => {
+        const notYetCalculatedIndication = 0;
+        return gamePlayer.pointsScored.total !== notYetCalculatedIndication;
+      });
+
+//       this.dataSetup(gamePlayers);
+    });
+*/
+
 
   private dataSetup(gamePlayers: GamePlayer[]) {
     const questionmarkPlayers = gamePlayers.filter(gamePlayer => gamePlayer.questionmarkOrWord === '?');
@@ -79,13 +93,9 @@ export class EvaluationComponent implements OnInit {
       'QUESTIONMARK': questionmarkPlayers,
       'WORD': wordPlayers
     };
-    this.isRealCalculatedHack = gamePlayers.some(gamePlayer => {
-      const notYetCalculatedIndication = 0;
-      return gamePlayer.pointsScored.total !== notYetCalculatedIndication;
-    });
   }
 
-private sortByWord(a, b) {
+  private sortByWord(a, b) {
     const nameA = a.questionmarkOrWord.toUpperCase();
     const nameB = b.questionmarkOrWord.toUpperCase();
     if (nameA < nameB) {
