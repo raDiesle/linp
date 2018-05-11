@@ -13,7 +13,7 @@ export class Preparegame {
     constructor() {
     }
 
-    public perform(game: Game, gameName: string): Promise<WriteResult[]> | Promise<void> {
+    public perform(game: Game, gameName: string): Promise<any> {
         // TODO return assignment promise
 
         const reference = admin.firestore()
@@ -24,30 +24,29 @@ export class Preparegame {
 
         const promise = playersPromise
             .then((results: QuerySnapshot) => {
-                const gamePlayers: GamePlayer[] = results.docs.map(player => {
-                    return player.data();
-                });
-                const gamePlayerIds = gamePlayers.map(gamePlayer => gamePlayer.uid);
+                const gamePlayers: GamePlayer[] = results.docs.map(player => player.data());
 
                 let resetPromise: Promise<any> = Promise.resolve();
                 if (game.round > 0) {
+                    console.info("reset");
                     const batch = admin.firestore().batch();
+                    const gamePlayerIds = gamePlayers.map(gamePlayer => gamePlayer.uid);
                     gamePlayerIds.forEach(gamePlayerId => {
                         batch.update(reference.doc(gamePlayerId), this.getResetPlayerModel());
                     });
                     resetPromise = batch.commit();
                 }
 
-                resetPromise.then(() => {
-                    // TODO return promise chain
-                    this.assign(gamePlayers, gameName);
+                return resetPromise.then(() => {
+                    console.log("assign");
+                    return this.assignRolesOrWords(gamePlayers, gameName);
                 });
             });
         return promise;
     }
 
     public getResetPlayerModel() {
-       console.log(firebase.firestore);
+
         const requestModel: any = {
             ['firstSynonym'] : admin.firestore.FieldValue.delete(),
             ['firstTeamTip']: admin.firestore.FieldValue.delete(),
@@ -65,12 +64,14 @@ export class Preparegame {
             ['secondSynonym']: admin.firestore.FieldValue.delete(),
             ['secondTeamTip']: admin.firestore.FieldValue.delete(),
             // ['status']: 'READY_TO_START',
+
+            // TODO actually obsolete
             ['totalRanking']: admin.firestore.FieldValue.delete()
         };
         return requestModel;
     }
 
-    assign(gamePlayers: GamePlayer[], gameName: string): Promise<any> {
+    assignRolesOrWords(gamePlayers: GamePlayer[], gameName: string): Promise<any> {
         const gamePlayerKeys = Object.keys(gamePlayers);
         const gamePlayerSize = gamePlayerKeys.length;
 
@@ -184,7 +185,10 @@ export class Preparegame {
             .collection('players');
 
         gamePlayers.forEach(gamePlayer => {
-            batch.set(playersRef.doc(gamePlayer.uid), gamePlayer);
+            const gamePlayerUpdate = {
+                questionmarkOrWord : gamePlayer.questionmarkOrWord
+            };
+            batch.update(playersRef.doc(gamePlayer.uid), gamePlayerUpdate);
         });
         return batch.commit();
     }

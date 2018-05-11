@@ -13,56 +13,52 @@ export class Evaluate {
     constructor() {
     }
 
-    public performAllEvaluateStatusAction(game: Game, gameName: string): Promise<[WriteResult[], WriteResult]> {
+    private arrayToObject(array: any) {
+        return array.reduce((obj: any, item: any) => {
+            obj[item.uid] = item;
+            return obj;
+        }, {});
+    }
 
-        const promise = admin.firestore()
+    public performAllEvaluateStatusAction(game: Game, gameName: string): Promise<any> {
+        return admin.firestore()
             .collection('games')
             .doc(gameName)
             .collection('players')
             .get()
             .then((gamePlayersResult) => {
 
-                const gamePlayers: GamePlayer[] = gamePlayersResult.docs.map(gamePlayer => {
-                    return gamePlayer.data();
-                });
-                const gamePlayerKeys: string[] = gamePlayers.map(gamePlayer => {
-                    return gamePlayer.uid;
-                });
-
-                const arrayToObject = (array: any) =>
-                    array.reduce((obj: any, item: any) => {
-                        obj[item.uid] = item;
-                        return obj;
-                    }, {});
-
-                const gamePlayersObject: { [uid: string]: GamePlayer } = arrayToObject(gamePlayers);
+                const gamePlayers: GamePlayer[] = gamePlayersResult.docs.map(gamePlayer => gamePlayer.data());
+                const gamePlayerKeys: string[] = gamePlayers.map(gamePlayer => gamePlayer.uid);
+                const gamePlayersObjectOriginal: { [uid: string]: GamePlayer } = this.arrayToObject(gamePlayers);
 
                 // move to other page
-                this.resetPoints(gamePlayerKeys, gamePlayersObject);
-                this.evaluate(gamePlayerKeys, gamePlayersObject);
+                const gamePlayersObjectResettedPoints = this.resetPoints(gamePlayerKeys, gamePlayersObjectOriginal);
+                let gamePlayersObject = this.evaluateScores(gamePlayerKeys, gamePlayersObjectResettedPoints);
 
                 // obsolete for players
-                this.addTotalPoints(gamePlayerKeys, gamePlayersObject);
+                gamePlayersObject = this.addTotalPoints(gamePlayerKeys, gamePlayersObject);
                 // obsolete for players
-                this.addRanking(gamePlayerKeys, gamePlayersObject, gamePlayers);
-
+                gamePlayersObject = this.addRanking(gamePlayerKeys, gamePlayersObject, gamePlayers);
+                // TODO make it obsolete
                 const gameUpdateRequest: any = this.getScoresDbStructureRequest(gameName, gamePlayerKeys, gamePlayersObject);
 
-                const gamePlayersPromise = this.updateGamePlayers(gamePlayerKeys, gameName, gameUpdateRequest);
 
+                const gamePlayersPromise = this.updateGamePlayers(gamePlayerKeys, gameName, gameUpdateRequest);
                 const gamePromise = this.updateGame(gamePlayerKeys, gamePlayersObject, game.round, gameName, gameUpdateRequest);
 
+                console.info("will perform");
                 return Promise.all([gamePlayersPromise, gamePromise]);
             });
-
-        return promise;
     }
 
-    private addTotalPoints(gamePlayerKeys: string[], gamePlayersObject: { [p: string]: GamePlayer }) {
+    private addTotalPoints(gamePlayerKeys: string[], gamePlayersInput: { [p: string]: GamePlayer }): { [p: string]: GamePlayer } {
+        const gamePlayersObject = Object.assign({}, gamePlayersInput);
         for (const gamePlayerKey of gamePlayerKeys) {
             const gamePlayer = gamePlayersObject[gamePlayerKey];
             gamePlayer.pointsScored.totalRounds += gamePlayer.pointsScored.total;
         }
+        return gamePlayersObject;
     }
 
     private updateGamePlayers(gamePlayerKeys: string[], gameName: string, gameUpdateRequest: any): Promise<any> {
@@ -80,8 +76,8 @@ export class Evaluate {
                 totalRanking: gameUpdateRequest[key].totalRanking
             });
         });
-        const gamePlayersPromise = batch.commit();
-        return gamePlayersPromise;
+
+        return batch.commit();
     }
 
     private updateGame(gamePlayerKeys: string[],
@@ -116,7 +112,8 @@ export class Evaluate {
             .update(gameRequest)
     }
 
-    resetPoints(gamePlayerKeys: string[], gamePlayers: { [uid: string]: GamePlayer }) {
+    resetPoints(gamePlayerKeys: string[], gamePlayersInput: { [uid: string]: GamePlayer }): { [uid: string]: GamePlayer } {
+        const gamePlayers = Object.assign({}, gamePlayersInput);
         for (const gamePlayerKey of gamePlayerKeys) {
             const gamePlayer = gamePlayers[gamePlayerKey];
 
@@ -131,9 +128,11 @@ export class Evaluate {
             };
             gamePlayer.pointsScored = initialPointsScored;
         }
+        return gamePlayers;
     }
 
-    evaluate(gamePlayerKeys: string[], gamePlayers: { [uid: string]: GamePlayer }): void {
+    evaluateScores(gamePlayerKeys: string[], gamePlayersObjectResettedPoints: { [uid: string]: GamePlayer }): { [uid: string]: GamePlayer } {
+        const gamePlayers = Object.assign({}, gamePlayersObjectResettedPoints);
         // Rewrite to not manipulate outer objects
         for (const gamePlayerKey of gamePlayerKeys
         ) {
@@ -147,6 +146,7 @@ export class Evaluate {
 
             gamePlayer.pointsScored.total += scoreOfFirstGuess + scoreOfSecondGuess;
         }
+        return gamePlayers;
     }
 
     calculateScoresOfGuess(gamePlayers: { [uid: string]: GamePlayer },
@@ -180,8 +180,10 @@ export class Evaluate {
     }
 
     private addRanking(gamePlayerKeys: string[],
-        gamePlayersObject: { [p: string]: GamePlayer },
-        gamePlayers: GamePlayer[]) {
+        gamePlayersInput: { [p: string]: GamePlayer },
+        gamePlayers: GamePlayer[]): { [p: string]: GamePlayer } {
+
+        const gamePlayersObject = Object.assign({}, gamePlayersInput);
         gamePlayers.sort((a, b) => {
             if (a.pointsScored.total > b.pointsScored.total) {
                 return -1;
@@ -195,6 +197,7 @@ export class Evaluate {
         gamePlayers.forEach((value, index) => {
             gamePlayersObject[value.uid].totalRanking = index + 1;
         });
+        return gamePlayersObject;
     }
 }
 
