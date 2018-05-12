@@ -1,5 +1,6 @@
 import { PlayerFriendlist } from './../models/player.d';
 import { Component, OnDestroy, OnInit, Inject } from '@angular/core';
+import { Location } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { AngularFireAuth } from 'angularfire2/auth/auth';
@@ -37,7 +38,8 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private gamelobbyService: GamelobbyService,
     private firebaseGameService: FirebaseGameService,
-    @Inject(WindowRef) private windowRef: WindowRef) {
+    @Inject(WindowRef) private windowRef: WindowRef,
+    private location: Location) {
   }
 
   ngOnInit(): void {
@@ -47,14 +49,15 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
     this.firebaseGameService.observeCurrentPlayersFriendslist()
       .subscribe(friendList => this.friendList = friendList);
 
-    const observable = this.firebaseGameService.observeGame(this.gameName);
-    observable
+    this.firebaseGameService.observeGame(this.gameName)
       .takeUntil(this.ngUnsubscribe)
       .subscribe(game => {
         const isDevelopmentEnv = this.windowRef.nativeWindow.location.host.includes('localhost');
         const currentRouteName = this.route.snapshot.url[0].path;
-        if ( game.status !== currentRouteName) {
-          this.router.navigate(['/' + game.status, this.gameName], {skipLocationChange: isDevelopmentEnv === false});
+        if (game.status === currentRouteName) {
+          this.location.go("gamelobby");
+        } else {
+          this.router.navigate(['/' + game.status, this.gameName], { skipLocationChange: isDevelopmentEnv === false });
           return Promise.resolve();
         }
 
@@ -65,30 +68,30 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
   }
 
   private gamePlayerAction(): any {
-      this.isGameDataFetchedFlag = true;
+    this.isGameDataFetchedFlag = true;
 
-      this.firebaseGameService.observeGamePlayers(this.gameName)
-        .takeUntil(this.ngUnsubscribe)
-        .subscribe((gamePlayers: GamePlayer[]) => {
-          this.gamePlayers = gamePlayers;
-          this.hostPlayer = gamePlayers.find(gamePlayr => {
-            return gamePlayr.isHost;
-          });
-          const loggedInUser = gamePlayers.find(gamePlayr => {
-            return gamePlayr.uid === this.firebaseGameService.authUserUid;
-          });
-
-          this.loggedInPlayerIsHost = loggedInUser && loggedInUser.isHost;
-
-          const isAlreadyJoined = loggedInUser !== undefined;
-          if (isAlreadyJoined === false) {
-            this.firebaseGameService.addLoggedInPlayerToGame(this.gameName)
-              .then(() => {
-                // if page changes e.g. in test before handler, it will show new user, but not persist to db
-                this.loggedInPlayerSuccessfulAddedStatusFlag = true;
-              });
-          }
+    this.firebaseGameService.observeGamePlayers(this.gameName)
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe((gamePlayers: GamePlayer[]) => {
+        this.gamePlayers = gamePlayers;
+        this.hostPlayer = gamePlayers.find(gamePlayr => {
+          return gamePlayr.isHost;
         });
+        const loggedInUser = gamePlayers.find(gamePlayr => {
+          return gamePlayr.uid === this.firebaseGameService.authUserUid;
+        });
+
+        this.loggedInPlayerIsHost = loggedInUser && loggedInUser.isHost;
+
+        const isAlreadyJoined = loggedInUser !== undefined;
+        if (isAlreadyJoined === false) {
+          this.firebaseGameService.addLoggedInPlayerToGame(this.gameName)
+            .then(() => {
+              // if page changes e.g. in test before handler, it will show new user, but not persist to db
+              this.loggedInPlayerSuccessfulAddedStatusFlag = true;
+            });
+        }
+      });
   }
 
   onFriendSelection(friend: PlayerFriendlist): void {

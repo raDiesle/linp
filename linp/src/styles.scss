@@ -6,21 +6,13 @@
 // $card-cap-bg: rgba(0, 150, 255, 0.3);
 
 
-@import "~bootswatch/dist/flatly/variables";
+@import "variables";
 
-
-$card-cap-bg: #2c3e50;
+//$card-cap-bg: #2c3e50;
 $card-spacer-x:                     0.5rem !default;
 
-
 @import "~bootstrap/scss/bootstrap";
-
-
-
-
-
-
-@import "~bootswatch/dist/flatly/bootswatch";
+@import "bootswatch";
 
 .sb-wrapper {
   min-width: 45px;

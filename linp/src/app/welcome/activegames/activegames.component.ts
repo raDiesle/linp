@@ -27,7 +27,9 @@ export class ActivegamesComponent implements OnInit, OnDestroy {
     this.firebaseGameService.observeActivegamesOfPlayer()
       .takeUntil(this.ngUnsubscribe)
       .subscribe(activePlayerGames => {
-        this.games = activePlayerGames;
+        this.games = activePlayerGames.sort((a, b) => {
+          return a.isActionRequired ? -1 : 1;
+        });;
       });
   }
 
