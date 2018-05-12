@@ -10,7 +10,7 @@ import { GamelobbyService } from './gamelobby-service';
 import { FirebaseGameService } from '../services/firebasegame.service';
 import { PlayerProfile } from '../models/player';
 import { WindowRef } from '../WindowRef';
-import { ActionguideService } from '../services/actionguide.service';
+import { ActionguideService, ActionguideDto } from '../services/actionguide.service';
 
 @Component({
   selector: 'app-gamelobby',
@@ -70,9 +70,7 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
       });
   }
 
-  public nextActionGuide(): void{
-    this.actionguideService.triggerActionDone();
-  }
+
 
   private gamePlayerAction(): any {
     // TODO refactor to add host at game creation
@@ -105,7 +103,17 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
   }
 
   startGame(): void {
+    this.checkToEnableActionGuide();
     this.firebaseGameService.updateGameStatus(this.NEXT_PAGE, this.gameName)
+  }
+
+  public checkToEnableActionGuide(): void {
+    const currentRouteGameStatus: GameStatus = <GameStatus>this.route.snapshot.url[0].path;
+    const actionguideDto: ActionguideDto = {
+      gamePlayers: this.gamePlayers,
+      gameStatus: currentRouteGameStatus
+    };
+    this.actionguideService.triggerActionDone(actionguideDto);
   }
 
   public ngOnDestroy() {
