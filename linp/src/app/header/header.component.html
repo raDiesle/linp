@@ -1,6 +1,11 @@
 <nav class="navbar navbar-dark bg-dark navbar-expand-lg navbar-dark">
   <div class="mx-auto d-sm-flex d-block flex-sm-nowrap">
     <a class="navbar-brand" href="#">
+      <ng-template #popContent>
+        <p>Do you want to go to home to switch to another game?</p>
+        <button class="btn btn-secondary btn-block">Stay</button>
+        <button class="btn btn-primary btn-block">Back</button>
+      </ng-template>
       <img src="assets/spy_icon.svg" style="width:2.5rem">
       <strong>LINP</strong>
       <span>Identify spies</span>

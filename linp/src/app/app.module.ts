@@ -69,6 +69,8 @@ import { MaintenanceComponent } from './welcome/maintenance/maintenance.componen
 import { GameprogressComponent } from './widgets/gameprogress/gameprogress.component';
 import { ScorecardComponent } from './evaluation/scorecard/scorecard.component';
 import { NextbuttonComponent } from './evaluation/nextbutton/nextbutton.component';
+import { ActionguideService } from './services/actionguide.service';
+import { ActionguidemodalComponent } from './widgets/actionguidemodal/actionguidemodal.component';
 
 export function windowFactory() {
   return window;
@@ -123,9 +125,11 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     MaintenanceComponent,
     GameprogressComponent,
     ScorecardComponent,
-    NextbuttonComponent
+    NextbuttonComponent,
+    ActionguidemodalComponent
   ],
   entryComponents: [
+    ActionguidemodalComponent,
     LoginbyemailComponent,
     ActivegamesComponent,
     FriendlistComponent
@@ -236,7 +240,7 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
   ],
  // missingTranslation: MissingTranslationStrategy.Error,
   providers: [AuthGuard, FirebaseGameService, GuessService, UserprofileService, GamelobbyComponent, GamelobbyService,
-    PreparegameComponent, LinpCardsModelService, WindowRef
+    PreparegameComponent, LinpCardsModelService, ActionguideService, WindowRef
   ],
   bootstrap: [AppComponent]
 })

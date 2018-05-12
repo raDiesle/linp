@@ -10,6 +10,7 @@ import { GamelobbyService } from './gamelobby-service';
 import { FirebaseGameService } from '../services/firebasegame.service';
 import { PlayerProfile } from '../models/player';
 import { WindowRef } from '../WindowRef';
+import { ActionguideService } from '../services/actionguide.service';
 
 @Component({
   selector: 'app-gamelobby',
@@ -39,7 +40,9 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
     private gamelobbyService: GamelobbyService,
     private firebaseGameService: FirebaseGameService,
     @Inject(WindowRef) private windowRef: WindowRef,
-    private location: Location) {
+    private location: Location,
+    private actionguideService: ActionguideService
+  ) {
   }
 
   ngOnInit(): void {
@@ -55,9 +58,9 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
         const isDevelopmentEnv = this.windowRef.nativeWindow.location.host.includes('localhost');
         const currentRouteName = this.route.snapshot.url[0].path;
         if (game.status === currentRouteName) {
-          this.location.go("gamelobby");
+          this.location.go(`gamelobby/${this.gameName}`);
         } else {
-          this.router.navigate(['/' + game.status, this.gameName], { skipLocationChange: isDevelopmentEnv === false });
+          this.router.navigate([`/${game.status}`, this.gameName], { skipLocationChange: isDevelopmentEnv === false });
           return Promise.resolve();
         }
 
@@ -67,27 +70,27 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
       });
   }
 
+  public nextActionGuide(): void{
+    this.actionguideService.triggerActionDone();
+  }
+
   private gamePlayerAction(): any {
+    // TODO refactor to add host at game creation
     this.isGameDataFetchedFlag = true;
 
     this.firebaseGameService.observeGamePlayers(this.gameName)
       .takeUntil(this.ngUnsubscribe)
       .subscribe((gamePlayers: GamePlayer[]) => {
         this.gamePlayers = gamePlayers;
-        this.hostPlayer = gamePlayers.find(gamePlayr => {
-          return gamePlayr.isHost;
-        });
-        const loggedInUser = gamePlayers.find(gamePlayr => {
-          return gamePlayr.uid === this.firebaseGameService.authUserUid;
-        });
+        this.hostPlayer = gamePlayers.find(gamePlayr => gamePlayr.isHost);
 
+        const loggedInUser = gamePlayers.find(gamePlayr => gamePlayr.uid === this.firebaseGameService.authUserUid);
         this.loggedInPlayerIsHost = loggedInUser && loggedInUser.isHost;
 
         const isAlreadyJoined = loggedInUser !== undefined;
         if (isAlreadyJoined === false) {
           this.firebaseGameService.addLoggedInPlayerToGame(this.gameName)
             .then(() => {
-              // if page changes e.g. in test before handler, it will show new user, but not persist to db
               this.loggedInPlayerSuccessfulAddedStatusFlag = true;
             });
         }
