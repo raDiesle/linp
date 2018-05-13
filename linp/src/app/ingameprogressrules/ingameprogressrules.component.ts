@@ -18,10 +18,8 @@ export class IngameprogressrulesComponent implements OnInit {
 
   // TODO remove, deprecated and wrong
   private hasStartedGame = false;
-  private isNeededToUpdateStatus: boolean = null;
 
-  readonly NEXT_PLAYER_STATUS = 'READY_TO_START';
-  readonly CURRENT_STATUS = 'JOINED_GAME';
+  readonly CURRENT_STATUS = 'READY_TO_START';
   readonly NEXT_PAGE: GameStatus = 'firsttip';
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
@@ -56,7 +54,6 @@ export class IngameprogressrulesComponent implements OnInit {
       .subscribe((currentGamePlayer: GamePlayer) => {
         this.isQuestionmark = currentGamePlayer.questionmarkOrWord === '?';
         this.currentGamePlayersRoleWord = currentGamePlayer.questionmarkOrWord;
-        this.isNeededToUpdateStatus = currentGamePlayer.status === this.CURRENT_STATUS;
       });
   }
 

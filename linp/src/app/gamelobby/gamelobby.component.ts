@@ -63,9 +63,10 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
           this.location.go(`gamelobby/${this.gameName}`);
         } else {
           this.router.navigate([`/${game.status}`, this.gameName], { skipLocationChange: isDevelopmentEnv === false });
-          return Promise.resolve();
+          return;
         }
 
+        // rewrite. warning about infinite loop
         if (this.isGameDataFetchedFlag === false) {
           this.gamePlayerAction();
         }
@@ -81,8 +82,7 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
       .subscribe((gamePlayers: GamePlayer[]) => {
         this.gamePlayers = gamePlayers;
         this.hostPlayer = gamePlayers.find(gamePlayr => gamePlayr.isHost);
-
-        const loggedInUser = gamePlayers.find(gamePlayr => gamePlayr.uid === this.firebaseGameService.authUserUid);
+        const loggedInUser = gamePlayers.find(gamePlayr => gamePlayr.uid === this.firebaseGameService.getAuthUid());
         this.loggedInPlayerIsHost = loggedInUser && loggedInUser.isHost;
 
         let everythingLoadedPromise = Promise.resolve();
@@ -94,9 +94,7 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
             });
         }
         everythingLoadedPromise.then(() => {
-          const isFirstPlayer = gamePlayers[0].uid === loggedInUser.uid;
-          const isHostAndTurnOnNextGameStatus = this.clickedStartButton && isFirstPlayer === false;
-          if (this.loggedInPlayerIsHost === false && isHostAndTurnOnNextGameStatus) {
+          if (this.loggedInPlayerIsHost === false) {
             this.actionguideService.triggerActionDone();
           }
         });

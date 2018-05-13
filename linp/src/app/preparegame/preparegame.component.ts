@@ -16,14 +16,12 @@ import {FirebaseGameService} from '../services/firebasegame.service';
 })
 export class PreparegameComponent implements OnInit, OnDestroy {
 
+// TODO reduce to minimum, only loading indicator
+
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public isRoleAssigned = false;
 
   private gameName: string;
-
-  readonly NEXT_PLAYER_STATUS = 'READY_TO_START';
-  readonly CURRENT_STATUS = 'JOINED_GAME';
-  readonly NEXT_PAGE: GameStatus = 'firsttip';
 
   constructor(private route: ActivatedRoute,
               private router: Router,

@@ -341,30 +341,6 @@ export class FirebaseGameService {
     return this.addFriendToUser(this.afAuth.auth.currentUser.uid, newFriendUid, name);
   }
 
-  public resetPlayer(gameName: string) {
-    const requestModel: any = {
-      ['firstSynonym']: firebase.firestore.FieldValue.delete(),
-      ['firstTeamTip']: firebase.firestore.FieldValue.delete(),
-      ['pointsScored']: firebase.firestore.FieldValue.delete(),
-      /*
-        {
-      ['firstTeamTip']: firebase.firestore.FieldValue.delete(),
-        ['indirect']: firebase.firestore.FieldValue.delete(),
-        ['secondTeamTip']: firebase.firestore.FieldValue.delete(),
-        ['total']: firebase.firestore.FieldValue.delete(),
-        // totalRounds
-      },
-      */
-      ['questionmarkOrWord']: firebase.firestore.FieldValue.delete(),
-      ['secondSynonym']: firebase.firestore.FieldValue.delete(),
-      ['secondTeamTip']: firebase.firestore.FieldValue.delete(),
-      ['status']: 'READY_TO_START',
-      ['totalRanking']: firebase.firestore.FieldValue.delete()
-    };
-
-    return this.updateGamePlayer(requestModel, gameName);
-  }
-
   public sendSynonym(firstOrSecondGamePlayerUpdate: GamePlayer, gameName: string): Promise<void> {
     return this.db.collection('games')
       .doc(gameName)
@@ -393,12 +369,11 @@ export class FirebaseGameService {
   }
 
   public logToServer(error: any): void {
-    debugger;
     this.db.collection('errors')
     .doc(new Date().getTime().toString())
     .set({
       stacktrace : error.toString()
-    })  
+    });
   }
 
   private random53(): number {

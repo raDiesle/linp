@@ -154,7 +154,7 @@
         class="btn btn-block"
         [ngClass]="{'btn-outline-success' : !hasStartedGame, 'btn-success' : hasStartedGame}"
         (click)="startGameAction()"
-        [disabled]="hasStartedGame || isNeededToUpdateStatus === null"
+        [disabled]="hasStartedGame"
       >          
         Ready to start       
       </button>

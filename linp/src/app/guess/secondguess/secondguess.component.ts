@@ -54,16 +54,21 @@ export class SecondguessComponent implements OnInit, OnDestroy {
 
     this.firebaseGameService.observeGamePlayers(this.gameName)
       .takeUntil(this.ngUnsubscribe)
-      .subscribe((gamePlayers: GamePlayer[]) => {
-        this.gamePlayers = gamePlayers;
+      .subscribe((gamePlayrs: GamePlayer[]) => {
+        this.gamePlayers = gamePlayrs;
 
-        const loggedInGamePlayer = gamePlayers.find(gamePlayer => {
+        const isSwitchGameStatus = gamePlayrs.every(gamePlayers => gamePlayers.status === this.PLAYER_STATUS_AFTER_ACTION);
+        if (isSwitchGameStatus) {
+          return;
+        }
+
+        const loggedInGamePlayer = gamePlayrs.find(gamePlayer => {
           return gamePlayer.uid === this.firebaseGameService.authUserUid;
         });
         this.loggedInGamePlayer = loggedInGamePlayer;
         this.isloggedInPlayerDoesAction = loggedInGamePlayer.status === this.PLAYER_STATUS_AFTER_ACTION;
-        const isSwitchGameStatus = gamePlayers.every(gamePlayers => gamePlayers.status === this.PLAYER_STATUS_AFTER_ACTION);
-        if (this.isloggedInPlayerDoesAction === true && isSwitchGameStatus === false) {
+
+        if (this.isloggedInPlayerDoesAction === true) {
           this.actionguideService.triggerActionDone();
         }
       });

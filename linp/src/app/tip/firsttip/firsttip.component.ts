@@ -60,17 +60,19 @@ export class FirsttipComponent implements OnInit, OnDestroy {
       .takeUntil(this.ngUnsubscribe)
       .subscribe(gamePlayers => {
         this.gamePlayers = gamePlayers;
+        this.currentPlayer = this.gamePlayers.find(gamePlayer => {
+          return gamePlayer.status !== this.NEXT_STATUS;
+        });
+        const isNextGameStatusSwitch = this.currentPlayer === null;
+        if (isNextGameStatusSwitch) {
+          return;
+        };
 
         this.loggedInGamePlayer = this.gamePlayers.find(gamePlayer => {
           return gamePlayer.uid === this.firebaseGameService.getAuthUid();
         });
 
-        this.currentPlayer = this.gamePlayers.find(gamePlayer => {
-          return gamePlayer.status !== this.NEXT_STATUS;
-        });
-
-        const isNextGameStatusSwitch = this.currentPlayer === null;
-        this.isPlayersTurnForAuthUser = isNextGameStatusSwitch === false ? this.isYourTurn() : false;
+        this.isPlayersTurnForAuthUser = this.currentPlayer.uid === this.loggedInGamePlayer.uid;
         if (this.isPlayersTurnForAuthUser === false) {
           this.actionguideService.triggerActionDone();
         }
@@ -79,10 +81,6 @@ export class FirsttipComponent implements OnInit, OnDestroy {
     Observable.timer(0, 1000).subscribe(number => {
       this.show$ = number % 2 === 0;
     });
-  }
-
-  private isYourTurn() {
-    return this.currentPlayer.uid === this.loggedInGamePlayer.uid;
   }
 
   sendSynonym() {

@@ -1,11 +1,11 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {AngularFirestore} from 'angularfire2/firestore';
-import {GamePlayer, GamePlayerStatus, GameStatus} from '../../models/game';
-import {GuessService} from '../guess.service';
-import {Subject} from 'rxjs/Subject';
-import {Observable} from 'rxjs/Observable';
-import {FirebaseGameService} from '../../services/firebasegame.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AngularFirestore } from 'angularfire2/firestore';
+import { GamePlayer, GamePlayerStatus, GameStatus } from '../../models/game';
+import { GuessService } from '../guess.service';
+import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
+import { FirebaseGameService } from '../../services/firebasegame.service';
 import { ActionguideDto } from '../../services/actionguide.service';
 
 const tipDBkey = 'firstTeamTip';
@@ -32,10 +32,10 @@ export class FirstguessComponent implements OnInit, OnDestroy {
   private isBlinkTickerShown$: boolean;
 
   constructor(private route: ActivatedRoute,
-              private router: Router,
-              public db: AngularFirestore,
-              public guessService: GuessService,
-              private firebaseGameService: FirebaseGameService) {
+    private router: Router,
+    public db: AngularFirestore,
+    public guessService: GuessService,
+    private firebaseGameService: FirebaseGameService) {
   }
 
   ngOnInit() {
@@ -51,16 +51,17 @@ export class FirstguessComponent implements OnInit, OnDestroy {
       .takeUntil(this.ngUnsubscribe)
       .subscribe((gamePlayers: GamePlayer[]) => {
         this.gamePlayers = gamePlayers;
+        const isGameStatusSwitch = gamePlayers.every(gamePlayer => gamePlayer.status === this.PLAYER_STATUS_AFTER_ACTION);
+        if (isGameStatusSwitch) {
+          return;
+        }
 
         const loggedInGamePlayer = gamePlayers.find(gamePlayer => {
           return gamePlayer.uid === this.firebaseGameService.authUserUid;
         });
         this.isloggedInPlayerGivenSynonym = loggedInGamePlayer.status === this.PLAYER_STATUS_AFTER_ACTION;
-      
-        const isFirstPlayer = gamePlayers[0].uid === loggedInGamePlayer.uid;
-        const isGameStatusSwitch = gamePlayers.every(gamePlayer => gamePlayer.status === this.PLAYER_STATUS_AFTER_ACTION);
-        const isAgainTurn = isGameStatusSwitch && isFirstPlayer;
-        if(this.isloggedInPlayerGivenSynonym === true && isAgainTurn === false){
+
+        if (this.isloggedInPlayerGivenSynonym === true) {
           this.checkToEnableActionGuide();
         }
       });

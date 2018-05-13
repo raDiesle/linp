@@ -58,16 +58,18 @@ export class SecondtipComponent implements OnInit, OnDestroy {
       .takeUntil(this.ngUnsubscribe)
       .subscribe(gamePlayers => {
         this.gamePlayers = gamePlayers;
-
+        const currentPlayer = this.gamePlayers.find(gamePlayer => {
+          return gamePlayer.status !== this.NEXT_STATUS;
+        });
+        const isNextGameStatus = this.currentPlayer === null;
+        if (isNextGameStatus) {
+          return;
+        }
+        this.currentPlayer = currentPlayer;
         this.loggedInGamePlayer = this.gamePlayers.find(gamePlayer => {
           return gamePlayer.uid === this.firebaseGameService.getAuthUid();
         });
-        this.currentPlayer = this.gamePlayers.find(gamePlayer => {
-          return gamePlayer.status !== this.NEXT_STATUS;
-        });
-
-        const isLastPlayerFinishedTurn = this.currentPlayer === null;
-        this.isPlayersTurnForAuthUser = !isLastPlayerFinishedTurn ? this.isYourTurn() : false;
+        this.isPlayersTurnForAuthUser = this.currentPlayer.uid === this.loggedInGamePlayer.uid;
         if (this.isPlayersTurnForAuthUser === false) {
           this.actionguideService.triggerActionDone();
         }
@@ -76,10 +78,6 @@ export class SecondtipComponent implements OnInit, OnDestroy {
     Observable.timer(0, 1000).subscribe(number => {
       this.show$ = number % 2 === 0;
     });
-  }
-
-  private isYourTurn() {
-    return this.currentPlayer.uid === this.loggedInGamePlayer.uid;
   }
 
   public sendSynonym() {
