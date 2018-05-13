@@ -1,5 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {NgModule, ErrorHandler} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -52,6 +52,9 @@ import {ShareModule} from '@ngx-share/core';
 import {ShareButtonModule} from '@ngx-share/button';
 import { ActivegamesComponent } from './welcome/activegames/activegames.component';
 import { FriendlistComponent } from './welcome/friendlist/friendlist.component';
+
+import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
+
 import {
   AuthMethods,
   AuthProvider,
@@ -71,6 +74,7 @@ import { ScorecardComponent } from './evaluation/scorecard/scorecard.component';
 import { NextbuttonComponent } from './evaluation/nextbutton/nextbutton.component';
 import { ActionguideService } from './services/actionguide.service';
 import { ActionguidemodalComponent } from './widgets/actionguidemodal/actionguidemodal.component';
+import { CustomErrorHandler } from './services/customerrorhandler';
 
 export function windowFactory() {
   return window;
@@ -236,11 +240,13 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     AngularFirestoreModule,
     AngularFireAuthModule,
     AngularFireStorageModule,
-    FirebaseUIModule.forRoot(firebaseUiAuthConfig)
+    FirebaseUIModule.forRoot(firebaseUiAuthConfig),
+    ScrollToModule.forRoot()
   ],
  // missingTranslation: MissingTranslationStrategy.Error,
   providers: [AuthGuard, FirebaseGameService, GuessService, UserprofileService, GamelobbyComponent, GamelobbyService,
-    PreparegameComponent, LinpCardsModelService, ActionguideService, WindowRef
+    PreparegameComponent, LinpCardsModelService, ActionguideService, WindowRef,
+    {provide: ErrorHandler, useClass: CustomErrorHandler}
   ],
   bootstrap: [AppComponent]
 })

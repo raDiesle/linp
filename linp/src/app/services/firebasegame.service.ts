@@ -392,6 +392,15 @@ export class FirebaseGameService {
       }, { merge: true });
   }
 
+  public logToServer(error: any): void {
+    debugger;
+    this.db.collection('errors')
+    .doc(new Date().getTime().toString())
+    .set({
+      stacktrace : error.toString()
+    })  
+  }
+
   private random53(): number {
     return Math.floor(Number.MAX_SAFE_INTEGER * (2 * (Math.random() - 0.5)));
   }

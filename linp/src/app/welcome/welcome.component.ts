@@ -1,5 +1,5 @@
 import { FirebaseGameService } from './../services/firebasegame.service';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 
 @Component({
@@ -8,7 +8,7 @@ import { Subject } from 'rxjs/Subject';
   styleUrls: ['./welcome.component.css'],
   // attach the fade in animation to the host (root) element of this component
 })
-export class WelcomeComponent {
+export class WelcomeComponent implements OnInit{
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public authUser: firebase.User;
@@ -20,6 +20,11 @@ export class WelcomeComponent {
         this.authUser = authUser;
       });
   }
+  
+  ngOnInit(): void {
+    
+  }
+
 }
 
 

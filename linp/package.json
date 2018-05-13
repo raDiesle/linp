@@ -30,6 +30,7 @@
     "@ng-bootstrap/ng-bootstrap": "1.1.2",
     "@ngx-share/button": "^5.0.0",
     "@ngx-share/core": "^5.0.0",
+    "@nicky-lenaers/ngx-scroll-to": "0.6.1",
     "angularfire2": "5.0.0-rc.6",
     "bootstrap": "4.1.1",
     "bootswatch": "^4.1.1",

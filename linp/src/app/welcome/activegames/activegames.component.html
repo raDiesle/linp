@@ -1,25 +1,39 @@
-<div class="card border-dark">
+<div id="activegames" class="card border-dark">
   <div class="card-header text-center">
     <strong i18n="@@activegames.header">Your active games</strong>
   </div>
   <div class="card-body">
     <div class="list-group">
-      <ng-container *ngFor="let game of games">
-        <button id="gamename_{{game.name}}" class="list-group-item list-group-item-action my-1" role="button" *ngIf="game !== -1" (click)="onSelectGameToJoin(game)" 
-          [ngClass]="{'list-group-item-primary' : game.isActionRequired, 'list-group-item-light' : !game.isActionRequired}">
+
+      Your turn
+      
+        <button id="gamename_{{game.name}}" class="list-group-item list-group-item-action list-group-item-primary my-1" role="button"   
+        *ngFor="let game of games"
+        (click)="onSelectGameToJoin(game)" 
+         
+        >
           <div class="row">
             <div class="col-8">
               {{game.name}}
             </div>
-            <div class="col-4 text-right" id="{{game.name}}_actionRequired" *ngIf="game.isActionRequired === true" i18n="@@activegames.actionrequired">
-            
-            </div>
-            <div class="col-4 text-right" id="{{game.name}}_noActionRequired" *ngIf="game.isActionRequired === false">
-          
+          </div>
+        </button>
+
+      Waiting for others
+
+    
+        <button id="gamename_{{game.name}}" class="list-group-item list-group-item-action list-group-item-light my-1" role="button" 
+        *ngFor="let game of passiveGames"
+         (click)="onSelectGameToJoin(game)" 
+        
+        >
+          <div class="row">
+            <div class="col-8">
+              {{game.name}}
             </div>
           </div>
         </button>
-      </ng-container>
+ 
       <div *ngIf="games === null">
         <app-waitingdots></app-waitingdots>
       </div>
