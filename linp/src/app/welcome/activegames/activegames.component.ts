@@ -17,7 +17,7 @@ import { ScrollToService, ScrollToConfigOptions } from '@nicky-lenaers/ngx-scrol
 })
 export class ActivegamesComponent implements OnInit, OnDestroy {
 
-  passiveGames: any[];
+  passiveGames: ActivePlayerGame[] = null;
   public games: ActivePlayerGame[] = null;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 

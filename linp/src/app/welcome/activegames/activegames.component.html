@@ -6,38 +6,40 @@
     <div class="list-group">
 
       Your turn
-      
-        <button id="gamename_{{game.name}}" class="list-group-item list-group-item-action list-group-item-primary my-1" role="button"   
-        *ngFor="let game of games"
-        (click)="onSelectGameToJoin(game)" 
-         
-        >
-          <div class="row">
-            <div class="col-8">
-              {{game.name}}
-            </div>
+      <div *ngIf="games !== null && games.length === 0">
+        <div class="alert alert-success text-center">
+          <i class="material-icons">
+            check_circle_outline
+            </i>
+          <p>Come back if other players did their turn.</p>
+          <p>There is no game where your action is required.</p>
+        </div>
+      </div>
+      <button id="gamename_{{game.name}}" class="list-group-item list-group-item-action list-group-item-primary my-1" role="button"
+        *ngFor="let game of games" (click)="onSelectGameToJoin(game)">
+        <div class="row">
+          <div class="col-8">
+            {{game.name}}
           </div>
-        </button>
+        </div>
+      </button>
 
       Waiting for others
 
-    
-        <button id="gamename_{{game.name}}" class="list-group-item list-group-item-action list-group-item-light my-1" role="button" 
-        *ngFor="let game of passiveGames"
-         (click)="onSelectGameToJoin(game)" 
-        
-        >
-          <div class="row">
-            <div class="col-8">
-              {{game.name}}
-            </div>
+
+      <button id="gamename_{{game.name}}" class="list-group-item list-group-item-action list-group-item-light my-1" role="button"
+        *ngFor="let game of passiveGames" (click)="onSelectGameToJoin(game)">
+        <div class="row">
+          <div class="col-8">
+            {{game.name}}
           </div>
-        </button>
- 
+        </div>
+      </button>
+
       <div *ngIf="games === null">
         <app-waitingdots></app-waitingdots>
       </div>
-      <div *ngIf="games !== null && games.length === 0">
+      <div *ngIf="games !== null && games.length === 0 && passiveGames.length === 0">
         <div class="alert alert-warning text-center">
           <div class="alert-heading h6">
             There are no active games yet.
