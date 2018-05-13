@@ -3,11 +3,11 @@ import { Observable } from 'rxjs/Rx';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AngularFirestore } from 'angularfire2/firestore';
 import * as firebase from 'firebase/app';
-import { GamePlayer, GamePlayerStatus } from '../../models/game';
+import { GamePlayer, GamePlayerStatus, GameStatus } from '../../models/game';
 import { Subject } from 'rxjs/Subject';
 import { FirebaseGameService } from '../../services/firebasegame.service';
 import { AngularFireAuth } from 'angularfire2/auth';
-
+import { ActionguideDto, ActionguideService } from '../../services/actionguide.service';
 
 @Component({
   selector: 'app-firsttip',
@@ -40,7 +40,8 @@ export class FirsttipComponent implements OnInit, OnDestroy {
     private router: Router,
     public db: AngularFirestore,
     public afAuth: AngularFireAuth,
-    private firebaseGameService: FirebaseGameService) {
+    private firebaseGameService: FirebaseGameService,
+    private actionguideService: ActionguideService) {
   }
 
   ngOnInit() {
@@ -68,8 +69,11 @@ export class FirsttipComponent implements OnInit, OnDestroy {
           return gamePlayer.status !== this.NEXT_STATUS;
         });
 
-        const isLastPlayerFinishedTurn = !this.currentPlayer;
-        this.isPlayersTurnForAuthUser = !isLastPlayerFinishedTurn ? this.isYourTurn() : false;
+        const isNextGameStatusSwitch = this.currentPlayer === null;
+        this.isPlayersTurnForAuthUser = isNextGameStatusSwitch === false ? this.isYourTurn() : false;
+        if (this.isPlayersTurnForAuthUser === false) {
+          this.actionguideService.triggerActionDone();
+        }
       });
 
     Observable.timer(0, 1000).subscribe(number => {

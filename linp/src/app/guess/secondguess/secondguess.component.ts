@@ -9,6 +9,7 @@ import { Observable } from 'rxjs/Observable';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Subject } from 'rxjs/Subject';
 import { FirebaseGameService } from '../../services/firebasegame.service';
+import { ActionguideDto, ActionguideService } from '../../services/actionguide.service';
 
 const tipDBkey = 'secondTeamTip';
 
@@ -31,14 +32,15 @@ export class SecondguessComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   private isBlinkTickerShown$: boolean;
-  public isloggedInPlayerGivenSynonym = false;
+  public isloggedInPlayerDoesAction = false;
   public savedResponseFlag = false;
 
   constructor(private route: ActivatedRoute,
     private router: Router,
     public db: AngularFirestore,
     public guessService: GuessService,
-    private firebaseGameService: FirebaseGameService) {
+    private firebaseGameService: FirebaseGameService,
+    private actionguideService: ActionguideService) {
   }
 
   ngOnInit() {
@@ -59,7 +61,11 @@ export class SecondguessComponent implements OnInit, OnDestroy {
           return gamePlayer.uid === this.firebaseGameService.authUserUid;
         });
         this.loggedInGamePlayer = loggedInGamePlayer;
-        this.isloggedInPlayerGivenSynonym = loggedInGamePlayer.status === this.PLAYER_STATUS_AFTER_ACTION;
+        this.isloggedInPlayerDoesAction = loggedInGamePlayer.status === this.PLAYER_STATUS_AFTER_ACTION;
+        const isSwitchGameStatus = gamePlayers.every(gamePlayers => gamePlayers.status === this.PLAYER_STATUS_AFTER_ACTION);
+        if (this.isloggedInPlayerDoesAction === true && isSwitchGameStatus === false) {
+          this.actionguideService.triggerActionDone();
+        }
       });
 
     Observable.timer(0, 1000)
@@ -72,9 +78,6 @@ export class SecondguessComponent implements OnInit, OnDestroy {
 
     // const canSelectDeselectToBeOneSelected = this.selectedGamePlayers.length !== 1;
     // const isPossibleDuplicatedChoiceOfTeamGuess = canSelectDeselectToBeOneSelected;
-
-
-
 
     if (clickedGamePlayer.uid === this.playerUidToDisableForSelection) {
       return;

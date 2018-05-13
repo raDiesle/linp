@@ -34,6 +34,8 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
   private loggedInPlayerIsHost = false;
   private hostPlayer: GamePlayer;
   public loggedInPlayerSuccessfulAddedStatusFlag = false;
+  private clickedStartButton = false;
+
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -70,8 +72,6 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
       });
   }
 
-
-
   private gamePlayerAction(): any {
     // TODO refactor to add host at game creation
     this.isGameDataFetchedFlag = true;
@@ -85,13 +85,21 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
         const loggedInUser = gamePlayers.find(gamePlayr => gamePlayr.uid === this.firebaseGameService.authUserUid);
         this.loggedInPlayerIsHost = loggedInUser && loggedInUser.isHost;
 
+        let everythingLoadedPromise = Promise.resolve();
         const isAlreadyJoined = loggedInUser !== undefined;
         if (isAlreadyJoined === false) {
-          this.firebaseGameService.addLoggedInPlayerToGame(this.gameName)
+          everythingLoadedPromise = this.firebaseGameService.addLoggedInPlayerToGame(this.gameName)
             .then(() => {
               this.loggedInPlayerSuccessfulAddedStatusFlag = true;
             });
         }
+        everythingLoadedPromise.then(() => {
+          const isFirstPlayer = gamePlayers[0].uid === loggedInUser.uid;
+          const isHostAndTurnOnNextGameStatus = this.clickedStartButton && isFirstPlayer === false;
+          if (this.loggedInPlayerIsHost === false && isHostAndTurnOnNextGameStatus) {
+            this.actionguideService.triggerActionDone();
+          }
+        });
       });
   }
 
@@ -103,17 +111,8 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
   }
 
   startGame(): void {
-    this.checkToEnableActionGuide();
+    this.clickedStartButton = true;
     this.firebaseGameService.updateGameStatus(this.NEXT_PAGE, this.gameName)
-  }
-
-  public checkToEnableActionGuide(): void {
-    const currentRouteGameStatus: GameStatus = <GameStatus>this.route.snapshot.url[0].path;
-    const actionguideDto: ActionguideDto = {
-      gamePlayers: this.gamePlayers,
-      gameStatus: currentRouteGameStatus
-    };
-    this.actionguideService.triggerActionDone(actionguideDto);
   }
 
   public ngOnDestroy() {

@@ -1,25 +1,23 @@
 <div *ngIf="isGameDataFetchedFlag">
- 
-    <div class="card border-dark my-1 py-2">
-        <div class="card-body">
-          <div class="card-text text-center">
-            <h3 i18n="@@gamelobby.step.header" (click)="nextActionGuide()">Game Preparations</h3>
-          </div>
-        </div>
-      </div> 
+
+  <div class="card border-dark my-1 py-2">
+    <div class="card-body">
+      <div class="card-text text-center">
+        <h3 i18n="@@gamelobby.step.header" (click)="nextActionGuide()">Game preparations</h3>
+      </div>
+    </div>
+  </div>
 
   <div class="card">
     <div class="card-header text-center">
       <strong i18n="@@gamelobby.invitefriends.header">
-        Invite Linp Friends
+        Invite Linp friends
       </strong>
     </div>
     <div class="card-body">
       <div class="btn-group btn-block" ngbDropdown role="group" aria-label="Add friend" *ngIf="friendList">
-        <button class="btn btn-outline-primary btn-block" id="addFriendList" ngbDropdownToggle
-          i18n="@@gamelobby.invitefriends.add"
-        >
-          Add friend
+        <button class="btn btn-outline-primary btn-block" id="addFriendList" ngbDropdownToggle i18n="@@gamelobby.invitefriends.add">
+          Add friend to game
         </button>
         <div class="dropdown-menu" ngbDropdownMenu>
           <button class="dropdown-item" i18n="@@gamelobby.invitefriends.cancel">-- cancel --</button>
@@ -31,13 +29,11 @@
       </div>
       <div *ngIf="!friendList">
         <div class="alert alert-danger" i18n="@@gamelobby.invitefriends.nofriends">
-          You do not have Linp friends yet!
+          You do not have Linp friends, yet.
         </div>
         <div>
-          <button class="btn btn-block btn-primary" routerLink="/welcome"
-          i18n="@@gamelobby.invitefriends.invitebutton"
-          >
-            Invite players to linp
+          <button class="btn btn-block btn-primary" routerLink="/welcome" i18n="@@gamelobby.invitefriends.invitebutton">
+            Invite players to Linp
           </button>
         </div>
       </div>
@@ -57,9 +53,7 @@
         <span *ngIf="loggedInPlayerSuccessfulAddedStatusFlag" id="loggedInPlayerSuccessfulAddedStatusFlag"></span>
         <button id="gamestatusButton" (click)="startGame()" class="btn btn-block my-1" [ngClass]="gamePlayers.length < 4 ? 'btn-outline-warning' : 'btn-outline-success'"
           [disabled]="gamePlayers.length < 4 || loggedInPlayerIsHost === false">
-          <span *ngIf="gamePlayers.length <= 3"
-          i18n="@@gamelobby.missingplayers"
-          >
+          <span *ngIf="gamePlayers.length <= 3" i18n="@@gamelobby.missingplayers">
             at least {{4 - gamePlayers.length}} players missing
           </span>
           <span *ngIf="gamePlayers.length > 3">

@@ -11,30 +11,13 @@ export type Actionguidestatus = 'CONTINUE_ACTION' | 'WAITING';
 
 @Injectable()
 export class ActionguideService {
-  public actionDone: EventEmitter<Actionguidestatus>;
+  public actionDone: EventEmitter<void>;
 
   constructor(private firebasegameService: FirebaseGameService) {
     this.actionDone = new EventEmitter();
   }
 
-  public triggerActionDone(actionguideDto: ActionguideDto) {
-    const authUid = this.firebasegameService.getAuthUid();
-
-    const isCurrentGamePlayerIsHost = actionguideDto.gamePlayers.some(gamePlayer => {
-      return gamePlayer.isHost && gamePlayer.uid === authUid;
-    });
-    const isFirstPlayer = actionguideDto.gamePlayers[0].uid === authUid;
-
-    const rules: any = {
-      gamelobby: (gamePlayers: GamePlayer[]): Actionguidestatus => {
-        const isContinue = isCurrentGamePlayerIsHost && isFirstPlayer;
-        return isContinue ? 'CONTINUE_ACTION' : 'WAITING';
-      },
-      firsttip: (gamePlayers) => {
-
-      }
-    };
-    const actionGuideStatus: Actionguidestatus = rules[actionguideDto.gameStatus](actionguideDto.gamePlayers);
-    this.actionDone.emit(actionGuideStatus);
+  public triggerActionDone() {
+      this.actionDone.emit();
   }
 }

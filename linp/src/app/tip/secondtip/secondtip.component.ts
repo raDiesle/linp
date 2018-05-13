@@ -1,12 +1,13 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Observable} from 'rxjs/Rx';
-import {ActivatedRoute, ParamMap, Router} from '@angular/router';
-import {AngularFirestore} from 'angularfire2/firestore';
-import {AngularFireAuth} from 'angularfire2/auth/auth';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable } from 'rxjs/Rx';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { AngularFirestore } from 'angularfire2/firestore';
+import { AngularFireAuth } from 'angularfire2/auth/auth';
 import * as firebase from 'firebase/app';
-import {GamePlayer, GamePlayerStatus, GameStatus} from '../../models/game';
-import {Subject} from 'rxjs/Subject';
-import {FirebaseGameService} from '../../services/firebasegame.service';
+import { GamePlayer, GamePlayerStatus, GameStatus } from '../../models/game';
+import { Subject } from 'rxjs/Subject';
+import { FirebaseGameService } from '../../services/firebasegame.service';
+import { ActionguideDto, ActionguideService } from '../../services/actionguide.service';
 
 
 @Component({
@@ -39,8 +40,9 @@ export class SecondtipComponent implements OnInit, OnDestroy {
   private currentPlayer: GamePlayer;
 
   constructor(private route: ActivatedRoute,
-              private router: Router,
-              private firebaseGameService: FirebaseGameService) {
+    private router: Router,
+    private firebaseGameService: FirebaseGameService,
+    private actionguideService: ActionguideService) {
   }
 
   ngOnInit() {
@@ -49,7 +51,7 @@ export class SecondtipComponent implements OnInit, OnDestroy {
     this.firebaseGameService.observeGame(this.gameName)
       .takeUntil(this.ngUnsubscribe)
       .subscribe(game => {
-          this.router.navigate(['/' + game.status, this.gameName], {skipLocationChange: true});
+        this.router.navigate([`/${game.status}`, this.gameName], { skipLocationChange: true });
       });
 
     this.firebaseGameService.observeGamePlayers(this.gameName)
@@ -64,8 +66,11 @@ export class SecondtipComponent implements OnInit, OnDestroy {
           return gamePlayer.status !== this.NEXT_STATUS;
         });
 
-        const isLastPlayerFinishedTurn = !this.currentPlayer;
+        const isLastPlayerFinishedTurn = this.currentPlayer === null;
         this.isPlayersTurnForAuthUser = !isLastPlayerFinishedTurn ? this.isYourTurn() : false;
+        if (this.isPlayersTurnForAuthUser === false) {
+          this.actionguideService.triggerActionDone();
+        }
       });
 
     Observable.timer(0, 1000).subscribe(number => {
@@ -77,9 +82,9 @@ export class SecondtipComponent implements OnInit, OnDestroy {
     return this.currentPlayer.uid === this.loggedInGamePlayer.uid;
   }
 
-  sendSynonym() {
+  public sendSynonym() {
     const firstOrSecondGamePlayerUpdate = {
-      status : this.NEXT_STATUS
+      status: this.NEXT_STATUS
     };
     firstOrSecondGamePlayerUpdate[this.SYNONYM_KEY] = this.synonym;
 

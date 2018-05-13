@@ -6,6 +6,7 @@ import {GuessService} from '../guess.service';
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
 import {FirebaseGameService} from '../../services/firebasegame.service';
+import { ActionguideDto } from '../../services/actionguide.service';
 
 const tipDBkey = 'firstTeamTip';
 
@@ -16,6 +17,7 @@ const tipDBkey = 'firstTeamTip';
 })
 export class FirstguessComponent implements OnInit, OnDestroy {
 
+  actionguideService: any;
   selectedGamePlayers: GamePlayer[] = [];
   gamePlayers: GamePlayer[];
   readonly PLAYER_STATUS_AFTER_ACTION: GamePlayerStatus = 'FIRST_GUESS_GIVEN';
@@ -28,8 +30,6 @@ export class FirstguessComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   private isBlinkTickerShown$: boolean;
-
-
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -56,6 +56,13 @@ export class FirstguessComponent implements OnInit, OnDestroy {
           return gamePlayer.uid === this.firebaseGameService.authUserUid;
         });
         this.isloggedInPlayerGivenSynonym = loggedInGamePlayer.status === this.PLAYER_STATUS_AFTER_ACTION;
+      
+        const isFirstPlayer = gamePlayers[0].uid === loggedInGamePlayer.uid;
+        const isGameStatusSwitch = gamePlayers.every(gamePlayer => gamePlayer.status === this.PLAYER_STATUS_AFTER_ACTION);
+        const isAgainTurn = isGameStatusSwitch && isFirstPlayer;
+        if(this.isloggedInPlayerGivenSynonym === true && isAgainTurn === false){
+          this.checkToEnableActionGuide();
+        }
       });
 
     Observable.timer(0, 1000)
@@ -73,6 +80,15 @@ export class FirstguessComponent implements OnInit, OnDestroy {
       .then(response => {
         this.savedResponseFlag = true;
       });
+  }
+
+  private checkToEnableActionGuide(): void {
+    const currentRouteGameStatus: GameStatus = <GameStatus>this.route.snapshot.url[0].path;
+    const actionguideDto: ActionguideDto = {
+      gamePlayers: this.gamePlayers,
+      gameStatus: currentRouteGameStatus
+    };
+    this.actionguideService.triggerActionDone(actionguideDto);
   }
 
   ngOnDestroy() {
