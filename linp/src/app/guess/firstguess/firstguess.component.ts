@@ -1,3 +1,4 @@
+import { ActionguideService } from './../../services/actionguide.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AngularFirestore } from 'angularfire2/firestore';
@@ -17,16 +18,17 @@ const tipDBkey = 'firstTeamTip';
 })
 export class FirstguessComponent implements OnInit, OnDestroy {
 
-  actionguideService: any;
   selectedGamePlayers: GamePlayer[] = [];
   gamePlayers: GamePlayer[];
+  public loggedInGamePlayer: GamePlayer;
+
   readonly PLAYER_STATUS_AFTER_ACTION: GamePlayerStatus = 'FIRST_GUESS_GIVEN';
   readonly NEXT_PAGE: GameStatus = 'secondtip';
 
   gameName: string;
   public isOpened: boolean;
   public savedResponseFlag = false;
-  public isloggedInPlayerGivenSynonym = false;
+  public isloggedInPlayerDidGuess = false;
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   private isBlinkTickerShown$: boolean;
@@ -35,7 +37,8 @@ export class FirstguessComponent implements OnInit, OnDestroy {
     private router: Router,
     public db: AngularFirestore,
     public guessService: GuessService,
-    private firebaseGameService: FirebaseGameService) {
+    private firebaseGameService: FirebaseGameService,
+    private actionguideService: ActionguideService) {
   }
 
   ngOnInit() {
@@ -56,13 +59,13 @@ export class FirstguessComponent implements OnInit, OnDestroy {
           return;
         }
 
-        const loggedInGamePlayer = gamePlayers.find(gamePlayer => {
-          return gamePlayer.uid === this.firebaseGameService.authUserUid;
+        this.loggedInGamePlayer = gamePlayers.find(gamePlayer => {
+          return gamePlayer.uid === this.firebaseGameService.getAuthUid();
         });
-        this.isloggedInPlayerGivenSynonym = loggedInGamePlayer.status === this.PLAYER_STATUS_AFTER_ACTION;
+        this.isloggedInPlayerDidGuess = this.loggedInGamePlayer.status === this.PLAYER_STATUS_AFTER_ACTION;
 
-        if (this.isloggedInPlayerGivenSynonym === true) {
-          this.checkToEnableActionGuide();
+        if (this.isloggedInPlayerDidGuess === true) {
+          this.actionguideService.triggerActionDone();
         }
       });
 
@@ -81,15 +84,6 @@ export class FirstguessComponent implements OnInit, OnDestroy {
       .then(response => {
         this.savedResponseFlag = true;
       });
-  }
-
-  private checkToEnableActionGuide(): void {
-    const currentRouteGameStatus: GameStatus = <GameStatus>this.route.snapshot.url[0].path;
-    const actionguideDto: ActionguideDto = {
-      gamePlayers: this.gamePlayers,
-      gameStatus: currentRouteGameStatus
-    };
-    this.actionguideService.triggerActionDone(actionguideDto);
   }
 
   ngOnDestroy() {

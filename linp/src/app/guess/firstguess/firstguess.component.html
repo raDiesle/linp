@@ -4,15 +4,17 @@
 <div class="row" [hidden]="gamePlayers === undefined">
   <span id="savedResponseFlag" class="d-none" *ngIf="savedResponseFlag"></span>
 
-  <div class="col-12 pb-3" *ngIf="isloggedInPlayerGivenSynonym === false">
+  <div class="col-12 pb-3" [hidden]="isloggedInPlayerDidGuess === true">
     <div class="card">
       <div class="card-header">
         <strong>First Guess</strong>
       </div>
       <div class="card-body">
-        <h6 class="card-subtitle mb-2 text-muted">
-          Who might be teaming up and having the same word?
-        </h6>
+        <div class="card-subtitle my-4 text-muted text-center">
+          <span>Who might be teaming up and having the same word/role?</span>
+          <div class="mt-3">This is yours:</div>
+          <div class="badge badge-info">{{loggedInGamePlayer?.questionmarkOrWord}}</div>          
+        </div>
         <h6 class="card-subtitle mb-2 text-muted">
           Make sure prioritizing to guess you and your partner as team.
         </h6>
@@ -48,8 +50,7 @@
     </div>
   </div>
 
-
-  <div class="col-12">
+  <div class="col-12" [hidden]="isloggedInPlayerDidGuess === false">
     <div class="card">
       <div class="card-header">
         <strong>Status of players</strong>
