@@ -44,7 +44,7 @@ import {CreatewordComponent} from './createword/createword.component';
 import {LinpCardsModelService} from './simulation/linpcardsinit.service';
 
 import {GamelobbyService} from './gamelobby/gamelobby-service';
-// import {TimeAgoPipe} from 'time-ago-pipe';
+ import {TimeAgoPipe} from 'time-ago-pipe';
 import {FirebaseGameService} from './services/firebasegame.service';
 import {FinalizeroundComponent} from './finalizeround/finalizeround.component';
 import {AuthGuard} from './services/auth.guard';
@@ -119,7 +119,7 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     PreparegameComponent,
     BlinkComponent,
     CreatewordComponent,
- //   TimeAgoPipe,
+    TimeAgoPipe,
     FinalizeroundComponent,
     FriendlistComponent,
     AddfriendComponent,
@@ -139,7 +139,6 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     FriendlistComponent
   ],
   imports: [
-  //  TimeAgoPipe,
     RouterModule.forRoot([
       {
         path: 'welcome',

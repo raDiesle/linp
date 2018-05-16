@@ -15,9 +15,9 @@ import { ActionguideDto, ActionguideService } from '../../services/actionguide.s
   styleUrls: ['./firsttip.component.css']
 })
 export class FirsttipComponent implements OnInit, OnDestroy {
-  loggedInGamePlayer: GamePlayer;
+  public loggedInGamePlayer: GamePlayer;
 
-  isSecondtip = false;
+  public isSecondtip = false;
   readonly NEXT_PAGE = 'firstguess';
   readonly NEXT_STATUS: GamePlayerStatus = 'FIRST_SYNONYM_GIVEN';
   readonly SYNONYM_KEY = 'firstSynonym';

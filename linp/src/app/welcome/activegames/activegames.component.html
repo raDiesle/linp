@@ -22,7 +22,7 @@
             {{game.name}}
           </div>
           <div class="col-6 text-right" [hidden]="!game.since">
-              {{game.since | date:'short':'':'en'}}
+              {{game.since | timeAgo}}
           </div>
         </div>
       </button>
@@ -37,7 +37,7 @@
             {{game.name}}
           </div>
           <div class="col-6 text-right" [hidden]="!game.since">
-              {{game.since | date:'short':'':'en'}}
+              {{game.since | timeAgo}}
           </div>
         </div>
       </button>

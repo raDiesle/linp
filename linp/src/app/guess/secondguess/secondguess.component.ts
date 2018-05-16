@@ -21,7 +21,7 @@ const tipDBkey = 'secondTeamTip';
 export class SecondguessComponent implements OnInit, OnDestroy {
 
   playerUidToDisableForSelection: string;
-  private loggedInGamePlayer: GamePlayer;
+  public loggedInGamePlayer: GamePlayer;
   readonly PLAYER_STATUS_AFTER_ACTION: GamePlayerStatus = 'SECOND_GUESS_GIVEN';
   readonly NEXT_PAGE: GameStatus = 'evaluation';
 
@@ -32,7 +32,7 @@ export class SecondguessComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   private isBlinkTickerShown$: boolean;
-  public isloggedInPlayerDoesAction = false;
+  public isloggedInPlayerDidGuess = false;
   public savedResponseFlag = false;
 
   constructor(private route: ActivatedRoute,
@@ -66,9 +66,9 @@ export class SecondguessComponent implements OnInit, OnDestroy {
           return gamePlayer.uid === this.firebaseGameService.authUserUid;
         });
         this.loggedInGamePlayer = loggedInGamePlayer;
-        this.isloggedInPlayerDoesAction = loggedInGamePlayer.status === this.PLAYER_STATUS_AFTER_ACTION;
+        this.isloggedInPlayerDidGuess = loggedInGamePlayer.status === this.PLAYER_STATUS_AFTER_ACTION;
 
-        if (this.isloggedInPlayerDoesAction === true) {
+        if (this.isloggedInPlayerDidGuess === true) {
           this.actionguideService.triggerActionDone();
         }
       });

@@ -17,9 +17,9 @@ import { ActionguideDto, ActionguideService } from '../../services/actionguide.s
 })
 export class SecondtipComponent implements OnInit, OnDestroy {
 
-  loggedInGamePlayer: GamePlayer;
+  public loggedInGamePlayer: GamePlayer;
 
-  isSecondtip = true;
+  public isSecondtip = true;
   readonly NEXT_STATUS: GamePlayerStatus = 'SECOND_SYNONYM_GIVEN';
   readonly NEXT_PAGE = 'secondguess';
   readonly SYNONYM_KEY = 'secondSynonym';
