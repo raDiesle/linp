@@ -7,16 +7,21 @@
 
   <div class="card" id="yourTurn" *ngIf="isPlayersTurnForAuthUser === false">
     <div class="card-body">
-      <div class="row">
-        <div class="col-8">
-          Waiting for
-          <strong>{{currentPlayer?.name}}</strong> to give his password.
-        </div>
-        <div class="col-4 text-right">
-          <img src="assets/agent_small.jpg">
+      <div class="alert alert-success">
+        <div class="row">
+          <div class="col-12 text-center">
+            <i class="material-icons">
+              check_circle_outline
+            </i>
+          </div>
+          <div class="col-8">
+            <strong>Waiting for {{currentPlayer?.name}} to give his password next.</strong>
+          </div>
+          <div class="col-4 text-right">
+            <img src="assets/agent_small.jpg">
+          </div>
         </div>
       </div>
-
     </div>
   </div>
 

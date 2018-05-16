@@ -15,7 +15,7 @@ const tipDBkey = 'secondTeamTip';
 
 @Component({
   selector: 'app-secondguess',
-  templateUrl: './secondguess.component.html',
+  templateUrl: './../guesstemplate.outlet.html',
   styleUrls: ['./secondguess.component.css']
 })
 export class SecondguessComponent implements OnInit, OnDestroy {
