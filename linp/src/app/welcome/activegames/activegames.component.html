@@ -18,8 +18,11 @@
       <button id="gamename_{{game.name}}" class="list-group-item list-group-item-action list-group-item-primary my-1" role="button"
         *ngFor="let game of games" (click)="onSelectGameToJoin(game)">
         <div class="row">
-          <div class="col-8">
+          <div class="col-6">
             {{game.name}}
+          </div>
+          <div class="col-6 text-right" [hidden]="!game.since">
+              {{game.since | date:'short':'':'en'}}
           </div>
         </div>
       </button>
@@ -30,8 +33,11 @@
       <button id="gamename_{{game.name}}" class="list-group-item list-group-item-action list-group-item-light my-1" role="button"
         *ngFor="let game of passiveGames" (click)="onSelectGameToJoin(game)">
         <div class="row">
-          <div class="col-8">
+          <div class="col-6">
             {{game.name}}
+          </div>
+          <div class="col-6 text-right" [hidden]="!game.since">
+              {{game.since | date:'short':'':'en'}}
           </div>
         </div>
       </button>

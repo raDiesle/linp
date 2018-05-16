@@ -13,4 +13,5 @@ export interface PlayerFriendlist {
 export interface ActivePlayerGame {
   name: string;
   isActionRequired: boolean;
+  since: number;
 }

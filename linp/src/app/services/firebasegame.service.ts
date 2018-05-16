@@ -301,7 +301,8 @@ export class FirebaseGameService {
   private addActiveGameToPlayer(gameName: string, uid: string, isLoggedInPlayerHost): Promise<void> {
     const activeGameModel: ActivePlayerGame = {
       name: gameName,
-      isActionRequired: isLoggedInPlayerHost
+      isActionRequired: isLoggedInPlayerHost,
+      since: new Date().getTime()
     };
     return this.db
       .collection<GamePlayer>('players')

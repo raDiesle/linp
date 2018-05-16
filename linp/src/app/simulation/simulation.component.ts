@@ -147,7 +147,8 @@ export class SimulationComponent implements OnInit, OnDestroy {
 
               const activeGameModel: ActivePlayerGame = {
                 name: this.gameName,
-                isActionRequired: false
+                isActionRequired: false,
+                since: new Date().getTime()
               };
               const isPlayerToSimulateHeIsFirstPlayersTurn = player.name === 'playerB';
               if (isPlayerToSimulateHeIsFirstPlayersTurn) {
@@ -227,7 +228,8 @@ export class SimulationComponent implements OnInit, OnDestroy {
             .then(() => {
               const activeGameModel: ActivePlayerGame = {
                 name: this.gameName,
-                isActionRequired: true
+                isActionRequired: true,
+                since: new Date().getTime()
               };
               this.db
               .collection<GamePlayer>('players')
@@ -266,7 +268,8 @@ export class SimulationComponent implements OnInit, OnDestroy {
 
               const activeGameModel: ActivePlayerGame = {
                 name: this.gameName,
-                isActionRequired: true
+                isActionRequired: true,
+                since: new Date().getTime()
               };
               this.db
               .collection<GamePlayer>('players')

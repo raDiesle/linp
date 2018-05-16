@@ -56,7 +56,8 @@ export class PlayerStatusTrigger {
                         .collection('activegames')
                         .doc(gameName)
                         .update({
-                            isActionRequired: true
+                            isActionRequired: true,
+                            since: new Date().getTime()
                         });
                 }
 
@@ -75,7 +76,8 @@ export class PlayerStatusTrigger {
                         .collection('activegames')
                         .doc(gameName)
                         .update({
-                            isActionRequired: false
+                            isActionRequired: false,
+                            since: new Date().getTime()
                         });
                 }
 
