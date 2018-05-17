@@ -76,15 +76,15 @@ export class FirebaseGameService {
           return;
         };
 
-      userStatusDatabaseRef
-        .onDisconnect()
-        .set(isOfflineForDatabase)
-        .then(() => {
-          userStatusDatabaseRef.set(isOnlineForDatabase);
-          // We'll also add Firestore set here for when we come online.
-          userStatusFirestoreRef.set(isOnlineForFirestore);
+        userStatusDatabaseRef
+          .onDisconnect()
+          .set(isOfflineForDatabase)
+          .then(() => {
+            userStatusDatabaseRef.set(isOnlineForDatabase);
+            // We'll also add Firestore set here for when we come online.
+            userStatusFirestoreRef.set(isOnlineForFirestore);
+          });
       });
-    });
   }
 
   public setAuthUserOffline(): Promise<any> {
@@ -370,11 +370,17 @@ export class FirebaseGameService {
   }
 
   public logToServer(error: any): void {
+    const stacktrace = error.stack ? error.stack : error.toString();
     this.db.collection('errors')
-    .doc(new Date().getTime().toString())
-    .set({
-      stacktrace : error.toString()
-    });
+      .doc(new Date().getTime().toString())
+      .set({
+        stacktrace: stacktrace
+      });
+  }
+
+  public fetchNewHtmlVersionStatus(): Observable<any> {
+    return this.db.collection('versions')
+      .doc<number>('current').valueChanges();
   }
 
   private random53(): number {

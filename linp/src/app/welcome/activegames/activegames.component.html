@@ -10,7 +10,7 @@
         <div class="alert alert-success text-center">
           <i class="material-icons">
             check_circle_outline
-            </i>
+          </i>
           <p>Come back if other players did their turn.</p>
           <p>There is no game where your action is required.</p>
         </div>
@@ -21,8 +21,8 @@
           <div class="col-6">
             {{game.name}}
           </div>
-          <div class="col-6 text-right" [hidden]="!game.since">
-              {{game.since | timeAgo}}
+          <div class="col-6 text-right">
+            {{game.since | timeAgo}}
           </div>
         </div>
       </button>
@@ -36,8 +36,8 @@
           <div class="col-6">
             {{game.name}}
           </div>
-          <div class="col-6 text-right" [hidden]="!game.since">
-              {{game.since | timeAgo}}
+          <div class="col-6 text-right">
+            {{game.since | timeAgo}}
           </div>
         </div>
       </button>
