@@ -24,7 +24,6 @@ export class HeaderComponent implements OnInit {
     private actionGuide: ActionguideService,
     private modalService: NgbModal,
     private firebaseGameService: FirebaseGameService
-    // private actionguidemodalComponent: ActionguidemodalComponent
   ) { }
 
   ngOnInit() {
