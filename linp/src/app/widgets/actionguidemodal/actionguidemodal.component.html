@@ -1,18 +1,20 @@
 <div class="modal-header">
-    <h4 class="modal-title">Switch to another game</h4>
+    <h4 class="modal-title" i18n="@@actionguidemodal.header">
+      Switch to another game
+    </h4>
     <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <p>There is no action required by you for this game.</p>
-    <p>It is other turn of player.</p>    
+    <p i18n="@@actionguidemodal.text1">There is no action required by you for this game.</p>
+    <p i18n="@@actionguidemodal.text2">It is other turn of player.</p>    
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')" i18n="@@actionguidemodal.stay">
       stay
     </button>
-    <button class="btn btn-primary" routerLink="/welcome" fragment="activegames" (click)="activeModal.close('switch route')">
+    <button class="btn btn-primary" routerLink="/welcome" fragment="activegames" (click)="activeModal.close('switch route')" i18n="@@actionguidemodal.next">
       switch game
     </button>
   </div>

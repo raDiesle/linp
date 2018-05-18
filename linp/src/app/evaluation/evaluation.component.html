@@ -5,7 +5,7 @@
 
 <div class="card bg-primary mt-4">
   <div class="card-header">
-    <strong>Double Agent</strong><span *ngIf="gamePlayerContainer?.QUESTIONMARK.length > 1">s</span>
+    <strong i18n="@@evaluation.questionmark">Double Agent</strong><span *ngIf="gamePlayerContainer?.QUESTIONMARK.length > 1">s</span>
   </div>
   <div class="card-body">
     <div [ngClass]="{'pt-4': isFirst === false}" *ngFor="let gamePlayer of gamePlayerContainer?.QUESTIONMARK; first as isFirst;">
@@ -16,7 +16,7 @@
 
 <div class="card bg-primary mt-4">
   <div class="card-header strong">
-    <strong>Partner Agents</strong>
+    <strong i18n="@@evaluation.partner">Partner Agents</strong>
   </div>
   <div class="card-body">
     <div *ngFor="let gamePlayer of gamePlayerContainer?.WORD; index as $index; first as isFirst; even as isEven;">
@@ -35,3 +35,4 @@
 
 <br>
 <app-nextbutton [isRealCalculatedHack]="isRealCalculatedHack" [gameRound]="gameRound"></app-nextbutton>
+<br>

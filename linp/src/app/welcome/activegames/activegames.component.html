@@ -8,7 +8,7 @@
       <div *ngIf="games === null">
         <app-waitingdots></app-waitingdots>
       </div>
-      <div *ngIf="games !== null">
+      <div *ngIf="games !== null" i18n="@@activegames.yourturn">
         Your turn
       </div>
 
@@ -17,8 +17,8 @@
           <i class="material-icons">
             check_circle_outline
           </i>
-          <p>Come back if other players did their turn.</p>
-          <p>There is no game where your action is required.</p>
+          <p i18n="@@tiptemplate.noaction1">Come back if other players did their turn.</p>
+          <p i18n="@@tiptemplate.noaction2">There is no game where your action is required.</p>
         </div>
       </div>
       <button id="gamename_{{game.name}}" class="list-group-item list-group-item-action list-group-item-primary my-1" role="button"
@@ -36,7 +36,7 @@
       <div *ngIf="games === null">
         <app-waitingdots></app-waitingdots>
       </div>
-      <div *ngIf="games !== null">
+      <div *ngIf="games !== null"  i18n="@@tiptemplate.waiting.title">
         Waiting for others
       </div>
       <button id="gamename_{{game.name}}" class="list-group-item list-group-item-action list-group-item-light my-1" role="button"
@@ -50,17 +50,15 @@
           </div>
         </div>
       </button>
-
-
       <div *ngIf="games !== null && games.length === 0 && passiveGames.length === 0">
         <div class="alert alert-warning text-center">
-          <div class="alert-heading h6">
+          <div class="alert-heading h6"  i18n="@@tiptemplate.noactivegames1">
             There are no active games yet.
           </div>
-          <div>
+          <div i18n="@@tiptemplate.noactivegames2">
             Wait for a friend to invite you
           </div>
-          <div>
+          <div i18n="@@tiptemplate.noactivegames3">
             or create new game.
           </div>
         </div>

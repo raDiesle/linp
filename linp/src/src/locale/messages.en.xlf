@@ -1,0 +1,1054 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="2.0" xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en">
+  <file original="ng.template" id="ngi18n">
+    <unit id="welcome.text1">
+      <notes>
+        <note category="location">app/welcome/welcome.component.ts:5,7</note>
+      </notes>
+      <segment>
+        <source>
+          Two spies have to meet each other.
+        </source>
+      </segment>
+    </unit>
+    <unit id="welcome.text2">
+      <notes>
+        <note category="location">app/welcome/welcome.component.ts:8,10</note>
+      </notes>
+      <segment>
+        <source>
+          All they have in common is a word as identification password.
+        </source>
+      </segment>
+    </unit>
+    <unit id="welcome.text3">
+      <notes>
+        <note category="location">app/welcome/welcome.component.ts:12,14</note>
+      </notes>
+      <segment>
+        <source>
+          All the others players are counterspies trying to identify and confuse them.
+        </source>
+      </segment>
+    </unit>
+    <unit id="welcome.gamerules.link">
+      <notes>
+        <note category="location">app/welcome/welcome.component.ts:17</note>
+      </notes>
+      <segment>
+        <source>how to...</source>
+      </segment>
+    </unit>
+    <unit id="login.header">
+      <notes>
+        <note category="location">app/welcome/welcome.component.ts:28</note>
+      </notes>
+      <segment>
+        <source>Login</source>
+      </segment>
+    </unit>
+    <unit id="joingame.header">
+      <notes>
+        <note category="location">app/joingame/joingame.component.ts:4</note>
+      </notes>
+      <segment>
+        <source>Join New Public Game</source>
+      </segment>
+    </unit>
+    <unit id="joingame.created">
+      <notes>
+        <note category="location">app/joingame/joingame.component.ts:17</note>
+      </notes>
+      <segment>
+        <source>created</source>
+      </segment>
+    </unit>
+    <unit id="joingame.nogames1">
+      <notes>
+        <note category="location">app/joingame/joingame.component.ts:27,29</note>
+      </notes>
+      <segment>
+        <source>
+            No public games available
+          </source>
+      </segment>
+    </unit>
+    <unit id="8214776250292218373">
+      <notes>
+        <note category="description">joingame.nogames2</note>
+        <note category="location">app/joingame/joingame.component.ts:30,32</note>
+      </notes>
+      <segment>
+        <source>
+            Create a game or wait for another player to invite you
+          </source>
+      </segment>
+    </unit>
+    <unit id="tiptemplate.word">
+      <notes>
+        <note category="location">app/tip/firsttip/firsttip.component.ts:13</note>
+        <note category="location">app/tip/secondtip/secondtip.component.ts:13</note>
+      </notes>
+      <segment>
+        <source>word</source>
+      </segment>
+    </unit>
+    <unit id="tiptemplate.header">
+      <notes>
+        <note category="location">app/tip/firsttip/firsttip.component.ts:19,21</note>
+        <note category="location">app/tip/secondtip/secondtip.component.ts:19,21</note>
+      </notes>
+      <segment>
+        <source>
+                It&apos;s your turn!
+              </source>
+      </segment>
+    </unit>
+    <unit id="tiptemplate.hint1">
+      <notes>
+        <note category="location">app/tip/firsttip/firsttip.component.ts:36,38</note>
+        <note category="location">app/tip/secondtip/secondtip.component.ts:36,38</note>
+      </notes>
+      <segment>
+        <source>
+                        Try to give a word, where people think you are partner of another one.
+                    </source>
+      </segment>
+    </unit>
+    <unit id="tiptemplate.partner.hint">
+      <notes>
+        <note category="location">app/tip/firsttip/firsttip.component.ts:40,45</note>
+        <note category="location">app/tip/secondtip/secondtip.component.ts:40,45</note>
+      </notes>
+      <segment>
+        <source>
+                    Give first synonym for
+                    <pc id="0" equivStart="START_TAG_SPAN" equivEnd="CLOSE_TAG_SPAN" type="other" dispStart="&lt;span&gt;" dispEnd="&lt;/span&gt;">
+                      <ph id="1" equiv="INTERPOLATION" disp="{{loggedInGamePlayer?.questionmarkOrWord}}"/>
+                    </pc>
+                  </source>
+      </segment>
+    </unit>
+    <unit id="tiptemplate.required">
+      <notes>
+        <note category="location">app/tip/firsttip/firsttip.component.ts:50,52</note>
+        <note category="location">app/tip/secondtip/secondtip.component.ts:50,52</note>
+      </notes>
+      <segment>
+        <source>
+                    Provide your synonym
+                  </source>
+      </segment>
+    </unit>
+    <unit id="tiptemplate.send">
+      <notes>
+        <note category="location">app/tip/firsttip/firsttip.component.ts:55,57</note>
+        <note category="location">app/tip/secondtip/secondtip.component.ts:55,57</note>
+      </notes>
+      <segment>
+        <source>
+                Send
+              </source>
+      </segment>
+    </unit>
+    <unit id="tiptemplate.word1">
+      <notes>
+        <note category="location">app/tip/firsttip/firsttip.component.ts:68,70</note>
+        <note category="location">app/tip/secondtip/secondtip.component.ts:68,70</note>
+      </notes>
+      <segment>
+        <source>
+                1. Password
+              </source>
+      </segment>
+    </unit>
+    <unit id="tiptemplate.word2">
+      <notes>
+        <note category="location">app/tip/firsttip/firsttip.component.ts:71,73</note>
+        <note category="location">app/tip/secondtip/secondtip.component.ts:71,73</note>
+      </notes>
+      <segment>
+        <source>
+                2. Password
+              </source>
+      </segment>
+    </unit>
+    <unit id="guesstemplate.who">
+      <notes>
+        <note category="location">app/guess/firstguess/firstguess.component.ts:34,36</note>
+        <note category="location">app/guess/secondguess/secondguess.component.ts:34,36</note>
+      </notes>
+      <segment>
+        <source>
+      Who might be teaming up and having the same word/role?
+    </source>
+      </segment>
+    </unit>
+    <unit id="guesstemplate.yourword">
+      <notes>
+        <note category="location">app/guess/firstguess/firstguess.component.ts:39</note>
+        <note category="location">app/guess/secondguess/secondguess.component.ts:39</note>
+      </notes>
+      <segment>
+        <source>This is yours:</source>
+      </segment>
+    </unit>
+    <unit id="guesstemplate.hint1">
+      <notes>
+        <note category="location">app/guess/firstguess/firstguess.component.ts:42,44</note>
+        <note category="location">app/guess/secondguess/secondguess.component.ts:42,44</note>
+      </notes>
+      <segment>
+        <source>
+        Make sure prioritizing to guess you and your partner as team.
+      </source>
+      </segment>
+    </unit>
+    <unit id="guesstemplate.selected.first">
+      <notes>
+        <note category="location">app/guess/firstguess/firstguess.component.ts:46,48</note>
+        <note category="location">app/guess/secondguess/secondguess.component.ts:46,48</note>
+      </notes>
+      <segment>
+        <source>
+          Select first player
+        </source>
+      </segment>
+    </unit>
+    <unit id="guesstemplate.selected.second">
+      <notes>
+        <note category="location">app/guess/firstguess/firstguess.component.ts:49,51</note>
+        <note category="location">app/guess/secondguess/secondguess.component.ts:49,51</note>
+      </notes>
+      <segment>
+        <source>
+          Select the second player
+        </source>
+      </segment>
+    </unit>
+    <unit id="guesstemplate.selected.save">
+      <notes>
+        <note category="location">app/guess/firstguess/firstguess.component.ts:52,54</note>
+        <note category="location">app/guess/secondguess/secondguess.component.ts:52,54</note>
+      </notes>
+      <segment>
+        <source>
+          Want to save choice?
+        </source>
+      </segment>
+    </unit>
+    <unit id="guesstemplate.word1">
+      <notes>
+        <note category="location">app/guess/firstguess/firstguess.component.ts:63,65</note>
+        <note category="location">app/guess/secondguess/secondguess.component.ts:63,65</note>
+      </notes>
+      <segment>
+        <source>
+              1 Pass
+            </source>
+      </segment>
+    </unit>
+    <unit id="guesstemplate.word2">
+      <notes>
+        <note category="location">app/guess/firstguess/firstguess.component.ts:66,68</note>
+        <note category="location">app/guess/secondguess/secondguess.component.ts:66,68</note>
+      </notes>
+      <segment>
+        <source>
+              2 Pass
+            </source>
+      </segment>
+    </unit>
+    <unit id="guesstemplate.savebutton">
+      <notes>
+        <note category="location">app/guess/firstguess/firstguess.component.ts:95,97</note>
+        <note category="location">app/guess/secondguess/secondguess.component.ts:95,97</note>
+      </notes>
+      <segment>
+        <source>
+        Save
+      </source>
+      </segment>
+    </unit>
+    <unit id="gamelobby.step.header">
+      <notes>
+        <note category="location">app/gamelobby/gamelobby.component.ts:6</note>
+      </notes>
+      <segment>
+        <source>Game preparations</source>
+      </segment>
+    </unit>
+    <unit id="gamelobby.invitefriends.add">
+      <notes>
+        <note category="location">app/gamelobby/gamelobby.component.ts:20,22</note>
+      </notes>
+      <segment>
+        <source>
+          Add friend to game
+        </source>
+      </segment>
+    </unit>
+    <unit id="gamelobby.invitefriends.cancel">
+      <notes>
+        <note category="location">app/gamelobby/gamelobby.component.ts:24</note>
+      </notes>
+      <segment>
+        <source>-- cancel --</source>
+      </segment>
+    </unit>
+    <unit id="gamelobby.invitefriends.nofriends">
+      <notes>
+        <note category="location">app/gamelobby/gamelobby.component.ts:32,34</note>
+      </notes>
+      <segment>
+        <source>
+          You do not have Linp friends, yet.
+        </source>
+      </segment>
+    </unit>
+    <unit id="gamelobby.invitefriends.invitebutton">
+      <notes>
+        <note category="location">app/gamelobby/gamelobby.component.ts:36,38</note>
+      </notes>
+      <segment>
+        <source>
+            Invite players to Linp
+          </source>
+      </segment>
+    </unit>
+    <unit id="gamelobby.missingplayers1">
+      <notes>
+        <note category="location">app/gamelobby/gamelobby.component.ts:48,50</note>
+      </notes>
+      <segment>
+        <source>
+            at least
+          </source>
+      </segment>
+    </unit>
+    <unit id="gamelobby.missingplayers2">
+      <notes>
+        <note category="location">app/gamelobby/gamelobby.component.ts:52</note>
+      </notes>
+      <segment>
+        <source>players missing</source>
+      </segment>
+    </unit>
+    <unit id="gamelobby.startbutton">
+      <notes>
+        <note category="location">app/gamelobby/gamelobby.component.ts:54,56</note>
+      </notes>
+      <segment>
+        <source>
+              Start Game
+            </source>
+      </segment>
+    </unit>
+    <unit id="gamelobby.waitingstart1">
+      <notes>
+        <note category="location">app/gamelobby/gamelobby.component.ts:58,60</note>
+      </notes>
+      <segment>
+        <source>
+                Waiting for
+              </source>
+      </segment>
+    </unit>
+    <unit id="gamelobby.waitingstart2">
+      <notes>
+        <note category="location">app/gamelobby/gamelobby.component.ts:64,66</note>
+      </notes>
+      <segment>
+        <source>
+                to start game
+              </source>
+      </segment>
+    </unit>
+    <unit id="gamelobby.host">
+      <notes>
+        <note category="location">app/gamelobby/gamelobby.component.ts:78,80</note>
+      </notes>
+      <segment>
+        <source>
+              Host
+            </source>
+      </segment>
+    </unit>
+    <unit id="evaluation.questionmark">
+      <notes>
+        <note category="location">app/evaluation/evaluation.component.ts:8</note>
+      </notes>
+      <segment>
+        <source>Double Agent</source>
+      </segment>
+    </unit>
+    <unit id="evaluation.partner">
+      <notes>
+        <note category="location">app/evaluation/evaluation.component.ts:19</note>
+      </notes>
+      <segment>
+        <source>Partner Agents</source>
+      </segment>
+    </unit>
+    <unit id="activegames.header">
+      <notes>
+        <note category="location">app/welcome/activegames/activegames.component.ts:3</note>
+      </notes>
+      <segment>
+        <source>Your active games</source>
+      </segment>
+    </unit>
+    <unit id="activegames.yourturn">
+      <notes>
+        <note category="location">app/welcome/activegames/activegames.component.ts:11,13</note>
+      </notes>
+      <segment>
+        <source>
+        Your turn
+      </source>
+      </segment>
+    </unit>
+    <unit id="tiptemplate.noaction1">
+      <notes>
+        <note category="location">app/welcome/activegames/activegames.component.ts:20</note>
+      </notes>
+      <segment>
+        <source>Come back if other players did their turn.</source>
+      </segment>
+    </unit>
+    <unit id="tiptemplate.noaction2">
+      <notes>
+        <note category="location">app/welcome/activegames/activegames.component.ts:21</note>
+      </notes>
+      <segment>
+        <source>There is no game where your action is required.</source>
+      </segment>
+    </unit>
+    <unit id="tiptemplate.waiting.title">
+      <notes>
+        <note category="location">app/welcome/activegames/activegames.component.ts:39,41</note>
+      </notes>
+      <segment>
+        <source>
+        Waiting for others
+      </source>
+      </segment>
+    </unit>
+    <unit id="tiptemplate.noactivegames1">
+      <notes>
+        <note category="location">app/welcome/activegames/activegames.component.ts:55,57</note>
+      </notes>
+      <segment>
+        <source>
+            There are no active games yet.
+          </source>
+      </segment>
+    </unit>
+    <unit id="tiptemplate.noactivegames2">
+      <notes>
+        <note category="location">app/welcome/activegames/activegames.component.ts:58,60</note>
+      </notes>
+      <segment>
+        <source>
+            Wait for a friend to invite you
+          </source>
+      </segment>
+    </unit>
+    <unit id="tiptemplate.noactivegames3">
+      <notes>
+        <note category="location">app/welcome/activegames/activegames.component.ts:61,63</note>
+      </notes>
+      <segment>
+        <source>
+            or create new game.
+          </source>
+      </segment>
+    </unit>
+    <unit id="playerprofile.header">
+      <notes>
+        <note category="location">app/playerprofile/playerprofile.component.ts:3</note>
+      </notes>
+      <segment>
+        <source>Player Profile</source>
+      </segment>
+    </unit>
+    <unit id="playerprofile.playername">
+      <notes>
+        <note category="location">app/playerprofile/playerprofile.component.ts:7,9</note>
+      </notes>
+      <segment>
+        <source>
+        Player Name
+      </source>
+      </segment>
+    </unit>
+    <unit id="playerprofile.saved">
+      <notes>
+        <note category="location">app/playerprofile/playerprofile.component.ts:15,17</note>
+      </notes>
+      <segment>
+        <source>
+            Succesful saved
+          </source>
+      </segment>
+    </unit>
+    <unit id="playerprofile.name.required">
+      <notes>
+        <note category="location">app/playerprofile/playerprofile.component.ts:20,22</note>
+      </notes>
+      <segment>
+        <source>
+          Name is required
+        </source>
+      </segment>
+    </unit>
+    <unit id="playerprofile.savebutton">
+      <notes>
+        <note category="location">app/playerprofile/playerprofile.component.ts:27,29</note>
+      </notes>
+      <segment>
+        <source>
+      Save
+    </source>
+      </segment>
+    </unit>
+    <unit id="creategame.header">
+      <notes>
+        <note category="location">app/creategame/creategame.component.ts:3</note>
+      </notes>
+      <segment>
+        <source>Create New Game</source>
+      </segment>
+    </unit>
+    <unit id="creategame.label">
+      <notes>
+        <note category="location">app/creategame/creategame.component.ts:8,10</note>
+      </notes>
+      <segment>
+        <source>
+          Game Name
+        </source>
+      </segment>
+    </unit>
+    <unit id="creategame.language">
+      <notes>
+        <note category="location">app/creategame/creategame.component.ts:23</note>
+      </notes>
+      <segment>
+        <source>Language</source>
+      </segment>
+    </unit>
+    <unit id="creategame.lang.en">
+      <notes>
+        <note category="location">app/creategame/creategame.component.ts:25</note>
+      </notes>
+      <segment>
+        <source>English</source>
+      </segment>
+    </unit>
+    <unit id="creategame.create.button">
+      <notes>
+        <note category="location">app/creategame/creategame.component.ts:30,32</note>
+      </notes>
+      <segment>
+        <source>
+          Create
+        </source>
+      </segment>
+    </unit>
+    <unit id="gamerules.title">
+      <notes>
+        <note category="location">app/gamerules/gamerules.component.ts:4</note>
+      </notes>
+      <segment>
+        <source>Game explained</source>
+      </segment>
+    </unit>
+    <unit id="gamerules.detailed">
+      <notes>
+        <note category="location">app/gamerules/gamerules.component.ts:24,26</note>
+      </notes>
+      <segment>
+        <source>
+            Show detailed explanation
+          </source>
+      </segment>
+    </unit>
+    <unit id="preparegame.loading">
+      <notes>
+        <note category="location">app/preparegame/preparegame.component.ts:2</note>
+      </notes>
+      <segment>
+        <source>Loading</source>
+      </segment>
+    </unit>
+    <unit id="finalizeround.next">
+      <notes>
+        <note category="location">app/finalizeround/finalizeround.component.ts:9,11</note>
+      </notes>
+      <segment>
+        <source>
+        Next
+      </source>
+      </segment>
+    </unit>
+    <unit id="finalizeround.title">
+      <notes>
+        <note category="location">app/finalizeround/finalizeround.component.ts:19</note>
+      </notes>
+      <segment>
+        <source>Game Summary</source>
+      </segment>
+    </unit>
+    <unit id="finalizeround.rank">
+      <notes>
+        <note category="location">app/finalizeround/finalizeround.component.ts:27,29</note>
+      </notes>
+      <segment>
+        <source>
+                Rank
+              </source>
+      </segment>
+    </unit>
+    <unit id="finalizeround.player">
+      <notes>
+        <note category="location">app/finalizeround/finalizeround.component.ts:30,32</note>
+      </notes>
+      <segment>
+        <source>
+                Player
+              </source>
+      </segment>
+    </unit>
+    <unit id="finalizeround.points">
+      <notes>
+        <note category="location">app/finalizeround/finalizeround.component.ts:33,35</note>
+      </notes>
+      <segment>
+        <source>
+                Points
+              </source>
+      </segment>
+    </unit>
+    <unit id="friendlist.header">
+      <notes>
+        <note category="location">app/welcome/friendlist/friendlist.component.ts:3</note>
+      </notes>
+      <segment>
+        <source>Friends</source>
+      </segment>
+    </unit>
+    <unit id="friendlist.nofriends.header">
+      <notes>
+        <note category="location">app/welcome/friendlist/friendlist.component.ts:27,29</note>
+      </notes>
+      <segment>
+        <source>
+            You do not have friends yet.
+        </source>
+      </segment>
+    </unit>
+    <unit id="friendlist.nofriends.text1">
+      <notes>
+        <note category="location">app/welcome/friendlist/friendlist.component.ts:30,32</note>
+      </notes>
+      <segment>
+        <source>
+            Send the link above to friends
+        </source>
+      </segment>
+    </unit>
+    <unit id="5286044659422648379">
+      <notes>
+        <note category="description">friendlist.nofriends.text2</note>
+        <note category="location">app/welcome/friendlist/friendlist.component.ts:33,35</note>
+      </notes>
+      <segment>
+        <source>
+            to invite them to your friendlist.
+        </source>
+      </segment>
+    </unit>
+    <unit id="friendlist.sendinvitation">
+      <notes>
+        <note category="location">app/welcome/friendlist/friendlist.component.ts:39,50</note>
+      </notes>
+      <segment>
+        <source>
+      Send your request invitation link to friends
+      <pc id="0" equivStart="START_TAG_DIV_1" equivEnd="CLOSE_TAG_DIV" type="other" dispStart="&lt;div&gt;" dispEnd="&lt;/div&gt;">
+        <pc id="1" equivStart="START_TAG_DIV" equivEnd="CLOSE_TAG_DIV" type="other" dispStart="&lt;div&gt;" dispEnd="&lt;/div&gt;">
+          <pc id="2" equivStart="START_TAG_SHARE-BUTTON" equivEnd="CLOSE_TAG_SHARE-BUTTON" type="other" dispStart="&lt;share-button&gt;" dispEnd="&lt;/share-button&gt;"></pc>
+          <pc id="3" equivStart="START_TAG_SHARE-BUTTON_1" equivEnd="CLOSE_TAG_SHARE-BUTTON" type="other" dispStart="&lt;share-button&gt;" dispEnd="&lt;/share-button&gt;"></pc>
+          <pc id="4" equivStart="START_TAG_SHARE-BUTTON_2" equivEnd="CLOSE_TAG_SHARE-BUTTON" type="other" dispStart="&lt;share-button&gt;" dispEnd="&lt;/share-button&gt;"></pc>
+          <pc id="5" equivStart="START_TAG_SHARE-BUTTON_3" equivEnd="CLOSE_TAG_SHARE-BUTTON" type="other" dispStart="&lt;share-button&gt;" dispEnd="&lt;/share-button&gt;"></pc>
+          <pc id="6" equivStart="START_TAG_SHARE-BUTTON_4" equivEnd="CLOSE_TAG_SHARE-BUTTON" type="other" dispStart="&lt;share-button&gt;" dispEnd="&lt;/share-button&gt;"></pc>
+        </pc>
+      </pc>
+    </source>
+      </segment>
+    </unit>
+    <unit id="addfriendpage.header">
+      <notes>
+        <note category="location">app/addfriend/addfriend.component.ts:2,4</note>
+      </notes>
+      <segment>
+        <source>
+    <pc id="0" equivStart="START_TAG_STRONG" equivEnd="CLOSE_TAG_STRONG" type="other" dispStart="&lt;strong&gt;" dispEnd="&lt;/strong&gt;">Accept friend invitation</pc>
+  </source>
+      </segment>
+    </unit>
+    <unit id="addfriendpage.loading">
+      <notes>
+        <note category="location">app/addfriend/addfriend.component.ts:8</note>
+      </notes>
+      <segment>
+        <source>Performing friend invitation </source>
+      </segment>
+    </unit>
+    <unit id="addfriendpage.friendyourself1">
+      <notes>
+        <note category="location">app/addfriend/addfriend.component.ts:13,15</note>
+      </notes>
+      <segment>
+        <source>
+        You try to add yourself as friend.
+      </source>
+      </segment>
+    </unit>
+    <unit id="addfriendpage.friendyourself2">
+      <notes>
+        <note category="location">app/addfriend/addfriend.component.ts:16,18</note>
+      </notes>
+      <segment>
+        <source>
+        Send link invitation to another person.
+      </source>
+      </segment>
+    </unit>
+    <unit id="ingameprogress">
+      <notes>
+        <note category="location">app/ingameprogressrules/ingameprogressrules.component.ts:1,4</note>
+      </notes>
+      <segment>
+        <source>
+  Loading
+  <pc id="0" equivStart="START_TAG_APP-WAITINGDOTS" equivEnd="CLOSE_TAG_APP-WAITINGDOTS" type="other" dispStart="&lt;app-waitingdots&gt;" dispEnd="&lt;/app-waitingdots&gt;"></pc>
+</source>
+      </segment>
+    </unit>
+    <unit id="actionguidemodal.header">
+      <notes>
+        <note category="location">app/widgets/actionguidemodal/actionguidemodal.component.ts:2,4</note>
+      </notes>
+      <segment>
+        <source>
+      Switch to another game
+    </source>
+      </segment>
+    </unit>
+    <unit id="actionguidemodal.text1">
+      <notes>
+        <note category="location">app/widgets/actionguidemodal/actionguidemodal.component.ts:10</note>
+      </notes>
+      <segment>
+        <source>There is no action required by you for this game.</source>
+      </segment>
+    </unit>
+    <unit id="actionguidemodal.text2">
+      <notes>
+        <note category="location">app/widgets/actionguidemodal/actionguidemodal.component.ts:11</note>
+      </notes>
+      <segment>
+        <source>It is other turn of player.</source>
+      </segment>
+    </unit>
+    <unit id="actionguidemodal.stay">
+      <notes>
+        <note category="location">app/widgets/actionguidemodal/actionguidemodal.component.ts:14,16</note>
+      </notes>
+      <segment>
+        <source>
+      stay
+    </source>
+      </segment>
+    </unit>
+    <unit id="actionguidemodal.next">
+      <notes>
+        <note category="location">app/widgets/actionguidemodal/actionguidemodal.component.ts:17,19</note>
+      </notes>
+      <segment>
+        <source>
+      switch game
+    </source>
+      </segment>
+    </unit>
+    <unit id="header.title">
+      <notes>
+        <note category="location">app/header/header.component.ts:8</note>
+      </notes>
+      <segment>
+        <source>LINP</source>
+      </segment>
+    </unit>
+    <unit id="header.subtitle">
+      <notes>
+        <note category="location">app/header/header.component.ts:9</note>
+      </notes>
+      <segment>
+        <source>Identify spies</source>
+      </segment>
+    </unit>
+    <unit id="loggedinactions.loggedin">
+      <notes>
+        <note category="location">app/welcome/loggedinactions/loggedinactions.component.ts:3,5</note>
+      </notes>
+      <segment>
+        <source>
+        Logged in as:
+      </source>
+      </segment>
+    </unit>
+    <unit id="loggedinactions.creategame">
+      <notes>
+        <note category="location">app/welcome/loggedinactions/loggedinactions.component.ts:19,21</note>
+      </notes>
+      <segment>
+        <source>
+        Create New Game
+      </source>
+      </segment>
+    </unit>
+    <unit id="loggedinactions.joinpublic">
+      <notes>
+        <note category="location">app/welcome/loggedinactions/loggedinactions.component.ts:26,28</note>
+      </notes>
+      <segment>
+        <source>
+        Join Public Game
+      </source>
+      </segment>
+    </unit>
+    <unit id="loggedinactions.settings">
+      <notes>
+        <note category="location">app/welcome/loggedinactions/loggedinactions.component.ts:35,37</note>
+      </notes>
+      <segment>
+        <source>
+            Settings
+          </source>
+      </segment>
+    </unit>
+    <unit id="loggedinactions.logout">
+      <notes>
+        <note category="location">app/welcome/loggedinactions/loggedinactions.component.ts:43,45</note>
+      </notes>
+      <segment>
+        <source>
+            Logout
+          </source>
+      </segment>
+    </unit>
+    <unit id="maintenance.header">
+      <notes>
+        <note category="location">app/welcome/maintenance/maintenance.component.ts:3</note>
+      </notes>
+      <segment>
+        <source>WARTUNG</source>
+      </segment>
+    </unit>
+    <unit id="maintenance.text">
+      <notes>
+        <note category="location">app/welcome/maintenance/maintenance.component.ts:6,11</note>
+      </notes>
+      <segment>
+        <source>
+          Spiel ist gerade in der Wartung.
+          Bitte nicht benutzen.
+
+          Grund: Für die neue Runde werden die Werte nicht zurückgesetzt.
+      </source>
+      </segment>
+    </unit>
+    <unit id="gameprogress.first">
+      <notes>
+        <note category="location">app/widgets/gameprogress/gameprogress.component.ts:8</note>
+      </notes>
+      <segment>
+        <source>First</source>
+      </segment>
+    </unit>
+    <unit id="gameprogress.second">
+      <notes>
+        <note category="location">app/widgets/gameprogress/gameprogress.component.ts:15</note>
+      </notes>
+      <segment>
+        <source>Second</source>
+      </segment>
+    </unit>
+    <unit id="gameprogress.reveal1">
+      <notes>
+        <note category="location">app/widgets/gameprogress/gameprogress.component.ts:22</note>
+      </notes>
+      <segment>
+        <source>Reveal</source>
+      </segment>
+    </unit>
+    <unit id="gameprogress.word">
+      <notes>
+        <note category="location">app/widgets/gameprogress/gameprogress.component.ts:31,33</note>
+        <note category="location">app/widgets/gameprogress/gameprogress.component.ts:45,47</note>
+      </notes>
+      <segment>
+        <source>
+      Pass
+    </source>
+      </segment>
+    </unit>
+    <unit id="gameprogress.guess">
+      <notes>
+        <note category="location">app/widgets/gameprogress/gameprogress.component.ts:38,40</note>
+        <note category="location">app/widgets/gameprogress/gameprogress.component.ts:52,54</note>
+      </notes>
+      <segment>
+        <source>
+      Guess
+    </source>
+      </segment>
+    </unit>
+    <unit id="gameprogress.reveal2">
+      <notes>
+        <note category="location">app/widgets/gameprogress/gameprogress.component.ts:59,61</note>
+      </notes>
+      <segment>
+        <source>
+      spy partners
+    </source>
+      </segment>
+    </unit>
+    <unit id="scorecard.words">
+      <notes>
+        <note category="location">app/evaluation/scorecard/scorecard.component.ts:13,15</note>
+      </notes>
+      <segment>
+        <source>
+          Words
+        </source>
+      </segment>
+    </unit>
+    <unit id="scorecard.words.tooltip">
+      <notes>
+        <note category="location">app/evaluation/scorecard/scorecard.component.ts:13</note>
+      </notes>
+      <segment>
+        <source>Given words</source>
+      </segment>
+    </unit>
+    <unit id="scorecard.givenwords">
+      <notes>
+        <note category="location">app/evaluation/scorecard/scorecard.component.ts:34,36</note>
+      </notes>
+      <segment>
+        <source>
+          1. Guess
+        </source>
+      </segment>
+    </unit>
+    <unit id="scorecard.givenwords.tooltip">
+      <notes>
+        <note category="location">app/evaluation/scorecard/scorecard.component.ts:34</note>
+      </notes>
+      <segment>
+        <source>Given words</source>
+      </segment>
+    </unit>
+    <unit id="scorecard.secondguess">
+      <notes>
+        <note category="location">app/evaluation/scorecard/scorecard.component.ts:60,62</note>
+      </notes>
+      <segment>
+        <source>
+          2. Guess
+        </source>
+      </segment>
+    </unit>
+    <unit id="scorecard.secondguess.tooltip">
+      <notes>
+        <note category="location">app/evaluation/scorecard/scorecard.component.ts:60</note>
+      </notes>
+      <segment>
+        <source>second guess</source>
+      </segment>
+    </unit>
+    <unit id="scorecard.indirect1">
+      <notes>
+        <note category="location">app/evaluation/scorecard/scorecard.component.ts:87,89</note>
+      </notes>
+      <segment>
+        <source>
+            Indirect Points
+          </source>
+      </segment>
+    </unit>
+    <unit id="scorecard.indirect1.tooltip">
+      <notes>
+        <note category="location">app/evaluation/scorecard/scorecard.component.ts:86</note>
+      </notes>
+      <segment>
+        <source>You identified other teams +2 or you successful bluffed, so others guessed on you, having a real word +1</source>
+      </segment>
+    </unit>
+    <unit id="scorecard.indirect2">
+      <notes>
+        <note category="location">app/evaluation/scorecard/scorecard.component.ts:91,93</note>
+      </notes>
+      <segment>
+        <source>
+            Indirect Points
+          </source>
+      </segment>
+    </unit>
+    <unit id="scorecard.indirect2.tooltip">
+      <notes>
+        <note category="location">app/evaluation/scorecard/scorecard.component.ts:90</note>
+      </notes>
+      <segment>
+        <source>Others identified you and your partner (-1) or you identified other teams (+1)</source>
+      </segment>
+    </unit>
+    <unit id="nextbutton.header1">
+      <notes>
+        <note category="location">app/evaluation/nextbutton/nextbutton.component.ts:6</note>
+      </notes>
+      <segment>
+        <source>Round</source>
+      </segment>
+    </unit>
+    <unit id="nextbutton.header2">
+      <notes>
+        <note category="location">app/evaluation/nextbutton/nextbutton.component.ts:8</note>
+      </notes>
+      <segment>
+        <source>finished</source>
+      </segment>
+    </unit>
+    <unit id="nextbutton.next.button">
+      <notes>
+        <note category="location">app/evaluation/nextbutton/nextbutton.component.ts:10,12</note>
+      </notes>
+      <segment>
+        <source>
+      Next
+    </source>
+      </segment>
+    </unit>
+    <unit id="nextbutton.loading">
+      <notes>
+        <note category="location">app/evaluation/nextbutton/nextbutton.component.ts:15</note>
+      </notes>
+      <segment>
+        <source>Calculating Scores</source>
+      </segment>
+    </unit>
+  </file>
+</xliff>

@@ -1,0 +1,914 @@
+<?xml version="1.0" encoding="utf-16"?>
+<xliff version="2.0" xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en">
+  <file>
+    <unit id="welcome.text1">
+      <segment>
+        <source>
+          Two spies have to meet each other.
+        </source>
+        <target>Das ist ein Test</target>
+      </segment>
+    </unit>
+    <unit id="welcome.text2">
+      <segment>
+        <source>
+          All they have in common is a word as identification password.
+        </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="welcome.text3">
+      <segment>
+        <source>
+          All the others players are counterspies trying to identify and confuse them.
+        </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="welcome.gamerules.link">
+      <segment>
+        <source>how to...</source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="login.header">
+      <segment>
+        <source>Login</source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="joingame.header">
+      <segment>
+        <source>Join New Public Game</source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="joingame.created">
+      <segment>
+        <source>created</source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="joingame.nogames1">
+      <segment>
+        <source>
+            No public games available
+          </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="8214776250292218373">
+      <segment>
+        <source>
+            Create a game or wait for another player to invite you
+          </source>
+        <target>
+        </target>
+      </segment>
+      <notes>
+        <note category="description">joingame.nogames2</note>
+      </notes>
+    </unit>
+    <unit id="tiptemplate.word">
+      <segment>
+        <source>word</source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="tiptemplate.header">
+      <segment>
+        <source>
+                It&apos;s your turn!
+              </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="tiptemplate.hint1">
+      <segment>
+        <source>
+                        Try to give a word, where people think you are partner of another one.
+                    </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="tiptemplate.partner.hint">
+      <segment>
+        <source>
+                    Give first synonym for
+                    </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="tiptemplate.required">
+      <segment>
+        <source>
+                    Provide your synonym
+                  </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="tiptemplate.send">
+      <segment>
+        <source>
+                Send
+              </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="tiptemplate.word1">
+      <segment>
+        <source>
+                1. Password
+              </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="tiptemplate.word2">
+      <segment>
+        <source>
+                2. Password
+              </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="guesstemplate.who">
+      <segment>
+        <source>
+      Who might be teaming up and having the same word/role?
+    </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="guesstemplate.yourword">
+      <segment>
+        <source>This is yours:</source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="guesstemplate.hint1">
+      <segment>
+        <source>
+        Make sure prioritizing to guess you and your partner as team.
+      </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="guesstemplate.selected.first">
+      <segment>
+        <source>
+          Select first player
+        </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="guesstemplate.selected.second">
+      <segment>
+        <source>
+          Select the second player
+        </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="guesstemplate.selected.save">
+      <segment>
+        <source>
+          Want to save choice?
+        </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="guesstemplate.word1">
+      <segment>
+        <source>
+              1 Pass
+            </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="guesstemplate.word2">
+      <segment>
+        <source>
+              2 Pass
+            </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="guesstemplate.savebutton">
+      <segment>
+        <source>
+        Save
+      </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="gamelobby.step.header">
+      <segment>
+        <source>Game preparations</source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="gamelobby.invitefriends.add">
+      <segment>
+        <source>
+          Add friend to game
+        </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="gamelobby.invitefriends.cancel">
+      <segment>
+        <source>-- cancel --</source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="gamelobby.invitefriends.nofriends">
+      <segment>
+        <source>
+          You do not have Linp friends, yet.
+        </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="gamelobby.invitefriends.invitebutton">
+      <segment>
+        <source>
+            Invite players to Linp
+          </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="gamelobby.missingplayers1">
+      <segment>
+        <source>
+            at least
+          </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="gamelobby.missingplayers2">
+      <segment>
+        <source>players missing</source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="gamelobby.startbutton">
+      <segment>
+        <source>
+              Start Game
+            </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="gamelobby.waitingstart1">
+      <segment>
+        <source>
+                Waiting for
+              </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="gamelobby.waitingstart2">
+      <segment>
+        <source>
+                to start game
+              </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="gamelobby.host">
+      <segment>
+        <source>
+              Host
+            </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="evaluation.questionmark">
+      <segment>
+        <source>Double Agent</source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="evaluation.partner">
+      <segment>
+        <source>Partner Agents</source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="activegames.header">
+      <segment>
+        <source>Your active games</source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="activegames.yourturn">
+      <segment>
+        <source>
+        Your turn
+      </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="tiptemplate.noaction1">
+      <segment>
+        <source>Come back if other players did their turn.</source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="tiptemplate.noaction2">
+      <segment>
+        <source>There is no game where your action is required.</source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="tiptemplate.waiting.title">
+      <segment>
+        <source>
+        Waiting for others
+      </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="tiptemplate.noactivegames1">
+      <segment>
+        <source>
+            There are no active games yet.
+          </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="tiptemplate.noactivegames2">
+      <segment>
+        <source>
+            Wait for a friend to invite you
+          </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="tiptemplate.noactivegames3">
+      <segment>
+        <source>
+            or create new game.
+          </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="playerprofile.header">
+      <segment>
+        <source>Player Profile</source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="playerprofile.playername">
+      <segment>
+        <source>
+        Player Name
+      </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="playerprofile.saved">
+      <segment>
+        <source>
+            Succesful saved
+          </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="playerprofile.name.required">
+      <segment>
+        <source>
+          Name is required
+        </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="playerprofile.savebutton">
+      <segment>
+        <source>
+      Save
+    </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="creategame.header">
+      <segment>
+        <source>Create New Game</source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="creategame.label">
+      <segment>
+        <source>
+          Game Name
+        </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="creategame.language">
+      <segment>
+        <source>Language</source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="creategame.lang.en">
+      <segment>
+        <source>English</source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="creategame.create.button">
+      <segment>
+        <source>
+          Create
+        </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="gamerules.title">
+      <segment>
+        <source>Game explained</source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="gamerules.detailed">
+      <segment>
+        <source>
+            Show detailed explanation
+          </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="preparegame.loading">
+      <segment>
+        <source>Loading</source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="finalizeround.next">
+      <segment>
+        <source>
+        Next
+      </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="finalizeround.title">
+      <segment>
+        <source>Game Summary</source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="finalizeround.rank">
+      <segment>
+        <source>
+                Rank
+              </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="finalizeround.player">
+      <segment>
+        <source>
+                Player
+              </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="finalizeround.points">
+      <segment>
+        <source>
+                Points
+              </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="friendlist.header">
+      <segment>
+        <source>Friends</source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="friendlist.nofriends.header">
+      <segment>
+        <source>
+            You do not have friends yet.
+        </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="friendlist.nofriends.text1">
+      <segment>
+        <source>
+            Send the link above to friends
+        </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="5286044659422648379">
+      <segment>
+        <source>
+            to invite them to your friendlist.
+        </source>
+        <target>
+        </target>
+      </segment>
+      <notes>
+        <note category="description">friendlist.nofriends.text2</note>
+      </notes>
+    </unit>
+    <unit id="friendlist.sendinvitation">
+      <segment>
+        <source>
+      Send your request invitation link to friends
+      </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="addfriendpage.header">
+      <segment>
+        <source>Accept friend invitation</source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="addfriendpage.loading">
+      <segment>
+        <source>Performing friend invitation </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="addfriendpage.friendyourself1">
+      <segment>
+        <source>
+        You try to add yourself as friend.
+      </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="addfriendpage.friendyourself2">
+      <segment>
+        <source>
+        Send link invitation to another person.
+      </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="ingameprogress">
+      <segment>
+        <source>
+  Loading
+  </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="actionguidemodal.header">
+      <segment>
+        <source>
+      Switch to another game
+    </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="actionguidemodal.text1">
+      <segment>
+        <source>There is no action required by you for this game.</source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="actionguidemodal.text2">
+      <segment>
+        <source>It is other turn of player.</source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="actionguidemodal.stay">
+      <segment>
+        <source>
+      stay
+    </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="actionguidemodal.next">
+      <segment>
+        <source>
+      switch game
+    </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="header.title">
+      <segment>
+        <source>LINP</source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="header.subtitle">
+      <segment>
+        <source>Identify spies</source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="loggedinactions.loggedin">
+      <segment>
+        <source>
+        Logged in as:
+      </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="loggedinactions.creategame">
+      <segment>
+        <source>
+        Create New Game
+      </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="loggedinactions.joinpublic">
+      <segment>
+        <source>
+        Join Public Game
+      </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="loggedinactions.settings">
+      <segment>
+        <source>
+            Settings
+          </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="loggedinactions.logout">
+      <segment>
+        <source>
+            Logout
+          </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="maintenance.header">
+      <segment>
+        <source>WARTUNG</source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="maintenance.text">
+      <segment>
+        <source>
+          Spiel ist gerade in der Wartung.
+          Bitte nicht benutzen.
+
+          Grund: Für die neue Runde werden die Werte nicht zurückgesetzt.
+      </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="gameprogress.first">
+      <segment>
+        <source>First</source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="gameprogress.second">
+      <segment>
+        <source>Second</source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="gameprogress.reveal1">
+      <segment>
+        <source>Reveal</source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="gameprogress.word">
+      <segment>
+        <source>
+      Pass
+    </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="gameprogress.guess">
+      <segment>
+        <source>
+      Guess
+    </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="gameprogress.reveal2">
+      <segment>
+        <source>
+      spy partners
+    </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="scorecard.words">
+      <segment>
+        <source>
+          Words
+        </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="scorecard.words.tooltip">
+      <segment>
+        <source>Given words</source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="scorecard.givenwords">
+      <segment>
+        <source>
+          1. Guess
+        </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="scorecard.givenwords.tooltip">
+      <segment>
+        <source>Given words</source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="scorecard.secondguess">
+      <segment>
+        <source>
+          2. Guess
+        </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="scorecard.secondguess.tooltip">
+      <segment>
+        <source>second guess</source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="scorecard.indirect1">
+      <segment>
+        <source>
+            Indirect Points
+          </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="scorecard.indirect1.tooltip">
+      <segment>
+        <source>You identified other teams +2 or you successful bluffed, so others guessed on you, having a real word +1</source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="scorecard.indirect2">
+      <segment>
+        <source>
+            Indirect Points
+          </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="scorecard.indirect2.tooltip">
+      <segment>
+        <source>Others identified you and your partner (-1) or you identified other teams (+1)</source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="nextbutton.header1">
+      <segment>
+        <source>Round</source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="nextbutton.header2">
+      <segment>
+        <source>finished</source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="nextbutton.next.button">
+      <segment>
+        <source>
+      Next
+    </source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+    <unit id="nextbutton.loading">
+      <segment>
+        <source>Calculating Scores</source>
+        <target>
+        </target>
+      </segment>
+    </unit>
+  </file>
+</xliff>

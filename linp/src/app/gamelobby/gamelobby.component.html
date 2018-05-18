@@ -8,13 +8,14 @@
     </div>
   </div>
 
-  <div class="card">
+  <div class="card mt-4">
     <div class="card-header text-center">
-      <strong i18n="@@gamelobby.invitefriends.header">
-        Invite Linp friends
+      <strong>
+        {{gameName}}
       </strong>
     </div>
     <div class="card-body">
+
       <div class="btn-group btn-block" ngbDropdown role="group" aria-label="Add friend" *ngIf="friendList">
         <button class="btn btn-outline-primary btn-block" id="addFriendList" ngbDropdownToggle i18n="@@gamelobby.invitefriends.add">
           Add friend to game
@@ -37,32 +38,32 @@
           </button>
         </div>
       </div>
-    </div>
-  </div>
 
-  <div class="card mt-4">
-    <div class="card-header text-center">
-      <strong>
-        {{gameName}}
-      </strong>
-    </div>
-    <div class="card-body">
       <div>
         <ngb-alert *ngIf="!staticAlertClosed" (close)="staticAlertClosed = true">
         </ngb-alert>
         <span *ngIf="loggedInPlayerSuccessfulAddedStatusFlag" id="loggedInPlayerSuccessfulAddedStatusFlag"></span>
         <button id="gamestatusButton" (click)="startGame()" class="btn btn-block my-1" [ngClass]="gamePlayers.length < 4 ? 'btn-outline-warning' : 'btn-outline-success'"
           [disabled]="gamePlayers.length < 4 || loggedInPlayerIsHost === false">
-          <span *ngIf="gamePlayers.length <= 3" i18n="@@gamelobby.missingplayers">
-            at least {{4 - gamePlayers.length}} players missing
+          <span *ngIf="gamePlayers.length <= 3" i18n="@@gamelobby.missingplayers1">
+            at least
           </span>
+          <span>{{4 - gamePlayers.length}} </span>
+          <span i18n="@@gamelobby.missingplayers2">players missing</span>
           <span *ngIf="gamePlayers.length > 3">
             <span *ngIf="loggedInPlayerIsHost" i18n="@@gamelobby.startbutton">
               Start Game
             </span>
-            <span *ngIf="loggedInPlayerIsHost === false" i18n="@@gamelobby.waitingstart">
-              Waiting for
-              <strong>{{hostPlayer?.name}}</strong> to start game
+            <span *ngIf="loggedInPlayerIsHost === false" >
+              <span i18n="@@gamelobby.waitingstart1">
+                Waiting for
+              </span>
+              <strong>
+                {{hostPlayer?.name}}
+              </strong>
+              <strong i18n="@@gamelobby.waitingstart2">
+                to start game
+              </strong>
             </span>
           </span>
         </button>

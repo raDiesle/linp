@@ -21,7 +21,7 @@ import {FirsttipComponent} from './tip/firsttip/firsttip.component';
 import {FirstguessComponent} from './guess/firstguess/firstguess.component';
 import {SearchFilterPipe} from './joingame/gamelistsearch.pipe';
 import {GamelobbyComponent} from './gamelobby/gamelobby.component';
-import {SinglewordonlyvalidatorDirective} from './widgets/singlewordonly_depre/singlewordonlyvalidator.directive';
+import {SinglewordonlyvalidatorDirective} from './tip/singlewordonly_depre/singlewordonlyvalidator.directive';
 import {FadeComponent} from './widgets/fade/fade.component';
 import {WaitingdotsComponent} from './widgets/waitingdots/waitingdots.component';
 import {WordsdrumrollComponent} from './widgets/wordsdrumroll/wordsdrumroll.component';
@@ -31,7 +31,6 @@ import {SecondguessComponent} from './guess/secondguess/secondguess.component';
 import {EvaluationComponent} from './evaluation/evaluation.component';
 import {SimulationComponent} from './simulation/simulation.component';
 import {UserprofileService} from './welcome/userprofile.service';
-import {LoginbyemailComponent} from './welcome/loginbyemail/loginbyemail.component';
 import {HttpClientModule} from '@angular/common/http';
 import {PlayerprofileComponent} from './playerprofile/playerprofile.component';
 import {CreategameComponent} from './creategame/creategame.component';
@@ -111,7 +110,6 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     SecondguessComponent,
     EvaluationComponent,
     SimulationComponent,
-    LoginbyemailComponent,
     ActivegamesComponent,
     PlayerprofileComponent,
     CreategameComponent,
@@ -134,7 +132,6 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
   ],
   entryComponents: [
     ActionguidemodalComponent,
-    LoginbyemailComponent,
     ActivegamesComponent,
     FriendlistComponent
   ],

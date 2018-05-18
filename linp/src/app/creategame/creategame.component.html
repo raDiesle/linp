@@ -1,24 +1,16 @@
 <div class="card">
   <div class="card-header">
-    <strong>Create New Game</strong>
+    <strong i18n="@@creategame.header">Create New Game</strong>
   </div>
   <div class="card-body">
     <form #createGameForm="ngForm">
-      <div class="form-group"> <!-- has-danger  -->
-        <label for="gamename">
+      <div class="form-group">
+        <label for="gamename" i18n="@@creategame.label">
           Game Name
         </label>
         <div>
-          <input
-            id="gamename"
-            type="text"
-            class="form-control form-control-danger"
-            (focus)="$event.target.select()"
-            name="gameName"
-            #gameNames
-            [(ngModel)]="gameName"
-            required
-          />
+          <input id="gamename" type="text" class="form-control form-control-danger" (focus)="$event.target.select()" name="gameName"
+            #gameNames [(ngModel)]="gameName" required />
           <!--
           <div class="form-control-feedback">Sorry, that gamename is taken. Try another?</div>
 
@@ -28,22 +20,14 @@
       </div>
 
       <div class="form-group">
-        <label for="language">Language</label>
-        <select id="language" class="form-control"
-                name="language"
-                #language$
-                [(ngModel)]="language"
-        >
-          <option selected value="en">English</option>
+        <label for="language" i18n="@@creategame.language">Language</label>
+        <select id="language" class="form-control" name="language" #language$ [(ngModel)]="language">
+          <option selected value="en" i18n="@@creategame.lang.en">English</option>
         </select>
       </div>
 
       <div class="form-group">
-        <button id="createGameButton"
-                class="btn btn-primary btn-block"
-                [disabled]="!createGameForm.form.valid"
-                (click)="createGameAction()"
-        >
+        <button id="createGameButton" class="btn btn-primary btn-block" [disabled]="!createGameForm.form.valid" (click)="createGameAction()" i18n="@@creategame.create.button">
           Create
         </button>
       </div>

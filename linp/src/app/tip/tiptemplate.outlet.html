@@ -9,15 +9,14 @@
 
     <div class="card mt-4">
       <div class="card-header text-center">
-        <strong>{{isSecondtip ? 'second' : 'first'}} word</strong>
+        <strong>{{isSecondtip ? 'second' : 'first'}}</strong>
+        <strong i18n="@@tiptemplate.word">word</strong>
       </div>
       <div class="card-body">
-
-
         <div #isTurn *ngIf="isPlayersTurnForAuthUser else isWaiting">
           <div class="row align-items-center" id="yourTurn">
             <div class="col-8">
-              <h4 class="card-title">
+              <h4 class="card-title" i18n="@@tiptemplate.header">
                 It's your turn!
               </h4>
             </div>
@@ -34,9 +33,11 @@
                     <span class="badge badge-primary">
                       ?
                     </span>
-                    Try to give a word, where people think you are partner of another one.
+                    <span i18n="@@tiptemplate.hint1">
+                        Try to give a word, where people think you are partner of another one.
+                    </span>
                   </ng-container>
-                  <ng-container *ngIf="loggedInGamePlayer?.questionmarkOrWord !== '?'">
+                  <ng-container *ngIf="loggedInGamePlayer?.questionmarkOrWord !== '?'" i18n="@@tiptemplate.partner.hint">
                     Give first synonym for
                     <span class="badge badge-primary">
                       {{loggedInGamePlayer?.questionmarkOrWord}}
@@ -46,19 +47,16 @@
                 <div>
                   <input type="text" class="form-control" [ngClass]="{'is-invalid' : synonymInput?.dirty && synonymInput.errors?.required}"
                     id="synonymTxt" [(ngModel)]="synonym" #synonymInput="ngModel" name="synonym" required>
-                  <div *ngIf="synonymInput?.dirty && synonymInput.errors?.required">
+                  <div *ngIf="synonymInput?.dirty && synonymInput.errors?.required" i18n="@@tiptemplate.required">
                     Provide your synonym
                   </div>
                 </div>
               </div>
-              <button id="sendSynonym" class="btn btn-primary btn-block" [disabled]="synonymInput.invalid" (click)="sendSynonym()">
+              <button id="sendSynonym" class="btn btn-primary btn-block my-2" [disabled]="synonymInput.invalid" (click)="sendSynonym()" i18n="@@tiptemplate.send">
                 Send
               </button>
-              <div class="py-2">
-              </div>
             </form>
           </div>
-
         </div>
 
         <ul class="list-group list-group-flush">
@@ -67,10 +65,10 @@
               <div class="col-4">
                 &nbsp;
               </div>
-              <div class="col-4 small">
+              <div class="col-4 small" i18n="@@tiptemplate.word1">
                 1. Password
               </div>
-              <div class="col-4 small">
+              <div class="col-4 small" i18n="@@tiptemplate.word2">
                 2. Password
               </div>
             </div>

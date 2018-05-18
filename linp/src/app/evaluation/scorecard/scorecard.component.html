@@ -10,7 +10,7 @@
   <div class="list-group list-group-flush">
     <div class="list-group-item">
       <div class="row text-center">
-        <div class="col-3" [ngbTooltip]="'Given words'">
+        <div class="col-3" i18n-ngbTooltip="@@scorecard.words.tooltip" ngbTooltip="Given words" i18n="@@scorecard.words">
           Words
         </div>
         <div class="col-4">
@@ -31,10 +31,9 @@
 
     <div class="list-group-item">
       <div class="row">
-        <div class="col-3" [ngbTooltip]="'Given words'">
+        <div class="col-3" i18n-ngbTooltip="@@scorecard.givenwords.tooltip" ngbTooltip="Given words" i18n="@@scorecard.givenwords">
           1. Guess
         </div>
-
         <div class="col-4 text-center">
           <span class="badge badge-primary w-100">
             {{gamePlayer.firstTeamTip?.firstPartner?.name}}
@@ -58,7 +57,7 @@
 
     <div class="list-group-item">
       <div class="row">
-        <div class="col-3" [ngbTooltip]="'Given words'">
+        <div class="col-3" i18n-ngbTooltip="@@scorecard.secondguess.tooltip" ngbTooltip="second guess" i18n="@@scorecard.secondguess">
           2. Guess
         </div>
         <div class="col-4">
@@ -84,10 +83,12 @@
     <div class="list-group-item">
       <div class="row">
         <div class="col-3">
-          <span *ngIf="gamePlayer.questionmarkOrWord === '?'" [ngbTooltip]="'You identified other teams +2 or you successful bluffed, so others guessed on you, having a real word +1'">
+          <span *ngIf="gamePlayer.questionmarkOrWord === '?'" i18n-ngbTooltip="@@scorecard.indirect1.tooltip" ngbTooltip="You identified other teams +2 or you successful bluffed, so others guessed on you, having a real word +1"
+            i18n="@@scorecard.indirect1">
             Indirect Points
           </span>
-          <span *ngIf="gamePlayer.questionmarkOrWord !== '?'" [ngbTooltip]="'Others identified you and your partner (-1) or you identified other teams (+1)'">
+          <span *ngIf="gamePlayer.questionmarkOrWord !== '?'" i18n-ngbTooltip="@@scorecard.indirect2.tooltip" ngbTooltip="Others identified you and your partner (-1) or you identified other teams (+1)"
+            i18n="@@scorecard.indirect2">
             Indirect Points
           </span>
         </div>

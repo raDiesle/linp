@@ -5,21 +5,21 @@
               'bg-primary progress-bar-striped progress-bar-animated' : parent == 1,
               'bg-secondary' : parent < 1 
             }">
-      <strong>First</strong>
+      <strong i18n="@@gameprogress.first">First</strong>
     </div>
     <div class="col-4 border-bottom" [ngClass]="{
         'bg-success' : parent > 2, 
         'bg-primary progress-bar-striped progress-bar-animated' : parent == 2,
         'bg-secondary' : parent < 2
       }">
-      <strong>Second</strong>
+      <strong i18n="@@gameprogress.second">Second</strong>
     </div>
     <div class="col-4 border-left" [ngClass]="{
       'bg-success' : parent > 3, 
       'bg-primary progress-bar-striped progress-bar-animated' : parent == 3,
       'bg-secondary' : parent < 3 
     }">
-      <strong>Reveal</strong>
+      <strong i18n="@@gameprogress.reveal1">Reveal</strong>
     </div>
   </div>
 
@@ -28,35 +28,35 @@
       'bg-success' : child > 1, 
       'bg-primary progress-bar-striped progress-bar-animated' : child == 1,
       'bg-secondary' : child < 1 
-    }">
+    }" i18n="@@gameprogress.word">
       Pass
     </div>
     <div class="col-2 border-right border-bottom" style="border-bottom-right-radius: 0.25rem" [ngClass]="{
           'bg-success' : child > 2, 
           'bg-primary progress-bar-striped progress-bar-animated' : child == 2,
           'bg-secondary' : child < 2 
-        }">
+        }" i18n="@@gameprogress.guess">
       Guess
     </div>
     <div class="col-2 border-right border-bottom" style="border-bottom-left-radius: 0.25rem" [ngClass]="{
           'bg-success' : child > 3, 
           'bg-primary progress-bar-striped progress-bar-animated' : child == 3,
           'bg-secondary' : child < 3 
-        }">
+        }" i18n="@@gameprogress.word">
       Pass
     </div>
     <div class="col-2 border-bottom" style="border-bottom-right-radius: 0.25rem" [ngClass]="{
           'bg-success' : child > 4, 
           'bg-primary progress-bar-striped progress-bar-animated' : child == 4,
           'bg-secondary' : child < 4 
-        }">
+        }" i18n="@@gameprogress.guess">
       Guess
     </div>
     <div class="col-4 border-left border-bottom" style="border-bottom-left-radius: 0.25rem" [ngClass]="{
             'bg-success' : child > 5, 
             'bg-primary progress-bar-striped progress-bar-animated' : child == 5,
             'bg-secondary' : child < 5 
-          }">
+          }" i18n="@@gameprogress.reveal2">
       spy partners
     </div>
   </div>

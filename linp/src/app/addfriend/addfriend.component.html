@@ -1,16 +1,19 @@
 <div class="card">
-  <div class="card-header">
+  <div class="card-header" i18n="@@addfriendpage.header">
     <strong>Accept friend invitation</strong>
   </div>
   <div class="card-body">
     <div class="alert alert-primary" role="alert" *ngIf="isFriendYourself === false">
-      Performing friend invitation <app-waitingdots></app-waitingdots>
+      <div *ngIf="isFriendFinishedAdding === false">
+        <span i18n="@@addfriendpage.loading">Performing friend invitation </span>
+        <app-waitingdots></app-waitingdots>
+      </div>
     </div>
-    <div class="alert alert-warning" role="alert" *ngIf="isFriendYourself">      
-      <div>
+    <div class="alert alert-warning" role="alert" *ngIf="isFriendYourself">
+      <div i18n="@@addfriendpage.friendyourself1">
         You try to add yourself as friend.
       </div>
-      <div>      
+      <div i18n="@@addfriendpage.friendyourself2">
         Send link invitation to another person.
       </div>
     </div>

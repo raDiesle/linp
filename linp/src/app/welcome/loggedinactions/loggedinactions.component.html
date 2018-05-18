@@ -1,6 +1,6 @@
 <div class="card border-dark">
     <div class="card-header text-white3">
-      <span class="small">
+      <span class="small" i18n="@@loggedinactions.loggedin">
         Logged in as:
       </span>
       <strong>        
@@ -12,19 +12,18 @@
         </span>
       </strong>
     </div>
-
     <div class="card-body" *ngIf="!firstTimeLoggedInEver">      
       <button
         type="button"
         class="btn btn-primary btn-block"
-        routerLink="/creategame">
+        routerLink="/creategame" i18n="@@loggedinactions.creategame">
         Create New Game
       </button>
       <button
         id="joingameBtn"
         type="button"
         class="btn btn-light btn-block btn-sm"
-        routerLink="/joingame">
+        routerLink="/joingame" i18n="@@loggedinactions.joinpublic">
         Join Public Game
       </button>
           <button id="userprofile" 
@@ -32,13 +31,16 @@
                 class="btn btn-primary btn-block"
                 href="javascript:void(0)"
                 (click)="openUserProfile()"
+                i18n="@@loggedinactions.settings"
                 >
             Settings
           </button>          
           <button id="logout"
               type="button"
               class="btn btn-danger btn-block"
-              href="javascript:void(0)" (click)="logout()">
+              href="javascript:void(0)" (click)="logout()"
+              i18n="@@loggedinactions.logout"
+              >
             Logout
           </button>      
     </div>

@@ -1,45 +1,30 @@
 <div class="card">
   <div class="card-header">
-    <strong>Player Profile</strong>
+    <strong i18n="@@playerprofile.header">Player Profile</strong>
   </div>
   <div class="card-body">
-    <div class="form-group"
-         [ngClass]="{'has-success' : successfulSavedPlayername}"
-    >
-      <label for="playername">
+    <div class="form-group" [ngClass]="{'has-success' : successfulSavedPlayername}">
+      <label for="playername" i18n="@@playerprofile.playername">
         Player Name
       </label>
-      <input
-        id="playername"
-        type="text"
-        class="form-control"
-        [ngClass]="{'form-control-success' : successfulSavedPlayername}"
-        name="playerName"
-        [(ngModel)]="playerName"
-        #playerNameInput="ngModel"
-        (ngModelChange)="playerName"
-        required
-        value="user.displayName"
+      <input id="playername" type="text" class="form-control" [ngClass]="{'form-control-success' : successfulSavedPlayername}"
+        name="playerName" [(ngModel)]="playerName" #playerNameInput="ngModel" (ngModelChange)="playerName" required value="user.displayName"
       />
       <div class="form-control-feedback">
         <span>
-          <app-fade [out]="true" [(isVisible)]="successfulSavedPlayername">
+          <app-fade [out]="true" [(isVisible)]="successfulSavedPlayername" i18n="@@playerprofile.saved">
             Succesful saved
           </app-fade>
           &nbsp;
         </span>
-        <span class="form-control-feedback" *ngIf="playerNameInput?.dirty && playerNameInput?.valid">
-            Name is required
+        <span class="form-control-feedback" *ngIf="playerNameInput?.dirty && playerNameInput?.valid" i18n="@@playerprofile.name.required">
+          Name is required
         </span>
       </div>
     </div>
 
-    <button (click)="updateOrCreateAccountAction()"
-            class="btn btn-primary btn-block"
-            id="savePlayerName"
-            [ngClass]="[!successfulSavedPlayername ? 'btn-primary' : 'btn-success']"
-            [disabled]="!playerNameInput.valid || successfulSavedPlayername"
-    >
+    <button (click)="updateOrCreateAccountAction()" class="btn btn-primary btn-block" id="savePlayerName" [ngClass]="[!successfulSavedPlayername ? 'btn-primary' : 'btn-success']"
+      [disabled]="!playerNameInput.valid || successfulSavedPlayername" i18n="@@playerprofile.savebutton">
       Save
     </button>
   </div>
