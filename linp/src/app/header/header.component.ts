@@ -35,11 +35,11 @@ export class HeaderComponent implements OnInit {
     this.firebaseGameService.fetchNewHtmlVersionStatus()
       .subscribe(currentVersion => {
         const isVersionToBeChecked = this.lastVersion !== 0;
-        const isReloadApp = this.lastVersion !== currentVersion.value;
+        const isReloadApp = this.lastVersion !== currentVersion.val;
         if (isVersionToBeChecked && isReloadApp) {
             this.windowRef.nativeWindow.location.reload(true);
         }
-        this.lastVersion = currentVersion.value;
+        this.lastVersion = currentVersion.val;
       });
   }
 
