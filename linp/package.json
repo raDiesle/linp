@@ -16,7 +16,7 @@
     "e2e": "ng e2e",
     "deploy": "firebase deploy",
     "testc": "testcafe \"chrome --start-fullscreen\" tests/firstSyn*Spec.js",
-    "i18n": "ng xi18n --i18nFormat=xlf2 --outputPath locale --outFile messages.en.xlf",
+    "i18n": "ng xi18n --i18nFormat=xlf2 --outputPath src/locale --outFile messages.en.xlf",
     "webpack-defaults": "webpack-defaults"
   },
   "private": true,

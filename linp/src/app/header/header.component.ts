@@ -5,6 +5,7 @@ import { WindowRef } from '../WindowRef';
 import { ActionguideService } from '../services/actionguide.service';
 import { NgbPopover, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActionguidemodalComponent } from '../widgets/actionguidemodal/actionguidemodal.component';
+import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -13,6 +14,7 @@ import { ActionguidemodalComponent } from '../widgets/actionguidemodal/actiongui
 })
 export class HeaderComponent implements OnInit {
 
+  public showBackLink = false;
   public isDevelopmentEnv = false;
   public isMenuCollapsed = true;
 
@@ -23,11 +25,18 @@ export class HeaderComponent implements OnInit {
   constructor(@Inject(WindowRef) private windowRef: WindowRef,
     private actionGuide: ActionguideService,
     private modalService: NgbModal,
-    private firebaseGameService: FirebaseGameService
+    private firebaseGameService: FirebaseGameService,
+    private router: Router
   ) { }
 
   ngOnInit() {
     this.isDevelopmentEnv = this.windowRef.nativeWindow.location.host.includes('localhost');
+  
+    this.router.events.filter((event: any) => event instanceof NavigationEnd)
+    .subscribe(event => {
+      this.showBackLink = ['/welcome', '/'].every((a) => event.url !== a);
+    });
+   
     this.actionGuide.actionDone.subscribe(() => {
       this.modalService.open(ActionguidemodalComponent);
     });
