@@ -1,17 +1,3 @@
-<div>
-  <div class="card border-dark my-1">
-    <div class="card-body">
-
-      <div class="text-right">
-        <a routerLink="/gamerules" class="card-link" routerLinkActive="active" i18n="@@welcome.gamerules.link">
-          <i class="material-icons">
-              help
-            </i>
-        </a>
-      </div>
-    </div>
-  </div>
-
   <div *ngIf="authUser; then isLoggedIn else isNotLoggedIn">
   </div>
 

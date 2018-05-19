@@ -1,47 +1,34 @@
 <div class="card border-dark">
-    <div class="card-header text-white3">
-      <span class="small" i18n="@@loggedinactions.loggedin">
-        Logged in as:
+  <div class="card-header text-center">
+    <h2>
+      Other actions
+    </h2>
+    <span class="small" i18n="@@loggedinactions.loggedin">
+      Logged in as
+    </span>
+    <strong>
+      <span *ngIf="!playerProfile">
+        <app-waitingdots></app-waitingdots>
       </span>
-      <strong>        
-        <span *ngIf="!playerProfile">
-          <app-waitingdots></app-waitingdots>
-        </span>
-        <span id="loggedInPlayerName" *ngIf="playerProfile">
-          {{playerProfile?.name}}
-        </span>
+      <strong id="loggedInPlayerName" *ngIf="playerProfile">
+        {{playerProfile?.name}}
       </strong>
-    </div>
-    <div class="card-body" *ngIf="!firstTimeLoggedInEver">      
-      <button
-        type="button"
-        class="btn btn-primary btn-block"
-        routerLink="/creategame" i18n="@@loggedinactions.creategame">
-        Create New Game
-      </button>
-      <button
-        id="joingameBtn"
-        type="button"
-        class="btn btn-light btn-block btn-sm"
-        routerLink="/joingame" i18n="@@loggedinactions.joinpublic">
-        Join Public Game
-      </button>
-          <button id="userprofile" 
-                type="button"
-                class="btn btn-primary btn-block"
-                href="javascript:void(0)"
-                (click)="openUserProfile()"
-                i18n="@@loggedinactions.settings"
-                >
-            Settings
-          </button>          
-          <button id="logout"
-              type="button"
-              class="btn btn-danger btn-block"
-              href="javascript:void(0)" (click)="logout()"
-              i18n="@@loggedinactions.logout"
-              >
-            Logout
-          </button>      
-    </div>
+    </strong>
+
   </div>
+  <div class="card-body" *ngIf="!firstTimeLoggedInEver">
+    <button type="button" class="btn btn-primary btn-block" routerLink="/creategame" i18n="@@loggedinactions.creategame">
+      Create game
+    </button>
+    <button id="joingameBtn" type="button" class="btn btn-light btn-block btn-sm" routerLink="/joingame" i18n="@@loggedinactions.joinpublic">
+      Join public game
+    </button>
+    <button id="userprofile" type="button" class="btn btn-primary btn-block" href="javascript:void(0)" (click)="openUserProfile()"
+      i18n="@@loggedinactions.settings">
+      Settings
+    </button>
+    <button id="logout" type="button" class="btn btn-danger btn-block" href="javascript:void(0)" (click)="logout()" i18n="@@loggedinactions.logout">
+      Logout
+    </button>
+  </div>
+</div>

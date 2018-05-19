@@ -1,68 +1,82 @@
 <div id="activegames" class="card border-dark">
   <div class="card-header text-center">
-    <strong i18n="@@activegames.header">Your active games</strong>
+    <h2 i18n="@@activegames.header">Your games</h2>
   </div>
   <div class="card-body">
-    <div class="list-group">
-
-      <div *ngIf="games === null">
-        <app-waitingdots></app-waitingdots>
-      </div>
-      <div *ngIf="games !== null" i18n="@@activegames.yourturn">
-        Your turn
-      </div>
-
-      <div *ngIf="games !== null && games.length === 0">
-        <div class="alert alert-success text-center">
-          <i class="material-icons">
-            check_circle_outline
-          </i>
-          <p i18n="@@tiptemplate.noaction1">Come back if other players did their turn.</p>
-          <p i18n="@@tiptemplate.noaction2">There is no game where your action is required.</p>
-        </div>
-      </div>
-      <button id="gamename_{{game.name}}" class="list-group-item list-group-item-action list-group-item-primary my-1" role="button"
-        *ngFor="let game of games" (click)="onSelectGameToJoin(game)">
-        <div class="row">
-          <div class="col-6">
-            {{game.name}}
-          </div>
-          <div class="col-6 text-right">
-            {{game.since | timeAgo}}
-          </div>
-        </div>
-      </button>
-
-      <div *ngIf="games === null">
-        <app-waitingdots></app-waitingdots>
-      </div>
-      <div *ngIf="games !== null"  i18n="@@tiptemplate.waiting.title">
-        Waiting for others
-      </div>
-      <button id="gamename_{{game.name}}" class="list-group-item list-group-item-action list-group-item-light my-1" role="button"
-        *ngFor="let game of passiveGames" (click)="onSelectGameToJoin(game)">
-        <div class="row">
-          <div class="col-6">
-            {{game.name}}
-          </div>
-          <div class="col-6 text-right">
-            {{game.since | timeAgo}}
-          </div>
-        </div>
-      </button>
-      <div *ngIf="games !== null && games.length === 0 && passiveGames.length === 0">
-        <div class="alert alert-warning text-center">
-          <div class="alert-heading h6"  i18n="@@tiptemplate.noactivegames1">
-            There are no active games yet.
-          </div>
-          <div i18n="@@tiptemplate.noactivegames2">
-            Wait for a friend to invite you
-          </div>
-          <div i18n="@@tiptemplate.noactivegames3">
-            or create new game.
-          </div>
-        </div>
+    <div *ngIf="games !== null && games.length === 0 && passiveGames.length === 0; else hasAnyGames">
+      <div class="alert alert-warning text-center">
+        <h3 class="card-title">
+          No games yet.
+        </h3>
+        <p class="card-text pt-2">
+          Wait for host to invite you to a new game,
+          <br> or create a game of by yourself
+        </p>
       </div>
     </div>
+
+    <ng-template #hasAnyGames>
+      <div class="list-group">
+        <div *ngIf="games === null">
+          <app-waitingdots></app-waitingdots>
+        </div>
+        <div *ngIf="games !== null" i18n="@@activegames.yourturn">
+          Act now!
+        </div>
+
+        <div *ngIf="games !== null && games.length === 0">
+          <div class="alert alert-success text-center">
+            <i class="material-icons">
+              check_circle_outline
+            </i>
+            <p i18n="@@tiptemplate.noaction1">Come back if other players did their turn.</p>
+            <p i18n="@@tiptemplate.noaction2">There is no game where your action is required.</p>
+          </div>
+        </div>
+        <button id="gamename_{{game.name}}" class="list-group-item list-group-item-action list-group-item-primary my-1" role="button"
+          *ngFor="let game of games" (click)="onSelectGameToJoin(game)">
+          <div class="row">
+            <div class="col-6">
+              {{game.name}}
+            </div>
+            <div class="col-6 text-right">
+              {{game.since | timeAgo}}
+            </div>
+          </div>
+        </button>
+
+        <div *ngIf="games === null">
+          <app-waitingdots></app-waitingdots>
+        </div>
+        <div *ngIf="games !== null" i18n="@@tiptemplate.waiting.title">
+          Waiting for others ...
+        </div>
+        <button id="gamename_{{game.name}}" class="list-group-item list-group-item-action list-group-item-light my-1" role="button"
+          *ngFor="let game of passiveGames" (click)="onSelectGameToJoin(game)">
+          <div class="row">
+            <div class="col-6">
+              {{game.name}}
+            </div>
+            <div class="col-6 text-right">
+              {{game.since | timeAgo}}
+            </div>
+          </div>
+        </button>
+        <div *ngIf="games !== null && games.length === 0 && passiveGames.length === 0">
+          <div class="alert alert-warning text-center">
+            <div class="alert-heading h6" i18n="@@tiptemplate.noactivegames1">
+              There are no active games yet.
+            </div>
+            <div i18n="@@tiptemplate.noactivegames2">
+              Wait for a friend to invite you
+            </div>
+            <div i18n="@@tiptemplate.noactivegames3">
+              or create new game.
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
   </div>
 </div>

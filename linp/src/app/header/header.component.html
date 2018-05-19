@@ -1,77 +1,90 @@
-<nav class="navbar navbar-dark bg-dark navbar-expand-lg navbar-dark">
-  <a class="material-icons align-middle text-white" routerLink="/welcome" [hidden]="showBackLink === false">
+<nav class="navbar navbar-dark bg-dark navbar-dark">
+  <a class="material-icons align-middle text-white pr-5" routerLink="/welcome" [hidden]="showBackLink === false">
     arrow_back
   </a>
-  <div class="mx-auto d-sm-flex d-block flex-sm-nowrap">
-    <a class="navbar-brand" routerLink="/welcome">
-      <img src="assets/spy_icon.svg" style="width:2.5rem">
-      <strong i18n="@@header.title">LINP</strong>
-      <span i18n="@@header.subtitle">Identify spies</span>
+
+  <a class="navbar-brand  mr-auto" routerLink="/welcome">
+    <img src="assets/spy_icon.svg" style="width:2.5rem">
+    <strong i18n="@@header.title">LINP</strong>
+    <span i18n="@@header.subtitle"> - Identify spies</span>
+
+  </a>
+  <span class="navbar-nav">
+    <a routerLink="/gamerules" class="card-link" routerLinkActive="active" i18n="@@welcome.gamerules.link">
+      <i class="material-icons">
+        help
+      </i>
     </a>
-    <!--
+  </span>
+
+
+  <!--
     <ngb-alert [type]="'warning'" *ngIf="isUserAuthOfflane" (click)="isUserAuthOfflane=!isUserAuthOfflane">
       You are offlane
     </ngb-alert>
     -->
-    <!--
+  <!--
     <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed" data-toggle="collapse" data-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 -->
-    <div class="collapse navbar-collapse text-center" [ngbCollapse]="isMenuCollapsed" id="navbarSupportedContent" *ngIf="isDevelopmentEnv">
-      <ul class="navbar-nav mr-auto" (click)="isMenuCollapsed=!isMenuCollapsed">
-        <li class="nav-item">
-          <a id="welcome" class="nav-link" style="color: #4e5d6c" routerLink="/welcome">
-            Home
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" style="color: #4e5d6c" routerLink="/createaccount">Create Account</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" style="color: #4e5d6c" routerLink="/playerprofile">Player Profile</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" style="color: #4e5d6c" routerLink="/gamerules">Game Rules</a>
-        </li>
-        <li class="nav-item">
-          <a id="joingame" class="nav-link" style="color: #4e5d6c" routerLink="/joingame">Join Game</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" style="color: #4e5d6c" routerLink="/creategame">Create Game</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" style="color: #4e5d6c" routerLink="/gamelobby/{{gameName}}">Gamelobby</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" style="color: #4e5d6c" routerLink="/preparegame/{{gameName}}">Prepare Game</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" style="color: #4e5d6c" routerLink="/firsttip/{{gameName}}">First Tip</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" style="color: #4e5d6c" routerLink="/firstguess/{{gameName}}">First Guess</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" style="color: #4e5d6c" routerLink="/secondtip/{{gameName}}">Second Tip</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" style="color: #4e5d6c" routerLink="/secondguess/{{gameName}}">Second Guess</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" style="color: #4e5d6c" routerLink="/evaluation/{{gameName}}">Evaluation</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" style="color: #4e5d6c" routerLink="/finalizeround/{{gameName}}">Finalize Round</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" style="color: #4e5d6c" routerLink="/createword/">Create Word</a>
-        </li>
-        <li class="nav-item">
-          <a id="simulation" class="nav-link" style="color: #4e5d6c" routerLink="/simulation">Simulation</a>
-        </li>
-      </ul>
-    </div>
+  <div class="collapse navbar-collapse text-center" [ngbCollapse]="isMenuCollapsed" id="navbarSupportedContent" *ngIf="isDevelopmentEnv">
+
+
+
+    <ul class="navbar-nav mr-auto" (click)="isMenuCollapsed=!isMenuCollapsed" [hidden]="true">
+      <li class="nav-item">
+        <a id="welcome" class="nav-link" style="color: #4e5d6c" routerLink="/welcome">
+          Home
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" style="color: #4e5d6c" routerLink="/createaccount">Create Account</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" style="color: #4e5d6c" routerLink="/playerprofile">Player Profile</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" style="color: #4e5d6c" routerLink="/gamerules">Game Rules</a>
+      </li>
+      <li class="nav-item">
+        <a id="joingame" class="nav-link" style="color: #4e5d6c" routerLink="/joingame">Join Game</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" style="color: #4e5d6c" routerLink="/creategame">Create Game</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" style="color: #4e5d6c" routerLink="/gamelobby/{{gameName}}">Gamelobby</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" style="color: #4e5d6c" routerLink="/preparegame/{{gameName}}">Prepare Game</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" style="color: #4e5d6c" routerLink="/firsttip/{{gameName}}">First Tip</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" style="color: #4e5d6c" routerLink="/firstguess/{{gameName}}">First Guess</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" style="color: #4e5d6c" routerLink="/secondtip/{{gameName}}">Second Tip</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" style="color: #4e5d6c" routerLink="/secondguess/{{gameName}}">Second Guess</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" style="color: #4e5d6c" routerLink="/evaluation/{{gameName}}">Evaluation</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" style="color: #4e5d6c" routerLink="/finalizeround/{{gameName}}">Finalize Round</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" style="color: #4e5d6c" routerLink="/createword/">Create Word</a>
+      </li>
+      <li class="nav-item">
+        <a id="simulation" class="nav-link" style="color: #4e5d6c" routerLink="/simulation">Simulation</a>
+      </li>
+    </ul>
+
   </div>
 </nav>

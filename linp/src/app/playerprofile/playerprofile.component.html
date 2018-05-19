@@ -1,31 +1,20 @@
+<br>
 <div class="card">
   <div class="card-header">
-    <strong i18n="@@playerprofile.header">Player Profile</strong>
+    <strong i18n="@@playerprofile.header">Player profile</strong>
   </div>
   <div class="card-body">
     <div class="form-group" [ngClass]="{'has-success' : successfulSavedPlayername}">
       <label for="playername" i18n="@@playerprofile.playername">
-        Player Name
+        Nickname
       </label>
       <input id="playername" type="text" class="form-control" [ngClass]="{'form-control-success' : successfulSavedPlayername}"
         name="playerName" [(ngModel)]="playerName" #playerNameInput="ngModel" (ngModelChange)="playerName" required value="user.displayName"
       />
-      <div class="form-control-feedback">
-        <span>
-          <app-fade [out]="true" [(isVisible)]="successfulSavedPlayername" i18n="@@playerprofile.saved">
-            Succesful saved
-          </app-fade>
-          &nbsp;
-        </span>
-        <span class="form-control-feedback" *ngIf="playerNameInput?.dirty && playerNameInput?.valid" i18n="@@playerprofile.name.required">
-          Name is required
-        </span>
-      </div>
     </div>
-
     <button (click)="updateOrCreateAccountAction()" class="btn btn-primary btn-block" id="savePlayerName" [ngClass]="[!successfulSavedPlayername ? 'btn-primary' : 'btn-success']"
       [disabled]="!playerNameInput.valid || successfulSavedPlayername" i18n="@@playerprofile.savebutton">
-      Save
+      Submit
     </button>
   </div>
 </div>

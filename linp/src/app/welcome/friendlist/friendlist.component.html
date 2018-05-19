@@ -1,6 +1,8 @@
 <div class="card border-dark">
   <div class="card-header text-white text-center">
-    <strong i18n="@@friendlist.header">Friends</strong>
+    <h2 i18n="@@friendlist.header">
+      Friends
+    </h2>
   </div>
   <div class="card-body">
     <div class="list-group list-group-flush">
@@ -24,20 +26,14 @@
         <app-waitingdots></app-waitingdots>
       </div>
       <div class="alert alert-warning text-center" *ngIf="friendlist !== null && friendlist?.length === 0">
-        <div class="alert-heading h6" i18n="@@friendlist.nofriends.header">
-            You do not have friends yet.
-        </div>
-        <div i18n="@@friendlist.nofriends.text1">
-            Send the link above to friends
-        </div>
-        <div i18n="@@friendlist.nofriends.text2">
-            to invite them to your friendlist.
+        <div class="alert-heading h3" i18n="@@friendlist.nofriends.header">
+            You don't have friends yet.
         </div>
       </div>
     </div>
   </div>
   <div class="card-footer text-center" i18n="@@friendlist.sendinvitation">
-      Send your request invitation link to friends
+      Send invitation link to friends:
       <div class="container">
         <div class="row d-flex justify-content-between">
           <share-button button="copy" [url]="friendsinvitationlink"></share-button>
