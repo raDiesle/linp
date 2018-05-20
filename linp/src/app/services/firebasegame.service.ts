@@ -103,6 +103,13 @@ export class FirebaseGameService {
     return this.afAuth.auth.currentUser.uid;
   }
 
+  public updatePlayerUiState(request: any): Promise<any> {
+    return this.db
+      .collection('players')
+      .doc(this.getAuthUid())
+      .update(request);
+  }
+
   public observeGame(gameName): Observable<Game> {
     const observable = this.db
       .collection('games')
@@ -141,10 +148,11 @@ export class FirebaseGameService {
   }
 
   public observeLoggedInPlayerProfile(): Observable<PlayerProfile> {
-    return this.db
-      .collection('players')
-      .doc(this.afAuth.auth.currentUser.uid)
-      .valueChanges();
+    // for any reason auth can become null
+    const observableChain = this.observeAuthUser().flatMap(() => {
+      return this.observePlayerProfile(this.getAuthUid());
+    });
+    return observableChain;
   }
 
   public observePlayerProfile(uid: string): Observable<PlayerProfile> {

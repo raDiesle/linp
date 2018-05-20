@@ -1,33 +1,13 @@
 <div *ngIf="isGameDataFetchedFlag">
-
-  <div class="card border-dark my-1 py-2">
-    <div class="card-body">
-      <div class="card-text text-center">
-        <h3 i18n="@@gamelobby.step.header">Game preparations</h3>
-      </div>
-    </div>
-  </div>
-
+  <br>
   <div class="card mt-4">
     <div class="card-header text-center">
-      <strong>
-        {{gameName}}
-      </strong>
+      <h2>
+        Gamelobby
+      </h2>
     </div>
     <div class="card-body">
-
-      <div class="btn-group btn-block" ngbDropdown role="group" aria-label="Add friend" *ngIf="friendList">
-        <button class="btn btn-outline-primary btn-block" id="addFriendList" ngbDropdownToggle i18n="@@gamelobby.invitefriends.add">
-          Add friend to game
-        </button>
-        <div class="dropdown-menu" ngbDropdownMenu>
-          <button class="dropdown-item" i18n="@@gamelobby.invitefriends.cancel">-- cancel --</button>
-          <div class="dropdown-divider"></div>
-          <button class="dropdown-item" id="friend_{{friend.name}}" (click)="onFriendSelection(friend);" *ngFor="let friend of friendList">
-            {{friend.name}}
-          </button>
-        </div>
-      </div>
+      
       <div *ngIf="!friendList">
         <div class="alert alert-danger" i18n="@@gamelobby.invitefriends.nofriends">
           You do not have Linp friends, yet.
@@ -43,31 +23,67 @@
         <ngb-alert *ngIf="!staticAlertClosed" (close)="staticAlertClosed = true">
         </ngb-alert>
         <span *ngIf="loggedInPlayerSuccessfulAddedStatusFlag" id="loggedInPlayerSuccessfulAddedStatusFlag"></span>
-        <button id="gamestatusButton" (click)="startGame()" class="btn btn-block my-1" [ngClass]="gamePlayers.length < 4 ? 'btn-outline-warning' : 'btn-outline-success'"
-          [disabled]="gamePlayers.length < 4 || loggedInPlayerIsHost === false">
-          <span *ngIf="gamePlayers.length <= 3" i18n="@@gamelobby.missingplayers1">
-            at least
+
+
+        <div class="card-text py-2">
+          <h3 class="text-center py-2">
+            Random assignment at gamestart
+          </h3>
+          <span class="badge badge-primary">
+            Partner agents
           </span>
-          <span>{{4 - gamePlayers.length}} </span>
-          <span i18n="@@gamelobby.missingplayers2">players missing</span>
-          <span *ngIf="gamePlayers.length > 3">
-            <span *ngIf="loggedInPlayerIsHost" i18n="@@gamelobby.startbutton">
-              Start Game
-            </span>
-            <span *ngIf="loggedInPlayerIsHost === false" >
-              <span i18n="@@gamelobby.waitingstart1">
-                Waiting for
-              </span>
-              <strong>
-                {{hostPlayer?.name}}
-              </strong>
-              <strong i18n="@@gamelobby.waitingstart2">
-                to start game
-              </strong>
-            </span>
+          have the same word.
+          <br>
+          <span class="badge badge-primary">
+            Counter agents
           </span>
-        </button>
+          have no word.
+          <br> Nobody knows the role of each other.
+        </div>
       </div>
+
+      <div class="btn-group btn-block" ngbDropdown role="group" aria-label="Add friend" *ngIf="friendList">
+          <button class="btn btn-primary btn-block" id="addFriendList" ngbDropdownToggle i18n="@@gamelobby.invitefriends.add">
+            Add friend to game
+          </button>
+          <div class="dropdown-menu" ngbDropdownMenu>
+            <button class="dropdown-item" i18n="@@gamelobby.invitefriends.cancel">-- cancel --</button>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item" id="friend_{{friend.name}}" (click)="onFriendSelection(friend);" *ngFor="let friend of friendList">
+              {{friend.name}}
+            </button>
+          </div>
+        </div>
+
+
+      <button id="gamestatusButton" (click)="startGame()" class="btn btn-block my-1" [ngClass]="gamePlayers.length < 4 ? 'btn-warning' : 'btn-success'"
+        [disabled]="gamePlayers.length < 4 || loggedInPlayerIsHost === false">
+        <span *ngIf="gamePlayers.length <= 3" i18n="@@gamelobby.missingplayers1">
+          at least
+        </span>
+        <span>{{4 - gamePlayers.length}} </span>
+        <span i18n="@@gamelobby.missingplayers2">
+          player
+          <span [hidden]="4 - gamePlayers.length <= 1">s</span>
+          required</span>
+        <span *ngIf="gamePlayers.length > 3">
+          <span *ngIf="loggedInPlayerIsHost" i18n="@@gamelobby.startbutton">
+            Start Game
+          </span>
+          <span *ngIf="loggedInPlayerIsHost === false">
+            <span i18n="@@gamelobby.waitingstart1">
+              Waiting for
+            </span>
+            <strong>
+              {{hostPlayer?.name}}
+            </strong>
+            <strong i18n="@@gamelobby.waitingstart2">
+              to start game
+            </strong>
+          </span>
+        </span>
+      </button>
+
 
       <div class="list-group">
         <ng-container *ngFor="let gamePlayer of gamePlayers; let idx = index;">
@@ -76,7 +92,7 @@
               {{gamePlayer.name}}
             </strong>
             <span class="badge badge-primary" *ngIf="gamePlayer.isHost" i18n="@@gamelobby.host">
-              Host
+              Game Host
             </span>
           </div>
         </ng-container>

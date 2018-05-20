@@ -1,195 +1,45 @@
-<br>
-<div class="card">
-  <div class="card-header text-center">
-    <strong i18n="@@gamerules.title">Game explained</strong>
-  </div>
-  <div class="card-body">
-    <app-gameprogress parent="2" child="4"></app-gameprogress>
-    <br>
-    <div class="card-text">
-      <p i18n="@@welcome.text1">
-        Two spies have to meet each other.
-      </p> 
-      <p i18n="@@welcome.text2">
-        All they have in common is a word as identification password.
-      </p>
-         
-      <p i18n="@@welcome.text3">
-        All the others players are counterspies trying to identify and confuse them.
-      </p> 
-    </div>
-    <div class="card-text">
-      <div class="text-center py-5">
+<div class="modal-header text-center">
+  <h2 class="modal-title" i18n="@@gamerules.title">
+    Game explained
+  </h2>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+
+  <app-gameprogress parent="{{currentRulePosition<= 1 ? 0 : currentRulePosition/2}}" child="{{currentRulePosition}}"></app-gameprogress>
+
+  <div class="py-3 d-flex">
+    <a href="javascript:void(0)" (click)="showDetails=!showDetails">
+      <i class="material-icons align-top">
+        check_box{{showDetails ? '' : '_outline_blank'}}
+      </i>
+    </a>
+    <span i18n="@@gamerules.detailed">
+      Detailed
+    </span>
+
+
+    <div class="px-4">
+      <a href="javascript:void(0)" (click)="currentRulePosition=currentRulePosition-1">
         <i class="material-icons">
           skip_previous
         </i>
-        <i class="material-icons">
-          play_arrow
-        </i>
+      </a>
+      <span class="align-top">
+        Navigate
+      </span>
+      <a href="javascript:void(0)" (click)="currentRulePosition=currentRulePosition+1">
         <i class="material-icons">
           skip_next
         </i>
-
-        <div class="form-check form-control-lg">
-          <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-          <label class="form-check-label" for="defaultCheck1" i18n="@@gamerules.detailed">
-            Show detailed explanation
-          </label>
-        </div>
-      </div>
-
-      <h3>Briefing phase</h3>
-      Take a matching card from each deck and set the two cards aside. They should be identical: verify by comparing the numbers
-      on the top-left corner of each card. Take a number of double agent cards (the ones with the question marks) equal to
-      the number of players in the game, less two, and shuffle them together with the spy cards that were just set aside.
-      You should have one card for each player in the game: Two identical spy cards, and a double agent card for each remaining
-      player. Distribute one card to each player. Action phase The action phase consists of two rounds. In every round, each
-      player, beginning with the start player, will say a word. It is this word that the spies will try to recognize, and
-      the double agents will try to bluff. You can say any word (regardless of how silly) including proper nouns or conjugated
-      verbs, but you may not say the code word itself, or any word that contains it. In the second round, each player must
-      repeat the word he said in the first round, and then say a second word
+      </a>
     </div>
-    <div>
-      <div class="text-center">
-        <h2>
-          You are the
-          <span class="badge badge-primary" id="playersRoleOrWord">
-            ?
-          </span>
-        </h2>
-        <h4 class="my-5">
-          Your task is to confuse others.
-        </h4>
-      </div>
-
-      <div class="text-center">
-        <h1 class="my-4">
-          Your word is
-          <!--suppress XmlDuplicatedId -->
-          <span class="badge badge-primary" id="playersRoleOrWord">
-            RoleWord
-          </span>
-        </h1>
-        <h4 class="mt-5">
-          Find your partner having
-          <span class="badge badge-primary">
-            RoleWord
-          </span>
-        </h4>
-      </div>
-
-      <div class="py-5">
-        <h3>First Tip</h3>
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col">
-              <hr>
-            </div>
-            <div class="col-xs-auto text-center">
-              <span class="align-middle font-weight-light">
-                First round
-              </span>
-            </div>
-            <div class="col">
-              <hr>
-            </div>
-          </div>
-        </div>
-
-        <ol>
-          <li>
-            Give synonym for
-            <span class="badge badge-primary">
-              RoleWord
-            </span>
-          </li>
-          <li>
-            Guess teams
-          </li>
-        </ol>
-
-        <div class="container">
-          <div class="row">
-            <div class="col">
-              <hr>
-            </div>
-            <div class="col-xs-auto text-center">
-              <span class="align-middle font-weight-light">
-                Second round
-              </span>
-            </div>
-            <div class="col">
-              <hr>
-            </div>
-          </div>
-        </div>
-
-        <ol>
-          <li>
-            Give synonym for
-            <span class="badge badge-primary">
-              RoleWord
-            </span>
-          </li>
-          <li>
-            Guess teams
-          </li>
-        </ol>
-
-        <div class="container">
-          <div class="row">
-            <div class="col">
-              <hr>
-            </div>
-            <div class="col-xs-auto text-center">
-              <span class="align-middle font-weight-light">
-                Ending
-              </span>
-            </div>
-            <div class="col">
-              <hr>
-            </div>
-          </div>
-        </div>
-
-        <ol>
-          <span>
-            Teams will be revealed and points evaluated
-          </span>
-        </ol>
-
-      </div>
-    </div>
-
-    <div class="py-5 item-group">
-      <div class="list-group-item d-flex justify-content-between align-items-center">
-        <span>
-          Total Players
-        </span>
-        <span class="badge badge-primary badge-pill">
-          total
-        </span>
-      </div>
-
-      <div class="list-group-item d-flex justify-content-between align-items-center">
-        <span>
-          Team-Players
-        </span>
-        <span class="badge badge-primary badge-pill">
-          2 x words
-        </span>
-      </div>
-
-      <div class="list-group-item d-flex justify-content-between align-items-center">
-        <span>
-          Questionmarks
-        </span>
-        <span class="badge badge-primary badge-pill">
-          questionmark
-        </span>
-      </div>
-
-    </div>
-
+    <div>&nbsp;</div>
   </div>
+
+  <app-basicrules [showDetails]="showDetails" [hidden]="currentRulePosition !== 0"></app-basicrules>
+  <app-gamelobbyrules [hidden]="currentRulePosition !== 1"></app-gamelobbyrules>
 </div>
+

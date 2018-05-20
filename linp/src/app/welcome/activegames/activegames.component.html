@@ -1,16 +1,20 @@
-<div id="activegames" class="card border-dark">
+<div id="activegames" class="card">
   <div class="card-header text-center">
     <h2 i18n="@@activegames.header">Your games</h2>
   </div>
   <div class="card-body">
     <div *ngIf="games !== null && games.length === 0 && passiveGames.length === 0; else hasAnyGames">
       <div class="alert alert-warning text-center">
-        <h3 class="card-title">
-          No games yet.
-        </h3>
+        <div class="alert-heading h3 pb-3">
+          No games yet
+        </div>
         <p class="card-text pt-2">
-          Wait for host to invite you to a new game,
-          <br> or create a game of by yourself
+          <button id="joingameBtn" type="button" class="btn btn-primary btn-block" routerLink="/joingame" i18n="@@loggedinactions.joinpublic">
+            Join game
+          </button>
+          <button type="button" class="btn btn-primary btn-block" routerLink="/creategame" i18n="@@loggedinactions.creategame">
+            Create game
+          </button>
         </p>
       </div>
     </div>
@@ -29,8 +33,12 @@
             <i class="material-icons">
               check_circle_outline
             </i>
-            <p i18n="@@tiptemplate.noaction1">Come back if other players did their turn.</p>
-            <p i18n="@@tiptemplate.noaction2">There is no game where your action is required.</p>
+            <p i18n="@@tiptemplate.noaction1">
+              Come back if other players did their turn.
+            </p>
+            <p i18n="@@tiptemplate.noaction2">
+              There is no game where your action is required.
+            </p>
           </div>
         </div>
         <button id="gamename_{{game.name}}" class="list-group-item list-group-item-action list-group-item-primary my-1" role="button"

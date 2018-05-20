@@ -93,7 +93,9 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
               this.loggedInPlayerSuccessfulAddedStatusFlag = true;
             });
         }
+        
         everythingLoadedPromise.then(() => {
+          
           if (this.loggedInPlayerIsHost === false) {
             this.actionguideService.triggerActionDone();
           }

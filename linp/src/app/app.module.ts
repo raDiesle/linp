@@ -74,6 +74,10 @@ import { NextbuttonComponent } from './evaluation/nextbutton/nextbutton.componen
 import { ActionguideService } from './services/actionguide.service';
 import { ActionguidemodalComponent } from './widgets/actionguidemodal/actionguidemodal.component';
 import { CustomErrorHandler } from './services/customerrorhandler';
+import { BasicrulesComponent } from './gamerules/basicrules/basicrules.component';
+import { GamelobbyrulesComponent } from './gamerules/gamelobbyrules/gamelobbyrules.component';
+import { FirsttiprulesComponent } from './gamerules/firsttiprules/firsttiprules.component';
+import { EvaluationrulesComponent } from './gamerules/evaluationrules/evaluationrules.component';
 
 export function windowFactory() {
   return window;
@@ -128,10 +132,15 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     GameprogressComponent,
     ScorecardComponent,
     NextbuttonComponent,
-    ActionguidemodalComponent
+    ActionguidemodalComponent,
+    BasicrulesComponent,
+    GamelobbyrulesComponent,
+    FirsttiprulesComponent,
+    EvaluationrulesComponent
   ],
   entryComponents: [
     ActionguidemodalComponent,
+    GamerulesComponent,
     ActivegamesComponent,
     FriendlistComponent
   ],

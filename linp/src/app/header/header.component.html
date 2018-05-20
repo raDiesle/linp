@@ -1,7 +1,10 @@
-<nav class="navbar navbar-dark bg-dark navbar-expand-lg navbar-dark">
-  <a class="material-icons align-middle text-white" routerLink="/welcome">
-    arrow_back
-  </a>
+<nav class="navbar navbar-dark bg-dark navbar-dark">
+  <div>
+    <a class="material-icons align-middle text-white" routerLink="/welcome" [hidden]="showBackLink === false">
+      arrow_back
+    </a>
+    <span class="material-icons" [hidden]="showBackLink === true">_</span>
+  </div>
   <div class="mx-auto d-sm-flex d-block flex-sm-nowrap">
     <a class="navbar-brand" routerLink="/welcome">
       <img src="assets/spy_icon.svg" style="width:2.5rem">
@@ -19,7 +22,8 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 -->
-    <div class="collapse navbar-collapse text-center" [ngbCollapse]="isMenuCollapsed" id="navbarSupportedContent" *ngIf="isDevelopmentEnv" [hidden]="isDevelopmentEnv === false">
+    <div class="collapse navbar-collapse text-center" [ngbCollapse]="isMenuCollapsed" id="navbarSupportedContent" *ngIf="isDevelopmentEnv"
+      [hidden]="isDevelopmentEnv === false">
       <ul class="navbar-nav mr-auto" (click)="isMenuCollapsed=!isMenuCollapsed">
         <li class="nav-item">
           <a id="welcome" class="nav-link" style="color: #4e5d6c" routerLink="/welcome">
@@ -76,10 +80,15 @@
   </div>
 
   <span>
-      <a routerLink="/gamerules" class="card-link" routerLinkActive="active" i18n="@@welcome.gamerules.link">
-        <i class="material-icons">
-            help
-          </i>
-      </a>
-    </span>
+
+    <ng-template #helpPopoverContent>
+      Always accesable on every page for more details.
+      <button class="btn btn-primary" (click)="gotHelpPopover()">got it</button>
+    </ng-template>
+    <a  (click)="openHelp()"  [ngbPopover]="helpPopoverContent" #helpPopRef="ngbPopover" triggers="manual" popoverTitle="Game Explanation" placement="bottom-right">
+      <i class="material-icons">
+        help
+      </i>
+    </a>
+  </span>
 </nav>
