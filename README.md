@@ -2,6 +2,7 @@
 linq clone app
 
 # Helpful documentations of used frameworks
+
 * https://github.com/DavidOndrus/xliff-translator-tool
 * https://material.io/icons/
 * http://valor-software.com/ngx-bootstrap/#/
@@ -10,7 +11,7 @@ linq clone app
 * https://cli.angular.io/
 * http://codingthesmartway.com/using-bootstrap-with-angular/
 * https://guides.github.com/features/mastering-markdown/
-* https://github.com/angular/angularfire2/blob/master/docs/1-install-and-setup.md
+* https://angularfirebase.com/lessons/hammerjs-angular-5-animations-for-mobile-gestures-tutorial/ https://github.com/angular/angularfire2/blob/master/docs/1-install-and-setup.md
 * https://coryrylan.com/blog/deploy-angular-cli-apps-to-firebase
 * 9fwPJ3l8KYIv
 * https://github.com/twbs/bootstrap/releases

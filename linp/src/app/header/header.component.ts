@@ -56,12 +56,16 @@ export class HeaderComponent implements OnInit {
 
     this.firebaseGameService.observeLoggedInPlayerProfile()
       .subscribe(gameProfile => {
-        if (gameProfile.uistates !== null) {
+        if (gameProfile.uistates !== undefined) {
           if (gameProfile.uistates.showHelpPopover === true) {
             setTimeout(() => {
               this.helpPop.open();
             }, 0);
           }
+        }else{
+          setTimeout(() => {
+            this.helpPop.open();
+          }, 0);
         }
       });
   }
