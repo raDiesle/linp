@@ -89,12 +89,12 @@
         Got it
       </button>
     </ng-template>
-    <a href="javascript:void(0)" (click)="openHelp()" [ngbPopover]="helpPopoverContent" #helpPopRef="ngbPopover" triggers="manual" popoverTitle="Game Explanation"
+    <span (click)="openHelp()" [ngbPopover]="helpPopoverContent" #helpPopRef="ngbPopover" triggers="manual" popoverTitle="Game Explanation"
       placement="bottom-right">
-      <i class="material-icons">
+      <i class="material-icons text-primary">
         help
       </i>
-    </a>
+    </span>
   </span>
 </nav>
 

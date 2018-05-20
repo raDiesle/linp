@@ -4,120 +4,115 @@
 <div [hidden]="gamePlayers === undefined">
 
   <span id="savedResponseFlag" class="d-none" *ngIf="savedResponseFlag"></span>
-    <div class="card">
-      <div class="card-header text-center">
-        <h2>{{isSecondtip ? 'Second' : 'First'}}
-          <span i18n="@@tiptemplate.word">word</span>
-        </h2>
-      </div>
-      <div class="card-body">
-        <div #isTurn *ngIf="isPlayersTurnForAuthUser else isWaiting">
-          <div class="row align-items-center" id="yourTurn">
-            <div class="col-8">
-              <h4 class="card-title" i18n="@@tiptemplate.header">
-                It's your turn!
-              </h4>
+  <div class="card">
+    <div class="card-header text-center">
+      <h2>Give {{isSecondtip ? 'second' : 'first'}}
+        <span i18n="@@tiptemplate.word">code word</span>
+      </h2>
+    </div>
+    <div class="card-body">
+      <ng-template #isWaiting>
+        <div class="pb-2" *ngIf="isPlayersTurnForAuthUser === false">
+          <div class="row align-items-center">
+            <div class="col-9 pr-0">
+              Waiting for
+              <strong>{{currentPlayer?.name}}</strong> to give {{isSecond ? 'second' : 'first'}} word.
             </div>
-            <div class="col-4">
-              <img src="assets/whisper_small.jpg">
+            <div class="col-3 pl-0 text-right">
+              <img src="assets/agent_small.jpg">
             </div>
           </div>
+        </div>
+      </ng-template>
 
-          <div class="card-text">
-            <form novalidate #giveSynonymForm="ngForm">
-              <div class="form-group text-left">
-                <label for="synonymTxt">
-                  <ng-container *ngIf="loggedInGamePlayer?.questionmarkOrWord === '?'">
-                    <span class="badge badge-primary">
-                      ?
-                    </span>
-                    <span i18n="@@tiptemplate.hint1">
-                      Try to give a word, where people think you are partner of another one.
-                    </span>
-                  </ng-container>
-                  <ng-container *ngIf="loggedInGamePlayer?.questionmarkOrWord !== '?'" i18n="@@tiptemplate.partner.hint">
-                    Give first synonym for
-                    <span class="badge badge-primary">
-                      {{loggedInGamePlayer?.questionmarkOrWord}}
-                    </span>
-                  </ng-container>
-                </label>
-                <div>
-                  <input type="text" class="form-control" [ngClass]="{'is-invalid' : synonymInput?.dirty && synonymInput.errors?.required}"
-                    id="synonymTxt" [(ngModel)]="synonym" #synonymInput="ngModel" name="synonym" required>
-                  <div *ngIf="synonymInput?.dirty && synonymInput.errors?.required" i18n="@@tiptemplate.required">
-                    Provide your synonym
-                  </div>
-                </div>
-              </div>
-              <button id="sendSynonym" class="btn btn-primary btn-block my-2" [disabled]="synonymInput.invalid" (click)="sendSynonym()"
-                i18n="@@tiptemplate.send">
-                Send
-              </button>
-            </form>
+      <div #isTurn *ngIf="isPlayersTurnForAuthUser else isWaiting">
+        <div class="row align-items-center" id="yourTurn">
+          <div class="col-8">
+            <h4 class="card-title" i18n="@@tiptemplate.header">
+              It's your turn!
+            </h4>
+          </div>
+          <div class="col-4">
+            <img src="assets/whisper_small.jpg">
           </div>
         </div>
 
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item disabled">
-            <div class="row text-center">
-              <div class="col-4">
-                &nbsp;
-              </div>
-              <div class="col-4 small" i18n="@@tiptemplate.word1">
-                1. Password
-              </div>
-              <div class="col-4 small" i18n="@@tiptemplate.word2">
-                2. Password
+        <div class="card-text">
+          <form novalidate #giveSynonymForm="ngForm">
+            <div class="form-group text-left">
+              <label for="synonymTxt">
+                <ng-container *ngIf="loggedInGamePlayer?.questionmarkOrWord === '?'">
+                  <span class="badge badge-primary">
+                    ?
+                  </span>
+                  <span i18n="@@tiptemplate.hint1">
+                    Try to give a word, where people think you are partner of another one.
+                  </span>
+                </ng-container>
+                <ng-container *ngIf="loggedInGamePlayer?.questionmarkOrWord !== '?'" i18n="@@tiptemplate.partner.hint">
+                  Give first synonym for
+                  <span class="badge badge-primary">
+                    {{loggedInGamePlayer?.questionmarkOrWord}}
+                  </span>
+                </ng-container>
+              </label>
+              <div>
+                <input type="text" class="form-control" [ngClass]="{'is-invalid' : synonymInput?.dirty && synonymInput.errors?.required}"
+                  id="synonymTxt" [(ngModel)]="synonym" #synonymInput="ngModel" name="synonym" required>
+                <div *ngIf="synonymInput?.dirty && synonymInput.errors?.required" i18n="@@tiptemplate.required">
+                  Provide your synonym
+                </div>
               </div>
             </div>
-          </li>
-          <li class="list-group-item" [ngClass]="{
+            <button id="sendSynonym" class="btn btn-primary btn-block my-2" [disabled]="synonymInput.invalid" (click)="sendSynonym()"
+              i18n="@@tiptemplate.send">
+              Send
+            </button>
+          </form>
+        </div>
+      </div>
 
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item disabled">
+          <div class="row text-center">
+            <div class="col-4">
+              &nbsp;
+            </div>
+            <div class="col-4 small" i18n="@@tiptemplate.word1">
+              1st word
+            </div>
+            <div class="col-4 small" i18n="@@tiptemplate.word2">
+              2nd word
+            </div>
+          </div>
+        </li>
+        <li class="list-group-item" [ngClass]="{
                 'list-group-item-success' : gamePlayer.status === NEXT_STATUS,
                 'disabled' : gamePlayer !== currentPlayer
                 }" *ngFor="let gamePlayer of gamePlayers">
-            <div class="row">
-              <div class="col-4">
-                {{gamePlayer.name}}
-              </div>
-              <div class="col-4"
-                [ngClass]="{
-                  'border border-primary' : isSecondtip === false && gamePlayer ===  currentPlayer && show$
-                }"
-              >
-                <span class="badge badge-info w-100" [hidden]="!gamePlayer.firstSynonym">
-                  {{gamePlayer.firstSynonym}}
-                </span>
-              </div>
-              <div class="col-4"
-              [ngClass]="{
-                'border border-primary' : isSecondtip && gamePlayer === currentPlayer && show$
-              }"
-              >
-                <span class="text-center badge badge-info w-100" [hidden]="!gamePlayer.secondSynonym">
-                  {{gamePlayer.secondSynonym}}
-                </span>
-              </div>
+          <div class="row">
+            <div class="col-4">
+              {{gamePlayer.name}}
             </div>
-          </li>
-        </ul>
-      </div>
+            <div class="col-4" [ngClass]="{
+                  'border border-primary' : isSecondtip === false && gamePlayer ===  currentPlayer && show$
+                }">
+              <span class="badge badge-info w-100" [hidden]="!gamePlayer.firstSynonym">
+                {{gamePlayer.firstSynonym}}
+              </span>
+            </div>
+            <div class="col-4" [ngClass]="{
+                'border border-primary' : isSecondtip && gamePlayer === currentPlayer && show$
+              }">
+              <span class="text-center badge badge-info w-100" [hidden]="!gamePlayer.secondSynonym">
+                {{gamePlayer.secondSynonym}}
+              </span>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
 
     <br>
 
   </div>
-
-  <ng-template #isWaiting>
-    <div class="pb-2" *ngIf="isPlayersTurnForAuthUser === false">
-      <div class="row align-items-center">
-        <div class="col-9 pr-0">
-          Waiting for
-          <strong>{{currentPlayer?.name}}</strong> to give {{isSecond ? 'second' : 'first'}} word.
-        </div>
-        <div class="col-3 pl-0 text-right">
-          <img src="assets/agent_small.jpg">
-        </div>
-      </div>
-    </div>
-  </ng-template>

@@ -81,6 +81,7 @@ import { EvaluationrulesComponent } from './gamerules/evaluationrules/evaluation
 import { FirstguessrulesComponent } from './gamerules/firstguessrules/firstguessrules.component';
 import { SecondtiprulesComponent } from './gamerules/secondtiprules/secondtiprules.component';
 import { SecondguessrulesComponent } from './gamerules/secondguessrules/secondguessrules.component';
+import { ShortdescriptionComponent } from './welcome/shortdescription/shortdescription.component';
 
 export function windowFactory() {
   return window;
@@ -142,7 +143,8 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     EvaluationrulesComponent,
     FirstguessrulesComponent,
     SecondtiprulesComponent,
-    SecondguessrulesComponent
+    SecondguessrulesComponent,
+    ShortdescriptionComponent
   ],
   entryComponents: [
     ActionguidemodalComponent,

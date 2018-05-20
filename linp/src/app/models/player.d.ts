@@ -6,6 +6,7 @@ export interface PlayerProfile {
 
 export interface UiStates{
   showHelpPopover: boolean;
+  showShortDescription: boolean;
 }
 
 export interface PlayerFriendlist {
