@@ -7,31 +7,18 @@
       </h2>
     </div>
     <div class="card-body">
-
-      <div *ngIf="!friendList">
-        <div class="alert alert-danger" i18n="@@gamelobby.invitefriends.nofriends">
-          You do not have Linp friends yet.
-        </div>
-        <div>
-          <button class="btn btn-block btn-primary" routerLink="/welcome" i18n="@@gamelobby.invitefriends.invitebutton">
-            Invite players to Linp
-          </button>
-        </div>
-      </div>
-
       <div>
         <span *ngIf="loggedInPlayerSuccessfulAddedStatusFlag" id="loggedInPlayerSuccessfulAddedStatusFlag"></span>
-
-        <div class="card-text py-2">
-          <p class="pt-1">
+        <div class="card-text py-2 pb-3">
+          <div class="pt-1 pb-0">
             Roles are assigned randomly at game start.
-            <br> Nobody knows the role of each other
-          </p>
-          <div>
-            <span class="badge badge-info">
-              Twin agents
-            </span>
+            <br> Nobody knows the role of each other.
           </div>
+          
+          <span class="badge badge-info">
+            Twin agents
+          </span>
+        
           <ul class="mb-0">
             <li>
               have the same word
@@ -57,9 +44,17 @@
         </div>
       </div>
 
-      <div class="btn-group btn-block" ngbDropdown role="group" aria-label="Add friend" *ngIf="friendList">
+      <div class="pb-2" *ngIf="friendList.length === 0">        
+        <div>
+          <button class="btn btn-block btn-primary" routerLink="/welcome" i18n="@@gamelobby.invitefriends.invitebutton">
+            Invite new players
+          </button>
+        </div>
+      </div>
+
+      <div class="btn-group btn-block pb-2" ngbDropdown role="group" aria-label="Add friend" *ngIf="friendList.length > 0">
         <button class="btn btn-primary btn-block" id="addFriendList" ngbDropdownToggle i18n="@@gamelobby.invitefriends.add">
-          Add friend to game
+          Add friend
         </button>
         <div class="dropdown-menu" ngbDropdownMenu>
           <button class="dropdown-item" i18n="@@gamelobby.invitefriends.cancel">
@@ -72,29 +67,46 @@
         </div>
       </div>
 
-      <button id="gamestatusButton" (click)="startGame()" class="btn btn-block my-1" [ngClass]="gamePlayers.length < 4 ? 'btn-warning' : 'btn-success'"
+      <hr>
+
+      <div class="d-flex">
+        <span [disableTooltip]="loggedInPlayerIsHost" ngbTooltip="Only be set by game host">
+          <span (click)="loggedInPlayerIsHost && isPublic=false">
+            <span class="align-top">Private</span>
+            <i class="material-icons" [ngClass]="loggedInPlayerIsHost ? 'text-primary' : 'text-muted'">
+              radio_button_{{isPublic ? 'unchecked' : 'checked'}}
+            </i>
+          </span>
+          <span (click)="loggedInPlayerIsHost && isPublic=true">
+            <span class="align-top">Public</span>
+            <i class="material-icons" [ngClass]="loggedInPlayerIsHost ? 'text-primary' : 'text-muted'">
+              radio_button_{{!isPublic ? 'unchecked' : 'checked'}}
+            </i>
+          </span>
+        </span>
+
+        <span class="pl-1 ml-auto" *ngIf="gamePlayers.length <= 3">
+          <span class="align-top">at least {{4 - gamePlayers.length}}</span>
+          <span class="align-top" i18n="@@gamelobby.missingplayers2">
+            player
+            <span [hidden]="4 - gamePlayers.length <= 1">s</span>
+            required
+          </span>
+        </span>
+      </div>
+
+      <button id="gamestatusButton" (click)="startGame()" class="btn btn-block my-1" [ngClass]="gamePlayers.length < 4 ? 'btn-primary' : 'btn-success'"
         [disabled]="gamePlayers.length < 4 || loggedInPlayerIsHost === false">
-
-        <div class="d-flex justify-content-end" *ngIf="gamePlayers.length <= 3" i18n="@@gamelobby.missingplayers1">
-
+        <div *ngIf="gamePlayers.length <= 3" i18n="@@gamelobby.missingplayers1" ngbTooltip="Linp can be played with 5-8 players">
           <strong>
             Start game
           </strong>
-
-          <small class="pl-3 d-flex align-items-end">
-            at least
-            {{4 - gamePlayers.length}}
-            <span i18n="@@gamelobby.missingplayers2">
-              player<span [hidden]="4 - gamePlayers.length <= 1">s</span>
-              required
-            </span>
-          </small>
         </div>
         <span *ngIf="gamePlayers.length > 3">
           <span *ngIf="loggedInPlayerIsHost" i18n="@@gamelobby.startbutton">
             Start Game
           </span>
-          <span *ngIf="loggedInPlayerIsHost === false">
+          <span ngbTooltip="The game creator has to start game" *ngIf="loggedInPlayerIsHost === false">
             <span i18n="@@gamelobby.waitingstart1">
               Waiting for
             </span>
@@ -119,10 +131,6 @@
             </span>
           </div>
         </ng-container>
-
-        <button type="button" class="list-group-item list-group-item-action">
-          <app-waitingdots></app-waitingdots>
-        </button>
       </div>
     </div>
   </div>

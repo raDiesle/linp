@@ -34,7 +34,7 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
   private hostPlayer: GamePlayer;
   public loggedInPlayerSuccessfulAddedStatusFlag = false;
   private clickedStartButton = false;
-
+  public isPublic = false;
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -96,7 +96,7 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
         everythingLoadedPromise.then(() => {
 
           if (this.loggedInPlayerIsHost === false) {
-            this.actionguideService.triggerActionDone();
+            // this.actionguideService.triggerActionDone();
           }
         });
       });
