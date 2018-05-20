@@ -8,7 +8,8 @@
 </div>
 <div class="modal-body">
 
-  <app-gameprogress parent="{{currentRulePosition<= 1 ? 0 : currentRulePosition/2}}" child="{{currentRulePosition}}"></app-gameprogress>
+  <app-gameprogress parent="{{currentGameStatusPositions.gameprogress.parent}}" child="{{currentGameStatusPositions.gameprogress.child}}">
+  </app-gameprogress>
 
   <div class="py-3 d-flex">
     <a href="javascript:void(0)" (click)="showDetails=!showDetails">
@@ -22,7 +23,7 @@
 
 
     <div class="px-4">
-      <a href="javascript:void(0)" (click)="currentRulePosition=currentRulePosition-1">
+      <a href="javascript:void(0)" (click)="prevRulesPos()">
         <i class="material-icons">
           skip_previous
         </i>
@@ -30,7 +31,7 @@
       <span class="align-top">
         Navigate
       </span>
-      <a href="javascript:void(0)" (click)="currentRulePosition=currentRulePosition+1">
+      <a href="javascript:void(0)" (click)="nextRulesPos()">
         <i class="material-icons">
           skip_next
         </i>
@@ -39,7 +40,12 @@
     <div>&nbsp;</div>
   </div>
 
-  <app-basicrules [showDetails]="showDetails" [hidden]="currentRulePosition !== 0"></app-basicrules>
-  <app-gamelobbyrules [hidden]="currentRulePosition !== 1"></app-gamelobbyrules>
-</div>
+  <app-basicrules [showDetails]="showDetails" [hidden]="currentGameStatusPositions.status !== 'welcome'"></app-basicrules>
+  <app-gamelobbyrules [showDetails]="showDetails" [hidden]="currentGameStatusPositions.status !== 'gamelobby'"></app-gamelobbyrules>
+  <app-firsttiprules [showDetails]="showDetails" [hidden]="currentGameStatusPositions.status !== 'firsttip'"></app-firsttiprules>
+  <app-firstguessrules [showDetails]="showDetails" [hidden]="currentGameStatusPositions.status !== 'firstguess'"></app-firstguessrules>
+  <app-secondtiprules [showDetails]="showDetails" [hidden]="currentGameStatusPositions.status !== 'secondtip'"></app-secondtiprules>
+  <app-secondguessrules [showDetails]="showDetails" [hidden]="currentGameStatusPositions.status !== 'secondguess'"></app-secondguessrules>
+  <app-evaluationrules [showDetails]="showDetails" [hidden]="currentGameStatusPositions.status !== 'evaluation'"></app-evaluationrules>
 
+</div>

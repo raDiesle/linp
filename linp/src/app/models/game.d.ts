@@ -1,5 +1,7 @@
 import {LANGUAGE} from './context';
 
+export type OneOf<T> = {[K in keyof T]: Pick<T, K>}[keyof T];
+
 export interface Game {
   name: string;
   host: string;

@@ -82,13 +82,19 @@
   <span>
 
     <ng-template #helpPopoverContent>
-      Always accesable on every page for more details.
-      <button class="btn btn-primary" (click)="gotHelpPopover()">got it</button>
+      <p>
+        Open the help anytime to inform about how to play.
+      </p>
+      <button class="btn btn-primary btn-block" (click)="gotHelpPopover()">
+        Got it
+      </button>
     </ng-template>
-    <a  (click)="openHelp()"  [ngbPopover]="helpPopoverContent" #helpPopRef="ngbPopover" triggers="manual" popoverTitle="Game Explanation" placement="bottom-right">
+    <a href="javascript:void(0)" (click)="openHelp()" [ngbPopover]="helpPopoverContent" #helpPopRef="ngbPopover" triggers="manual" popoverTitle="Game Explanation"
+      placement="bottom-right">
       <i class="material-icons">
         help
       </i>
     </a>
   </span>
 </nav>
+

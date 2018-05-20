@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-evaluationrules',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./evaluationrules.component.scss']
 })
 export class EvaluationrulesComponent implements OnInit {
+
+  @Input() public showDetails;
 
   constructor() { }
 

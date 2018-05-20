@@ -32,8 +32,6 @@ export class HeaderComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
-
     this.isDevelopmentEnv = this.windowRef.nativeWindow.location.host.includes('localhost');
 
     this.router.events.filter((event: any) => event instanceof NavigationEnd)
@@ -56,20 +54,16 @@ export class HeaderComponent implements OnInit {
         this.lastVersion = currentVersion.val;
       });
 
-      this.firebaseGameService.observeLoggedInPlayerProfile()
+    this.firebaseGameService.observeLoggedInPlayerProfile()
       .subscribe(gameProfile => {
         if (gameProfile.uistates !== null) {
-
-
-        if (gameProfile.uistates.showHelpPopover === true) {
-          setTimeout(() => {
-            this.helpPop.open();
-          }, 0);
+          if (gameProfile.uistates.showHelpPopover === true) {
+            setTimeout(() => {
+              this.helpPop.open();
+            }, 0);
+          }
         }
-      }
       });
-
-
   }
 
   private gotHelpPopover() {

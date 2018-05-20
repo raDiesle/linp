@@ -78,6 +78,9 @@ import { BasicrulesComponent } from './gamerules/basicrules/basicrules.component
 import { GamelobbyrulesComponent } from './gamerules/gamelobbyrules/gamelobbyrules.component';
 import { FirsttiprulesComponent } from './gamerules/firsttiprules/firsttiprules.component';
 import { EvaluationrulesComponent } from './gamerules/evaluationrules/evaluationrules.component';
+import { FirstguessrulesComponent } from './gamerules/firstguessrules/firstguessrules.component';
+import { SecondtiprulesComponent } from './gamerules/secondtiprules/secondtiprules.component';
+import { SecondguessrulesComponent } from './gamerules/secondguessrules/secondguessrules.component';
 
 export function windowFactory() {
   return window;
@@ -136,7 +139,10 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     BasicrulesComponent,
     GamelobbyrulesComponent,
     FirsttiprulesComponent,
-    EvaluationrulesComponent
+    EvaluationrulesComponent,
+    FirstguessrulesComponent,
+    SecondtiprulesComponent,
+    SecondguessrulesComponent
   ],
   entryComponents: [
     ActionguidemodalComponent,
