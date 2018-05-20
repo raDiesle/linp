@@ -89,6 +89,7 @@ export class GamerulesComponent implements OnInit, OnDestroy {
         this.currentGameStatusPositions = this.currentGameStatusConfig.find(
           c => c.status === currentGameStatus
         );
+        this.currentRulePosition = this.currentGameStatusConfig.findIndex((c) => c === this.currentGameStatusPositions);
       });
   }
 
@@ -106,6 +107,7 @@ export class GamerulesComponent implements OnInit, OnDestroy {
     const rangedIndex = newAbsoluteIndex % this.currentGameStatusConfig.length;
     const lastElementIndex = (this.currentGameStatusConfig.length - 1);
     const newIndex = newAbsoluteIndex === -1 ? lastElementIndex : rangedIndex;
+    this.currentRulePosition = newIndex;
     this.currentGameStatusPositions = this.currentGameStatusConfig[newIndex];
   }
 

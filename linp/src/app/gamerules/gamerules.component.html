@@ -11,7 +11,7 @@
   <app-gameprogress parent="{{currentGameStatusPositions.gameprogress.parent}}" child="{{currentGameStatusPositions.gameprogress.child}}">
   </app-gameprogress>
 
-  <div class="py-3 d-flex">
+  <div class="pt-3 pb-2 d-flex">
     <a href="javascript:void(0)" (click)="showDetails=!showDetails">
       <i class="material-icons align-top">
         check_box{{showDetails ? '' : '_outline_blank'}}
@@ -29,7 +29,7 @@
         </i>
       </a>
       <span class="align-top">
-        Navigate
+        {{currentRulePosition + 1}}/{{currentGameStatusConfig.length}}
       </span>
       <a href="javascript:void(0)" (click)="nextRulesPos()">
         <i class="material-icons">
