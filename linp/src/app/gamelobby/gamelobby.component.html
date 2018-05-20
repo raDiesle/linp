@@ -1,16 +1,16 @@
 <div *ngIf="isGameDataFetchedFlag">
   <br>
-  <div class="card mt-4">
+  <div class="card">
     <div class="card-header text-center">
       <h2>
         Gamelobby
       </h2>
     </div>
     <div class="card-body">
-      
+
       <div *ngIf="!friendList">
         <div class="alert alert-danger" i18n="@@gamelobby.invitefriends.nofriends">
-          You do not have Linp friends, yet.
+          You do not have Linp friends yet.
         </div>
         <div>
           <button class="btn btn-block btn-primary" routerLink="/welcome" i18n="@@gamelobby.invitefriends.invitebutton">
@@ -20,41 +20,57 @@
       </div>
 
       <div>
-        <ngb-alert *ngIf="!staticAlertClosed" (close)="staticAlertClosed = true">
-        </ngb-alert>
         <span *ngIf="loggedInPlayerSuccessfulAddedStatusFlag" id="loggedInPlayerSuccessfulAddedStatusFlag"></span>
 
-
         <div class="card-text py-2">
-          <h3 class="text-center py-2">
-            Random assignment at gamestart
-          </h3>
-          <span class="badge badge-primary">
-            Partner agents
-          </span>
-          have the same word.
-          <br>
-          <span class="badge badge-primary">
-            Counter agents
-          </span>
-          have no word.
-          <br> Nobody knows the role of each other.
+          <p class="pt-1">
+            Roles are assigned randomly at game start.
+            <br> Nobody knows the role of each other
+          </p>
+          <div>
+            <span class="badge badge-info">
+              Twin agents
+            </span>
+          </div>
+          <ul class="mb-0">
+            <li>
+              have the same word
+            </li>
+            <li>
+              need to find each other
+            </li>
+          </ul>
+
+          <div>
+            <span class="badge badge-light">
+              Solo agents
+            </span>
+          </div>
+          <ul class="mb-0">
+            <li>
+              have no word
+            </li>
+            <li>
+              pretend to be a twin agent
+            </li>
+          </ul>
         </div>
       </div>
 
       <div class="btn-group btn-block" ngbDropdown role="group" aria-label="Add friend" *ngIf="friendList">
-          <button class="btn btn-primary btn-block" id="addFriendList" ngbDropdownToggle i18n="@@gamelobby.invitefriends.add">
-            Add friend to game
+        <button class="btn btn-primary btn-block" id="addFriendList" ngbDropdownToggle i18n="@@gamelobby.invitefriends.add">
+          Add friend to game
+        </button>
+        <div class="dropdown-menu" ngbDropdownMenu>
+          <button class="dropdown-item" i18n="@@gamelobby.invitefriends.cancel">
+            -- close --
           </button>
-          <div class="dropdown-menu" ngbDropdownMenu>
-            <button class="dropdown-item" i18n="@@gamelobby.invitefriends.cancel">-- cancel --</button>
-            <div class="dropdown-divider"></div>
-            <button class="dropdown-item" id="friend_{{friend.name}}" (click)="onFriendSelection(friend);" *ngFor="let friend of friendList">
-              {{friend.name}}
-            </button>
-          </div>
+          <div class="dropdown-divider"></div>
+          <button class="dropdown-item" id="friend_{{friend.name}}" (click)="onFriendSelection(friend);" *ngFor="let friend of friendList">
+            {{friend.name}}
+          </button>
         </div>
-
+      </div>
 
       <button id="gamestatusButton" (click)="startGame()" class="btn btn-block my-1" [ngClass]="gamePlayers.length < 4 ? 'btn-warning' : 'btn-success'"
         [disabled]="gamePlayers.length < 4 || loggedInPlayerIsHost === false">
@@ -83,7 +99,6 @@
           </span>
         </span>
       </button>
-
 
       <div class="list-group">
         <ng-container *ngFor="let gamePlayer of gamePlayers; let idx = index;">

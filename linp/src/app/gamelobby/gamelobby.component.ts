@@ -27,7 +27,6 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
   gameName: string;
   // TODO https://cedvdb.github.io/ng2share/
   gamePlayers: GamePlayer[] = []; // null
-  staticAlertClosed = true;
   private authUserUid: string;
   private hostUid: string;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
