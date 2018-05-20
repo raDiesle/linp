@@ -74,14 +74,22 @@
 
       <button id="gamestatusButton" (click)="startGame()" class="btn btn-block my-1" [ngClass]="gamePlayers.length < 4 ? 'btn-warning' : 'btn-success'"
         [disabled]="gamePlayers.length < 4 || loggedInPlayerIsHost === false">
-        <span *ngIf="gamePlayers.length <= 3" i18n="@@gamelobby.missingplayers1">
-          at least
-        </span>
-        <span>{{4 - gamePlayers.length}} </span>
-        <span i18n="@@gamelobby.missingplayers2">
-          player
-          <span [hidden]="4 - gamePlayers.length <= 1">s</span>
-          required</span>
+
+        <div class="d-flex justify-content-end" *ngIf="gamePlayers.length <= 3" i18n="@@gamelobby.missingplayers1">
+
+          <strong>
+            Start game
+          </strong>
+
+          <small class="pl-3 d-flex align-items-end">
+            at least
+            {{4 - gamePlayers.length}}
+            <span i18n="@@gamelobby.missingplayers2">
+              player<span [hidden]="4 - gamePlayers.length <= 1">s</span>
+              required
+            </span>
+          </small>
+        </div>
         <span *ngIf="gamePlayers.length > 3">
           <span *ngIf="loggedInPlayerIsHost" i18n="@@gamelobby.startbutton">
             Start Game
