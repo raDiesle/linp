@@ -36,7 +36,7 @@ export class HeaderComponent implements OnInit {
 
     this.router.events.filter((event: any) => event instanceof NavigationEnd)
       .subscribe(event => {
-        this.showBackLink = ['/welcome', '/'].every((a) => event.url !== a);
+        this.showBackLink = event.url.includes('/welcome') === false && event.url !== '/';
       });
 
     this.actionGuide.actionDone.subscribe(() => {

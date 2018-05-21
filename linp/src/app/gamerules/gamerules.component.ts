@@ -74,6 +74,8 @@ export class GamerulesComponent implements OnInit, OnDestroy {
   );
   public showDetails = false;
   public currentRulePosition: number;
+  private isSwitchingPageIndicator = false;
+
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor(public activeModal: NgbActiveModal, private router: Router) { }
@@ -85,6 +87,11 @@ export class GamerulesComponent implements OnInit, OnDestroy {
       .filter((event: any) => event instanceof NavigationEnd)
       .takeUntil(this.ngUnsubscribe)
       .subscribe(event => {
+        if (this.isSwitchingPageIndicator) {
+          this.activeModal.close();
+        }
+        this.isSwitchingPageIndicator = true;
+
         const currentGameStatus: GameStatus = event.url.replace(/^\/+/g, '');
         this.currentGameStatusPositions = this.currentGameStatusConfig.find(
           c => c.status === currentGameStatus
