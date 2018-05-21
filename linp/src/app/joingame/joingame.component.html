@@ -1,77 +1,41 @@
 <br>
 
 <div class="card">
-    <div class="card-header text-center">
-      <strong i18n="@@joingame.header">Join Friends Game</strong>
-    </div>
-    <div class="card-body ">
-      <h1> TODO </h1>
-      <div class="list-group">
-        <ng-container *ngFor="let game of games">
-          <button id="gamename_{{game.name}}" *ngIf="game !== -1" type="button" (click)="onSelectGameToJoin(game)" class="list-group-item list-group-item-action container-fluid">
-            <div class="row">
-              <div class="col-6">
-                <strong>
-                  {{game.name}}
-                </strong>
-              </div>
-              <div class="col-6">
-                <span i18n="@@joingame.created">created</span> {{game.createdAt}}
-              </div>
-            </div>
-          </button>
-          <!-- visualization hack, still needed? -->
-          <div [hidden]="game !== -1">
-            <app-waitingdots></app-waitingdots>
-          </div>
-        </ng-container>
-        <div class="alert alert-warning text-center" *ngIf="games.length <= 0">
-          <div class="alert-heading h6" i18n="@@joingame.nogames1">
-            No public games available
-          </div>
-          <div i18n="@@joingame.nogames2">
-            Create a game or wait for another player to invite you
-          </div>
-        </div>
-      </div>
-    </div>
+  <div class="card-header text-center">
+    <strong i18n="@@joingame.header">Join Friends Game</strong>
   </div>
+  <div class="card-body">
+    <app-gameslist [games]="privateGames"></app-gameslist>
 
-  <br>
-  
-  <div class="card">
-    <div class="card-header text-center">
-      <strong i18n="@@joingame.header">Join Public Game</strong>
-    </div>
-    <div class="card-body ">
-      <div class="list-group">
-        <ng-container *ngFor="let game of games">
-          <button id="gamename_{{game.name}}" *ngIf="game !== -1" type="button" (click)="onSelectGameToJoin(game)" class="list-group-item list-group-item-action container-fluid">
-            <div class="row">
-              <div class="col-6">
-                <strong>
-                  {{game.name}}
-                </strong>
-              </div>
-              <div class="col-6">
-                <span i18n="@@joingame.created">created</span> {{game.createdAt}}
-              </div>
-            </div>
-          </button>
-          <!-- visualization hack, still needed? -->
-          <div [hidden]="game !== -1">
-            <app-waitingdots></app-waitingdots>
-          </div>
-        </ng-container>
-        <div class="alert alert-warning text-center" *ngIf="games.length <= 0">
-          <div class="alert-heading h6" i18n="@@joingame.nogames1">
-            No public games available
-          </div>
-          <div i18n="@@joingame.nogames2">
-            Create a game or wait for another player to invite you
-          </div>
-        </div>
+    <div class="alert alert-warning text-center" *ngIf="privateGames && privateGames.length === 0">
+      <div class="alert-heading h6" i18n="@@joingame.private.nogames1">
+        No private games available
+      </div>
+      <div i18n="@@joingame.private.nogames2">
+        Create a game or wait for another player to invite you
       </div>
     </div>
   </div>
+</div>
+
+<br>
+
+<div class="card">
+  <div class="card-header text-center">
+    <strong i18n="@@joingame.header">Join Public Game</strong>
+  </div>
+  <div class="card-body">
+
+    <app-gameslist [games]="publicGames"></app-gameslist>
+
+    <div class="alert alert-warning text-center" *ngIf="publicGames && publicGames.length === 0">
+      <div class="alert-heading h6" i18n="@@joingame.nogames1">
+        No public games available
+      </div>
+      <div i18n="@@joingame.nogames2">
+        Create a game or wait for another player to invite you
+      </div>
+    </div>
+  </div>
+</div>
 <br>

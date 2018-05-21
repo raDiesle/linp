@@ -1,3 +1,4 @@
+
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { HttpClient } from '@angular/common/http';
@@ -5,7 +6,7 @@ import { Game, GamePlayer, GamePlayerStatus, GameStatus, SynonymKey } from 'app/
 import { Observable } from 'rxjs/Observable';
 import * as firebase from 'firebase';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { PlayerProfile, PlayerFriendlist, ActivePlayerGame } from '../models/player';
+import { PlayerProfile, PlayerFriendlist, ActivePlayerGame } from 'app/models/player';
 import { LANGUAGE } from '../models/context';
 import { ActivatedRoute } from '@angular/router';
 import { DocumentReference } from '@firebase/firestore-types';
@@ -27,18 +28,22 @@ export class FirebaseGameService {
   public observeAuthUser(): Observable<firebase.User> {
     const observable = this.afAuth.authState;
     observable.subscribe(authUser => {
-      this.authUserUid = authUser ? authUser.uid : '';
+      this.authUserUid = authUser ? authUser.uid : null;
     });
     return this.afAuth.authState;
   }
 
   public isLoggedIn(): boolean {
-    return this.afAuth.auth.currentUser !== null;
+    return this.authUserUid !== null;
   }
 
-  public registerUpdateGamePlayerOnlineTrigger() {
+  public isLoggedOut(): boolean {
+    return !this.isLoggedIn;
+  }
+
+  public registerUpdateGamePlayerOnlineTrigger(uid: string) {
     // Fetch the current user's ID from Firebase Authentication.
-    const uid = this.getAuthUid();
+    // const uid = this.getAuthUid();
 
     // Create a reference to this user's specific status node.
     // This is where we will store data about being online/offline.
@@ -99,8 +104,8 @@ export class FirebaseGameService {
     return userStatusFirestoreRef.set(isOfflineForFirestore);
   }
 
-  public getAuthUid() {
-    return this.afAuth.auth.currentUser.uid;
+  public getAuthUid(): string {
+    return this.authUserUid;
   }
 
   public updatePlayerUiState(request: any): Promise<any> {
@@ -118,17 +123,53 @@ export class FirebaseGameService {
     return observable;
   }
 
+  public observeFriendsGamesToJoin(friendUids: string[]): Promise<Game[]> {
+    const promisesAll: Promise<ActivePlayerGame[]>[] = [];
+    friendUids.forEach(uid => {
+      const promise = this.observeActivegamesOfSpecificPlayer(uid).first().toPromise();
+      promisesAll.push(promise);
+    });
+
+    return Promise.all(promisesAll).then((gameOfGames) => {
+
+      let allActiveFriendGames: ActivePlayerGame[] = [];
+      gameOfGames.forEach((games) => {
+        allActiveFriendGames = allActiveFriendGames.concat(games);
+      });
+      //  return Promise.resolve(allActiveFriendGames);
+      // to difficult and expensive TODO
+
+      const promiseAllOfGames: Promise<Game>[] = [];
+      allActiveFriendGames.forEach((game) => {
+        const currentPromise = this.db.collection('games').doc<Game>(game.name).valueChanges().first().toPromise();
+        /*
+        const currentPromise = this.db.collection<Game>('games', (ref) => {
+          return ref.where('status', '==', 'gamelobby').where('name', '==', game.name);
+        }).valueChanges().first().toPromise();
+        */
+        promiseAllOfGames.push(currentPromise);
+      });
+      return Promise.all(promiseAllOfGames);
+    });
+
+  }
+
   public observePublicGamesToJoin(): Observable<Game[]> {
     return this.db.collection<Game>('games', (ref) => {
-      return ref.where('status', '==', 'gamelobby');
+      return ref.where('status', '==', 'gamelobby')
+        .where('visibilityPrivate', '==', false);
     })
       .valueChanges()
   }
 
   public observeActivegamesOfPlayer(): Observable<ActivePlayerGame[]> {
+    return this.observeActivegamesOfSpecificPlayer(this.getAuthUid());
+  }
+
+  public observeActivegamesOfSpecificPlayer(uid: string): Observable<ActivePlayerGame[]> {
     return this.db
       .collection<Game>('players')
-      .doc(this.afAuth.auth.currentUser.uid)
+      .doc(uid)
       .collection<ActivePlayerGame>('activegames')
       .valueChanges()
   }
@@ -149,8 +190,9 @@ export class FirebaseGameService {
 
   public observeLoggedInPlayerProfile(): Observable<PlayerProfile> {
     // for any reason auth can become null
-    const observableChain = this.observeAuthUser().flatMap(() => {
-      return this.observePlayerProfile(this.getAuthUid());
+    const observableChain = this.observeAuthUser().flatMap((user) => {
+      const isLoggedIn = user === null;
+      return isLoggedIn ? Observable.of(null) : this.observePlayerProfile(this.getAuthUid());
     });
     return observableChain;
   }
@@ -236,10 +278,10 @@ export class FirebaseGameService {
 
   public updateGameVisibility(isPrivate: boolean, gameName: string): Promise<void> {
     return this.db.collection<Game>('games')
-    .doc<Game>(gameName)
-    .update({
-      visibilityPrivate: isPrivate
-    })
+      .doc<Game>(gameName)
+      .update({
+        visibilityPrivate: isPrivate
+      })
   }
 
   public updateCurrentGamePlayerStatus(gameName: string, status: GamePlayerStatus) {

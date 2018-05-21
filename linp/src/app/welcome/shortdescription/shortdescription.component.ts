@@ -9,23 +9,29 @@ import { FirebaseGameService } from '../../services/firebasegame.service';
 export class ShortdescriptionComponent implements OnInit {
 
   public showShortDescription = false;
+
   constructor(private firebaseGameService: FirebaseGameService) { }
 
   ngOnInit() {
     this.firebaseGameService.observeLoggedInPlayerProfile()
       .subscribe(gameProfile => {
-        if (gameProfile.uistates !== undefined) {
+        if (gameProfile !== null && gameProfile.uistates !== undefined) {
           this.showShortDescription = gameProfile.uistates.showShortDescription;
-        }else{
+        } else {
           this.showShortDescription = true;
         }
       });
   }
 
   public closeShortDescription(): void {
-    this.firebaseGameService.updatePlayerUiState({
-      "uistates.showShortDescription" : false
-    });
+    if (this.firebaseGameService.isLoggedIn()) {
+      this.showShortDescription = false;
+      return;
+    } else {
+      this.firebaseGameService.updatePlayerUiState({
+        'uistates.showShortDescription': false
+      });
+    }
   }
 
 }

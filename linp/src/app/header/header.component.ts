@@ -35,9 +35,9 @@ export class HeaderComponent implements OnInit {
     this.isDevelopmentEnv = this.windowRef.nativeWindow.location.host.includes('localhost');
 
     this.router.events.filter((event: any) => event instanceof NavigationEnd)
-    .subscribe(event => {
-      this.showBackLink = ['/welcome', '/'].every((a) => event.url !== a);
-    });
+      .subscribe(event => {
+        this.showBackLink = ['/welcome', '/'].every((a) => event.url !== a);
+      });
 
     this.actionGuide.actionDone.subscribe(() => {
       this.helpPop.close();
@@ -49,20 +49,21 @@ export class HeaderComponent implements OnInit {
         const isVersionToBeChecked = this.lastVersion !== 0;
         const isReloadApp = this.lastVersion !== currentVersion.val;
         if (isVersionToBeChecked && isReloadApp) {
-            this.windowRef.nativeWindow.location.reload(true);
+          this.windowRef.nativeWindow.location.reload(true);
         }
         this.lastVersion = currentVersion.val;
       });
 
     this.firebaseGameService.observeLoggedInPlayerProfile()
       .subscribe(gameProfile => {
-        if (gameProfile.uistates !== undefined) {
+        const isTemporalFixForNoDbState = this.firebaseGameService.isLoggedIn() && gameProfile.uistates !== undefined;
+        if (this.firebaseGameService.isLoggedIn() && isTemporalFixForNoDbState) {
           if (gameProfile.uistates.showHelpPopover === true) {
             setTimeout(() => {
               this.helpPop.open();
             }, 0);
           }
-        }else{
+        } else {
           setTimeout(() => {
             this.helpPop.open();
           }, 0);
@@ -71,12 +72,14 @@ export class HeaderComponent implements OnInit {
   }
 
   private gotHelpPopover() {
-    this.firebaseGameService.updatePlayerUiState({
-      'uistates.showHelpPopover' :  false
-    });
     // TODO store in firestore gameProfile to never show popover again
     this.helpPop.close();
     this.openHelp();
+    if (this.firebaseGameService.isLoggedIn()) {
+      this.firebaseGameService.updatePlayerUiState({
+        'uistates.showHelpPopover': false
+      });
+    }
   }
 
   public openHelp(): void {

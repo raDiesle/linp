@@ -82,6 +82,7 @@ import { FirstguessrulesComponent } from './gamerules/firstguessrules/firstguess
 import { SecondtiprulesComponent } from './gamerules/secondtiprules/secondtiprules.component';
 import { SecondguessrulesComponent } from './gamerules/secondguessrules/secondguessrules.component';
 import { ShortdescriptionComponent } from './welcome/shortdescription/shortdescription.component';
+import { GameslistComponent } from './joingame/gameslist/gameslist.component';
 
 export function windowFactory() {
   return window;
@@ -144,7 +145,8 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     FirstguessrulesComponent,
     SecondtiprulesComponent,
     SecondguessrulesComponent,
-    ShortdescriptionComponent
+    ShortdescriptionComponent,
+    GameslistComponent
   ],
   entryComponents: [
     ActionguidemodalComponent,

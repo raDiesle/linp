@@ -1,7 +1,8 @@
-<div *ngIf="isLoggedIn; then isLoggedIn else isNotLoggedIn">
+<div *ngIf="isLoggedIn; then isLoggedInContent else isNotLoggedInContent">
 </div>
 
-<ng-template #isNotLoggedIn>
+
+<ng-template #isNotLoggedInContent>
   <div class="card">
     <div class="card-header">
       <strong i18n="@@login.header">Login</strong>
@@ -15,7 +16,7 @@
   </div>
 </ng-template>
 
-<ng-template #isLoggedIn>
+<ng-template #isLoggedInContent>
   <app-shortdescription></app-shortdescription>
   <app-maintenance></app-maintenance>
   <app-activegames></app-activegames>

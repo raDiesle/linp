@@ -21,8 +21,6 @@ export class AppComponent implements OnInit, OnDestroy {
   gameName: string;
   title = 'app';
 
-  authUser: firebase.User;
-
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   private ngUnsubscribeNewGameChosen: Subject<void> = new Subject<void>();
   public isUserAuthOfflane = false;
@@ -44,9 +42,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
         // TODO
         // this.firebaseGameService.updatePlayerProfileIsOnline(true);
-        this.authUser = authUser;
-        if (authUser !== null) {
-          this.firebaseGameService.registerUpdateGamePlayerOnlineTrigger();
+
+        if (authUser !== null && authUser !== undefined) {
+          this.firebaseGameService.registerUpdateGamePlayerOnlineTrigger(authUser.uid);
         }
       });
 

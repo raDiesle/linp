@@ -3,11 +3,19 @@
     <strong>Accept friend invitation</strong>
   </div>
   <div class="card-body">
-    <div class="alert alert-primary" role="alert" *ngIf="isFriendYourself === false">
-      <div *ngIf="isFriendFinishedAdding === false">
-        <span i18n="@@addfriendpage.loading">Performing friend invitation </span>
-        <app-waitingdots></app-waitingdots>
-      </div>
+    <div class="alert alert-primary" role="alert" *ngIf="isAddedSuccesful === null">
+      <span i18n="@@addfriendpage.loading">Performing friend invitation </span>
+      <app-waitingdots></app-waitingdots>
+    </div>
+
+    <div class="text-center" [hidden]="isAddedSuccesful === false">
+      <br>
+      <br>
+      <p class="mb-0">You were successful added to friend list of</p>
+      <h3>{{newFriendsName}}</h3>      
+      <p class="my-3">And</p>
+      <h3>{{newFriendsName}}</h3>
+      <p>was successful added to your friend list</p>
     </div>
     <div class="alert alert-warning" role="alert" *ngIf="isFriendYourself">
       <div i18n="@@addfriendpage.friendyourself1">
@@ -16,6 +24,12 @@
       <div i18n="@@addfriendpage.friendyourself2">
         Send link invitation to another person.
       </div>
+    </div>
+
+    <div class="pt-4" [hidden]="isAddedSuccesful === null">
+      <button class="btn btn-primary btn-block" routerLink="/">
+        Ok
+      </button>
     </div>
   </div>
 </div>

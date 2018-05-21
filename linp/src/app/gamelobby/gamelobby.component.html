@@ -78,9 +78,14 @@
             </i>
           </span>
           <ng-template #switchedPublicVisibilityContent>
-            All players can now join your game <button (click)="publicPopover.close()">ok</button>
+            <strong>
+              All players can now join your game
+            </strong>
+            <button class="btn btn-primary btn-block" (click)="publicPopover.close()">
+              Got it
+            </button>
           </ng-template>
-          <span (click)="loggedInPlayerIsHost && switchGameVisibilityToPrivate(false)" [disablePopover]="showPublicVisibilityTooltipChanged === false" [ngbPopover]="switchedPublicVisibilityContent"  #publicPopover="ngbPopover">
+          <span (click)="loggedInPlayerIsHost && switchGameVisibilityToPrivate(false)" [disablePopover]="showPublicVisibilityTooltipChanged === false" popoverTitle="Visibility switched" [ngbPopover]="switchedPublicVisibilityContent"  #publicPopover="ngbPopover">
             <span class="align-top">Public</span>
             <i class="material-icons pl-1" [ngClass]="loggedInPlayerIsHost ? 'text-primary' : 'text-muted'">
               radio_button_{{isPrivate ? 'unchecked' : 'checked'}}
