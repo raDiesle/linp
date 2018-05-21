@@ -14,11 +14,11 @@
             Roles are assigned randomly at game start.
             <br> Nobody knows the role of each other.
           </div>
-          
+
           <span class="badge badge-info">
             Twin agents
           </span>
-        
+
           <ul class="mb-0">
             <li>
               have the same word
@@ -44,7 +44,7 @@
         </div>
       </div>
 
-      <div class="pb-2" *ngIf="friendList.length === 0">        
+      <div class="pb-2" *ngIf="friendList.length === 0">
         <div>
           <button class="btn btn-block btn-primary" routerLink="/welcome" i18n="@@gamelobby.invitefriends.invitebutton">
             Invite new players
@@ -73,13 +73,13 @@
         <span [disableTooltip]="loggedInPlayerIsHost" ngbTooltip="Only be set by game host">
           <span (click)="loggedInPlayerIsHost && isPublic=false">
             <span class="align-top">Private</span>
-            <i class="material-icons" [ngClass]="loggedInPlayerIsHost ? 'text-primary' : 'text-muted'">
+            <i class="material-icons pl-1 pr-2" [ngClass]="loggedInPlayerIsHost ? 'text-primary' : 'text-muted'">
               radio_button_{{isPublic ? 'unchecked' : 'checked'}}
             </i>
           </span>
           <span (click)="loggedInPlayerIsHost && isPublic=true">
             <span class="align-top">Public</span>
-            <i class="material-icons" [ngClass]="loggedInPlayerIsHost ? 'text-primary' : 'text-muted'">
+            <i class="material-icons pl-1" [ngClass]="loggedInPlayerIsHost ? 'text-primary' : 'text-muted'">
               radio_button_{{!isPublic ? 'unchecked' : 'checked'}}
             </i>
           </span>

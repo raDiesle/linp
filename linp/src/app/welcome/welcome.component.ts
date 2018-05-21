@@ -11,18 +11,18 @@ import { Subject } from 'rxjs/Subject';
 export class WelcomeComponent implements OnInit{
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
-  public authUser: firebase.User;
+  public isLoggedIn = false;
 
   constructor(firebaseGameService: FirebaseGameService) {
     firebaseGameService.observeAuthUser()
       .takeUntil(this.ngUnsubscribe)
       .subscribe(authUser => {
-        this.authUser = authUser;
+        this.isLoggedIn = authUser == null || authUser == undefined;
       });
   }
-  
+
   ngOnInit(): void {
-    
+
   }
 
 }

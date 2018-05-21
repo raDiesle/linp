@@ -1,4 +1,4 @@
-<div *ngIf="authUser; then isLoggedIn else isNotLoggedIn">
+<div *ngIf="isLoggedIn; then isLoggedIn else isNotLoggedIn">
 </div>
 
 <ng-template #isNotLoggedIn>
@@ -8,7 +8,6 @@
     </div>
     <div class="card-body">
       <p>
-
         <ng-container *ngTemplateOutlet="shortDescription"></ng-container>
       </p>
       <firebase-ui></firebase-ui>

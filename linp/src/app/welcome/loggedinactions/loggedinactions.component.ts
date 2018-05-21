@@ -18,9 +18,8 @@ export class LoggedinactionsComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
-  public authUser: firebase.User;
-  firstTimeLoggedInEver = false;
-  playerProfile: PlayerProfile;
+  public firstTimeLoggedInEver = false;
+  public playerProfile: PlayerProfile;
 
   constructor(public afAuth: AngularFireAuth,
     public db: AngularFirestore,
@@ -33,13 +32,12 @@ export class LoggedinactionsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     const prevPage = this.route.snapshot.paramMap.get('signInSuccessUrl');
-
+// TODO
     this.afAuth.authState
       .takeUntil(this.ngUnsubscribe)
       .subscribe(authUser => {
-        this.authUser = authUser;
 
-        if (!this.authUser) {
+        if (!authUser) {
           return;
         }
 
