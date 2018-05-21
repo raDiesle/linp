@@ -2,7 +2,7 @@ import {Component, HostBinding, OnDestroy, OnInit} from '@angular/core';
 import {AngularFirestore} from 'angularfire2/firestore';
 import {AngularFireAuth} from 'angularfire2/auth/auth';
 import {Router} from '@angular/router';
-import {Game, GamePlayer, GameStatus, PointsScored} from '../models/game';
+import {Game, GamePlayer, GameStatus, PointsScored} from 'app/models/game';
 import {Subject} from 'rxjs/Subject';
 
 import {FirebaseGameService} from '../services/firebasegame.service';

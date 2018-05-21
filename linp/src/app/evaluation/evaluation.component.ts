@@ -3,7 +3,7 @@ import { AngularFireAuth } from 'angularfire2/auth/auth';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as firebase from 'firebase/app';
 import { AngularFirestore } from 'angularfire2/firestore';
-import { Game, GamePlayer, GamePlayerStatus, GameStatus } from '../models/game';
+import { Game, GamePlayer, GamePlayerStatus, GameStatus } from 'app/models/game';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { FirebaseGameService } from '../services/firebasegame.service';
 import { Subject } from 'rxjs/Subject';

@@ -71,16 +71,19 @@
 
       <div class="d-flex">
         <span [disableTooltip]="loggedInPlayerIsHost" ngbTooltip="Only be set by game host">
-          <span (click)="loggedInPlayerIsHost && isPublic=false">
+          <span (click)="loggedInPlayerIsHost && switchGameVisibilityToPrivate(true)">
             <span class="align-top">Private</span>
             <i class="material-icons pl-1 pr-2" [ngClass]="loggedInPlayerIsHost ? 'text-primary' : 'text-muted'">
-              radio_button_{{isPublic ? 'unchecked' : 'checked'}}
+              radio_button_{{!isPrivate ? 'unchecked' : 'checked'}}
             </i>
           </span>
-          <span (click)="loggedInPlayerIsHost && isPublic=true">
+          <ng-template #switchedPublicVisibilityContent>
+            All players can now join your game <button (click)="publicPopover.close()">ok</button>
+          </ng-template>
+          <span (click)="loggedInPlayerIsHost && switchGameVisibilityToPrivate(false)" [disablePopover]="showPublicVisibilityTooltipChanged === false" [ngbPopover]="switchedPublicVisibilityContent"  #publicPopover="ngbPopover">
             <span class="align-top">Public</span>
             <i class="material-icons pl-1" [ngClass]="loggedInPlayerIsHost ? 'text-primary' : 'text-muted'">
-              radio_button_{{!isPublic ? 'unchecked' : 'checked'}}
+              radio_button_{{isPrivate ? 'unchecked' : 'checked'}}
             </i>
           </span>
         </span>
@@ -88,8 +91,8 @@
         <span class="pl-1 ml-auto" *ngIf="gamePlayers.length <= 3">
           <span class="align-top">at least {{4 - gamePlayers.length}}</span>
           <span class="align-top" i18n="@@gamelobby.missingplayers2">
-            player
-            <span [hidden]="4 - gamePlayers.length <= 1">s</span>
+            player</span><span [hidden]="4 - gamePlayers.length <= 1">s</span>
+          <span class="align-top" i18n="@@gamelobby.missingplayers3">
             required
           </span>
         </span>

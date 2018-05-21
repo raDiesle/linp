@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { HttpClient } from '@angular/common/http';
-import { Game, GamePlayer, GamePlayerStatus, GameStatus, SynonymKey } from '../models/game';
+import { Game, GamePlayer, GamePlayerStatus, GameStatus, SynonymKey } from 'app/models/game';
 import { Observable } from 'rxjs/Observable';
 import * as firebase from 'firebase';
 import { AngularFireAuth } from 'angularfire2/auth';
@@ -157,8 +157,8 @@ export class FirebaseGameService {
 
   public observePlayerProfile(uid: string): Observable<PlayerProfile> {
     return this.db
-      .collection<PlayerProfile>('players')
-      .doc(uid)
+      .collection('players')
+      .doc<PlayerProfile>(uid)
       .valueChanges();
   }
 
@@ -234,6 +234,14 @@ export class FirebaseGameService {
       .update(<{ [status: string]: GameStatus }>{ status: newStatus });
   }
 
+  public updateGameVisibility(isPrivate: boolean, gameName: string): Promise<void> {
+    return this.db.collection<Game>('games')
+    .doc<Game>(gameName)
+    .update({
+      visibilityPrivate: isPrivate
+    })
+  }
+
   public updateCurrentGamePlayerStatus(gameName: string, status: GamePlayerStatus) {
     return this.updateGamePlayerStatus(this.authUserUid, gameName, status);
   }
@@ -252,6 +260,7 @@ export class FirebaseGameService {
     return {
       name: gameName,
       host: this.afAuth.auth.currentUser.uid,
+      visibilityPrivate: true,
       status: 'gamelobby' as GameStatus,
       players: [],
       round: STARTING_ROUND,

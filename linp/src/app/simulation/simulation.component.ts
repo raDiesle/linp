@@ -17,27 +17,51 @@ import {SecondGuessMock} from './SecondGuessMock';
 const players: { [uid: string]: PlayerProfile } = {
   playerA: {
     uid: 'lnvb5qyrYJQ59ndQcNf5mlUXBpi2',
-    name: 'playerA'
+    name: 'playerA',
+    uistates: {
+      showHelpPopover: false,
+      showShortDescription: false
+    }
   },
   playerB: {
     uid: '79dcujI4LCcxClfJeWvse415gAq1',
-    name: 'playerB'
+    name: 'playerB',
+    uistates: {
+      showHelpPopover: false,
+      showShortDescription: false
+    }
   },
   playerC: {
     uid: 'MQx0kDr1wiceZIO6xAk6Ba2ICLB2',
-    name: 'playerC'
+    name: 'playerC',
+    uistates: {
+      showHelpPopover: false,
+      showShortDescription: false
+    }
   },
   playerD: {
     uid: 'DSDzE96HxSamuirC05NLNhN6x0z1',
-    name: 'playerD'
+    name: 'playerD',
+    uistates: {
+      showHelpPopover: false,
+      showShortDescription: false
+    }
   },
   playerE: {
     uid: 'UuS2hKP4BmhaqtLUA58bytDNMrZ2',
-    name: 'playerE'
+    name: 'playerE',
+    uistates: {
+      showHelpPopover: false,
+      showShortDescription: false
+    }
   },
   playerF: {
     uid: 'oVHSNM6pFvhkJ0QVQxetFMSFjJC2',
-    name: 'playerF'
+    name: 'playerF',
+    uistates: {
+      showHelpPopover: false,
+      showShortDescription: false
+    }
   }
 };
 

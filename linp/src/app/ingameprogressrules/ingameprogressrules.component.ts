@@ -1,4 +1,4 @@
-import { PlayerRolesCounts } from './../models/game.d';
+import { PlayerRolesCounts } from './../models/game';
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 import {AngularFirestore} from 'angularfire2/firestore';

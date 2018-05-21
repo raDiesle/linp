@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AngularFirestore } from 'angularfire2/firestore';
-import { Game, GamePlayer, GamePlayerStatus, GameStatus, TeamTip } from '../../models/game';
+import { Game, GamePlayer, GamePlayerStatus, GameStatus, TeamTip } from 'app/models/game';
 import { AngularFireAuth } from 'angularfire2/auth/auth';
 import * as firebase from 'firebase/app';
 import { GuessService } from '../guess.service';

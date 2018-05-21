@@ -1,10 +1,10 @@
 export interface PlayerProfile {
   uid?: string,
   name?: string;
-  uistates? : UiStates;
+  uistates: UiStates;
 }
 
-export interface UiStates{
+export interface UiStates {
   showHelpPopover: boolean;
   showShortDescription: boolean;
 }

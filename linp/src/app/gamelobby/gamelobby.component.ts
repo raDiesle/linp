@@ -1,10 +1,10 @@
-import { PlayerFriendlist } from './../models/player.d';
+import { PlayerFriendlist } from './../models/player';
 import { Component, OnDestroy, OnInit, Inject } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { AngularFireAuth } from 'angularfire2/auth/auth';
-import { Game, GamePlayer, GameStatus } from '../models/game';
+import { Game, GamePlayer, GameStatus } from 'app/models/game';
 import { Subject } from 'rxjs/Subject';
 import { GamelobbyService } from './gamelobby-service';
 import { FirebaseGameService } from '../services/firebasegame.service';
@@ -19,6 +19,7 @@ import { ActionguideService, ActionguideDto } from '../services/actionguide.serv
 })
 export class GamelobbyComponent implements OnInit, OnDestroy {
 
+  public showPublicVisibilityTooltipChanged = false;
   friendList: PlayerFriendlist[] = [];
   isGameDataFetchedFlag = false;
   gamePlayerKeys: string[] = [];
@@ -34,7 +35,7 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
   private hostPlayer: GamePlayer;
   public loggedInPlayerSuccessfulAddedStatusFlag = false;
   private clickedStartButton = false;
-  public isPublic = false;
+  public isPrivate = true;
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -49,6 +50,8 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     const gameName = this.route.snapshot.paramMap.get('gamename');
     this.gameName = gameName;
+    const isDevelopmentEnv = this.windowRef.nativeWindow.location.host.includes('localhost');
+    const currentRouteName = this.route.snapshot.url[0].path;
 
     this.firebaseGameService.observeCurrentPlayersFriendslist()
       .subscribe(friendList => this.friendList = friendList);
@@ -56,8 +59,8 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
     this.firebaseGameService.observeGame(this.gameName)
       .takeUntil(this.ngUnsubscribe)
       .subscribe(game => {
-        const isDevelopmentEnv = this.windowRef.nativeWindow.location.host.includes('localhost');
-        const currentRouteName = this.route.snapshot.url[0].path;
+        this.isPrivate = game.visibilityPrivate;
+
         if (game.status === currentRouteName) {
           this.location.go(`gamelobby/${this.gameName}`);
         } else {
@@ -102,16 +105,22 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
       });
   }
 
-  onFriendSelection(friend: PlayerFriendlist): void {
+  public onFriendSelection(friend: PlayerFriendlist): void {
     this.firebaseGameService.addAPlayerToGame(this.gameName, friend.name, false, friend.uid)
       .then(() => {
         this.loggedInPlayerSuccessfulAddedStatusFlag = true;
       });
   }
 
-  startGame(): void {
+  public startGame(): void {
     this.clickedStartButton = true;
     this.firebaseGameService.updateGameStatus(this.NEXT_PAGE, this.gameName)
+  }
+
+  public switchGameVisibilityToPrivate(isPrivate: boolean) {
+    this.firebaseGameService.updateGameVisibility(isPrivate, this.gameName);
+    this.isPrivate = isPrivate;
+    this.showPublicVisibilityTooltipChanged = true;
   }
 
   public ngOnDestroy() {

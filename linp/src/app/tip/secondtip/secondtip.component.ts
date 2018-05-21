@@ -4,7 +4,7 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { AngularFireAuth } from 'angularfire2/auth/auth';
 import * as firebase from 'firebase/app';
-import { GamePlayer, GamePlayerStatus, GameStatus } from '../../models/game';
+import { GamePlayer, GamePlayerStatus, GameStatus } from 'app/models/game';
 import { Subject } from 'rxjs/Subject';
 import { FirebaseGameService } from '../../services/firebasegame.service';
 import { ActionguideDto, ActionguideService } from '../../services/actionguide.service';

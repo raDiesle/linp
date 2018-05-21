@@ -1,10 +1,11 @@
-import {LANGUAGE} from './context';
+import { LANGUAGE } from './context';
 
-export type OneOf<T> = {[K in keyof T]: Pick<T, K>}[keyof T];
+export type OneOf<T> = { [K in keyof T]: Pick<T, K> }[keyof T];
 
 export interface Game {
   name: string;
   host: string;
+  visibilityPrivate: boolean
   status: GameStatus; // TODO routes
   // alternative type possible?
   players?: GamePlayer[];
@@ -13,16 +14,16 @@ export interface Game {
   language: LANGUAGE;
   evaluationSummary?: any; // TODO
   pointsScoredTotal?: { [gamePlayerId: string]: GameTotalPoints };
-  playerRolesCounts? : PlayerRolesCounts;
+  playerRolesCounts?: PlayerRolesCounts;
 }
 
 export interface PlayerRolesCounts {
-    total: number;
-    questionmark: number;
-    words: number;
+  total: number;
+  questionmark: number;
+  words: number;
 }
 
-interface GameTotalPoints {
+export interface GameTotalPoints {
   uid: string;
   name: string;
   points: number;
@@ -44,7 +45,7 @@ export interface GamePlayer {
   isHost?: boolean;
   questionmarkOrWord?: string;
   status?: GamePlayerStatus;
-  firstSynonym? : string;
+  firstSynonym?: string;
   firstTeamTip?: TeamTip;
   secondSynonym?: string;
   secondTeamTip?: TeamTip;

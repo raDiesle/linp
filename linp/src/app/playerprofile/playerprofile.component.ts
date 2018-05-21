@@ -48,7 +48,11 @@ export class PlayerprofileComponent implements OnInit {
     const playerPath = '/players/' + this.authUser.uid;
     const newPlayerProfile: PlayerProfile = {
       uid: this.authUser.uid,
-      name: this.playerName
+      name: this.playerName,
+      uistates: {
+        showHelpPopover: true,
+        showShortDescription: true
+      }
     };
 
     const doc = this.db.doc<PlayerProfile>(playerPath);
