@@ -14,17 +14,14 @@ export class WelcomeComponent implements OnInit {
   public isLoggedIn = false;
 
   constructor(private firebaseGameService: FirebaseGameService) {
-
   }
 
   ngOnInit(): void {
-
     this.firebaseGameService.observeAuthUser()
       .takeUntil(this.ngUnsubscribe)
       .subscribe(authUser => {
         this.isLoggedIn = authUser !== null && authUser !== undefined;
       });
-
   }
 
 }

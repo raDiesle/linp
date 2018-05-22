@@ -9,7 +9,6 @@ import { FirebaseGameService } from '../../services/firebasegame.service';
 import { ActivePlayerGame } from 'app/models/player';
 import { ScrollToService, ScrollToConfigOptions } from '@nicky-lenaers/ngx-scroll-to';
 
-
 @Component({
   selector: 'app-activegames',
   templateUrl: './activegames.component.html',
@@ -31,29 +30,12 @@ export class ActivegamesComponent implements OnInit, OnDestroy {
     this.firebaseGameService.observeActivegamesOfPlayer()
       .takeUntil(this.ngUnsubscribe)
       .subscribe(activePlayerGames => {
-
         this.games = [];
         this.passiveGames = [];
         // rewrite to nice groupBy
         const games = activePlayerGames.forEach(game => {
-          if (game.isActionRequired) {
-            this.games.push(game);
-          } else {
-            this.passiveGames.push(game);
-          }
-
+          game.isActionRequired ? this.games.push(game) : this.passiveGames.push(game);
         });
-
-        this.route.fragment.subscribe((fragment: string) => {
-          const config: ScrollToConfigOptions = {
-            target: fragment,
-            duration: 0
-          };
-          setTimeout(() => {
-            this.scrollToService.scrollTo(config);
-          }, 1);
-        });
-
       });
   }
 

@@ -1,5 +1,5 @@
 import { Router, NavigationEnd } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs/Subject';
 
@@ -8,7 +8,7 @@ import { Subject } from 'rxjs/Subject';
   templateUrl: './actionguidemodal.component.html',
   styleUrls: ['./actionguidemodal.component.scss']
 })
-export class ActionguidemodalComponent implements OnInit {
+export class ActionguidemodalComponent implements OnInit, OnDestroy {
 
   private isSwitchingPageIndicator = false;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
@@ -26,6 +26,11 @@ export class ActionguidemodalComponent implements OnInit {
         }
         this.isSwitchingPageIndicator = true;
       });
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
 }

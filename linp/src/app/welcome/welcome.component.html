@@ -2,6 +2,7 @@
 </div>
 
 <ng-template #isNotLoggedInContent>
+  <app-shortdescription></app-shortdescription>
   <div class="card">
     <div class="card-header">
       <strong i18n="@@login.header">Login</strong>
@@ -15,7 +16,7 @@
   </div>
 </ng-template>
 
-<ng-template #isLoggedInContent> 
+<ng-template #isLoggedInContent>
   <app-maintenance [hidden]="true"></app-maintenance>
   <app-activegames></app-activegames>
   <br>

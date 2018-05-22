@@ -10,28 +10,9 @@ export class ShortdescriptionComponent implements OnInit {
 
   public showShortDescription = false;
 
-  constructor(private firebaseGameService: FirebaseGameService) { }
+  constructor() { }
 
   ngOnInit() {
-    this.firebaseGameService.observeLoggedInPlayerProfile()
-      .subscribe(gameProfile => {
-        if (gameProfile !== null && gameProfile.uistates !== undefined) {
-          this.showShortDescription = gameProfile.uistates.showShortDescription;
-        } else {
-          this.showShortDescription = true;
-        }
-      });
-  }
-
-  public closeShortDescription(): void {
-    if (this.firebaseGameService.isLoggedOut()) {
-      this.showShortDescription = false;
-      return;
-    } else {
-      this.firebaseGameService.updatePlayerUiState({
-        'uistates.showShortDescription': false
-      });
-    }
   }
 
 }
