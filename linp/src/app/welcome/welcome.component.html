@@ -1,7 +1,6 @@
 <div *ngIf="isLoggedIn; then isLoggedInContent else isNotLoggedInContent">
 </div>
 
-
 <ng-template #isNotLoggedInContent>
   <div class="card">
     <div class="card-header">
@@ -16,9 +15,8 @@
   </div>
 </ng-template>
 
-<ng-template #isLoggedInContent>
-  <app-shortdescription></app-shortdescription>
-  <app-maintenance></app-maintenance>
+<ng-template #isLoggedInContent> 
+  <app-maintenance [hidden]="true"></app-maintenance>
   <app-activegames></app-activegames>
   <br>
   <app-friendlist></app-friendlist>

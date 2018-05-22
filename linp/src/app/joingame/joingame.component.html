@@ -5,13 +5,13 @@
     <strong i18n="@@joingame.header">Join Friends Game</strong>
   </div>
   <div class="card-body">
-    <app-gameslist [games]="privateGames"></app-gameslist>
+    <app-gameslist [games]="privateFriendGames"></app-gameslist>
 
-    <div class="alert alert-warning text-center" *ngIf="privateGames && privateGames.length === 0">
-      <div class="alert-heading h6" i18n="@@joingame.private.nogames1">
+    <div class="alert alert-warning text-center" *ngIf="privateFriendGames && privateFriendGames.length === 0">
+      <div class="alert-heading h6" i18n="@@joingame.privatefriend.nogames1">
         No private games available
       </div>
-      <div i18n="@@joingame.private.nogames2">
+      <div i18n="@@joingame.privatefriend.nogames2">
         Create a game or wait for another player to invite you
       </div>
     </div>

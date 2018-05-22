@@ -24,7 +24,7 @@ export class ShortdescriptionComponent implements OnInit {
   }
 
   public closeShortDescription(): void {
-    if (this.firebaseGameService.isLoggedIn()) {
+    if (this.firebaseGameService.isLoggedOut()) {
       this.showShortDescription = false;
       return;
     } else {

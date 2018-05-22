@@ -162,6 +162,14 @@ export class FirebaseGameService {
       .valueChanges()
   }
 
+  public observePrivateGamesToJoin(): Observable<Game[]> {
+    return this.db.collection<Game>('games', (ref) => {
+      return ref.where('status', '==', 'gamelobby')
+        .where('visibilityPrivate', '==', true);
+    })
+      .valueChanges()
+  }
+
   public observeActivegamesOfPlayer(): Observable<ActivePlayerGame[]> {
     return this.observeActivegamesOfSpecificPlayer(this.getAuthUid());
   }
