@@ -62,6 +62,8 @@ export class HeaderComponent implements OnInit {
             setTimeout(() => {
               this.helpPop.open();
             }, 0);
+          } else {
+            this.helpPop.close();
           }
         } else {
           setTimeout(() => {
@@ -73,17 +75,27 @@ export class HeaderComponent implements OnInit {
 
   private gotHelpPopover() {
     // TODO store in firestore gameProfile to never show popover again
-    this.helpPop.close();
+
     this.openHelp();
     if (this.firebaseGameService.isLoggedIn()) {
       this.firebaseGameService.updatePlayerUiState({
         'uistates.showHelpPopover': false
       });
+    } else {
+      this.helpPop.close();
     }
   }
 
   public openHelp(): void {
-    this.gotHelpPopover();
+
+    if (this.firebaseGameService.isLoggedIn()) {
+      this.firebaseGameService.updatePlayerUiState({
+        'uistates.showHelpPopover': false
+      });
+    } else {
+      this.helpPop.close();
+    }
+
     const modalRef = this.modalService.open(GamerulesComponent);
   }
 
