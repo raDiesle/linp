@@ -7,7 +7,6 @@ import { Subject } from 'rxjs/Subject';
 
 import { FirebaseGameService } from '../../services/firebasegame.service';
 import { ActivePlayerGame } from 'app/models/player';
-import { ScrollToService, ScrollToConfigOptions } from '@nicky-lenaers/ngx-scroll-to';
 
 @Component({
   selector: 'app-activegames',
@@ -22,8 +21,7 @@ export class ActivegamesComponent implements OnInit, OnDestroy {
 
   constructor(public router: Router,
     private route: ActivatedRoute,
-    private firebaseGameService: FirebaseGameService,
-    private scrollToService: ScrollToService) {
+    private firebaseGameService: FirebaseGameService) {
   }
 
   ngOnInit() {

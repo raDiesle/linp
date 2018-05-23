@@ -83,6 +83,7 @@ export class HeaderComponent implements OnInit {
   }
 
   public openHelp(): void {
+    this.gotHelpPopover();
     const modalRef = this.modalService.open(GamerulesComponent);
   }
 

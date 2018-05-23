@@ -52,7 +52,7 @@ import {ShareButtonModule} from '@ngx-share/button';
 import { ActivegamesComponent } from './welcome/activegames/activegames.component';
 import { FriendlistComponent } from './welcome/friendlist/friendlist.component';
 
-import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
+import { UiSwitchModule } from 'ngx-ui-switch';
 
 import {
   AuthMethods,
@@ -245,8 +245,10 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     ]),
     FormsModule,
     NgbModule.forRoot(),
+    UiSwitchModule,
     ShareModule.forRoot(),
     ShareButtonModule.forRoot(),
+
     BrowserModule,
     HttpClientModule,
     HttpModule,
@@ -254,9 +256,8 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
-    AngularFireStorageModule,
+    // AngularFireStorageModule,
     FirebaseUIModule.forRoot(firebaseUiAuthConfig),
-    ScrollToModule.forRoot()
   ],
  // missingTranslation: MissingTranslationStrategy.Error,
   providers: [AuthGuard, FirebaseGameService, GuessService, UserprofileService, GamelobbyComponent, GamelobbyService,
