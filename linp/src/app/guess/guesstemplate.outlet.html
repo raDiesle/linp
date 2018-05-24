@@ -1,4 +1,4 @@
-<app-gameprogress parent="1" child="2"></app-gameprogress>
+<app-gameprogress parent="{{isSecondGuess ? 2 : 1}}" child="{{isSecondGuess ? 4 : 2}}"></app-gameprogress>
 <br>
 
 <div [hidden]="gamePlayers === undefined">

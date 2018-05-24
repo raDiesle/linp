@@ -34,6 +34,7 @@ export class SecondguessComponent implements OnInit, OnDestroy {
   private isBlinkTickerShown$: boolean;
   public isloggedInPlayerDidGuess = false;
   public savedResponseFlag = false;
+  public isSecondGuess = true;
 
   constructor(private route: ActivatedRoute,
     private router: Router,

@@ -253,10 +253,11 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     HttpClientModule,
     HttpModule,
     BrowserAnimationsModule,
+
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
-    // AngularFireStorageModule,
+
     FirebaseUIModule.forRoot(firebaseUiAuthConfig),
   ],
  // missingTranslation: MissingTranslationStrategy.Error,
