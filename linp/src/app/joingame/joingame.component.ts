@@ -49,7 +49,6 @@ export class JoinGameComponent implements OnInit, OnDestroy {
 
     Promise.all([privateGamesPromise, friendListPromise, activeGamesPromise])
       .then(results => {
-        console.log(results);
         const publicGames = results[0];
         const friendsUids = results[1];
         const activeGameNames = results[2];

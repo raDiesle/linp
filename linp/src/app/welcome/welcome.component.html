@@ -2,22 +2,23 @@
 </div>
 
 <ng-template #isNotLoggedInContent>
+  <br>
   <app-shortdescription></app-shortdescription>
+  <br>
   <div class="card">
     <div class="card-header">
       <strong i18n="@@login.header">Login</strong>
     </div>
     <div class="card-body">
-      <p>
-        <ng-container *ngTemplateOutlet="shortDescription"></ng-container>
-      </p>
       <firebase-ui></firebase-ui>
     </div>
   </div>
+  <br>
 </ng-template>
 
 <ng-template #isLoggedInContent>
   <app-maintenance [hidden]="true"></app-maintenance>
+  <br>
   <app-activegames></app-activegames>
   <br>
   <app-friendlist></app-friendlist>
@@ -26,11 +27,3 @@
   <br>
 </ng-template>
 <br>
-
-<ng-template #shortDescription>
-  Linp is a party of game of bluffing and collusion for 4-8 players. In Linq, two players assume the role of spies who are
-  attempting to identify one another via secret code words. All other players take on the role of double agents, whose goal
-  is to identify and confuse the spies by deciphering their secret code.
-
-  <h2 class="text-center">Login now!</h2>
-</ng-template>

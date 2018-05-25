@@ -1,4 +1,4 @@
-<app-gameprogress parent="1" child="2"></app-gameprogress>
+<app-gameprogress parent="{{isSecondGuess ? 2 : 1}}" child="{{isSecondGuess ? 4 : 2}}"></app-gameprogress>
 <br>
 
 <div [hidden]="gamePlayers === undefined">
@@ -71,11 +71,10 @@
         <button id="guess_{{gamePlayer.name}}" *ngFor="let gamePlayer of gamePlayers" class="list-group-item" [ngClass]="{
                     'active' : selectedGamePlayers.indexOf(gamePlayer) !== -1,
                     'list-group-item-action' : selectedGamePlayers.length <= 2,
-                    
+                    'bg-halfheight' : selectedGamePlayers.indexOf(gamePlayer) === -1 && (loggedInGamePlayer.firstTeamTip.firstPartner.uid === gamePlayer.uid || loggedInGamePlayer.firstTeamTip.secondPartner.uid === gamePlayer.uid),
                     'disabled' : (this.playerUidToDisableForSelection === gamePlayer.uid || selectedGamePlayers.length >= 2)
                   }" (click)="onTeamPlayerGuessSelected(gamePlayer)">
-
-          <div class="row">
+          <div class="row" placement="top" ngbTooltip="You can't select exact same twin partners than in 1st guess" [disableTooltip]="playerUidToDisableForSelection !== gamePlayer.uid || selectedGamePlayers.length > 2">
             <div class="col-4">
               <span>
                 {{gamePlayer.name}}

@@ -24,6 +24,7 @@ export class FirstguessComponent implements OnInit, OnDestroy {
 
   readonly PLAYER_STATUS_AFTER_ACTION: GamePlayerStatus = 'FIRST_GUESS_GIVEN';
   readonly NEXT_PAGE: GameStatus = 'secondtip';
+  public isSecondGuess = false;
 
   gameName: string;
   public isOpened: boolean;

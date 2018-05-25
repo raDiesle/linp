@@ -50,6 +50,10 @@ Produces warnings
 */
 }
 
+.bg-halfheight{
+  background: linear-gradient(to right, $primary 0%, $primary 1%, $list-group-bg 1%); // , $list-group-bg 97%, $primary 97%, $primary 100%
+}
+
 .material-icons.md-18 {
   font-size: 18px;
 }
