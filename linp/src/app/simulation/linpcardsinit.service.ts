@@ -7,7 +7,32 @@ export class LinpCardsModelService {
   }
 
   getCards() {
-    const cards = [
+const enCards = [
+  'plastic', 'camera', 'game', 'night', 'thief', 'rowing', 'share', 'ointment', 'wart', 'cliff', 'whip', 'London',
+  'winter', 'stick', 'gardener', 'bean', 'lion', 'corridor', 'power plant', 'pan', 'hose', 'quarter', 'box',
+  'glasses', 'stem', 'cinema', 'gang', 'key', 'group', 'harbor', 'comrade', 'jump', 'kick', 'hurricane', 'strocke', 'Paris', 'wind',
+  'microphone', 'man', 'mug', 'alcohol', 'stairs', 'country', 'nature', 'lungs', 'gangway', 'steel', 'Egypt', 'shore', 'sport',
+  'flour', 'New Year\'s Eve', 'beak', 'rocket', 'speaker', 'terrine', 'hatchet', 'lens', 'flap', 'paragraph',
+  'market', 'box', 'child', 'clock', 'salt', 'garden', 'Manchester', 'carnation', 'mane', 'prayer', 'sack', 'court'
+  'earth', 'note', 'flag', 'nail', 'donkey', 'scales',' New York ',' rose ',' portrait ',' bullet ',' sleep ',' Australia ',' beach ',
+  ' player ',' farmer ',' Christmas', 'cock', 'roof', 'president', 'tool', 'gravel', 'lance', 'neck', 'Jerusalem',
+  'sun', 'princess',' butcher ',' bread ',' dog ',' button ',' camping ',' seal ',' coffin ',' comb ',' back ',' shirt ',' forest' ,
+  'radio', 'chalk', 'pot', 'sugar', 'house', 'engineer', 'paw', 'tennis', 'gold', 'guitar', 'sister', 'citizen', 'gas', 'studs', 
+  'blossom', 'fist', 'dagger', 'breast', 'Europe', 'cave', 'paper', 'belly', 'half', 'sting', 'skateboard', 'castle', 'pudding',
+  'vacuum cleaner', 'mattress', 'wardrobe', 'river', 'coast', 'ball', 'tractor', 'calendar', 'hair', 'dragon', 'professor', 'wave', 
+  'semester', 'groin', 'tooth', 'Vienna', 'Ice', 'song', 'pencil', 'certificate', 'bowl', 'horse', 'altar', 'berry', 'beard', 
+  'automat', 'bone', 'Berlin', 'wool', 'god', 'spoon', 'boss', 'blanket', 'ministe', 'pond', 'ski', 'ditch', 'meat', 'Baghdad', 
+  'church', 'plate', 'soldier', 'morning', 'cat', 'mast', 'repairman', 'sock', 'eyelash', 'model', 'finger', 'Rome',
+  'coal', 'drum', 'aunt', 'plate', 'grain', 'door', 'Edinburgh', 'herring', 'body', 'raft', 'cushion', 'France', 'water', 'set',
+   'rifle', 'evening', 'zoo', 'boat', 'human', 'knitting', 'cell', 'skid', 'egg', 'heath','weather', 'football', 'library',
+  'soup', 'bear', 'carriage', 'Sidney', 'shower', 'calculator', 'gondola', 'single', 'pyramid', 'disc', 'angel', 'slip', 'staple',
+  'coffee', 'channel', 'board', 'bull', 'paddle', 'flake', 'heart', 'Bankok', 'sea', 'knight', 'plan', 'fruit', 'cow', 'cellar',
+  'chamber', 'halftime', 'sieve', 'third', 'head', 'thread', 'sand','voice ',' teacher ',' plug ',' fruit ',' road ',' Equator ',
+  ' bee ',' break ',' bomb ',' tail ',' Munich ', 
+]
+
+
+    const cards = [ 
       'Plastik', 'Kamera', 'Spiel', 'Nacht', 'Dieb', 'Ruder', 'Aktie', 'Salbe', 'Warze', 'Klippe', 'Peitsche', 'Dresden',
       'Winter', 'Stock', 'Gärtner', 'Bohne', 'Löwe', 'Flur', 'Kraftwerk', 'Pfanne', 'Schlauch', 'Viertel', 'Kiste', 'Brille',
       'Stamm', 'Kino', 'Bande', 'Schlüssel', 'Gruppe', 'Hafen', 'Kamerad', 'Sprung', 'Tritt', 'Hurrikan', 'Schlag', 'Köln',
