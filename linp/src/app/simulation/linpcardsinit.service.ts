@@ -66,7 +66,7 @@ export class LinpCardsModelService {
       'Schule', 'Bild', 'Boxer', 'Messer', 'Apfel', 'Wettrennen', 'Beatles', 'Bluse', 'Bowling', 'Brise', 'Papst', 'Burg',
       'Strom', 'Schach', 'Mühle', 'Kessel', 'Horn', 'Bahn', 'Anwalt', 'Pulver', 'Mündung', 'Maschine', 'Nummer', 'Asien',
       'Metall', 'Ton', 'Taucher', 'Niete', 'Held', 'Verkehr', 'Kanzler', 'Birne', 'Darm', 'Bürste', 'Kuss', 'London'
-    ]
+    ];
     return cards;
   }
 }

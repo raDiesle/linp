@@ -1,7 +1,7 @@
-import { WindowRef } from './../WindowRef';
-import { FirebaseGameService } from './../services/firebasegame.service';
-import { Router, ActivatedRoute } from '@angular/router';
-import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
+import {WindowRef} from './../WindowRef';
+import {FirebaseGameService} from './../services/firebasegame.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-addfriend',
@@ -30,21 +30,22 @@ export class AddfriendComponent implements OnInit, OnDestroy {
     const addFriendToOriginUserPromise = this.firebaseGameService.observeLoggedInPlayerProfile().first().toPromise()
       .then(playerProfile => {
 
-      // CHECK for non registered user call, new invited to linp
+        // CHECK for non registered user call, new invited to linp
         const isFirstTimeRegisteredUser = playerProfile === null;
         if (isFirstTimeRegisteredUser) {
           this.router.navigate(['/playerprofile'], {
-            queryParams: {
-              callbackUrl : this.windowRef.nativeWindow.location.pathname
-            },
-            queryParamsHandling : 'merge'}
+              queryParams: {
+                callbackUrl: this.windowRef.nativeWindow.location.pathname
+              },
+              queryParamsHandling: 'merge'
+            }
           );
         }
 
         return this.firebaseGameService.addCurrentUserAsFriendToOtherPlayer(uid, playerProfile.name);
-      })
+      });
 
-      // will be called twice for new registered
+    // will be called twice for new registered
     const addedCurrentUserPromise = this.firebaseGameService.observePlayerProfile(uid).first().toPromise()
       .then(playerProfile => {
         this.newFriendsName = playerProfile.name;
@@ -52,16 +53,16 @@ export class AddfriendComponent implements OnInit, OnDestroy {
       });
 
     Promise.all([addedCurrentUserPromise, addFriendToOriginUserPromise])
-      .then(response => {
-        // this.router.navigate(['/welcome']);
+      .then(() => {
         this.isAddedSuccesful = true;
         this.isFriendYourself = false;
-      }).catch(reason => {
-        this.isAddedSuccesful = false;
-        this.isFriendYourself = true;
-      });
+      }).catch(() => {
+      this.isAddedSuccesful = false;
+      this.isFriendYourself = true;
+    });
   }
 
-  ngOnDestroy() { }
+  ngOnDestroy() {
+  }
 
 }

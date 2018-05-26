@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-firstguessrules',
@@ -10,7 +10,8 @@ export class FirstguessrulesComponent implements OnInit {
 
   @Input() public showDetails;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }

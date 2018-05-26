@@ -1,6 +1,6 @@
-import { FirebaseGameService } from './../services/firebasegame.service';
-import { Component, OnInit } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
+import {FirebaseGameService} from './../services/firebasegame.service';
+import {Component, OnInit} from '@angular/core';
+import {Subject} from 'rxjs/Subject';
 
 @Component({
   selector: 'app-welcome',
@@ -10,8 +10,8 @@ import { Subject } from 'rxjs/Subject';
 })
 export class WelcomeComponent implements OnInit {
 
-  private ngUnsubscribe: Subject<void> = new Subject<void>();
   public isLoggedIn = false;
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor(private firebaseGameService: FirebaseGameService) {
   }

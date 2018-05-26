@@ -1,13 +1,12 @@
-import { ActionguideService } from './../../services/actionguide.service';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AngularFirestore } from 'angularfire2/firestore';
-import { GamePlayer, GamePlayerStatus, GameStatus } from '../../models/game';
-import { GuessService } from '../guess.service';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
-import { FirebaseGameService } from '../../services/firebasegame.service';
-import { ActionguideDto } from '../../services/actionguide.service';
+import {ActionguideService} from './../../services/actionguide.service';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {AngularFirestore} from 'angularfire2/firestore';
+import {GamePlayer, GamePlayerStatus, GameStatus} from '../../models/game';
+import {GuessService} from '../guess.service';
+import {Subject} from 'rxjs/Subject';
+import {Observable} from 'rxjs/Observable';
+import {FirebaseGameService} from '../../services/firebasegame.service';
 
 const tipDBkey = 'firstTeamTip';
 
@@ -27,7 +26,7 @@ export class FirstguessComponent implements OnInit, OnDestroy {
   public isSecondGuess = false;
 
   gameName: string;
-  public isOpened: boolean;
+
   public savedResponseFlag = false;
   public isloggedInPlayerDidGuess = false;
 
@@ -35,11 +34,11 @@ export class FirstguessComponent implements OnInit, OnDestroy {
   private isBlinkTickerShown$: boolean;
 
   constructor(private route: ActivatedRoute,
-    private router: Router,
-    public db: AngularFirestore,
-    public guessService: GuessService,
-    private firebaseGameService: FirebaseGameService,
-    private actionguideService: ActionguideService) {
+              private router: Router,
+              public db: AngularFirestore,
+              public guessService: GuessService,
+              private firebaseGameService: FirebaseGameService,
+              private actionguideService: ActionguideService) {
   }
 
   ngOnInit() {
@@ -82,7 +81,7 @@ export class FirstguessComponent implements OnInit, OnDestroy {
 
   public saveTeamTip(): void {
     this.guessService.saveTeamTip(this.gameName, this.selectedGamePlayers, tipDBkey, this.PLAYER_STATUS_AFTER_ACTION)
-      .then(response => {
+      .then(() => {
         this.savedResponseFlag = true;
       });
   }

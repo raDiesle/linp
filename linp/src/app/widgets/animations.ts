@@ -1,4 +1,4 @@
-import { trigger, state, animate, transition, style } from '@angular/animations';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
 export const fadeInAnimation =
   // trigger name for attaching this animation to an element using the [@triggerName] syntax
@@ -8,10 +8,10 @@ export const fadeInAnimation =
     transition(':enter', [
 
       // css styles at start of transition
-      style({ opacity: 0 }),
+      style({opacity: 0}),
 
       // animation and styles at end of transition
-      animate('.3s', style({ opacity: 1 }))
+      animate('.3s', style({opacity: 1}))
     ]),
   ]);
 

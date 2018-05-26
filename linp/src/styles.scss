@@ -1,16 +1,10 @@
-
 /*
  Overrides
   */
 //$grey: #0096FF;
 // $card-cap-bg: rgba(0, 150, 255, 0.3);
-
-
 @import "variables";
-
 //$card-cap-bg: #2c3e50;
-$card-spacer-x:                     0.5rem !default;
-
 @import "~bootstrap/scss/bootstrap";
 @import "bootswatch";
 
@@ -43,14 +37,14 @@ Produces warnings
   display: table;
   width: 100%;
   height: 110vh;
-/*
-  background: -webkit-radial-gradient(closest-side, rgba(255, 255, 255, 0.48) 0, rgba(0, 150, 255, 1) 100%);
-  background: -moz-radial-gradient(closest-side, rgba(255, 255, 255, 0.48) 0, rgba(0, 150, 255, 1) 100%);
-  background: radial-gradient(closest-side, rgba(255, 255, 255, 0.48) 0, rgba(0, 150, 255, 1) 100%);
-*/
+  /*
+    background: -webkit-radial-gradient(closest-side, rgba(255, 255, 255, 0.48) 0, rgba(0, 150, 255, 1) 100%);
+    background: -moz-radial-gradient(closest-side, rgba(255, 255, 255, 0.48) 0, rgba(0, 150, 255, 1) 100%);
+    background: radial-gradient(closest-side, rgba(255, 255, 255, 0.48) 0, rgba(0, 150, 255, 1) 100%);
+  */
 }
 
-.bg-halfheight{
+.bg-halfheight {
   background: linear-gradient(to right, $primary 0%, $primary 1%, $list-group-bg 1%); // , $list-group-bg 97%, $primary 97%, $primary 100%
 }
 

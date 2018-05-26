@@ -1,6 +1,6 @@
-import { TestBed, inject } from '@angular/core/testing';
+import {inject, TestBed} from '@angular/core/testing';
 
-import { UserprofileService } from './userprofile.service';
+import {UserprofileService} from './userprofile.service';
 
 describe('UserprofileService', () => {
   beforeEach(() => {

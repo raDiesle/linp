@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, Input, OnChanges, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 
 @Component({
@@ -8,7 +8,6 @@ import {Observable} from 'rxjs/Observable';
 })
 export class WordsdrumrollComponent implements OnInit {
 
-  _word: string;
   yourRoleWordAnimation: string;
 
   // @Input final word
@@ -16,7 +15,10 @@ export class WordsdrumrollComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  _word: string;
+
+  get word() {
+    return this._word;
   }
 
   @Input()
@@ -27,9 +29,9 @@ export class WordsdrumrollComponent implements OnInit {
       return;
     }
 
-     // Better implementation: https://gist.github.com/JamieMason/303c5fc90b28c28a804e3f7ea9ab01f1
+    // Better implementation: https://gist.github.com/JamieMason/303c5fc90b28c28a804e3f7ea9ab01f1
     // registered multiple times is bad
-    Observable.of(this.word)
+    Observable.of(this.word);
     const yourWordAnimation = ['.', '..', '...', '....', '.....', this.word];
     const yourRoleAnimationForQuestionmark = ['YOU', 'ARE', 'THE', '? QUESTIONMARK ?'];
     const wordSequence = (this.word === '?') ? yourRoleAnimationForQuestionmark : yourWordAnimation;
@@ -44,8 +46,7 @@ export class WordsdrumrollComponent implements OnInit {
     });
   }
 
-  get word() {
-    return this._word;
+  ngOnInit() {
   }
 
 }

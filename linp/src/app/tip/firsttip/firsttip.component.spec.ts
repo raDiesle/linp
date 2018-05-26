@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { FirsttipComponent } from './firsttip.component';
+import {FirsttipComponent} from './firsttip.component';
 
 describe('FirsttipComponent', () => {
   let component: FirsttipComponent;
@@ -8,9 +8,9 @@ describe('FirsttipComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FirsttipComponent ]
+      declarations: [FirsttipComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

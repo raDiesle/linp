@@ -1,7 +1,7 @@
-import { Router, NavigationEnd } from '@angular/router';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Subject } from 'rxjs/Subject';
+import {NavigationEnd, Router} from '@angular/router';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {Subject} from 'rxjs/Subject';
 
 @Component({
   selector: 'app-actionguidemodal',
@@ -14,13 +14,14 @@ export class ActionguidemodalComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor(public activeModal: NgbActiveModal,
-    private router: Router) { }
+              private router: Router) {
+  }
 
   ngOnInit() {
     this.router.events
       .filter((event: any) => event instanceof NavigationEnd)
       .takeUntil(this.ngUnsubscribe)
-      .subscribe(event => {
+      .subscribe(() => {
         if (this.isSwitchingPageIndicator) {
           this.activeModal.close();
         }

@@ -10,7 +10,7 @@
         </label>
         <div>
           <input id="gamename" type="text" class="form-control form-control-danger" (focus)="$event.target.select()" name="gameName"
-            #gameNames [(ngModel)]="gameName" required />
+                 #gameNames [(ngModel)]="gameName" required/>
           <!--
           <div class="form-control-feedback">Sorry, that gamename is taken. Try another?</div>
 
@@ -27,7 +27,8 @@
       </div>
 
       <div class="form-group">
-        <button id="createGameButton" class="btn btn-primary btn-block" [disabled]="!createGameForm.form.valid" (click)="createGameAction()" i18n="@@creategame.create.button">
+        <button id="createGameButton" class="btn btn-primary btn-block" [disabled]="!createGameForm.form.valid" (click)="createGameAction()"
+                i18n="@@creategame.create.button">
           Create
         </button>
       </div>

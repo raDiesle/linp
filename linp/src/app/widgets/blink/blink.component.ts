@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import {Component, HostBinding, OnDestroy, OnInit} from '@angular/core';
+import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/timer';
 import 'rxjs/add/observable/merge';
 import 'rxjs/add/operator/takeWhile';

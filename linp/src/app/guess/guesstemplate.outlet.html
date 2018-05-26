@@ -4,21 +4,16 @@
 <div [hidden]="gamePlayers === undefined">
   <span id="savedResponseFlag" class="d-none" *ngIf="savedResponseFlag"></span>
 
-  <div class="card pb-3" [hidden]="isloggedInPlayerDidGuess === false">
-    <div class="card-body">
-      <div class="alert alert-success">
-        <div class="row">
-          <div class="col-12 text-center">
-            <i class="material-icons">
-              check_circle_outline
-            </i>
-          </div>
+  <div class="card" [hidden]="isloggedInPlayerDidGuess === false">
+    <div class="card-body ">
+      <div class="border border-info">
+        <div class="row p-1">
           <div class="col-8">
             <strong>Waiting for</strong>
             <ng-container *ngFor="let gamePlayer of gamePlayers; last as isLast">
               <strong class="strong" *ngIf="gamePlayer.status !== PLAYER_STATUS_AFTER_ACTION">
                 {{gamePlayer.name}}
-                <span *ngIf="!isLast && gamePlayers.length > 1">,</span>
+                <span [hidden]="isLast || gamePlayers.length <= 1">,</span>
               </strong>
             </ng-container>
           </div>
@@ -71,10 +66,11 @@
         <button id="guess_{{gamePlayer.name}}" *ngFor="let gamePlayer of gamePlayers" class="list-group-item" [ngClass]="{
                     'active' : selectedGamePlayers.indexOf(gamePlayer) !== -1,
                     'list-group-item-action' : selectedGamePlayers.length <= 2,
-                    'bg-halfheight' : selectedGamePlayers.indexOf(gamePlayer) === -1 && (loggedInGamePlayer.firstTeamTip.firstPartner.uid === gamePlayer.uid || loggedInGamePlayer.firstTeamTip.secondPartner.uid === gamePlayer.uid),
+                    'bg-halfheight' : isSecondGuess && selectedGamePlayers.indexOf(gamePlayer) === -1 && (loggedInGamePlayer.firstTeamTip.firstPartner.uid === gamePlayer.uid || loggedInGamePlayer.firstTeamTip.secondPartner.uid === gamePlayer.uid),
                     'disabled' : (this.playerUidToDisableForSelection === gamePlayer.uid || selectedGamePlayers.length >= 2)
                   }" (click)="onTeamPlayerGuessSelected(gamePlayer)">
-          <div class="row" placement="top" ngbTooltip="You can't select exact same twin partners than in 1st guess" [disableTooltip]="playerUidToDisableForSelection !== gamePlayer.uid || selectedGamePlayers.length > 2">
+          <div class="row" placement="top" ngbTooltip="You can't select exact same twin partners than in 1st guess"
+               [disableTooltip]="playerUidToDisableForSelection !== gamePlayer.uid || selectedGamePlayers.length > 2">
             <div class="col-4">
               <span>
                 {{gamePlayer.name}}
@@ -87,11 +83,11 @@
               <span class="badge badge-info w-100">{{gamePlayer.secondSynonym}}</span>
             </div>
           </div>
-
         </button>
       </div>
 
-      <button id="saveGuessBtn" class="card-link btn btn-block btn-success mt-3" [disabled]="selectedGamePlayers.length < 2" (click)="saveTeamTip()" i18n="@@guesstemplate.savebutton">
+      <button id="saveGuessBtn" class="card-link btn btn-block btn-success mt-3" [disabled]="selectedGamePlayers.length < 2" (click)="saveTeamTip()"
+              i18n="@@guesstemplate.savebutton">
         Save
       </button>
     </div>

@@ -1,13 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { AngularFirestore } from 'angularfire2/firestore';
-import { AngularFireAuth } from 'angularfire2/auth/auth';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Observable} from 'rxjs/Rx';
+import {ActivatedRoute, Router} from '@angular/router';
 import * as firebase from 'firebase/app';
-import { GamePlayer, GamePlayerStatus, GameStatus } from 'app/models/game';
-import { Subject } from 'rxjs/Subject';
-import { FirebaseGameService } from '../../services/firebasegame.service';
-import { ActionguideDto, ActionguideService } from '../../services/actionguide.service';
+import {GamePlayer, GamePlayerStatus} from 'app/models/game';
+import {Subject} from 'rxjs/Subject';
+import {FirebaseGameService} from '../../services/firebasegame.service';
+import {ActionguideService} from '../../services/actionguide.service';
 
 
 @Component({
@@ -23,26 +21,21 @@ export class SecondtipComponent implements OnInit, OnDestroy {
   readonly NEXT_STATUS: GamePlayerStatus = 'SECOND_SYNONYM_GIVEN';
   readonly NEXT_PAGE = 'secondguess';
   readonly SYNONYM_KEY = 'secondSynonym';
-  readonly INTERMEDIATE_STATUS = '';
 
-  authUser: firebase.User;
   gamePlayers: GamePlayer[];
   gameName: string;
-  public isOpened: boolean;
   public savedResponseFlag = false;
   public isPlayersTurnForAuthUser = false;
-
+  public show$: boolean;
   // @input
   private synonym: string;
-
   private ngUnsubscribe: Subject<void> = new Subject<void>();
-  public show$: boolean;
   private currentPlayer: GamePlayer;
 
   constructor(private route: ActivatedRoute,
-    private router: Router,
-    private firebaseGameService: FirebaseGameService,
-    private actionguideService: ActionguideService) {
+              private router: Router,
+              private firebaseGameService: FirebaseGameService,
+              private actionguideService: ActionguideService) {
   }
 
   ngOnInit() {
@@ -51,7 +44,7 @@ export class SecondtipComponent implements OnInit, OnDestroy {
     this.firebaseGameService.observeGame(this.gameName)
       .takeUntil(this.ngUnsubscribe)
       .subscribe(game => {
-        this.router.navigate([`/${game.status}`, this.gameName], { skipLocationChange: true });
+        this.router.navigate([`/${game.status}`, this.gameName], {skipLocationChange: true});
       });
 
     this.firebaseGameService.observeGamePlayers(this.gameName)
@@ -87,7 +80,7 @@ export class SecondtipComponent implements OnInit, OnDestroy {
     firstOrSecondGamePlayerUpdate[this.SYNONYM_KEY] = this.synonym;
 
     this.firebaseGameService.sendSynonym(firstOrSecondGamePlayerUpdate, this.gameName)
-      .then(gamePlayerModel => {
+      .then(() => {
         this.savedResponseFlag = true;
       });
   }

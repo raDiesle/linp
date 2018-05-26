@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { FadeComponent } from './fade.component';
+import {FadeComponent} from './fade.component';
 
 describe('FadeComponent', () => {
   let component: FadeComponent;
@@ -8,9 +8,9 @@ describe('FadeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FadeComponent ]
+      declarations: [FadeComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

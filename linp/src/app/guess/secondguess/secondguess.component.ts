@@ -1,15 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AngularFirestore } from 'angularfire2/firestore';
-import { Game, GamePlayer, GamePlayerStatus, GameStatus, TeamTip } from 'app/models/game';
-import { AngularFireAuth } from 'angularfire2/auth/auth';
-import * as firebase from 'firebase/app';
-import { GuessService } from '../guess.service';
-import { Observable } from 'rxjs/Observable';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Subject } from 'rxjs/Subject';
-import { FirebaseGameService } from '../../services/firebasegame.service';
-import { ActionguideDto, ActionguideService } from '../../services/actionguide.service';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {AngularFirestore} from 'angularfire2/firestore';
+import {GamePlayer, GamePlayerStatus, GameStatus} from 'app/models/game';
+import {GuessService} from '../guess.service';
+import {Observable} from 'rxjs/Observable';
+import {Subject} from 'rxjs/Subject';
+import {FirebaseGameService} from '../../services/firebasegame.service';
+import {ActionguideService} from '../../services/actionguide.service';
 
 const tipDBkey = 'secondTeamTip';
 
@@ -26,22 +23,21 @@ export class SecondguessComponent implements OnInit, OnDestroy {
   readonly NEXT_PAGE: GameStatus = 'evaluation';
 
   gameName: string;
-  public isOpened: boolean;
+
   selectedGamePlayers: GamePlayer[] = [];
   gamePlayers: GamePlayer[];
-
-  private ngUnsubscribe: Subject<void> = new Subject<void>();
-  private isBlinkTickerShown$: boolean;
   public isloggedInPlayerDidGuess = false;
   public savedResponseFlag = false;
   public isSecondGuess = true;
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
+  private isBlinkTickerShown$: boolean;
 
   constructor(private route: ActivatedRoute,
-    private router: Router,
-    public db: AngularFirestore,
-    public guessService: GuessService,
-    private firebaseGameService: FirebaseGameService,
-    private actionguideService: ActionguideService) {
+              private router: Router,
+              public db: AngularFirestore,
+              public guessService: GuessService,
+              private firebaseGameService: FirebaseGameService,
+              private actionguideService: ActionguideService) {
   }
 
   ngOnInit() {
@@ -91,11 +87,11 @@ export class SecondguessComponent implements OnInit, OnDestroy {
 
     const isFirstSelected = clickedGamePlayer.uid === this.loggedInGamePlayer.firstTeamTip.firstPartner.uid
       || (this.selectedGamePlayers.filter(gamePlayer =>
-        gamePlayer.uid === this.loggedInGamePlayer.firstTeamTip.firstPartner.uid).length === 1)
+        gamePlayer.uid === this.loggedInGamePlayer.firstTeamTip.firstPartner.uid).length === 1);
 
     const isSecondSelected = clickedGamePlayer.uid === this.loggedInGamePlayer.firstTeamTip.secondPartner.uid
       || (this.selectedGamePlayers.filter(gamePlayer =>
-        gamePlayer.uid === this.loggedInGamePlayer.firstTeamTip.secondPartner.uid).length === 1)
+        gamePlayer.uid === this.loggedInGamePlayer.firstTeamTip.secondPartner.uid).length === 1);
 
     if (isFirstSelected) {
       this.playerUidToDisableForSelection = this.loggedInGamePlayer.firstTeamTip.secondPartner.uid;
@@ -116,7 +112,7 @@ export class SecondguessComponent implements OnInit, OnDestroy {
 
   public saveTeamTip(): void {
     this.guessService.saveTeamTip(this.gameName, this.selectedGamePlayers, tipDBkey, this.PLAYER_STATUS_AFTER_ACTION)
-      .then(response => {
+      .then(() => {
         this.savedResponseFlag = true;
       });
   }

@@ -135,4 +135,4 @@ export const SecondSynonymMock = function (players, gameName: string) {
     request: request,
     requestPlayers: requestPlayers
   };
-}
+};

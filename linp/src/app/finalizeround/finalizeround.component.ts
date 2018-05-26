@@ -1,8 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FirebaseGameService } from '../services/firebasegame.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { GamePlayer, GameStatus, GameTotalPoints } from 'app/models/game';
-import { Subject } from 'rxjs/Subject';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {FirebaseGameService} from '../services/firebasegame.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {GamePlayer, GameStatus, GameTotalPoints} from 'app/models/game';
+import {Subject} from 'rxjs/Subject';
 
 @Component({
   selector: 'app-finalizeround',
@@ -11,22 +11,19 @@ import { Subject } from 'rxjs/Subject';
 })
 export class FinalizeroundComponent implements OnInit, OnDestroy {
 
-  private gameName: string;
   public gamePlayers: GamePlayer[] = [];
-  private ngUnsubscribe: Subject<void> = new Subject<void>();
 
-  readonly NEXT_GAME_STATUS: GameStatus = 'preparegame';
   readonly NEXT_PLAYER_STATUS = 'READY_FOR_NEXT_GAME';
-  readonly PREV_PLAYER_STATUS = 'CHECKED_EVALUATION';
 
   public isGamePlayerReadyForNextGame = false;
   public scores: GameTotalPoints[] = [];
-
   public savedResponseFlag = false;
+  private gameName: string;
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor(private route: ActivatedRoute,
-    private router: Router,
-    private firebaseGameService: FirebaseGameService) {
+              private router: Router,
+              private firebaseGameService: FirebaseGameService) {
   }
 
   ngOnInit() {

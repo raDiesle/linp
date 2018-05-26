@@ -1,14 +1,1 @@
 
-.bg-img {
-    background: linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,.5)), url("/assets/spyhandover.jpg");
-
-    /* Full height */
-    /*height: 100%;  */
-    width: 68%;
-
-    /* Center and scale the image nicely */
-    background-position: right;
-    background-repeat: no-repeat;
-    background-size: cover;
-
-}

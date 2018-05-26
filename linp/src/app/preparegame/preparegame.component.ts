@@ -1,12 +1,7 @@
-import { PlayerRolesCounts } from './../models/game';
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 import {AngularFirestore} from 'angularfire2/firestore';
-import {Game, GamePlayer, GameStatus} from '../models/game';
 import {ActivatedRoute, Router} from '@angular/router';
-import {AngularFireAuth} from 'angularfire2/auth';
-
-import * as firebase from 'firebase/app';
 import {FirebaseGameService} from '../services/firebasegame.service';
 
 @Component({
@@ -18,9 +13,8 @@ export class PreparegameComponent implements OnInit, OnDestroy {
 
 // TODO reduce to minimum, only loading indicator
 
-  private ngUnsubscribe: Subject<void> = new Subject<void>();
   public isRoleAssigned = false;
-
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
   private gameName: string;
 
   constructor(private route: ActivatedRoute,

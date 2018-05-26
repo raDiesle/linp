@@ -12,10 +12,9 @@ import {FirebaseGameService} from '../services/firebasegame.service';
 export class CreategameComponent implements OnInit, OnDestroy {
 
   gameName = '';
-
+  public language: LANGUAGE = 'en';
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   private playerName: string;
-  public language: LANGUAGE = 'en';
 
   constructor(
     public router: Router,

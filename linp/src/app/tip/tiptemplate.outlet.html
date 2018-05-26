@@ -16,7 +16,7 @@
           <div class="row align-items-center">
             <div class="col-9 pr-0">
               Waiting for
-              <strong>{{currentPlayer?.name}}</strong> to give {{isSecond ? 'second' : 'first'}} word.
+              <strong>{{currentPlayer?.name}}</strong> to give {{isSecondtip ? 'second' : 'first'}} word.
             </div>
             <div class="col-3 pl-0 text-right">
               <img src="assets/agent_small.jpg">
@@ -25,51 +25,50 @@
         </div>
       </ng-template>
 
-      <div #isTurn *ngIf="isPlayersTurnForAuthUser else isWaiting">
-        <div class="row align-items-center" id="yourTurn">
-          <div class="col-8">
-            <h4 class="card-title" i18n="@@tiptemplate.header">
-              It's your turn!
-            </h4>
+      <div class="pt-3" #isTurn *ngIf="isPlayersTurnForAuthUser else isWaiting">
+        <div class="row" id="yourTurn">
+          <div class="col-6 offset-3 text-center">
+            <h3 class="card-title" i18n="@@tiptemplate.header">
+              It's your turn,
+              <span class="badge badge-primary">
+                      {{loggedInGamePlayer?.questionmarkOrWord === '?' ? 'Solo Agent' : 'Twin Agent'}}
+              </span>
+            </h3>
           </div>
-          <div class="col-4">
+          <div class="col-3 text-right">
             <img src="assets/whisper_small.jpg">
           </div>
         </div>
 
-        <div class="card-text">
-          <form novalidate #giveSynonymForm="ngForm">
-            <div class="form-group text-left">
-              <label for="synonymTxt">
-                <ng-container *ngIf="loggedInGamePlayer?.questionmarkOrWord === '?'">
-                  <span class="badge badge-primary">
-                    ?
-                  </span>
-                  <span i18n="@@tiptemplate.hint1">
-                    Try to give a word, where people think you are partner of another one.
-                  </span>
-                </ng-container>
-                <ng-container *ngIf="loggedInGamePlayer?.questionmarkOrWord !== '?'" i18n="@@tiptemplate.partner.hint">
-                  Give first synonym for
-                  <span class="badge badge-primary">
+        <form novalidate #giveSynonymForm="ngForm">
+          <div class="form-group text-left">
+            <label for="synonymTxt">
+              <ng-container *ngIf="loggedInGamePlayer?.questionmarkOrWord === '?'">
+                <p i18n="@@tiptemplate.hint1">
+                  Try to confuse others to come up with a code word, where agents think you are a twin partner.
+                </p>
+              </ng-container>
+              <ng-container *ngIf="loggedInGamePlayer?.questionmarkOrWord !== '?'" i18n="@@tiptemplate.partner.hint">
+                Give your {{isSecondtip ? 'second' : 'first' }} code word for
+                <span class="badge badge-primary">
                     {{loggedInGamePlayer?.questionmarkOrWord}}
                   </span>
-                </ng-container>
-              </label>
-              <div>
-                <input type="text" class="form-control" [ngClass]="{'is-invalid' : synonymInput?.dirty && synonymInput.errors?.required}"
-                  id="synonymTxt" [(ngModel)]="synonym" #synonymInput="ngModel" name="synonym" required>
-                <div *ngIf="synonymInput?.dirty && synonymInput.errors?.required" i18n="@@tiptemplate.required">
-                  Provide your synonym
-                </div>
+                <p>Choose a word, so that your twin partner can identify you, but other agents don't know your twin partner.</p>
+              </ng-container>
+            </label>
+            <div>
+              <input type="text" class="form-control" [ngClass]="{'is-invalid' : synonymInput?.dirty && synonymInput.errors?.required}"
+                     id="synonymTxt" [(ngModel)]="synonym" #synonymInput="ngModel" name="synonym" required>
+              <div *ngIf="synonymInput?.dirty && synonymInput.errors?.required" i18n="@@tiptemplate.required">
+                Provide your code word
               </div>
             </div>
-            <button id="sendSynonym" class="btn btn-primary btn-block my-2" [disabled]="synonymInput.invalid" (click)="sendSynonym()"
-              i18n="@@tiptemplate.send">
-              Send
-            </button>
-          </form>
-        </div>
+          </div>
+          <button id="sendSynonym" class="btn btn-primary btn-block my-2" [disabled]="synonymInput.invalid" (click)="sendSynonym()"
+                  i18n="@@tiptemplate.send">
+            Whisper
+          </button>
+        </form>
       </div>
 
       <ul class="list-group list-group-flush">
@@ -116,3 +115,4 @@
     <br>
 
   </div>
+</div>

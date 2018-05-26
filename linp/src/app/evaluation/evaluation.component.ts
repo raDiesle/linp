@@ -1,13 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { AngularFireAuth } from 'angularfire2/auth/auth';
-import { ActivatedRoute, Router } from '@angular/router';
-import * as firebase from 'firebase/app';
-import { AngularFirestore } from 'angularfire2/firestore';
-import { Game, GamePlayer, GamePlayerStatus, GameStatus } from 'app/models/game';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { FirebaseGameService } from '../services/firebasegame.service';
-import { Subject } from 'rxjs/Subject';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {AngularFireAuth} from 'angularfire2/auth/auth';
+import {ActivatedRoute, Router} from '@angular/router';
+import {AngularFirestore} from 'angularfire2/firestore';
+import {GamePlayer, GameStatus} from 'app/models/game';
+import {HttpClient} from '@angular/common/http';
+import {FirebaseGameService} from '../services/firebasegame.service';
+import {Subject} from 'rxjs/Subject';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -30,19 +29,18 @@ export class EvaluationComponent implements OnInit {
   gameName: string;
   // gamePlayers: GamePlayer[] = [];
   gamePlayerContainer: any;
-
-  private ngUnsubscribe: Subject<void> = new Subject<void>();
   @ViewChild('t') public tooltip: NgbTooltip;
   public gameRound = 0;
   // deprecated
   public isRealCalculatedHack = false;
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor(private route: ActivatedRoute,
-    private router: Router,
-    public db: AngularFirestore,
-    public afAuth: AngularFireAuth,
-    private httpClient: HttpClient,
-    private firebaseGameService: FirebaseGameService) {
+              private router: Router,
+              public db: AngularFirestore,
+              public afAuth: AngularFireAuth,
+              private httpClient: HttpClient,
+              private firebaseGameService: FirebaseGameService) {
   }
 
   ngOnInit() {

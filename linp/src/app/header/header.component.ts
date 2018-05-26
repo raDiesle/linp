@@ -1,12 +1,11 @@
-import { Location } from '@angular/common';
-import { FirebaseGameService } from './../services/firebasegame.service';
-import { Component, OnInit, Input, Inject, ViewChild } from '@angular/core';
-import { WindowRef } from '../WindowRef';
-import { ActionguideService } from '../services/actionguide.service';
-import { NgbPopover, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ActionguidemodalComponent } from '../widgets/actionguidemodal/actionguidemodal.component';
-import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
-import { GamerulesComponent } from '../gamerules/gamerules.component';
+import {FirebaseGameService} from './../services/firebasegame.service';
+import {Component, Inject, Input, OnInit, ViewChild} from '@angular/core';
+import {WindowRef} from '../WindowRef';
+import {ActionguideService} from '../services/actionguide.service';
+import {NgbModal, NgbPopover} from '@ng-bootstrap/ng-bootstrap';
+import {ActionguidemodalComponent} from '../widgets/actionguidemodal/actionguidemodal.component';
+import {NavigationEnd, Router} from '@angular/router';
+import {GamerulesComponent} from '../gamerules/gamerules.component';
 
 @Component({
   selector: 'app-header',
@@ -18,18 +17,17 @@ export class HeaderComponent implements OnInit {
   public showBackLink = false;
   public isDevelopmentEnv = false;
   public isMenuCollapsed = true;
-
-  private lastVersion = 0;
-
   @Input() public gameName: string;
   @ViewChild('helpPopRef') public helpPop: NgbPopover;
+  private lastVersion = 0;
 
   constructor(@Inject(WindowRef) private windowRef: WindowRef,
-    private actionGuide: ActionguideService,
-    private modalService: NgbModal,
-    private firebaseGameService: FirebaseGameService,
-    private router: Router
-  ) { }
+              private actionGuide: ActionguideService,
+              private modalService: NgbModal,
+              private firebaseGameService: FirebaseGameService,
+              private router: Router
+  ) {
+  }
 
   ngOnInit() {
     this.isDevelopmentEnv = this.windowRef.nativeWindow.location.host.includes('localhost');
@@ -73,19 +71,6 @@ export class HeaderComponent implements OnInit {
       });
   }
 
-  private gotHelpPopover() {
-    // TODO store in firestore gameProfile to never show popover again
-
-    this.openHelp();
-    if (this.firebaseGameService.isLoggedIn()) {
-      this.firebaseGameService.updatePlayerUiState({
-        'uistates.showHelpPopover': false
-      });
-    } else {
-      this.helpPop.close();
-    }
-  }
-
   public openHelp(): void {
 
     if (this.firebaseGameService.isLoggedIn()) {
@@ -96,7 +81,20 @@ export class HeaderComponent implements OnInit {
       this.helpPop.close();
     }
 
-    const modalRef = this.modalService.open(GamerulesComponent);
+    this.modalService.open(GamerulesComponent);
+  }
+
+  public gotHelpPopover() {
+    // TODO store in firestore gameProfile to never show popover again
+
+    this.openHelp();
+    if (this.firebaseGameService.isLoggedIn()) {
+      this.firebaseGameService.updatePlayerUiState({
+        'uistates.showHelpPopover': false
+      });
+    } else {
+      this.helpPop.close();
+    }
   }
 
 }
