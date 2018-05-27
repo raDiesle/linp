@@ -33,7 +33,7 @@ export class CreategameComponent implements OnInit, OnDestroy {
   createGameAction(): void {
     this.firebaseGameService.writeGame(this.gameName, this.language)
       .then(() => {
-        this.router.navigate(['gamelobby', this.gameName]);
+        this.router.navigate(['gamelobby', this.gameName], {skipLocationChange: true});
       });
   }
 

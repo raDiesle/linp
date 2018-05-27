@@ -17,10 +17,10 @@
 
   </div>
   <div class="card-body" *ngIf="!firstTimeLoggedInEver">
-    <button type="button" class="btn btn-primary btn-block" routerLink="/creategame" i18n="@@loggedinactions.creategame">
+    <button type="button" class="btn btn-primary btn-block" routerLink="/creategame" skipLocationChange i18n="@@loggedinactions.creategame">
       Create game
     </button>
-    <button id="joingameBtn" type="button" class="btn btn-primary btn-block" routerLink="/joingame" i18n="@@loggedinactions.joinpublic">
+    <button id="joingameBtn" type="button" class="btn btn-primary btn-block" routerLink="/joingame" skipLocationChange i18n="@@loggedinactions.joinpublic">
       Join game
     </button>
     <button id="userprofile" type="button" class="btn btn-primary btn-block" href="javascript:void(0)" (click)="openUserProfile()"

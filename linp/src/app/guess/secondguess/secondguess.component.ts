@@ -29,6 +29,8 @@ export class SecondguessComponent implements OnInit, OnDestroy {
   public isloggedInPlayerDidGuess = false;
   public savedResponseFlag = false;
   public isSecondGuess = true;
+  public isOnlyOnePlayerLeftForAction = false;
+
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   private isBlinkTickerShown$: boolean;
 
@@ -46,13 +48,14 @@ export class SecondguessComponent implements OnInit, OnDestroy {
     this.firebaseGameService.observeGame(this.gameName)
       .takeUntil(this.ngUnsubscribe)
       .subscribe(game => {
-        this.router.navigate(['/' + game.status, this.gameName]);
+        this.router.navigate(['/' + game.status, this.gameName], {skipLocationChange: true});
       });
 
     this.firebaseGameService.observeGamePlayers(this.gameName)
       .takeUntil(this.ngUnsubscribe)
       .subscribe((gamePlayrs: GamePlayer[]) => {
         this.gamePlayers = gamePlayrs;
+        this.isOnlyOnePlayerLeftForAction = gamePlayrs.filter(player => player.status !== this.PLAYER_STATUS_AFTER_ACTION).length <= 1;
 
         const isSwitchGameStatus = gamePlayrs.every(gamePlayers => gamePlayers.status === this.PLAYER_STATUS_AFTER_ACTION);
         if (isSwitchGameStatus) {
@@ -66,7 +69,7 @@ export class SecondguessComponent implements OnInit, OnDestroy {
         this.isloggedInPlayerDidGuess = loggedInGamePlayer.status === this.PLAYER_STATUS_AFTER_ACTION;
 
         if (this.isloggedInPlayerDidGuess === true) {
-          this.actionguideService.triggerActionDone();
+          this.actionguideService.triggerActionDone(this.gamePlayers);
         }
       });
 

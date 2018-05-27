@@ -29,7 +29,7 @@ export class PreparegameComponent implements OnInit, OnDestroy {
     this.firebaseGameService.observeGame(this.gameName)
       .takeUntil(this.ngUnsubscribe)
       .subscribe(game => {
-        this.router.navigate(['/' + game.status, this.gameName]);
+        this.router.navigate(['/' + game.status, this.gameName], {skipLocationChange: true});
       });
   }
 

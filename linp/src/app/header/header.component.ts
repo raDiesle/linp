@@ -37,9 +37,10 @@ export class HeaderComponent implements OnInit {
         this.showBackLink = event.url.includes('/welcome') === false && event.url !== '/';
       });
 
-    this.actionGuide.actionDone.subscribe(() => {
+    this.actionGuide.actionDone.subscribe((gamePlayers) => {
       this.helpPop.close();
-      this.modalService.open(ActionguidemodalComponent);
+      let actionGuideInstance = this.modalService.open(ActionguidemodalComponent);
+      actionGuideInstance.componentInstance.gamePlayers = gamePlayers;
     });
 
     this.firebaseGameService.fetchNewHtmlVersionStatus()

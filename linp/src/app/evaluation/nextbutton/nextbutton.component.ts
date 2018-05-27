@@ -42,7 +42,7 @@ export class NextbuttonComponent implements OnInit {
       this.gameName,
       this.NEXT_PLAYER_STATUS)
       .then(() => {
-        this.router.navigate([this.NEXT_STATUS, this.gameName]);
+        this.router.navigate([this.NEXT_STATUS, this.gameName], {skipLocationChange: true});
       });
   }
 }

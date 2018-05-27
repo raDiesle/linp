@@ -32,6 +32,8 @@ export class FirstguessComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   private isBlinkTickerShown$: boolean;
+  public isOnlyOnePlayerLeftForAction = false;
+
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -47,13 +49,15 @@ export class FirstguessComponent implements OnInit, OnDestroy {
     this.firebaseGameService.observeGame(this.gameName)
       .takeUntil(this.ngUnsubscribe)
       .subscribe(game => {
-        this.router.navigate(['/' + game.status, this.gameName]);
+        this.router.navigate(['/' + game.status, this.gameName], {skipLocationChange: true});
       });
 
     this.firebaseGameService.observeGamePlayers(this.gameName)
       .takeUntil(this.ngUnsubscribe)
       .subscribe((gamePlayers: GamePlayer[]) => {
         this.gamePlayers = gamePlayers;
+        this.isOnlyOnePlayerLeftForAction = gamePlayers.filter(player => player.status !== this.PLAYER_STATUS_AFTER_ACTION).length <= 1;
+
         const isGameStatusSwitch = gamePlayers.every(gamePlayer => gamePlayer.status === this.PLAYER_STATUS_AFTER_ACTION);
         if (isGameStatusSwitch) {
           return;
@@ -65,7 +69,7 @@ export class FirstguessComponent implements OnInit, OnDestroy {
         this.isloggedInPlayerDidGuess = this.loggedInGamePlayer.status === this.PLAYER_STATUS_AFTER_ACTION;
 
         if (this.isloggedInPlayerDidGuess === true) {
-          this.actionguideService.triggerActionDone();
+          this.actionguideService.triggerActionDone(this.gamePlayers);
         }
       });
 

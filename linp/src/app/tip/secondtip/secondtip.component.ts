@@ -64,7 +64,7 @@ export class SecondtipComponent implements OnInit, OnDestroy {
         });
         this.isPlayersTurnForAuthUser = this.currentPlayer.uid === this.loggedInGamePlayer.uid;
         if (this.isPlayersTurnForAuthUser === false) {
-          this.actionguideService.triggerActionDone();
+          this.actionguideService.triggerActionDone(this.gamePlayers);
         }
       });
 

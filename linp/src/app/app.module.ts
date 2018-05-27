@@ -72,6 +72,9 @@ import {SecondtiprulesComponent} from './gamerules/secondtiprules/secondtiprules
 import {SecondguessrulesComponent} from './gamerules/secondguessrules/secondguessrules.component';
 import {ShortdescriptionComponent} from './welcome/shortdescription/shortdescription.component';
 import {GameslistComponent} from './joingame/gameslist/gameslist.component';
+import { AddfriendsfromgamesComponent } from './welcome/friendlist/addfriendsfromgames/addfriendsfromgames.component';
+import { SwipeoptionsComponent } from './widgets/swipeoptions/swipeoptions.component';
+import {SwipeoptionsService} from "./widgets/swipeoptions/swipeoptions.service";
 
 export function windowFactory() {
   return window;
@@ -135,7 +138,9 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     SecondtiprulesComponent,
     SecondguessrulesComponent,
     ShortdescriptionComponent,
-    GameslistComponent
+    GameslistComponent,
+    AddfriendsfromgamesComponent,
+    SwipeoptionsComponent
   ],
   entryComponents: [
     ActionguidemodalComponent,
@@ -157,6 +162,11 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
       {
         path: 'addfriend/:uid',
         component: AddfriendComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'addfriendsfromgames',
+        component: AddfriendsfromgamesComponent,
         canActivate: [AuthGuard]
       },
       {
@@ -251,7 +261,7 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
   ],
   // missingTranslation: MissingTranslationStrategy.Error,
   providers: [AuthGuard, FirebaseGameService, GuessService, GamelobbyComponent,
-    PreparegameComponent, LinpCardsModelService, ActionguideService, WindowRef,
+    PreparegameComponent, LinpCardsModelService, ActionguideService, SwipeoptionsService, WindowRef,
     {provide: ErrorHandler, useClass: CustomErrorHandler}
   ],
   bootstrap: [AppComponent]

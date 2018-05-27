@@ -13,7 +13,7 @@
             <ng-container *ngFor="let gamePlayer of gamePlayers; last as isLast">
               <strong class="strong" *ngIf="gamePlayer.status !== PLAYER_STATUS_AFTER_ACTION">
                 {{gamePlayer.name}}
-                <span [hidden]="isLast || gamePlayers.length <= 1">,</span>
+                <span [hidden]="isLast || isOnlyOnePlayerLeftForAction">,</span>
               </strong>
             </ng-container>
           </div>
@@ -35,8 +35,11 @@
         <div class="badge badge-info">{{loggedInGamePlayer?.questionmarkOrWord}}</div>
       </div>
       <h6 class="card-subtitle mb-2 text-muted" i18n="@@guesstemplate.hint1">
-        Make sure prioritizing to guess you and your partner as team.
+        Hint: Make sure prioritizing to guess you and your partner as team.
+        <br>
+        Consider the sequence of code words given by agents.
       </h6>
+
       <div class="card-text py-2 h6 text-center">
         <span *ngIf="selectedGamePlayers.length === 0" i18n="@@guesstemplate.selected.first">
           Select first player

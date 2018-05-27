@@ -33,7 +33,7 @@ export class FinalizeroundComponent implements OnInit, OnDestroy {
       .takeUntil(this.ngUnsubscribe)
       .subscribe(game => {
         if (game.status !== 'evaluation') {
-          this.router.navigate(['/' + game.status, this.gameName]);
+          this.router.navigate(['/' + game.status, this.gameName],{skipLocationChange: true});
         }
 
         for (const uid in game.pointsScoredTotal) {
@@ -59,12 +59,12 @@ export class FinalizeroundComponent implements OnInit, OnDestroy {
 
   startNextRound() {
     if (this.isGamePlayerReadyForNextGame === true) {
-      this.router.navigate(['/' + 'firsttip', this.gameName]);
+      this.router.navigate(['/' + 'firsttip', this.gameName], {skipLocationChange: true});
     } else {
       this.firebaseGameService.updateCurrentGamePlayerStatus(this.gameName, this.NEXT_PLAYER_STATUS)
         .then(() => {
           this.savedResponseFlag = true;
-          this.router.navigate(['/' + 'firsttip', this.gameName]);
+          this.router.navigate(['/' + 'firsttip', this.gameName], {skipLocationChange: true});
         })
     }
   }

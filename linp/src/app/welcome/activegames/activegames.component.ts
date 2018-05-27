@@ -39,6 +39,15 @@ export class ActivegamesComponent implements OnInit, OnDestroy {
     this.router.navigate([<GameStatus>'gamelobby', gameName], {skipLocationChange: true});
   }
 
+  public addFriend(game: Game){
+    alert("to be implemented");
+    event.stopPropagation();
+  }
+
+  public cancelOptions(){
+    event.stopPropagation();
+  }
+
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();

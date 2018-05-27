@@ -4,13 +4,13 @@ import {FirebaseGameService} from './firebasegame.service';
 
 @Injectable()
 export class ActionguideService {
-  public actionDone: EventEmitter<void>;
+  public actionDone: EventEmitter<GamePlayer[]>;
 
   constructor() {
     this.actionDone = new EventEmitter();
   }
 
-  public triggerActionDone() {
-    this.actionDone.emit();
+  public triggerActionDone(gamePlayers: GamePlayer[]) {
+    this.actionDone.emit(gamePlayers);
   }
 }

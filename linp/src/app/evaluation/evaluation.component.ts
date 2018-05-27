@@ -52,17 +52,17 @@ export class EvaluationComponent implements OnInit {
       .takeUntil(this.ngUnsubscribe)
       .subscribe(gamePlayer => {
         if (gamePlayer.status === 'CHECKED_EVALUATION') {
-          this.router.navigate(['/' + this.NEXT_STATUS, this.gameName]);
+          this.router.navigate(['/' + this.NEXT_STATUS, this.gameName], {skipLocationChange: true});
           return;
         } else if (gamePlayer.status === 'READY_FOR_NEXT_GAME') {
-          this.router.navigate(['/' + this.NEXT_NEXT_STATUS, this.gameName]);
+          this.router.navigate(['/' + this.NEXT_NEXT_STATUS, this.gameName], {skipLocationChange: true});
           return;
         } else {
           this.firebaseGameService.observeGame(this.gameName)
             .takeUntil(this.ngUnsubscribe)
             .subscribe(game => {
               if (game.status !== this.statusToCheck) {
-                this.router.navigate(['/' + game.status, this.gameName]);
+                this.router.navigate(['/' + game.status, this.gameName], {skipLocationChange: true});
                 return;
               }
 

@@ -1,0 +1,22 @@
+<div class="btn-group btn-block pb-2" ngbDropdown #addFriendDropdown="ngbDropdown" role="group" aria-label="Add friend" >
+  <!-- [hidden]="gamePlayers.length === 0" -->
+  <button class="btn btn-block" id="addFriendList" i18n="@@gamelobby.invitefriends.add"
+          ngbDropdownToggle
+          [disabled]="(friendList !== null && friendList.length === 0)"
+          [ngClass]="(friendList === null || friendList.length > 0) ? 'btn-primary' : 'btn-outline-primary'"
+          (click)="clickedOnAddFriendlistButton()">
+    {{(friendList === null || friendList.length > 0) ? 'Add new agents to friend list' : 'All added as friend'}}
+  </button>
+  <div class="dropdown-menu" ngbDropdownMenu>
+    <button class="dropdown-item" i18n="@@gamelobby.invitefriends.cancel">
+      -- close --
+    </button>
+    <div class="dropdown-divider"></div>
+    <button class="dropdown-item" id="friend_{{friend.name}}" (click)="onFriendSelection(friend);" *ngFor="let friend of friendList">
+      {{friend.name}}
+    </button>
+    <button class="dropdown-item my-1 border border-info" [hidden]="friendList === null || friendList.length > 0" >
+      All game players of this game are your friends already
+    </button>
+  </div>
+</div>

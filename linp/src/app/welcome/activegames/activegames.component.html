@@ -9,10 +9,11 @@
           No games yet
         </div>
         <p class="card-text pt-2">
-          <button id="joingameBtn" type="button" class="btn btn-primary btn-block" routerLink="/joingame" i18n="@@loggedinactions.joinpublic">
+          <button id="joingameBtn" type="button" class="btn btn-primary btn-block" routerLink="/joingame" skipLocationChange
+                  i18n="@@loggedinactions.joinpublic">
             Join game
           </button>
-          <button type="button" class="btn btn-primary btn-block" routerLink="/creategame" i18n="@@loggedinactions.creategame">
+          <button type="button" class="btn btn-primary btn-block" routerLink="/creategame" skipLocationChange i18n="@@loggedinactions.creategame">
             Create game
           </button>
         </p>
@@ -28,34 +29,19 @@
         <h3 [hidden]="games === null" i18n="@@activegames.yourturn">
           Act now!
         </h3>
-
-        <div class="list-group">
-          <div [hidden]="games?.length !== 0">
-            <div class="border border-info list-group-item bg-secondary text-center text-info" i18n="@@tiptemplate.noaction1">
-              No games require your action
-            </div>
-          </div>
-          <button id="gamename_{{game.name}}" class="list-group-item list-group-item-action list-group-item-primary my-1" role="button"
-                  *ngFor="let game of games" (click)="onSelectGameToJoin(game.name)">
-            <div class="row">
-              <div class="col-6">
-                {{game.name}}
-              </div>
-              <div class="col-6 text-right">
-                {{game.since | timeAgo}}
+        <div>
+          <div class="list-group">
+            <div [hidden]="games?.length !== 0">
+              <div class="border border-info list-group-item bg-secondary text-center text-info" i18n="@@tiptemplate.noaction1">
+                No games require your action
               </div>
             </div>
-          </button>
-
-          <div class="pt-3">
-            <div [hidden]="games !== null">
-              <app-waitingdots></app-waitingdots>
-            </div>
-            <h3 [hidden]="games === null" i18n="@@tiptemplate.waiting.title">
-              Waiting for others
-            </h3>
-            <button id="gamename_{{game.name}}" class="list-group-item list-group-item-action list-group-item-light my-1" role="button"
-                    *ngFor="let game of passiveGames" (click)="onSelectGameToJoin(game.name)">
+            <button id="gamename_{{game.name}}" class="list-group-item list-group-item-action list-group-item-primary mt-1" role="button"
+                    *ngFor="let game of games" (click)="onSelectGameToJoin(game.name)"
+                    >
+              <!-- (addFriendCallback)="addFriend(game)"
+                    (deleteCallback)="cancelOptions()"
+                    app-swipeoptions -->
               <div class="row">
                 <div class="col-6">
                   {{game.name}}
@@ -65,6 +51,27 @@
                 </div>
               </div>
             </button>
+          </div>
+          <div class="pt-3">
+            <div [hidden]="games !== null">
+              <app-waitingdots></app-waitingdots>
+            </div>
+            <h3 [hidden]="games === null" i18n="@@tiptemplate.waiting.title">
+              Waiting for others
+            </h3>
+            <div class="list-group">
+              <button id="gamename_{{game.name}}" class="list-group-item list-group-item-action list-group-item-light mt-1" role="button"
+                      *ngFor="let game of passiveGames" (click)="onSelectGameToJoin(game.name)">
+                <div class="row">
+                  <div class="col-6">
+                    {{game.name}}
+                  </div>
+                  <div class="col-6 text-right">
+                    {{game.since | timeAgo}}
+                  </div>
+                </div>
+              </button>
+            </div>
           </div>
 
           <div *ngIf="games !== null && games.length === 0 && passiveGames.length === 0">

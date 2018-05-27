@@ -58,13 +58,13 @@ export class PlayerprofileComponent implements OnInit {
       doc
         .set(newPlayerProfile)
         .then(() => {
-          this.router.navigate([this.callbackUrl]);
+          this.router.navigate([this.callbackUrl], {skipLocationChange: true});
         });
     } else {
       doc
         .update(newPlayerProfile)
         .then(() => {
-          this.router.navigate([this.callbackUrl]);
+          this.router.navigate([this.callbackUrl], {skipLocationChange: true});
         });
     }
   }

@@ -37,7 +37,8 @@ export class AddfriendComponent implements OnInit, OnDestroy {
               queryParams: {
                 callbackUrl: this.windowRef.nativeWindow.location.pathname
               },
-              queryParamsHandling: 'merge'
+              queryParamsHandling: 'merge',
+              skipLocationChange: true
             }
           );
         }

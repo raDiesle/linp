@@ -58,7 +58,7 @@ export class LoggedinactionsComponent implements OnInit, OnDestroy {
   }
 
   public openUserProfile() {
-    this.router.navigate(['playerprofile' as GameStatus]);
+    this.router.navigate(['playerprofile' as GameStatus], {skipLocationChange: true});
   }
 
   ngOnDestroy() {

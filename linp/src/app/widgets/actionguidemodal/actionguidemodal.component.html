@@ -1,10 +1,17 @@
-<div class="modal-body">
-  <h3 class="text-center" i18n="@@actionguidemodal.text2">
+<div class="modal-header d-flex justify-content-center">
+  <span i18n="@@actionguidemodal.text2">
     No action required by you
-  </h3>
+  </span>
+</div>
+<div class="modal-body">
+
   <p class="text-center pt-2 pb-0" i18n="@@actionguidemodal.text1">
     It's time for another player to do his/her turn.
   </p>
+
+  <p class="text-center">or</p>
+  <app-addfriendsfromgames [gamePlayers]="gamePlayers">Add to friendlist</app-addfriendsfromgames>
+
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')" i18n="@@actionguidemodal.stay">
@@ -14,4 +21,5 @@
           i18n="@@actionguidemodal.next">
     Switch game
   </button>
+
 </div>

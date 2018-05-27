@@ -38,7 +38,7 @@ export class IngameprogressrulesComponent implements OnInit {
     this.firebaseGameService.observeGame(this.gameName)
       .takeUntil(this.ngUnsubscribe)
       .subscribe(game => {
-        this.router.navigate(['/' + game.status, this.gameName]);
+        this.router.navigate(['/' + game.status, this.gameName], {skipLocationChange: true});
         this.rolesDistributionInformation = game.playerRolesCounts;
         this.isRoleAssigned = this.rolesDistributionInformation !== null;
       });

@@ -2,6 +2,7 @@ import {NavigationEnd, Router} from '@angular/router';
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {Subject} from 'rxjs/Subject';
+import {GamePlayer} from "../../models/game";
 
 @Component({
   selector: 'app-actionguidemodal',
@@ -12,6 +13,8 @@ export class ActionguidemodalComponent implements OnInit, OnDestroy {
 
   private isSwitchingPageIndicator = false;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
+
+  public gamePlayers :GamePlayer[] = [];
 
   constructor(public activeModal: NgbActiveModal,
               private router: Router) {
@@ -27,6 +30,15 @@ export class ActionguidemodalComponent implements OnInit, OnDestroy {
         }
         this.isSwitchingPageIndicator = true;
       });
+  }
+
+  public addFriendsFromGame(){
+    this.router.navigate(['addfriendsfromgames'], {
+      queryParams: {
+        gamePlayers: JSON.stringify(this.gamePlayers)
+      }
+    })
+
   }
 
   ngOnDestroy() {
