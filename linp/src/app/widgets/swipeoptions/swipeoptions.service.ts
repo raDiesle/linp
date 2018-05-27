@@ -1,12 +1,13 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 
 @Injectable()
 export class SwipeoptionsService {
 
-  private _newId = -1;
   dispatcher: EventEmitter<any> = new EventEmitter();
+  private _newId = -1;
 
-  constructor() { }
+  constructor() {
+  }
 
   getNewId() {
     this._newId++;

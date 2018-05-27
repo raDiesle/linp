@@ -72,8 +72,8 @@ import {SecondtiprulesComponent} from './gamerules/secondtiprules/secondtiprules
 import {SecondguessrulesComponent} from './gamerules/secondguessrules/secondguessrules.component';
 import {ShortdescriptionComponent} from './welcome/shortdescription/shortdescription.component';
 import {GameslistComponent} from './joingame/gameslist/gameslist.component';
-import { AddfriendsfromgamesComponent } from './welcome/friendlist/addfriendsfromgames/addfriendsfromgames.component';
-import { SwipeoptionsComponent } from './widgets/swipeoptions/swipeoptions.component';
+import {AddfriendsfromgamesComponent} from './welcome/friendlist/addfriendsfromgames/addfriendsfromgames.component';
+import {SwipeoptionsComponent} from './widgets/swipeoptions/swipeoptions.component';
 import {SwipeoptionsService} from "./widgets/swipeoptions/swipeoptions.service";
 
 export function windowFactory() {

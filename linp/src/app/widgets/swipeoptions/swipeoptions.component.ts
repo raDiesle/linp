@@ -1,15 +1,14 @@
-import {Directive, ElementRef, Renderer2, Output, EventEmitter, Component, OnInit} from '@angular/core';
+import {Directive, ElementRef, EventEmitter, OnInit, Output, Renderer2} from '@angular/core';
 
-import { SwipeoptionsService } from './swipeoptions.service'
-import { Subscription } from 'rxjs/Subscription';
+import {SwipeoptionsService} from './swipeoptions.service'
+import {Subscription} from 'rxjs/Subscription';
 
 @Directive({
   selector: '[app-swipeoptions]',
- // templateUrl: './swipeoptions.component.html',
- // styleUrls: ['./swipeoptions.component.scss']
+  // templateUrl: './swipeoptions.component.html',
+  // styleUrls: ['./swipeoptions.component.scss']
 })
 export class SwipeoptionsComponent implements OnInit {
-
 
 
   subscription: Subscription;
@@ -57,8 +56,6 @@ export class SwipeoptionsComponent implements OnInit {
 
     this.renderer.appendChild(this.deleteContainer, addFriendButton);
     this.renderer.appendChild(this.deleteContainer, deleteButton);
-
-
 
 
     this.renderer.appendChild(this.el.nativeElement, this.deleteContainer);

@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FirebaseGameService} from '../services/firebasegame.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {GamePlayer, GameStatus, GameTotalPoints} from 'app/models/game';
+import {GamePlayer, GameTotalPoints} from 'app/models/game';
 import {Subject} from 'rxjs/Subject';
 
 @Component({
@@ -33,7 +33,7 @@ export class FinalizeroundComponent implements OnInit, OnDestroy {
       .takeUntil(this.ngUnsubscribe)
       .subscribe(game => {
         if (game.status !== 'evaluation') {
-          this.router.navigate(['/' + game.status, this.gameName],{skipLocationChange: true});
+          this.router.navigate(['/' + game.status, this.gameName], {skipLocationChange: true});
         }
 
         for (const uid in game.pointsScoredTotal) {

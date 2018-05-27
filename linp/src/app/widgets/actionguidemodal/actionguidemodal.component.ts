@@ -11,10 +11,9 @@ import {GamePlayer} from "../../models/game";
 })
 export class ActionguidemodalComponent implements OnInit, OnDestroy {
 
+  public gamePlayers: GamePlayer[] = [];
   private isSwitchingPageIndicator = false;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
-
-  public gamePlayers :GamePlayer[] = [];
 
   constructor(public activeModal: NgbActiveModal,
               private router: Router) {
@@ -32,7 +31,7 @@ export class ActionguidemodalComponent implements OnInit, OnDestroy {
       });
   }
 
-  public addFriendsFromGame(){
+  public addFriendsFromGame() {
     this.router.navigate(['addfriendsfromgames'], {
       queryParams: {
         gamePlayers: JSON.stringify(this.gamePlayers)

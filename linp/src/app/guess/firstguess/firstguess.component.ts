@@ -29,11 +29,9 @@ export class FirstguessComponent implements OnInit, OnDestroy {
 
   public savedResponseFlag = false;
   public isloggedInPlayerDidGuess = false;
-
+  public isOnlyOnePlayerLeftForAction = false;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   private isBlinkTickerShown$: boolean;
-  public isOnlyOnePlayerLeftForAction = false;
-
 
   constructor(private route: ActivatedRoute,
               private router: Router,

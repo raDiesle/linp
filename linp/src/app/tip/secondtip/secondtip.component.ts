@@ -1,7 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Observable} from 'rxjs/Rx';
 import {ActivatedRoute, Router} from '@angular/router';
-import * as firebase from 'firebase/app';
 import {GamePlayer, GamePlayerStatus} from 'app/models/game';
 import {Subject} from 'rxjs/Subject';
 import {FirebaseGameService} from '../../services/firebasegame.service';

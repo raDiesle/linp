@@ -4,8 +4,6 @@ import {NavigationEnd, Router} from '@angular/router';
 import {AngularFireAuth} from 'angularfire2/auth/auth';
 import {Subject} from 'rxjs/Subject';
 import {AngularFirestore} from 'angularfire2/firestore';
-import {Observable} from 'rxjs/Observable';
-import {GamePlayer} from './models/game';
 
 // http://jasonwatmore.com/post/2017/04/19/angular-2-4-router-animation-tutorial-example
 

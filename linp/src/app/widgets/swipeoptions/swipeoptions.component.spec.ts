@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { SwipeoptionsComponent } from './swipeoptions.component';
+import {SwipeoptionsComponent} from './swipeoptions.component';
 
 describe('SwipeoptionsComponent', () => {
   let component: SwipeoptionsComponent;
@@ -8,9 +8,9 @@ describe('SwipeoptionsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SwipeoptionsComponent ]
+      declarations: [SwipeoptionsComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

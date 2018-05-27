@@ -4,8 +4,12 @@
 }
 
 @keyframes bs4SlideToEdit {
-  from {left: 0;}
-  to {left: -200px;}
+  from {
+    left: 0;
+  }
+  to {
+    left: -200px;
+  }
 }
 
 .bs4ItemEditMode {
@@ -15,8 +19,12 @@
 }
 
 @keyframes bs4SlideToUnedit {
-  from {left: -200px;}
-  to {left: 0;}
+  from {
+    left: -200px;
+  }
+  to {
+    left: 0;
+  }
 }
 
 .bs4ItemUneditMode {
@@ -34,10 +42,15 @@
   overflow: hidden;
 }
 
-
 @keyframes bs4DeleteSlideIn {
-  from {width: 0; right: 0;}
-  to {width: 200px; right: -200px;}
+  from {
+    width: 0;
+    right: 0;
+  }
+  to {
+    width: 200px;
+    right: -200px;
+  }
 }
 
 .bs4DeleteEditMode {
@@ -48,8 +61,14 @@
 }
 
 @keyframes bs4DeleteSlideOut {
-  from {width: 200px; right: -200px;}
-  to {width: 0; right: 0;}
+  from {
+    width: 200px;
+    right: -200px;
+  }
+  to {
+    width: 0;
+    right: 0;
+  }
 }
 
 .bs4DeleteUneditMode {

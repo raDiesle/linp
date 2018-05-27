@@ -1,6 +1,5 @@
 import {EventEmitter, Injectable} from '@angular/core';
-import {GamePlayer, GameStatus} from '../models/game';
-import {FirebaseGameService} from './firebasegame.service';
+import {GamePlayer} from '../models/game';
 
 @Injectable()
 export class ActionguideService {
