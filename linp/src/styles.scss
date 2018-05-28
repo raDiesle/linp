@@ -1,0 +1,78 @@
+/*
+ Overrides
+  */
+//$grey: #0096FF;
+// $card-cap-bg: rgba(0, 150, 255, 0.3);
+@import "variables";
+//$card-cap-bg: #2c3e50;
+@import "~bootstrap/scss/bootstrap";
+@import "bootswatch";
+
+.sb-wrapper {
+  min-width: 45px;
+  @extend .btn;
+  @extend .btn-light;
+}
+
+.sb-button {
+  @extend .m-1;
+}
+
+@import '~font-awesome/css/font-awesome.min.css';
+@import '~@ngx-share/button/styles/share-buttons';
+@import '~@ngx-share/button/styles/themes/default/default-theme';
+
+@import "swipeoptions";
+/*
+.list-group-item:hover{
+  color: $list-group-disabled-color;
+  background-color: $list-group-disabled-bg;
+}
+*/
+
+/*
+Produces warnings
+@import '~ngx-sharebuttons/styles/share-buttons';
+@import '~ngx-sharebuttons/styles/themes/default/default-theme';
+*/
+.welcomebg {
+  display: table;
+  width: 100%;
+  height: 110vh;
+  /*
+    background: -webkit-radial-gradient(closest-side, rgba(255, 255, 255, 0.48) 0, rgba(0, 150, 255, 1) 100%);
+    background: -moz-radial-gradient(closest-side, rgba(255, 255, 255, 0.48) 0, rgba(0, 150, 255, 1) 100%);
+    background: radial-gradient(closest-side, rgba(255, 255, 255, 0.48) 0, rgba(0, 150, 255, 1) 100%);
+  */
+}
+
+.bg-halfheight {
+  background: linear-gradient(to right, $primary 0%, $primary 1%, $list-group-bg 1%); // , $list-group-bg 97%, $primary 97%, $primary 100%
+}
+
+.material-icons.md-18 {
+  font-size: 18px;
+}
+
+.share-container {
+  display: flex;
+  align-items: center;
+  margin: 1rem 0;
+  .share-count {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-right: 1rem;
+    margin-right: 1rem;
+    border-right: 2px solid #778da9;
+    h3 {
+      display: flex;
+      flex-direction: column-reverse;
+      font-size: 2.5rem;
+      margin: 0;
+    }
+    b {
+      font-size: .7rem;
+    }
+  }
+}
