@@ -23,20 +23,20 @@
 
       <ul class="list-group list-group-flush">
         <li class="list-group-item disabled text-muted d-flex justify-content-between align-items-center">
-            <div class="row">
-              <div class="col-2 text-center" i18n="@@finalizeround.rank">
-                Rank
-              </div>
-              <div class="col-8 text-center" i18n="@@finalizeround.player">
-                Player
-              </div>
-              <div class="col-2 text-center" i18n="@@finalizeround.points">
-                Points
-              </div>
+          <div class="row">
+            <div class="col-2 text-center" i18n="@@finalizeround.rank">
+              Rank
+            </div>
+            <div class="col-8 text-center" i18n="@@finalizeround.player">
+              Player
+            </div>
+            <div class="col-2 text-center" i18n="@@finalizeround.points">
+              Points
+            </div>
           </div>
         </li>
 
-        <li class="list-group-item h5" *ngFor="let score of scores; let $index=index;">
+        <li class="list-group-item h5" *ngFor="let score of scores">
           <div class="row">
             <div class="col-2">
               <span class="badge badge-warning">
@@ -55,7 +55,7 @@
             </div>
           </div>
         </li>
-      </ul> 
+      </ul>
     </div>
   </div>
 

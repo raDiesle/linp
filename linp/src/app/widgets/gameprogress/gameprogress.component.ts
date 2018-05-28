@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-gameprogress',
@@ -10,7 +10,8 @@ export class GameprogressComponent implements OnInit {
   @Input() public parent: number;
   @Input() public child: number;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }

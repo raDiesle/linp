@@ -1,4 +1,4 @@
-import { SinglewordonlyvalidatorDirective } from './singlewordonlyvalidator.directive';
+import {SinglewordonlyvalidatorDirective} from './singlewordonlyvalidator.directive';
 
 describe('SinglewordonlyvalidatorDirective', () => {
   it('should create an instance', () => {

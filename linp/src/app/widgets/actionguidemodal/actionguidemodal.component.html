@@ -1,17 +1,27 @@
+<div class="modal-header d-flex justify-content-center">
+  <span i18n="@@actionguidemodal.text2">
+    Nothing todo
+  </span>
+</div>
 <div class="modal-body">
-  <h3 class="text-center" i18n="@@actionguidemodal.text2">
-    No action required by you
-  </h3>
+  Tip: Looking for more friends?
+  <app-addfriendsfromgames [gamePlayers]="gamePlayers"></app-addfriendsfromgames>
+<br>
   <p class="text-center pt-2 pb-0" i18n="@@actionguidemodal.text1">
     It's time for another player to do his/her turn.
   </p>
+
+  <p class="text-center">or</p>
+
+
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')" i18n="@@actionguidemodal.stay">
     Stay
   </button>
   <button class="btn btn-primary" routerLink="/welcome" (click)="activeModal.close('switch route')"
-    i18n="@@actionguidemodal.next">
+          i18n="@@actionguidemodal.next">
     Switch game
   </button>
+
 </div>

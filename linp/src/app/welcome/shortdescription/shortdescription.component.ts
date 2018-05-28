@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { FirebaseGameService } from '../../services/firebasegame.service';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-shortdescription',
@@ -10,7 +9,8 @@ export class ShortdescriptionComponent implements OnInit {
 
   public showShortDescription = false;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }

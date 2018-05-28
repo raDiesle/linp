@@ -1,10 +1,9 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {FormsModule} from '@angular/forms';
 
-import { SimulationComponent } from './simulation.component';
+import {SimulationComponent} from './simulation.component';
 import {ActivatedRouteStub} from "../stubs/ActivatedRouteStub";
 import {ActivatedRoute} from "@angular/router";
-import {AngularFireAuth} from "angularfire2/auth";
 import {FirebaseApp} from "angularfire2";
 import {AngularFirestore} from "angularfire2/firestore";
 
@@ -22,7 +21,7 @@ describe('SimulationComponent', () => {
         FirebaseApp,
         {provide: ActivatedRoute, useValue: activatedRoute}]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

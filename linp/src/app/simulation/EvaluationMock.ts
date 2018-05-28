@@ -12,7 +12,7 @@ export const EvaluationMock = function (players, gameName: string) {
     status: GAME_STATUS,
     players: [],
     round: 0,
-    createdAt : new Date().getTime(),
+    createdAt: new Date().getTime(),
     language: 'en'
   };
   const requestPlayers = [];
@@ -250,7 +250,7 @@ export const EvaluationMock = function (players, gameName: string) {
   });
 
   return {
-    request : request,
+    request: request,
     requestPlayers: requestPlayers
   };
-}
+};

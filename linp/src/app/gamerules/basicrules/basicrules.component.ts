@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-basicrules',
@@ -8,7 +8,9 @@ import { Component, OnInit, Input } from '@angular/core';
 export class BasicrulesComponent implements OnInit {
 
   @Input() public showDetails;
-  constructor() { }
+
+  constructor() {
+  }
 
   ngOnInit() {
   }

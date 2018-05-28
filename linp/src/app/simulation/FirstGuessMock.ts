@@ -74,4 +74,4 @@ export const FirstGuessMock = function (players, gameName: string) {
     request: request,
     requestPlayers: requestPlayers
   };
-}
+};

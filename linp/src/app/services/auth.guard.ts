@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router} from '@angular/router';
+import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {FirebaseGameService} from './firebasegame.service';
@@ -25,12 +25,12 @@ export class AuthGuard implements CanActivate {
       .do(allowed => {
         if (!allowed) {
           this.router.navigate(['/welcome'], {
-            queryParams: {
-              mode: 'select',
-              signInSuccessUrl: state.url
-            },
-            queryParamsHandling: 'merge'
-          }
+              queryParams: {
+                mode: 'select',
+                signInSuccessUrl: state.url
+              },
+              queryParamsHandling: 'merge'
+            }
           );
         }
       });

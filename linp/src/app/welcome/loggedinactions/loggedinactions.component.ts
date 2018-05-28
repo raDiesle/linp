@@ -1,13 +1,12 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FirebaseGameService } from '../../services/firebasegame.service';
-import { PlayerProfile } from '../../models/player';
-import { AngularFireAuth } from 'angularfire2/auth';
-import { AngularFirestore } from 'angularfire2/firestore';
-import { UserprofileService } from '../userprofile.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Router, ActivatedRoute } from '@angular/router';
-import { Subject } from 'rxjs/Subject';
-import { GameStatus } from '../../models/game';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {FirebaseGameService} from '../../services/firebasegame.service';
+import {PlayerProfile} from '../../models/player';
+import {AngularFireAuth} from 'angularfire2/auth';
+import {AngularFirestore} from 'angularfire2/firestore';
+
+import {Router} from '@angular/router';
+import {Subject} from 'rxjs/Subject';
+import {GameStatus} from '../../models/game';
 
 @Component({
   selector: 'app-loggedinactions',
@@ -16,22 +15,19 @@ import { GameStatus } from '../../models/game';
 })
 export class LoggedinactionsComponent implements OnInit, OnDestroy {
 
-  private ngUnsubscribe: Subject<void> = new Subject<void>();
-
   public firstTimeLoggedInEver = false;
   public playerProfile: PlayerProfile;
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor(public afAuth: AngularFireAuth,
-    public db: AngularFirestore,
-    private userprofileService: UserprofileService,
-    public firebaseGameService: FirebaseGameService,
-    private router: Router,
-    private route: ActivatedRoute) {
+              public db: AngularFirestore,
+              public firebaseGameService: FirebaseGameService,
+              private router: Router) {
 
   }
 
   ngOnInit() {
-    const prevPage = this.route.snapshot.paramMap.get('signInSuccessUrl');
+    // const prevPage = this.route.snapshot.paramMap.get('signInSuccessUrl');
 // TODO
     this.afAuth.authState
       .takeUntil(this.ngUnsubscribe)
@@ -56,22 +52,13 @@ export class LoggedinactionsComponent implements OnInit, OnDestroy {
       });
   }
 
-  goToCreateAccountPage() {
-    this.router.navigate(['createaccount']);
-  }
-
-  // @deprecated
-  loginAnonymous(): void {
-    this.afAuth.auth.signInAnonymously();
-  }
-
   logout() {
     this.firebaseGameService.setAuthUserOffline()
       .then(() => this.afAuth.auth.signOut());
   }
 
   public openUserProfile() {
-    this.router.navigate(['playerprofile' as GameStatus]);
+    this.router.navigate(['playerprofile' as GameStatus], {skipLocationChange: true});
   }
 
   ngOnDestroy() {

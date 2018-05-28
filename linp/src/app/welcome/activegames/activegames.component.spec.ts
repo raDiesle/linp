@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ActivegamesComponent } from './activegames.component';
+import {ActivegamesComponent} from './activegames.component';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {AngularFireAuth} from 'angularfire2/auth';
 
@@ -18,7 +18,7 @@ describe('ActivegamesComponent', () => {
       providers: [{provide: NgbActiveModal, useValue: ngbActiveModalStub},
         {provide: AngularFireAuth, useValue: afAuthStub}]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

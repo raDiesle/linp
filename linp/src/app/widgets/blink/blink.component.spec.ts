@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { BlinkComponent } from './blink.component';
+import {BlinkComponent} from './blink.component';
 
 describe('BlinkComponent', () => {
   let component: BlinkComponent;
@@ -8,9 +8,9 @@ describe('BlinkComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BlinkComponent ]
+      declarations: [BlinkComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

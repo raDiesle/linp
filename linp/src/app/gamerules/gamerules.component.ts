@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { GameStatus } from '../models/game';
-import { Router, NavigationEnd } from '@angular/router';
-import { Subject } from 'rxjs';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {GameStatus} from '../models/game';
+import {NavigationEnd, Router} from '@angular/router';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'app-gamerules',
@@ -78,7 +78,8 @@ export class GamerulesComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
-  constructor(public activeModal: NgbActiveModal, private router: Router) { }
+  constructor(public activeModal: NgbActiveModal, private router: Router) {
+  }
 
   ngOnInit() {
     this.currentRulePosition = 0;
@@ -108,6 +109,11 @@ export class GamerulesComponent implements OnInit, OnDestroy {
     this.switchRulesPos(1);
   }
 
+  public ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
+
   private switchRulesPos(offset: number) {
     const currentIndex = this.currentGameStatusConfig.findIndex((c) => c === this.currentGameStatusPositions);
     const newAbsoluteIndex = (currentIndex + offset);
@@ -116,10 +122,5 @@ export class GamerulesComponent implements OnInit, OnDestroy {
     const newIndex = newAbsoluteIndex === -1 ? lastElementIndex : rangedIndex;
     this.currentRulePosition = newIndex;
     this.currentGameStatusPositions = this.currentGameStatusConfig[newIndex];
-  }
-
-  public ngOnDestroy() {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
   }
 }

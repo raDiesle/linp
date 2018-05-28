@@ -1,13 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AngularFirestore } from 'angularfire2/firestore';
-import * as firebase from 'firebase/app';
-import { GamePlayer, GamePlayerStatus, GameStatus } from 'app/models/game';
-import { Subject } from 'rxjs/Subject';
-import { FirebaseGameService } from '../../services/firebasegame.service';
-import { AngularFireAuth } from 'angularfire2/auth';
-import { ActionguideDto, ActionguideService } from '../../services/actionguide.service';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Observable} from 'rxjs/Rx';
+import {ActivatedRoute, Router} from '@angular/router';
+import {AngularFirestore} from 'angularfire2/firestore';
+import {GamePlayer, GamePlayerStatus} from 'app/models/game';
+import {Subject} from 'rxjs/Subject';
+import {FirebaseGameService} from '../../services/firebasegame.service';
+import {AngularFireAuth} from 'angularfire2/auth';
+import {ActionguideService} from '../../services/actionguide.service';
 
 @Component({
   selector: 'app-firsttip',
@@ -23,10 +22,10 @@ export class FirsttipComponent implements OnInit, OnDestroy {
   readonly SYNONYM_KEY = 'firstSynonym';
 
   public show$: boolean;
-  public isOpened: boolean;
+
   public isPlayersTurnForAuthUser = false;
   public savedResponseFlag = false;
-  authUser: firebase.User;
+
   gamePlayers: GamePlayer[];
   gameName: string;
   // @input
@@ -37,11 +36,11 @@ export class FirsttipComponent implements OnInit, OnDestroy {
   private currentPlayer: GamePlayer;
 
   constructor(private route: ActivatedRoute,
-    private router: Router,
-    public db: AngularFirestore,
-    public afAuth: AngularFireAuth,
-    private firebaseGameService: FirebaseGameService,
-    private actionguideService: ActionguideService) {
+              private router: Router,
+              public db: AngularFirestore,
+              public afAuth: AngularFireAuth,
+              private firebaseGameService: FirebaseGameService,
+              private actionguideService: ActionguideService) {
   }
 
   ngOnInit() {
@@ -53,7 +52,7 @@ export class FirsttipComponent implements OnInit, OnDestroy {
         if (game.status === 'evaluation' || game.status === 'finalizeround') {
           return;
         }
-        this.router.navigate(['/' + game.status, this.gameName], { skipLocationChange: true });
+        this.router.navigate(['/' + game.status, this.gameName], {skipLocationChange: true});
       });
 
     this.firebaseGameService.observeGamePlayers(this.gameName)
@@ -66,7 +65,7 @@ export class FirsttipComponent implements OnInit, OnDestroy {
         const isNextGameStatusSwitch = this.currentPlayer === null;
         if (isNextGameStatusSwitch) {
           return;
-        };
+        }
 
         this.loggedInGamePlayer = this.gamePlayers.find(gamePlayer => {
           return gamePlayer.uid === this.firebaseGameService.getAuthUid();
@@ -74,7 +73,7 @@ export class FirsttipComponent implements OnInit, OnDestroy {
 
         this.isPlayersTurnForAuthUser = this.currentPlayer.uid === this.loggedInGamePlayer.uid;
         if (this.isPlayersTurnForAuthUser === false) {
-          this.actionguideService.triggerActionDone();
+          this.actionguideService.triggerActionDone(this.gamePlayers);
         }
       });
 
@@ -90,7 +89,7 @@ export class FirsttipComponent implements OnInit, OnDestroy {
     firstOrSecondGamePlayerUpdate[this.SYNONYM_KEY] = this.synonym;
 
     this.firebaseGameService.sendSynonym(firstOrSecondGamePlayerUpdate, this.gameName)
-      .then(gamePlayerModel => {
+      .then(() => {
         this.savedResponseFlag = true;
       });
   }

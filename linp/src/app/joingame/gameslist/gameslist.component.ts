@@ -1,5 +1,5 @@
-import { Game } from './../../models/game';
-import { Component, OnInit, Input } from '@angular/core';
+import {Game} from './../../models/game';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-gameslist',
@@ -10,7 +10,8 @@ export class GameslistComponent implements OnInit {
 
   @Input() public games: Game[];
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }

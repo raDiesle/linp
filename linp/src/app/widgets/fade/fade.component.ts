@@ -1,14 +1,5 @@
-import {
-  Component, OnChanges, Input,
-  SimpleChanges, Output, EventEmitter
-} from '@angular/core';
-import {
-  trigger,
-  state,
-  style,
-  animate,
-  transition
-} from '@angular/animations';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-fade',
@@ -32,6 +23,11 @@ export class FadeComponent {
   @Input()
   out;
 
+  @Input()
+  get isVisible() {
+    return this.isVisibleInternal;
+  }
+
   set isVisible(isVisible) {
     this.isVisibleInternal = isVisible;
     if (this.out !== true) {
@@ -41,10 +37,5 @@ export class FadeComponent {
       this.isVisibleInternal = false;
       this.isVisibleChange.emit(this.isVisibleInternal);
     }, 1500);
-  }
-
-  @Input()
-  get isVisible() {
-    return this.isVisibleInternal;
   }
 }

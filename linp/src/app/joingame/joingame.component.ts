@@ -1,11 +1,9 @@
-import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
-import { AngularFirestore } from 'angularfire2/firestore';
-import { AngularFireAuth } from 'angularfire2/auth/auth';
-import { Router } from '@angular/router';
-import { Game, GamePlayer, GameStatus, PointsScored } from 'app/models/game';
-import { Subject } from 'rxjs/Subject';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {Game, GameStatus} from 'app/models/game';
+import {Subject} from 'rxjs/Subject';
 
-import { FirebaseGameService } from '../services/firebasegame.service';
+import {FirebaseGameService} from '../services/firebasegame.service';
 
 
 @Component({
@@ -21,12 +19,12 @@ export class JoinGameComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor(public router: Router,
-    private firebaseGameService: FirebaseGameService) {
+              private firebaseGameService: FirebaseGameService) {
   }
 
   ngOnInit() {
 
-    const publicGamesPromise = this.firebaseGameService.observePublicGamesToJoin()
+    this.firebaseGameService.observePublicGamesToJoin()
       .subscribe((games) => {
         this.publicGames = games;
         return Promise.resolve(games);
@@ -60,7 +58,7 @@ export class JoinGameComponent implements OnInit, OnDestroy {
   }
 
   onSelectGameToJoin(game: Game): void {
-    this.router.navigate([<GameStatus>'gamelobby', game.name]);
+    this.router.navigate([<GameStatus>'gamelobby', game.name], {skipLocationChange: true});
   }
 
   ngOnDestroy() {

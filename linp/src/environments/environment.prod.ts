@@ -1,7 +1,6 @@
-
 export const environment = {
   production: true,
-   firebase: {
+  firebase: {
     apiKey: 'AIzaSyDQpUmTa6M_Svham7wQz-ZjlleDfqXSQSw',
     authDomain: 'linp-c679b.firebaseapp.com',
     databaseURL: 'https://linp-c679b.firebaseio.com',

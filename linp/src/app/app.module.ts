@@ -1,16 +1,14 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule, ErrorHandler} from '@angular/core';
+import {ErrorHandler, NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { MissingTranslationStrategy } from '@angular/core';
 
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {AngularFirestoreModule} from 'angularfire2/firestore';
 import {AngularFireModule} from 'angularfire2';
 import {AngularFireAuthModule} from 'angularfire2/auth';
-import {AngularFireStorageModule} from 'angularfire2/storage';
 
 import {environment} from '../environments/environment';
 import {AppComponent} from './app.component';
@@ -30,7 +28,6 @@ import {SecondtipComponent} from './tip/secondtip/secondtip.component';
 import {SecondguessComponent} from './guess/secondguess/secondguess.component';
 import {EvaluationComponent} from './evaluation/evaluation.component';
 import {SimulationComponent} from './simulation/simulation.component';
-import {UserprofileService} from './welcome/userprofile.service';
 import {HttpClientModule} from '@angular/common/http';
 import {PlayerprofileComponent} from './playerprofile/playerprofile.component';
 import {CreategameComponent} from './creategame/creategame.component';
@@ -42,47 +39,42 @@ import {BlinkComponent} from './widgets/blink/blink.component';
 import {CreatewordComponent} from './createword/createword.component';
 import {LinpCardsModelService} from './simulation/linpcardsinit.service';
 
-import {GamelobbyService} from './gamelobby/gamelobby-service';
- import {TimeAgoPipe} from 'time-ago-pipe';
+import {TimeAgoPipe} from 'time-ago-pipe';
 import {FirebaseGameService} from './services/firebasegame.service';
 import {FinalizeroundComponent} from './finalizeround/finalizeround.component';
 import {AuthGuard} from './services/auth.guard';
 import {ShareModule} from '@ngx-share/core';
 import {ShareButtonModule} from '@ngx-share/button';
-import { ActivegamesComponent } from './welcome/activegames/activegames.component';
-import { FriendlistComponent } from './welcome/friendlist/friendlist.component';
+import {ActivegamesComponent} from './welcome/activegames/activegames.component';
+import {FriendlistComponent} from './welcome/friendlist/friendlist.component';
 
-import { UiSwitchModule } from 'ngx-ui-switch';
+import {UiSwitchModule} from 'ngx-ui-switch';
 
-import {
-  AuthMethods,
-  AuthProvider,
-  AuthProviderWithCustomConfig,
-  CredentialHelper,
-  FirebaseUIAuthConfig,
-  FirebaseUIModule
-} from 'firebaseui-angular';
-import { AddfriendComponent } from './addfriend/addfriend.component';
-import { WindowRef } from './WindowRef';
-import { IngameprogressrulesComponent } from './ingameprogressrules/ingameprogressrules.component';
-import { HeaderComponent } from './header/header.component';
-import { LoggedinactionsComponent } from './welcome/loggedinactions/loggedinactions.component';
-import { MaintenanceComponent } from './welcome/maintenance/maintenance.component';
-import { GameprogressComponent } from './widgets/gameprogress/gameprogress.component';
-import { ScorecardComponent } from './evaluation/scorecard/scorecard.component';
-import { NextbuttonComponent } from './evaluation/nextbutton/nextbutton.component';
-import { ActionguideService } from './services/actionguide.service';
-import { ActionguidemodalComponent } from './widgets/actionguidemodal/actionguidemodal.component';
-import { CustomErrorHandler } from './services/customerrorhandler';
-import { BasicrulesComponent } from './gamerules/basicrules/basicrules.component';
-import { GamelobbyrulesComponent } from './gamerules/gamelobbyrules/gamelobbyrules.component';
-import { FirsttiprulesComponent } from './gamerules/firsttiprules/firsttiprules.component';
-import { EvaluationrulesComponent } from './gamerules/evaluationrules/evaluationrules.component';
-import { FirstguessrulesComponent } from './gamerules/firstguessrules/firstguessrules.component';
-import { SecondtiprulesComponent } from './gamerules/secondtiprules/secondtiprules.component';
-import { SecondguessrulesComponent } from './gamerules/secondguessrules/secondguessrules.component';
-import { ShortdescriptionComponent } from './welcome/shortdescription/shortdescription.component';
-import { GameslistComponent } from './joingame/gameslist/gameslist.component';
+import {AuthMethods, AuthProvider, CredentialHelper, FirebaseUIAuthConfig, FirebaseUIModule} from 'firebaseui-angular';
+import {AddfriendComponent} from './addfriend/addfriend.component';
+import {WindowRef} from './WindowRef';
+import {IngameprogressrulesComponent} from './ingameprogressrules/ingameprogressrules.component';
+import {HeaderComponent} from './header/header.component';
+import {LoggedinactionsComponent} from './welcome/loggedinactions/loggedinactions.component';
+import {MaintenanceComponent} from './welcome/maintenance/maintenance.component';
+import {GameprogressComponent} from './widgets/gameprogress/gameprogress.component';
+import {ScorecardComponent} from './evaluation/scorecard/scorecard.component';
+import {NextbuttonComponent} from './evaluation/nextbutton/nextbutton.component';
+import {ActionguideService} from './services/actionguide.service';
+import {ActionguidemodalComponent} from './widgets/actionguidemodal/actionguidemodal.component';
+import {CustomErrorHandler} from './services/customerrorhandler';
+import {BasicrulesComponent} from './gamerules/basicrules/basicrules.component';
+import {GamelobbyrulesComponent} from './gamerules/gamelobbyrules/gamelobbyrules.component';
+import {FirsttiprulesComponent} from './gamerules/firsttiprules/firsttiprules.component';
+import {EvaluationrulesComponent} from './gamerules/evaluationrules/evaluationrules.component';
+import {FirstguessrulesComponent} from './gamerules/firstguessrules/firstguessrules.component';
+import {SecondtiprulesComponent} from './gamerules/secondtiprules/secondtiprules.component';
+import {SecondguessrulesComponent} from './gamerules/secondguessrules/secondguessrules.component';
+import {ShortdescriptionComponent} from './welcome/shortdescription/shortdescription.component';
+import {GameslistComponent} from './joingame/gameslist/gameslist.component';
+import {AddfriendsfromgamesComponent} from './welcome/friendlist/addfriendsfromgames/addfriendsfromgames.component';
+import {SwipeoptionsComponent} from './widgets/swipeoptions/swipeoptions.component';
+import {SwipeoptionsService} from "./widgets/swipeoptions/swipeoptions.service";
 
 export function windowFactory() {
   return window;
@@ -96,9 +88,9 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     AuthProvider.Github,
     AuthProvider.Password
   ],
- // signInSuccessUrl: '/',
+  // signInSuccessUrl: '/',
   method: AuthMethods.Popup,
-  tos: '<your-tos-link>',
+//TODO  tos: '<your-tos-link>',
   credentialHelper: CredentialHelper.None
 };
 
@@ -146,7 +138,9 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     SecondtiprulesComponent,
     SecondguessrulesComponent,
     ShortdescriptionComponent,
-    GameslistComponent
+    GameslistComponent,
+    AddfriendsfromgamesComponent,
+    SwipeoptionsComponent
   ],
   entryComponents: [
     ActionguidemodalComponent,
@@ -168,6 +162,11 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
       {
         path: 'addfriend/:uid',
         component: AddfriendComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'addfriendsfromgames',
+        component: AddfriendsfromgamesComponent,
         canActivate: [AuthGuard]
       },
       {
@@ -251,7 +250,7 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
 
     BrowserModule,
     HttpClientModule,
-    HttpModule,
+    HttpModule, // TODO still needed?
     BrowserAnimationsModule,
 
     AngularFireModule.initializeApp(environment.firebase),
@@ -260,9 +259,9 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
 
     FirebaseUIModule.forRoot(firebaseUiAuthConfig),
   ],
- // missingTranslation: MissingTranslationStrategy.Error,
-  providers: [AuthGuard, FirebaseGameService, GuessService, UserprofileService, GamelobbyComponent, GamelobbyService,
-    PreparegameComponent, LinpCardsModelService, ActionguideService, WindowRef,
+  // missingTranslation: MissingTranslationStrategy.Error,
+  providers: [AuthGuard, FirebaseGameService, GuessService, GamelobbyComponent,
+    PreparegameComponent, LinpCardsModelService, ActionguideService, SwipeoptionsService, WindowRef,
     {provide: ErrorHandler, useClass: CustomErrorHandler}
   ],
   bootstrap: [AppComponent]

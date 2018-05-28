@@ -12,10 +12,9 @@ import {FirebaseGameService} from '../services/firebasegame.service';
 export class CreategameComponent implements OnInit, OnDestroy {
 
   gameName = '';
-
+  public language: LANGUAGE = 'en';
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   private playerName: string;
-  public language: LANGUAGE = 'en';
 
   constructor(
     public router: Router,
@@ -34,7 +33,7 @@ export class CreategameComponent implements OnInit, OnDestroy {
   createGameAction(): void {
     this.firebaseGameService.writeGame(this.gameName, this.language)
       .then(() => {
-        this.router.navigate(['gamelobby', this.gameName]);
+        this.router.navigate(['gamelobby', this.gameName], {skipLocationChange: true});
       });
   }
 

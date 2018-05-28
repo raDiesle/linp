@@ -1,12 +1,9 @@
-import { PlayerRolesCounts } from './../models/game';
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {PlayerRolesCounts} from './../models/game';
+import {Component, OnInit} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 import {AngularFirestore} from 'angularfire2/firestore';
-import {Game, GamePlayer, GameStatus} from '../models/game';
+import {GamePlayer, GameStatus} from '../models/game';
 import {ActivatedRoute, Router} from '@angular/router';
-import {AngularFireAuth} from 'angularfire2/auth';
-
-import * as firebase from 'firebase/app';
 import {FirebaseGameService} from '../services/firebasegame.service';
 
 @Component({
@@ -16,16 +13,14 @@ import {FirebaseGameService} from '../services/firebasegame.service';
 })
 export class IngameprogressrulesComponent implements OnInit {
 
-  // TODO remove, deprecated and wrong
-  private hasStartedGame = false;
 
-  readonly CURRENT_STATUS = 'READY_TO_START';
   readonly NEXT_PAGE: GameStatus = 'firsttip';
+  public isRoleAssigned = false;
+  // TODO remove, deprecated and wrong
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   private rolesDistributionInformation: PlayerRolesCounts;
-  private gamePlayers: GamePlayer[];
-  public isRoleAssigned = false;
+
   private isQuestionmark = false;
   private currentGamePlayersRoleWord: string;
   private gameName: string;
@@ -34,7 +29,7 @@ export class IngameprogressrulesComponent implements OnInit {
               private router: Router,
               public db: AngularFirestore,
               private firebaseGameService: FirebaseGameService) {
-              }
+  }
 
   ngOnInit() {
 
@@ -43,12 +38,12 @@ export class IngameprogressrulesComponent implements OnInit {
     this.firebaseGameService.observeGame(this.gameName)
       .takeUntil(this.ngUnsubscribe)
       .subscribe(game => {
-        this.router.navigate(['/' + game.status, this.gameName]);
+        this.router.navigate(['/' + game.status, this.gameName], {skipLocationChange: true});
         this.rolesDistributionInformation = game.playerRolesCounts;
         this.isRoleAssigned = this.rolesDistributionInformation !== null;
       });
 
-      this.firebaseGameService.observeLoggedInGamePlayer(this.gameName)
+    this.firebaseGameService.observeLoggedInGamePlayer(this.gameName)
       .takeUntil(this.ngUnsubscribe)
       // .toPromise()
       .subscribe((currentGamePlayer: GamePlayer) => {
