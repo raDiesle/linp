@@ -1,16 +1,18 @@
 <div class="modal-header d-flex justify-content-center">
   <span i18n="@@actionguidemodal.text2">
-    No action required by you
+    Nothing todo
   </span>
 </div>
 <div class="modal-body">
-
+  Tip: Looking for more friends?
+  <app-addfriendsfromgames [gamePlayers]="gamePlayers"></app-addfriendsfromgames>
+<br>
   <p class="text-center pt-2 pb-0" i18n="@@actionguidemodal.text1">
     It's time for another player to do his/her turn.
   </p>
 
   <p class="text-center">or</p>
-  <app-addfriendsfromgames [gamePlayers]="gamePlayers">Add to friendlist</app-addfriendsfromgames>
+
 
 </div>
 <div class="modal-footer">

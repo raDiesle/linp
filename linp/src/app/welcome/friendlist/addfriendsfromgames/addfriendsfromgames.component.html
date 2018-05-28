@@ -3,9 +3,9 @@
   <button class="btn btn-block" id="addFriendList" i18n="@@gamelobby.invitefriends.add"
           ngbDropdownToggle
           [disabled]="(friendList !== null && friendList.length === 0)"
-          [ngClass]="(friendList === null || friendList.length > 0) ? 'btn-primary' : 'btn-outline-primary'"
+          [ngClass]="(friendList === null || friendList.length > 0) ? 'btn-outline-primary' : 'btn-outline-info'"
           (click)="clickedOnAddFriendlistButton()">
-    {{(friendList === null || friendList.length > 0) ? 'Check adding game players to friend list' : 'Already all added to friend list'}}
+    {{(friendList === null || friendList.length > 0) ? 'Click to check' : 'All players part of friend list'}}
   </button>
   <div class="dropdown-menu" ngbDropdownMenu>
     <button class="dropdown-item" i18n="@@gamelobby.invitefriends.cancel">

@@ -39,7 +39,7 @@ export class HeaderComponent implements OnInit {
 
     this.actionGuide.actionDone.subscribe((gamePlayers) => {
       this.helpPop.close();
-      let actionGuideInstance = this.modalService.open(ActionguidemodalComponent);
+      let actionGuideInstance = this.modalService.open(ActionguidemodalComponent, {centered: true, size: 'lg'});
       actionGuideInstance.componentInstance.gamePlayers = gamePlayers;
     });
 
