@@ -13,8 +13,6 @@ export class AddfriendsfromgamesComponent implements OnInit {
 
   @Input() public gamePlayers: GamePlayer[];
 
-  @ViewChild('addFriendDropdown') public addFriendDropdown: NgbPopover;
-
   public friendList: GamePlayer[] = null;
   private loggedInGamePlayer: GamePlayer = null;
   private clickedOnceButton = false;
@@ -40,9 +38,6 @@ export class AddfriendsfromgamesComponent implements OnInit {
             }) === undefined;
           });
           this.friendList = result.filter(player => player.uid !== this.firebaseGameService.getAuthUid());
-          if (this.friendList.length === 0) {
-            this.addFriendDropdown.close();
-          }
         });
     }
     this.clickedOnceButton = true;

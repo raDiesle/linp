@@ -1,22 +1,35 @@
-<div class="btn-group btn-block pb-2" ngbDropdown #addFriendDropdown="ngbDropdown" role="group" aria-label="Add friend">
-  <!-- [hidden]="gamePlayers.length === 0" -->
-  <button class="btn btn-block" id="addFriendList" i18n="@@gamelobby.invitefriends.add"
-          ngbDropdownToggle
+<button class="btn btn-sm btn-block pb-2" id="addFriendList" i18n="@@gamelobby.invitefriends.add"
           [disabled]="(friendList !== null && friendList.length === 0)"
-          [ngClass]="(friendList === null || friendList.length > 0) ? 'btn-outline-primary' : 'btn-outline-info'"
-          (click)="clickedOnAddFriendlistButton()">
-    {{(friendList === null || friendList.length > 0) ? 'Click to check' : 'All players part of friend list'}}
-  </button>
-  <div class="dropdown-menu" ngbDropdownMenu>
-    <button class="dropdown-item" i18n="@@gamelobby.invitefriends.cancel">
-      -- close --
+          [ngClass]="(friendList === null || friendList.length > 0) ? 'btn-primary' : 'btn-outline-dark'"
+          (click)="clickedOnAddFriendlistButton()"
+          [hidden]="friendList !== null"
+          >
+          <ng-container *ngTemplateOutlet="syncIcon"></ng-container>
+          Sync game players with friend list
+</button>
+
+<ng-template #syncIcon>
+  <span class="align-middle text-left fill-info">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <path d="M12 6v3l4-4-4-4v3c-4.42 0-8 3.58-8 8 0 1.57.46 3.03 1.24 4.26L6.7 14.8c-.45-.83-.7-1.79-.7-2.8 0-3.31 2.69-6 6-6zm6.76 1.74L17.3 9.2c.44.84.7 1.79.7 2.8 0 3.31-2.69 6-6 6v-3l-4 4 4 4v-3c4.42 0 8-3.58 8-8 0-1.57-.46-3.03-1.24-4.26z"/>
+    <path d="M0 0h24v24H0z" fill="none"/>
+</svg>
+</span>
+</ng-template>
+
+  <div class="list-group">
+    <button class="list-group-item list-group-item-action list-group-item-primary" id="friend_{{friend.name}}" (click)="onFriendSelection(friend);" *ngFor="let friend of friendList">
+      <span class="fill-dark">  
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M0 0h24v24H0z" fill="none"/>
+            <path d="M8 10H5V7H3v3H0v2h3v3h2v-3h3v-2zm10 1c1.66 0 2.99-1.34 2.99-3S19.66 5 18 5c-.32 0-.63.05-.91.14.57.81.9 1.79.9 2.86s-.34 2.04-.9 2.86c.28.09.59.14.91.14zm-5 0c1.66 0 2.99-1.34 2.99-3S14.66 5 13 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm6.62 2.16c.83.73 1.38 1.66 1.38 2.84v2h3v-2c0-1.54-2.37-2.49-4.38-2.84zM13 13c-2 0-6 1-6 3v2h12v-2c0-2-4-3-6-3z"/>
+        </svg>
+    </span>
+    <span>
+       {{friend.name}}
+      </span>
     </button>
-    <div class="dropdown-divider"></div>
-    <button class="dropdown-item" id="friend_{{friend.name}}" (click)="onFriendSelection(friend);" *ngFor="let friend of friendList">
-      {{friend.name}}
-    </button>
-    <button class="dropdown-item my-1 border border-info" [hidden]="friendList === null || friendList.length > 0">
+    <button class="list-group-item my-1 border border-info" [hidden]="friendList === null || friendList.length > 0">
       All game players of this game are your friends already
     </button>
   </div>
-</div>

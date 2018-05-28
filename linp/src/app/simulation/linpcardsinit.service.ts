@@ -13,7 +13,7 @@ const enCards = [
   'glasses', 'stem', 'cinema', 'gang', 'key', 'group', 'harbor', 'comrade', 'jump', 'kick', 'hurricane', 'strocke', 'Paris', 'wind',
   'microphone', 'man', 'mug', 'alcohol', 'stairs', 'country', 'nature', 'lungs', 'gangway', 'steel', 'Egypt', 'shore', 'sport',
   'flour', 'New Year\'s Eve', 'beak', 'rocket', 'speaker', 'terrine', 'hatchet', 'lens', 'flap', 'paragraph',
-  'market', 'box', 'child', 'clock', 'salt', 'garden', 'Manchester', 'carnation', 'mane', 'prayer', 'sack', 'court'
+  'market', 'box', 'child', 'clock', 'salt', 'garden', 'Manchester', 'carnation', 'mane', 'prayer', 'sack', 'court',
   'earth', 'note', 'flag', 'nail', 'donkey', 'scales',' New York ',' rose ',' portrait ',' bullet ',' sleep ',' Australia ',' beach ',
   ' player ',' farmer ',' Christmas', 'cock', 'roof', 'president', 'tool', 'gravel', 'lance', 'neck', 'Jerusalem',
   'sun', 'princess',' butcher ',' bread ',' dog ',' button ',' camping ',' seal ',' coffin ',' comb ',' back ',' shirt ',' forest' ,
@@ -28,8 +28,8 @@ const enCards = [
   'soup', 'bear', 'carriage', 'Sidney', 'shower', 'calculator', 'gondola', 'single', 'pyramid', 'disc', 'angel', 'slip', 'staple',
   'coffee', 'channel', 'board', 'bull', 'paddle', 'flake', 'heart', 'Bankok', 'sea', 'knight', 'plan', 'fruit', 'cow', 'cellar',
   'chamber', 'halftime', 'sieve', 'third', 'head', 'thread', 'sand','voice ',' teacher ',' plug ',' fruit ',' road ',' Equator ',
-  ' bee ',' break ',' bomb ',' tail ',' Munich ', 
-]
+  ' bee ',' break ',' bomb ',' tail ',' Munich '
+];
 
 
     const cards = [ 
