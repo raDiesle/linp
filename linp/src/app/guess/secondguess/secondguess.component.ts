@@ -68,8 +68,8 @@ export class SecondguessComponent implements OnInit, OnDestroy {
         this.loggedInGamePlayer = loggedInGamePlayer;
         this.isloggedInPlayerDidGuess = loggedInGamePlayer.status === this.PLAYER_STATUS_AFTER_ACTION;
 
-        if (this.isloggedInPlayerDidGuess === true) {
-          this.actionguideService.triggerActionDone(this.gamePlayers);
+        if (this.isloggedInPlayerDidGuess === false) {
+          this.selectedGamePlayers[0] = this.loggedInGamePlayer;
         }
 
         if (this.isloggedInPlayerDidGuess === true) {
