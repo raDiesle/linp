@@ -71,6 +71,10 @@ export class SecondguessComponent implements OnInit, OnDestroy {
         if (this.isloggedInPlayerDidGuess === true) {
           this.actionguideService.triggerActionDone(this.gamePlayers);
         }
+
+        if (this.isloggedInPlayerDidGuess === true) {
+          this.actionguideService.triggerActionDone(this.gamePlayers);
+        }
       });
 
     Observable.timer(0, 1000)

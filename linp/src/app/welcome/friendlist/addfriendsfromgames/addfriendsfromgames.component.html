@@ -1,35 +1,64 @@
-<button class="btn btn-sm btn-block pb-2" id="addFriendList" i18n="@@gamelobby.invitefriends.add"
-          [disabled]="(friendList !== null && friendList.length === 0)"
-          [ngClass]="(friendList === null || friendList.length > 0) ? 'btn-primary' : 'btn-outline-dark'"
-          (click)="clickedOnAddFriendlistButton()"
-          [hidden]="friendList !== null"
-          >
-          <ng-container *ngTemplateOutlet="syncIcon"></ng-container>
-          Sync game players with friend list
+<small [hidden]="friendList !== null">Looking for more friends?</small>
+
+<button class="btn btn-light d-flex" id="addFriendList" i18n="@@gamelobby.invitefriends.add" [disabled]="(friendList !== null && friendList.length === 0)"
+  [ngClass]="(friendList === null || friendList.length > 0) ? 'btn-primary' : 'btn-outline-dark'" (click)="clickedOnAddFriendlistButton()"
+  [hidden]="friendList !== null">
+  <ng-container *ngTemplateOutlet="add"></ng-container>
+  <span>Add friends</span>
 </button>
 
-<ng-template #syncIcon>
-  <span class="align-middle text-left fill-info">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-    <path d="M12 6v3l4-4-4-4v3c-4.42 0-8 3.58-8 8 0 1.57.46 3.03 1.24 4.26L6.7 14.8c-.45-.83-.7-1.79-.7-2.8 0-3.31 2.69-6 6-6zm6.76 1.74L17.3 9.2c.44.84.7 1.79.7 2.8 0 3.31-2.69 6-6 6v-3l-4 4 4 4v-3c4.42 0 8-3.58 8-8 0-1.57-.46-3.03-1.24-4.26z"/>
-    <path d="M0 0h24v24H0z" fill="none"/>
-</svg>
-</span>
+<ng-template #add>
+  <span class="svg-small fill-info">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+      <path d="M0 0h24v24H0z" fill="none" />
+      <path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+      />
+    </svg>
+
+  </span>
 </ng-template>
 
-  <div class="list-group">
-    <button class="list-group-item list-group-item-action list-group-item-primary" id="friend_{{friend.name}}" (click)="onFriendSelection(friend);" *ngFor="let friend of friendList">
-      <span class="fill-dark">  
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-            <path d="M0 0h24v24H0z" fill="none"/>
-            <path d="M8 10H5V7H3v3H0v2h3v3h2v-3h3v-2zm10 1c1.66 0 2.99-1.34 2.99-3S19.66 5 18 5c-.32 0-.63.05-.91.14.57.81.9 1.79.9 2.86s-.34 2.04-.9 2.86c.28.09.59.14.91.14zm-5 0c1.66 0 2.99-1.34 2.99-3S14.66 5 13 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm6.62 2.16c.83.73 1.38 1.66 1.38 2.84v2h3v-2c0-1.54-2.37-2.49-4.38-2.84zM13 13c-2 0-6 1-6 3v2h12v-2c0-2-4-3-6-3z"/>
-        </svg>
+<ng-template #nonAdd>
+  <span class="svg-small fill-info">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+      <path fill="none" d="M0 0h24v24H0V0z" />
+      <circle cx="15" cy="8" r="4" />
+      <path d="M23 20v-2c0-2.3-4.1-3.7-6.9-3.9l6 5.9h.9zm-11.6-5.5C9.2 15.1 7 16.3 7 18v2h9.9l4 4 1.3-1.3-21-20.9L0 3.1l4 4V10H1v2h3v3h2v-3h2.9l2.5 2.5zM6 10v-.9l.9.9H6z"
+      />
+    </svg>
+  </span>
+</ng-template>
+
+
+<ng-template #syncIcon>
+  <span class="svg-small fill-info">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+      <path d="M0 0h24v24H0z" fill="none" />
+      <path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+      />
+    </svg>
+
+  </span>
+</ng-template>
+
+<div class="list-group">
+  <button class="list-group-item list-group-item-action list-group-item-primary" id="friend_{{friend.name}}" (click)="onFriendSelection(friend);"
+    *ngFor="let friend of friendList">
+    <span class="fill-dark">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+        <path d="M0 0h24v24H0z" fill="none" />
+        <path d="M8 10H5V7H3v3H0v2h3v3h2v-3h3v-2zm10 1c1.66 0 2.99-1.34 2.99-3S19.66 5 18 5c-.32 0-.63.05-.91.14.57.81.9 1.79.9 2.86s-.34 2.04-.9 2.86c.28.09.59.14.91.14zm-5 0c1.66 0 2.99-1.34 2.99-3S14.66 5 13 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm6.62 2.16c.83.73 1.38 1.66 1.38 2.84v2h3v-2c0-1.54-2.37-2.49-4.38-2.84zM13 13c-2 0-6 1-6 3v2h12v-2c0-2-4-3-6-3z"
+        />
+      </svg>
     </span>
     <span>
-       {{friend.name}}
-      </span>
-    </button>
-    <button class="list-group-item my-1 border border-info" [hidden]="friendList === null || friendList.length > 0">
-      All game players of this game are your friends already
-    </button>
-  </div>
+      {{friend.name}}
+    </span>
+  </button>
+  <button class="list-group-item bg-secondary border border-info my-1" [hidden]="friendList === null || friendList.length > 0">
+    <div>
+      <ng-container *ngTemplateOutlet="nonAdd"></ng-container>
+    </div>
+    All game players of this game are already in your friend list
+  </button>
+</div>

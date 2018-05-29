@@ -27,17 +27,25 @@
 
   <div class="card pb-3" [hidden]="isloggedInPlayerDidGuess === true">
     <div class="card-header" i18n="@@guesstemplate.who">
-      Who might be teaming up and having the same word/role?
+      {{isSecondGuess ? 'Second' : 'First'}} guess partner
     </div>
     <div class="card-body">
       <div class="card-subtitle my-4 text-muted text-center">
-        <div class="mt-3" i18n="@@guesstemplate.yourword">This is yours:</div>
-        <div class="badge badge-info">{{loggedInGamePlayer?.questionmarkOrWord}}</div>
+        <div class="mt-3" i18n="@@guesstemplate.yourword">You are a</div>
+        <div>
+          <span [hidden]="loggedInGamePlayer?.questionmarkOrWord === '?'">
+            <span class="badge badge-info">Twin agent</span>
+            with word
+            <span class="badge badge-info">{{loggedInGamePlayer?.questionmarkOrWord}}</span>
+          </span>
+          <span [hidden]="loggedInGamePlayer?.questionmarkOrWord !== '?'">
+            <span class="badge badge-info">Single agent</span>
+          </span>
+        </div>
       </div>
       <h6 class="card-subtitle mb-2 text-muted" i18n="@@guesstemplate.hint1">
         Hint: Make sure prioritizing to guess you and your partner as team.
-        <br>
-        Consider the sequence of code words given by agents.
+        <br> Consider the sequence of code words given by agents.
       </h6>
 
       <div class="card-text py-2 h6 text-center">
@@ -53,9 +61,9 @@
       </div>
 
       <div class="list-group">
-        <div class="list-group-item list-group-item-light list-group-item-action">
+        <div class="list-group-item list-group-item-light">
           <div class="row text-center">
-            <div class="col-4 small">
+            <div class="col-4 small text-secondary">
               &nbsp;
             </div>
             <div class="col-4 small" i18n="@@guesstemplate.word1">
@@ -66,18 +74,16 @@
             </div>
           </div>
         </div>
-        <button id="guess_{{gamePlayer.name}}" *ngFor="let gamePlayer of gamePlayers" class="list-group-item" [ngClass]="{
+        <button id="guess_{{gamePlayer.name}}" *ngFor="let gamePlayer of gamePlayers; index as $index; " class="list-group-item mt-1"
+          [ngClass]="{
                     'active' : selectedGamePlayers.indexOf(gamePlayer) !== -1,
                     'list-group-item-action' : selectedGamePlayers.length <= 2,
                     'bg-halfheight' : isSecondGuess && selectedGamePlayers.indexOf(gamePlayer) === -1 && (loggedInGamePlayer.firstTeamTip.firstPartner.uid === gamePlayer.uid || loggedInGamePlayer.firstTeamTip.secondPartner.uid === gamePlayer.uid),
                     'disabled' : (this.playerUidToDisableForSelection === gamePlayer.uid || selectedGamePlayers.length >= 2)
                   }" (click)="onTeamPlayerGuessSelected(gamePlayer)">
-          <div class="row" placement="top" ngbTooltip="You can't select exact same twin partners than in 1st guess"
-               [disableTooltip]="playerUidToDisableForSelection !== gamePlayer.uid || selectedGamePlayers.length > 2">
+          <div class="row" placement="top" ngbTooltip="You can't select exact same twin partners than in 1st guess" [disableTooltip]="playerUidToDisableForSelection !== gamePlayer.uid || selectedGamePlayers.length > 2">
             <div class="col-4">
-              <span>
-                {{gamePlayer.name}}
-              </span>
+              <span>{{$index + 1}}. {{gamePlayer.name}}</span>
             </div>
             <div class="col-4">
               <span class="badge badge-info w-100">{{gamePlayer.firstSynonym}}</span>
@@ -90,7 +96,7 @@
       </div>
 
       <button id="saveGuessBtn" class="card-link btn btn-block btn-success mt-3" [disabled]="selectedGamePlayers.length < 2" (click)="saveTeamTip()"
-              i18n="@@guesstemplate.savebutton">
+        i18n="@@guesstemplate.savebutton">
         Save
       </button>
     </div>

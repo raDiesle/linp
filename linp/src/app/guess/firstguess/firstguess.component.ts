@@ -1,12 +1,12 @@
-import {ActionguideService} from './../../services/actionguide.service';
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {AngularFirestore} from 'angularfire2/firestore';
-import {GamePlayer, GamePlayerStatus, GameStatus} from '../../models/game';
-import {GuessService} from '../guess.service';
-import {Subject} from 'rxjs/Subject';
-import {Observable} from 'rxjs/Observable';
-import {FirebaseGameService} from '../../services/firebasegame.service';
+import { ActionguideService } from './../../services/actionguide.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AngularFirestore } from 'angularfire2/firestore';
+import { GamePlayer, GamePlayerStatus, GameStatus } from '../../models/game';
+import { GuessService } from '../guess.service';
+import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
+import { FirebaseGameService } from '../../services/firebasegame.service';
 
 const tipDBkey = 'firstTeamTip';
 
@@ -34,11 +34,11 @@ export class FirstguessComponent implements OnInit, OnDestroy {
   private isBlinkTickerShown$: boolean;
 
   constructor(private route: ActivatedRoute,
-              private router: Router,
-              public db: AngularFirestore,
-              public guessService: GuessService,
-              private firebaseGameService: FirebaseGameService,
-              private actionguideService: ActionguideService) {
+    private router: Router,
+    public db: AngularFirestore,
+    public guessService: GuessService,
+    private firebaseGameService: FirebaseGameService,
+    private actionguideService: ActionguideService) {
   }
 
   ngOnInit() {
@@ -47,7 +47,7 @@ export class FirstguessComponent implements OnInit, OnDestroy {
     this.firebaseGameService.observeGame(this.gameName)
       .takeUntil(this.ngUnsubscribe)
       .subscribe(game => {
-        this.router.navigate(['/' + game.status, this.gameName], {skipLocationChange: true});
+        this.router.navigate(['/' + game.status, this.gameName], { skipLocationChange: true });
       });
 
     this.firebaseGameService.observeGamePlayers(this.gameName)
@@ -65,6 +65,10 @@ export class FirstguessComponent implements OnInit, OnDestroy {
           return gamePlayer.uid === this.firebaseGameService.getAuthUid();
         });
         this.isloggedInPlayerDidGuess = this.loggedInGamePlayer.status === this.PLAYER_STATUS_AFTER_ACTION;
+
+        if (this.isloggedInPlayerDidGuess === false) {
+          this.selectedGamePlayers[0] = this.loggedInGamePlayer;
+        }
 
         if (this.isloggedInPlayerDidGuess === true) {
           this.actionguideService.triggerActionDone(this.gamePlayers);

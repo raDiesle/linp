@@ -48,8 +48,6 @@ import {ShareButtonModule} from '@ngx-share/button';
 import {ActivegamesComponent} from './welcome/activegames/activegames.component';
 import {FriendlistComponent} from './welcome/friendlist/friendlist.component';
 
-import {UiSwitchModule} from 'ngx-ui-switch';
-
 import {AuthMethods, AuthProvider, CredentialHelper, FirebaseUIAuthConfig, FirebaseUIModule} from 'firebaseui-angular';
 import {AddfriendComponent} from './addfriend/addfriend.component';
 import {WindowRef} from './WindowRef';
@@ -244,7 +242,7 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     ]),
     FormsModule,
     NgbModule.forRoot(),
-    UiSwitchModule,
+
     ShareModule.forRoot(),
     ShareButtonModule.forRoot(),
 

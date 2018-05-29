@@ -1,24 +1,34 @@
 <div class="modal-header d-flex justify-content-center">
   <span i18n="@@actionguidemodal.text2">
-    Nothing todo
+    Waiting for other players
   </span>
 </div>
 <div class="modal-body">
-  Tip: Looking for more friends?
+  
+  <div class="row">
+    <div class="col-10">
+    <h3 class=" text-right pt-2 pb-2" i18n="@@actionguidemodal.text1">
+        It's time for another player to do his/her turn.
+      </h3>
+    </div>
+    <div clas="col-2">
+        <img src="assets/agent_small.jpg">
+    </div>
+  </div>
+  
+
+  <hr>
   <app-addfriendsfromgames [gamePlayers]="gamePlayers"></app-addfriendsfromgames>
-<br>
-  <p class="text-center pt-2 pb-0" i18n="@@actionguidemodal.text1">
-    It's time for another player to do his/her turn.
-  </p>
 
 </div>
-<div class="modal-footer">
-  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')" i18n="@@actionguidemodal.stay">
-    Stay
-  </button>
-  <button class="btn btn-primary" routerLink="/welcome" (click)="activeModal.close('switch route')"
-          i18n="@@actionguidemodal.next">
-    Switch game
-  </button>
-
+<div class="modal-footer d-flex align-items-end flex-column">
+    <div class="d-flex justify-content-end">
+        <button type="button" class="btn btn-light" (click)="activeModal.close('Close click')" i18n="@@actionguidemodal.stay">
+          Stay
+        </button>
+        <button class="btn btn-primary" routerLink="/welcome" (click)="activeModal.close('switch route')"
+                i18n="@@actionguidemodal.next">
+          Switch game
+        </button>
+    </div>
 </div>

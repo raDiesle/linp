@@ -39,7 +39,7 @@ export class HeaderComponent implements OnInit {
 
     this.actionGuide.actionDone.subscribe((gamePlayers) => {
       this.helpPop.close();
-      let actionGuideInstance = this.modalService.open(ActionguidemodalComponent, {centered: true, size: 'lg'});
+      const actionGuideInstance = this.modalService.open(ActionguidemodalComponent, {centered: true, size: 'lg'});
       actionGuideInstance.componentInstance.gamePlayers = gamePlayers;
     });
 
@@ -64,16 +64,11 @@ export class HeaderComponent implements OnInit {
           } else {
             this.helpPop.close();
           }
-        } else {
-          setTimeout(() => {
-            this.helpPop.open();
-          }, 0);
         }
       });
   }
 
   public openHelp(): void {
-
     if (this.firebaseGameService.isLoggedIn()) {
       this.firebaseGameService.updatePlayerUiState({
         'uistates.showHelpPopover': false
