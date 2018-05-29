@@ -9,11 +9,12 @@
         Nickname
       </label>
       <input id="playername" type="text" class="form-control" [ngClass]="{'form-control-success' : successfulSavedPlayername}"
-        name="playerName" [(ngModel)]="playerName" #playerNameInput="ngModel" (ngModelChange)="playerName" required value="user.displayName"
+             name="playerName" [(ngModel)]="playerName" #playerNameInput="ngModel" (ngModelChange)="playerName" required value="user.displayName"
       />
     </div>
-    <button (click)="updateOrCreateAccountAction()" class="btn btn-primary btn-block" id="savePlayerName" [ngClass]="[!successfulSavedPlayername ? 'btn-primary' : 'btn-success']"
-      [disabled]="!playerNameInput.valid || successfulSavedPlayername" i18n="@@playerprofile.savebutton">
+    <button (click)="updateOrCreateAccountAction()" class="btn btn-primary btn-block" id="savePlayerName"
+            [ngClass]="[!successfulSavedPlayername ? 'btn-primary' : 'btn-success']"
+            [disabled]="!playerNameInput.valid || successfulSavedPlayername" i18n="@@playerprofile.savebutton">
       Submit
     </button>
   </div>

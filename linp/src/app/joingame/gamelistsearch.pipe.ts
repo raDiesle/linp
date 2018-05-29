@@ -1,4 +1,4 @@
-import { Injectable, Pipe, PipeTransform } from '@angular/core';
+import {Injectable, Pipe, PipeTransform} from '@angular/core';
 
 // https://hassantariqblog.wordpress.com/2017/03/16/angular2-creating-custom-search-filter-pipe-for-ngfor-directive/
 // https://stackoverflow.com/questions/37067138/angular2-check-if-pipe-returns-an-empty-subset-of-original-list

@@ -1,15 +1,11 @@
-
-import { Injectable } from '@angular/core';
-import { AngularFirestore } from 'angularfire2/firestore';
-import { HttpClient } from '@angular/common/http';
-import { Game, GamePlayer, GamePlayerStatus, GameStatus, SynonymKey } from 'app/models/game';
-import { Observable } from 'rxjs/Observable';
+import {Injectable} from '@angular/core';
+import {AngularFirestore} from 'angularfire2/firestore';
+import {Game, GamePlayer, GamePlayerStatus, GameStatus} from 'app/models/game';
+import {Observable} from 'rxjs/Observable';
 import * as firebase from 'firebase';
-import { AngularFireAuth } from 'angularfire2/auth';
-import { PlayerProfile, PlayerFriendlist, ActivePlayerGame } from 'app/models/player';
-import { LANGUAGE } from '../models/context';
-import { ActivatedRoute } from '@angular/router';
-import { DocumentReference } from '@firebase/firestore-types';
+import {AngularFireAuth} from 'angularfire2/auth';
+import {ActivePlayerGame, PlayerFriendlist, PlayerProfile} from 'app/models/player';
+import {LANGUAGE} from '../models/context';
 
 @Injectable()
 export class FirebaseGameService {
@@ -19,9 +15,7 @@ export class FirebaseGameService {
 
   constructor(
     private afAuth: AngularFireAuth,
-    private db: AngularFirestore,
-    private httpClient: HttpClient,
-    private route: ActivatedRoute) {
+    private db: AngularFirestore) {
   }
 
   // deprecated
@@ -34,7 +28,7 @@ export class FirebaseGameService {
   }
 
   public isLoggedIn(): boolean {
-    return this.authUserUid !== null;
+    return this.authUserUid !== null && this.authUserUid !== '';
   }
 
   public isLoggedOut(): boolean {
@@ -79,7 +73,7 @@ export class FirebaseGameService {
 
           this.setAuthUserOffline();
           return;
-        };
+        }
 
         userStatusDatabaseRef
           .onDisconnect()
@@ -116,42 +110,10 @@ export class FirebaseGameService {
   }
 
   public observeGame(gameName): Observable<Game> {
-    const observable = this.db
+    return this.db
       .collection('games')
       .doc<Game>(gameName)
-      .valueChanges()
-    return observable;
-  }
-
-  public observeFriendsGamesToJoin(friendUids: string[]): Promise<Game[]> {
-    const promisesAll: Promise<ActivePlayerGame[]>[] = [];
-    friendUids.forEach(uid => {
-      const promise = this.observeActivegamesOfSpecificPlayer(uid).first().toPromise();
-      promisesAll.push(promise);
-    });
-
-    return Promise.all(promisesAll).then((gameOfGames) => {
-
-      let allActiveFriendGames: ActivePlayerGame[] = [];
-      gameOfGames.forEach((games) => {
-        allActiveFriendGames = allActiveFriendGames.concat(games);
-      });
-      //  return Promise.resolve(allActiveFriendGames);
-      // to difficult and expensive TODO
-
-      const promiseAllOfGames: Promise<Game>[] = [];
-      allActiveFriendGames.forEach((game) => {
-        const currentPromise = this.db.collection('games').doc<Game>(game.name).valueChanges().first().toPromise();
-        /*
-        const currentPromise = this.db.collection<Game>('games', (ref) => {
-          return ref.where('status', '==', 'gamelobby').where('name', '==', game.name);
-        }).valueChanges().first().toPromise();
-        */
-        promiseAllOfGames.push(currentPromise);
-      });
-      return Promise.all(promiseAllOfGames);
-    });
-
+      .valueChanges();
   }
 
   public observePublicGamesToJoin(): Observable<Game[]> {
@@ -182,12 +144,6 @@ export class FirebaseGameService {
       .valueChanges()
   }
 
-  public observeGames(): Observable<Game[]> {
-    return this.db
-      .collection<Game>('games')
-      .valueChanges()
-  }
-
   observeCurrentPlayersFriendslist(): Observable<PlayerFriendlist[]> {
     return this.db
       .collection<PlayerProfile>('players')
@@ -198,11 +154,10 @@ export class FirebaseGameService {
 
   public observeLoggedInPlayerProfile(): Observable<PlayerProfile> {
     // for any reason auth can become null
-    const observableChain = this.observeAuthUser().flatMap((user) => {
+    return this.observeAuthUser().flatMap((user) => {
       const isLoggedIn = user === null;
       return isLoggedIn ? Observable.of(null) : this.observePlayerProfile(this.getAuthUid());
     });
-    return observableChain;
   }
 
   public observePlayerProfile(uid: string): Observable<PlayerProfile> {
@@ -261,27 +216,11 @@ export class FirebaseGameService {
     return Promise.all([deleteGamePromise, removeFromReferencesGamesPromise]);
   }
 
-  private deleteActiveGameRef(gamePlayer: GamePlayer, gameName: string): Promise<any> {
-    return this.db.collection('players')
-      .doc(gamePlayer.uid)
-      .collection('activegames')
-      .doc(gameName)
-      .delete();
-  }
-
-  private deleteGamePlayersRef(gamePlayer: GamePlayer, gameName: string): Promise<any> {
-    return this.db.collection('games')
-      .doc(gameName)
-      .collection('players')
-      .doc(gamePlayer.uid)
-      .delete();
-  }
-
   public updateGameStatus(newStatus: GameStatus, gameName: string): Promise<void> {
     return this.db
       .collection<Game>('games')
       .doc(gameName)
-      .update(<{ [status: string]: GameStatus }>{ status: newStatus });
+      .update(<{ [status: string]: GameStatus }>{status: newStatus});
   }
 
   public updateGameVisibility(isPrivate: boolean, gameName: string): Promise<void> {
@@ -302,29 +241,14 @@ export class FirebaseGameService {
       .doc(gameName)
       .collection('players')
       .doc(authUser)
-      .update(<{ [status: string]: GamePlayerStatus }>{ status: status });
-  }
-
-  private getGameObject(gameName: string, language: LANGUAGE) {
-    const STARTING_ROUND = 0;
-    return {
-      name: gameName,
-      host: this.afAuth.auth.currentUser.uid,
-      visibilityPrivate: true,
-      status: 'gamelobby' as GameStatus,
-      players: [],
-      round: STARTING_ROUND,
-      createdAt: Date.now(),
-      language: language,
-      pointsScored: {}
-    };
+      .update(<{ [status: string]: GamePlayerStatus }>{status: status});
   }
 
   public addLoggedInPlayerToGame(gameName: string): Promise<[[void, void], void]> {
     // TODO might be reduced to call
     const uid = this.afAuth.auth.currentUser.uid;
     return Promise.all([this.observeGame(gameName).first().toPromise(),
-    this.observeLoggedInPlayerProfile().first().toPromise()])
+      this.observeLoggedInPlayerProfile().first().toPromise()])
       .then(responses => {
         const game = responses[0] as Game;
         // not needed
@@ -365,36 +289,6 @@ export class FirebaseGameService {
       .set(updatePlayer);
   }
 
-  private addActiveGameToPlayer(gameName: string, uid: string, isLoggedInPlayerHost): Promise<void> {
-    const activeGameModel: ActivePlayerGame = {
-      name: gameName,
-      isActionRequired: isLoggedInPlayerHost,
-      since: new Date().getTime()
-    };
-    return this.db
-      .collection<GamePlayer>('players')
-      .doc(uid)
-      .collection<ActivePlayerGame>('activegames')
-      .doc(gameName)
-      .set(activeGameModel);
-  }
-
-  private addFriendToUser(toUid: string, newFriendUid: string, name: string): Promise<void> {
-    const request: PlayerFriendlist = ({
-      uid: newFriendUid,
-      name: name,
-      isOnline: false,
-      lastOnline: Date.now()
-    });
-
-    return this.db
-      .collection<PlayerProfile>('players')
-      .doc(toUid)
-      .collection<PlayerFriendlist>('friendlist')
-      .doc(newFriendUid)
-      .set(request);
-  }
-
   public addCurrentUserAsFriendToOtherPlayer(targetUid: string, nameOfCurrentUser: string): Promise<void> {
     if (targetUid === this.afAuth.auth.currentUser.uid) {
       return Promise.reject(Error('Does not make sense to add yourself as friend.'));
@@ -427,15 +321,6 @@ export class FirebaseGameService {
       );
   }
 
-  // TODO
-  public updatePlayerProfileIsOnline(isOnline: boolean): Promise<void> {
-    return this.db.collection('players')
-      .doc(this.authUserUid)
-      .set({
-        isOnline: isOnline
-      }, { merge: true });
-  }
-
   public logToServer(error: any): void {
     const stacktrace = error.stack ? error.stack : error.toString();
     this.db.collection('errors')
@@ -448,6 +333,67 @@ export class FirebaseGameService {
   public fetchNewHtmlVersionStatus(): Observable<any> {
     return this.db.collection('versions')
       .doc<number>('current').valueChanges();
+  }
+
+  private deleteActiveGameRef(gamePlayer: GamePlayer, gameName: string): Promise<any> {
+    return this.db.collection('players')
+      .doc(gamePlayer.uid)
+      .collection('activegames')
+      .doc(gameName)
+      .delete();
+  }
+
+  private deleteGamePlayersRef(gamePlayer: GamePlayer, gameName: string): Promise<any> {
+    return this.db.collection('games')
+      .doc(gameName)
+      .collection('players')
+      .doc(gamePlayer.uid)
+      .delete();
+  }
+
+  private getGameObject(gameName: string, language: LANGUAGE) {
+    const STARTING_ROUND = 0;
+    return {
+      name: gameName,
+      host: this.afAuth.auth.currentUser.uid,
+      visibilityPrivate: true,
+      status: 'gamelobby' as GameStatus,
+      players: [],
+      round: STARTING_ROUND,
+      createdAt: Date.now(),
+      language: language,
+      pointsScored: {}
+    };
+  }
+
+  private addActiveGameToPlayer(gameName: string, uid: string, isLoggedInPlayerHost): Promise<void> {
+    const activeGameModel: ActivePlayerGame = {
+      name: gameName,
+      isActionRequired: isLoggedInPlayerHost,
+      since: new Date().getTime()
+    };
+    return this.db
+      .collection<GamePlayer>('players')
+      .doc(uid)
+      .collection<ActivePlayerGame>('activegames')
+      .doc(gameName)
+      .set(activeGameModel);
+  }
+
+  private addFriendToUser(toUid: string, newFriendUid: string, name: string): Promise<void> {
+    const request: PlayerFriendlist = ({
+      uid: newFriendUid,
+      name: name,
+      isOnline: false,
+      lastOnline: Date.now()
+    });
+
+    return this.db
+      .collection<PlayerProfile>('players')
+      .doc(toUid)
+      .collection<PlayerFriendlist>('friendlist')
+      .doc(newFriendUid)
+      .set(request);
   }
 
   private random53(): number {

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-firsttiprules',
@@ -9,7 +9,8 @@ export class FirsttiprulesComponent implements OnInit {
 
   @Input() public showDetails;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }

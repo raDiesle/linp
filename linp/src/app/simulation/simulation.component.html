@@ -87,12 +87,12 @@
   </button>
 
 
-  <span *ngIf="queryResults | async; let queryResults; else false">
+  <div *ngIf="queryResults | async; let queryResults; else false">
     <ul>
       <li *ngFor="let item of queryResults">
         {{ item | json }}
       </li>
     </ul>
     <div *ngIf="queryResults.length === 0">No results, try clearing filters</div>
-  </span>
+  </div>
 </div>

@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AngularFirestore} from 'angularfire2/firestore';
 import {AngularFireAuth} from 'angularfire2/auth/auth';
 import {Game, GamePlayer} from '../models/game';
-import {PlayerProfile, ActivePlayerGame} from '../models/player';
+import {ActivePlayerGame, PlayerProfile} from '../models/player';
 import {Subject} from 'rxjs/Subject';
 import {LinpCardsModelService} from './linpcardsinit.service';
 import {Observable} from 'rxjs/Observable';
@@ -72,26 +72,21 @@ const players: { [uid: string]: PlayerProfile } = {
 })
 export class SimulationComponent implements OnInit, OnDestroy {
 
-  private ngUnsubscribe: Subject<void> = new Subject<void>();
   public queryResults: Observable<{}[]>;
   public gameName: string | null;
   public deletedGameFlag = false;
-
   public createForSecondSynonymResponseCountPlayersCount = 0;
   public createForPrepareGameResponseCountPlayersCount = 0;
-
   public createForFirstGuessGameResponseCountPlayersCount = 0;
   public createForFirstGuessGameResponseCount = 0;
   public createForEvaluationResponseCountPlayersCount = 0;
   public createForPrepareGameResponseCount = 0;
-
   public createForSecondGuessGameResponseCount = 0;
   public createForSecondGuessGameResponseCountPlayersCount = 0;
   public createForSecondSynonymResponseCount = 0;
   public createForEvaluationResponseCount = 0;
 
-
-  public createGaneWithUsers
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor(private route: ActivatedRoute,
               public afAuth: AngularFireAuth,
@@ -135,14 +130,14 @@ export class SimulationComponent implements OnInit, OnDestroy {
                 name: this.gameName
               };
               this.db
-              .collection<GamePlayer>('players')
-              .doc(player.uid)
-              .collection<ActivePlayerGame>('activegames')
-              .doc(this.gameName)
-              .set(activeGameModel)
-              .then(() => {
-                this.createForEvaluationResponseCount++;
-              });
+                .collection<GamePlayer>('players')
+                .doc(player.uid)
+                .collection<ActivePlayerGame>('activegames')
+                .doc(this.gameName)
+                .set(activeGameModel)
+                .then(() => {
+                  this.createForEvaluationResponseCount++;
+                });
             })
         });
       })
@@ -179,14 +174,14 @@ export class SimulationComponent implements OnInit, OnDestroy {
                 activeGameModel.isActionRequired = true;
               }
               this.db
-              .collection<GamePlayer>('players')
-              .doc(player.uid)
-              .collection<ActivePlayerGame>('activegames')
-              .doc(this.gameName)
-              .set(activeGameModel)
-              .then(() => {
-                this.createForPrepareGameResponseCount++;
-              });
+                .collection<GamePlayer>('players')
+                .doc(player.uid)
+                .collection<ActivePlayerGame>('activegames')
+                .doc(this.gameName)
+                .set(activeGameModel)
+                .then(() => {
+                  this.createForPrepareGameResponseCount++;
+                });
             })
         });
       })
@@ -217,14 +212,14 @@ export class SimulationComponent implements OnInit, OnDestroy {
                 name: this.gameName
               };
               this.db
-              .collection<GamePlayer>('players')
-              .doc(player.uid)
-              .collection<ActivePlayerGame>('activegames')
-              .doc(this.gameName)
-              .set(activeGameModel)
-              .then(() => {
-                this.createForSecondSynonymResponseCount++;
-              });
+                .collection<GamePlayer>('players')
+                .doc(player.uid)
+                .collection<ActivePlayerGame>('activegames')
+                .doc(this.gameName)
+                .set(activeGameModel)
+                .then(() => {
+                  this.createForSecondSynonymResponseCount++;
+                });
             })
         });
       })
@@ -256,14 +251,14 @@ export class SimulationComponent implements OnInit, OnDestroy {
                 since: new Date().getTime()
               };
               this.db
-              .collection<GamePlayer>('players')
-              .doc(player.uid)
-              .collection<ActivePlayerGame>('activegames')
-              .doc(this.gameName)
-              .set(activeGameModel)
-              .then(() => {
-                this.createForFirstGuessGameResponseCount++;
-              });
+                .collection<GamePlayer>('players')
+                .doc(player.uid)
+                .collection<ActivePlayerGame>('activegames')
+                .doc(this.gameName)
+                .set(activeGameModel)
+                .then(() => {
+                  this.createForFirstGuessGameResponseCount++;
+                });
             })
         });
       })
@@ -296,14 +291,14 @@ export class SimulationComponent implements OnInit, OnDestroy {
                 since: new Date().getTime()
               };
               this.db
-              .collection<GamePlayer>('players')
-              .doc(player.uid)
-              .collection<ActivePlayerGame>('activegames')
-              .doc(this.gameName)
-              .set(activeGameModel)
-              .then(() => {
-                this.createForSecondGuessGameResponseCount++;
-              });
+                .collection<GamePlayer>('players')
+                .doc(player.uid)
+                .collection<ActivePlayerGame>('activegames')
+                .doc(this.gameName)
+                .set(activeGameModel)
+                .then(() => {
+                  this.createForSecondGuessGameResponseCount++;
+                });
             })
         });
       })
@@ -327,7 +322,7 @@ export class SimulationComponent implements OnInit, OnDestroy {
   addInitialWords() {
     const cards = [];
     let pos = 0;
-    const batch = this.db.firestore.batch();
+
     for (const word of this.linpCardsModelService.getCards()) {
 
       const singleCard = {
@@ -341,7 +336,7 @@ export class SimulationComponent implements OnInit, OnDestroy {
         .doc('de')
         .collection('cards')
         .add(singleCard);
-        // wtf
+      // wtf
       pos++;
     }
 

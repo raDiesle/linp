@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { IngameprogressrulesComponent } from './ingameprogressrules.component';
+import {IngameprogressrulesComponent} from './ingameprogressrules.component';
 
 describe('IngameprogressrulesComponent', () => {
   let component: IngameprogressrulesComponent;
@@ -8,9 +8,9 @@ describe('IngameprogressrulesComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ IngameprogressrulesComponent ]
+      declarations: [IngameprogressrulesComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ActionguidemodalComponent } from './actionguidemodal.component';
+import {ActionguidemodalComponent} from './actionguidemodal.component';
 
 describe('ActionguidemodalComponent', () => {
   let component: ActionguidemodalComponent;
@@ -8,9 +8,9 @@ describe('ActionguidemodalComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ActionguidemodalComponent ]
+      declarations: [ActionguidemodalComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

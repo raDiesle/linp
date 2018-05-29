@@ -1,6 +1,4 @@
-import { LANGUAGE } from './context';
-
-export type OneOf<T> = { [K in keyof T]: Pick<T, K> }[keyof T];
+import {LANGUAGE} from './context';
 
 export interface Game {
   name: string;
@@ -53,6 +51,7 @@ export interface GamePlayer {
   totalRanking?: number;
 }
 
+// unused
 // export type SynonymKey = Partial<{ [k in 'firstSynonym' | 'secondSynonym']: string }>;
 export type SynonymKey = 'firstSynonym' | 'secondSynonym';
 

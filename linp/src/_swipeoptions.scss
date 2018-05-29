@@ -1,0 +1,79 @@
+.btn-delete {
+  height: 100%;
+  border-radius: 0;
+}
+
+@keyframes bs4SlideToEdit {
+  from {
+    left: 0;
+  }
+  to {
+    left: -200px;
+  }
+}
+
+.bs4ItemEditMode {
+  animation-name: bs4SlideToEdit;
+  animation-duration: .3s;
+  left: -200px;
+}
+
+@keyframes bs4SlideToUnedit {
+  from {
+    left: -200px;
+  }
+  to {
+    left: 0;
+  }
+}
+
+.bs4ItemUneditMode {
+  animation-name: bs4SlideToUnedit;
+  animation-duration: .3s;
+  left: 0px;
+}
+
+.bs4DeleteContainer {
+  height: 100%;
+  position: absolute;
+  right: -200px;
+  top: 0;
+  width: 0;
+  overflow: hidden;
+}
+
+@keyframes bs4DeleteSlideIn {
+  from {
+    width: 0;
+    right: 0;
+  }
+  to {
+    width: 200px;
+    right: -200px;
+  }
+}
+
+.bs4DeleteEditMode {
+  animation-name: bs4DeleteSlideIn;
+  animation-duration: .3s;
+  width: 200px;
+  right: -200px;
+}
+
+@keyframes bs4DeleteSlideOut {
+  from {
+    width: 200px;
+    right: -200px;
+  }
+  to {
+    width: 0;
+    right: 0;
+  }
+}
+
+.bs4DeleteUneditMode {
+  animation-name: bs4DeleteSlideOut;
+  animation-duration: .3s;
+  width: 0;
+  right: 0;
+}

@@ -111,9 +111,9 @@
           </div>
 
           <ol>
-            <span>
+            <li>
               Teams will be revealed and points evaluated
-            </span>
+            </li>
           </ol>
 
         </div>
@@ -153,10 +153,8 @@
         id="startGameButton"
         class="btn btn-block"
         [ngClass]="{'btn-outline-success' : !hasStartedGame, 'btn-success' : hasStartedGame}"
-        (click)="startGameAction()"
-        [disabled]="hasStartedGame"
-      >          
-        Ready to start       
+      >
+        Ready to start
       </button>
     </div>
   </div>

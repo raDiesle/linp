@@ -63,7 +63,7 @@ export const PreparegameMock = function (players, gameName: string) {
   });
 
   return {
-    request : request,
+    request: request,
     requestPlayers: requestPlayers
   };
-}
+};

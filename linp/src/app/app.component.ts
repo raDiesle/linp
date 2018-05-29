@@ -1,12 +1,9 @@
-import { FirebaseGameService } from './services/firebasegame.service';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, NavigationStart, ParamMap, Router } from '@angular/router';
-import { AngularFireAuth } from 'angularfire2/auth/auth';
-import * as firebase from 'firebase/app';
-import { Subject } from 'rxjs/Subject';
-import { AngularFirestore } from 'angularfire2/firestore';
-import { Observable } from 'rxjs/Observable';
-import { GamePlayer } from './models/game';
+import {FirebaseGameService} from './services/firebasegame.service';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {NavigationEnd, Router} from '@angular/router';
+import {AngularFireAuth} from 'angularfire2/auth/auth';
+import {Subject} from 'rxjs/Subject';
+import {AngularFirestore} from 'angularfire2/firestore';
 
 // http://jasonwatmore.com/post/2017/04/19/angular-2-4-router-animation-tutorial-example
 
@@ -23,7 +20,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   private ngUnsubscribeNewGameChosen: Subject<void> = new Subject<void>();
-  public isUserAuthOfflane = false;
 
   constructor(
     private router: Router,
@@ -55,6 +51,11 @@ export class AppComponent implements OnInit, OnDestroy {
       });
   }
 
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
+
   private updateCurrentGameName(routerInformation) {
     if (routerInformation instanceof NavigationEnd) {
       const fullUrl = routerInformation.urlAfterRedirects;
@@ -71,31 +72,5 @@ export class AppComponent implements OnInit, OnDestroy {
         this.ngUnsubscribeNewGameChosen.complete();
       }
     }
-  }
-
-  private observeGamePlayerStatus(gamePlayers: { [uid: string]: GamePlayer }) {
-    const nextPositiveRoute = 'firsttip';
-    let prevStatus = null;
-    Observable.pairs(gamePlayers)
-      .flatMap(p => Observable.of(p))
-      .every(playerObj => {
-        const status = playerObj[1]['status'];
-        const isAllSame = status === prevStatus || prevStatus === null;
-        prevStatus = status;
-        return isAllSame;
-      })
-      .subscribe(allGivenFirstSynonym => {
-        // change
-        const doNothing = null;
-        if (allGivenFirstSynonym) {
-          // this.router.navigate([nextPositiveRoute, this.gameName])
-        }
-      }
-      );
-  }
-
-  ngOnDestroy() {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
   }
 }

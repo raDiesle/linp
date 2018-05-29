@@ -1,7 +1,6 @@
 // Superhero 4.1.1
 // Bootswatch
 
-
 // Variables ===================================================================
 
 .svg-small {
@@ -125,12 +124,9 @@ $web-font-path: "https://fonts.googleapis.com/css?family=Lato:300,400,700" !defa
   }
 }
 
-
 @each $color, $value in $theme-colors {
   @include list-group-item-variant($color, theme-color-level($color, -1), theme-color-level($color, 6));
 }
-
-
 
 // Forms =======================================================================
 

@@ -1,10 +1,10 @@
-import { AngularFireAuth } from 'angularfire2/auth/auth';
+import {AngularFireAuth} from 'angularfire2/auth/auth';
 
-import { FirebaseGameService } from './../../services/firebasegame.service';
-import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
+import {FirebaseGameService} from './../../services/firebasegame.service';
+import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
-import { PlayerFriendlist } from '../../models/player';
-import { WindowRef } from '../../WindowRef';
+import {PlayerFriendlist} from '../../models/player';
+import {WindowRef} from '../../WindowRef';
 
 @Component({
   selector: 'app-friendlist',
@@ -13,22 +13,22 @@ import { WindowRef } from '../../WindowRef';
 })
 export class FriendlistComponent implements OnInit, OnDestroy {
 
-  private ngUnsubscribe: Subject<void> = new Subject<void>();
   friendlist: PlayerFriendlist[] = null;
   public friendsinvitationlink = '/';
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor(private firebaseGameService: FirebaseGameService,
-    private afAuth: AngularFireAuth,
-    @Inject(WindowRef) private windowRef: WindowRef
+              private afAuth: AngularFireAuth,
+              @Inject(WindowRef) private windowRef: WindowRef
   ) {
   }
 
   ngOnInit() {
     this.firebaseGameService.observeCurrentPlayersFriendslist()
-    .takeUntil(this.ngUnsubscribe)
-    .subscribe(friendlist => {
-      this.friendlist = friendlist;
-    });
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(friendlist => {
+        this.friendlist = friendlist;
+      });
 
     this.friendsinvitationlink = `${this.windowRef.nativeWindow.location.origin}/addfriend/${this.afAuth.auth.currentUser.uid}`;
 

@@ -83,12 +83,14 @@
     <div class="list-group-item">
       <div class="row">
         <div class="col-3">
-          <span *ngIf="gamePlayer.questionmarkOrWord === '?'" i18n-ngbTooltip="@@scorecard.indirect1.tooltip" ngbTooltip="You identified other teams +2 or you successful bluffed, so others guessed on you, having a real word +1"
-            i18n="@@scorecard.indirect1">
+          <span *ngIf="gamePlayer.questionmarkOrWord === '?'" i18n-ngbTooltip="@@scorecard.indirect1.tooltip"
+                ngbTooltip="You identified other teams +2 or you successful bluffed, so others guessed on you, having a real word +1"
+                i18n="@@scorecard.indirect1">
             Indirect Points
           </span>
-          <span *ngIf="gamePlayer.questionmarkOrWord !== '?'" i18n-ngbTooltip="@@scorecard.indirect2.tooltip" ngbTooltip="Others identified you and your partner (-1) or you identified other teams (+1)"
-            i18n="@@scorecard.indirect2">
+          <span *ngIf="gamePlayer.questionmarkOrWord !== '?'" i18n-ngbTooltip="@@scorecard.indirect2.tooltip"
+                ngbTooltip="Others identified you and your partner (-1) or you identified other teams (+1)"
+                i18n="@@scorecard.indirect2">
             Indirect Points
           </span>
         </div>
@@ -105,3 +107,4 @@
       </div>
     </div>
   </div>
+</div>

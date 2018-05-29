@@ -1,13 +1,10 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
-import { AngularFireAuth } from 'angularfire2/auth/auth';
-import { ActivatedRoute, Router } from '@angular/router';
-import * as firebase from 'firebase/app';
-import { AngularFirestore } from 'angularfire2/firestore';
-import { Game, GamePlayer, GamePlayerStatus, GameStatus } from 'app/models/game';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { FirebaseGameService } from '../../services/firebasegame.service';
-import { Subject } from 'rxjs/Subject';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import {Component, Input, OnInit} from '@angular/core';
+import {AngularFireAuth} from 'angularfire2/auth/auth';
+import {ActivatedRoute, Router} from '@angular/router';
+import {AngularFirestore} from 'angularfire2/firestore';
+import {GamePlayerStatus, GameStatus} from 'app/models/game';
+import {HttpClient} from '@angular/common/http';
+import {FirebaseGameService} from '../../services/firebasegame.service';
 
 @Component({
   selector: 'app-nextbutton',
@@ -28,11 +25,11 @@ export class NextbuttonComponent implements OnInit {
   readonly NEXT_PLAYER_STATUS: GamePlayerStatus = 'CHECKED_EVALUATION';
 
   constructor(private route: ActivatedRoute,
-    private router: Router,
-    public db: AngularFirestore,
-    public afAuth: AngularFireAuth,
-    private httpClient: HttpClient,
-    private firebaseGameService: FirebaseGameService) {
+              private router: Router,
+              public db: AngularFirestore,
+              public afAuth: AngularFireAuth,
+              private httpClient: HttpClient,
+              private firebaseGameService: FirebaseGameService) {
   }
 
   ngOnInit() {
@@ -45,7 +42,7 @@ export class NextbuttonComponent implements OnInit {
       this.gameName,
       this.NEXT_PLAYER_STATUS)
       .then(() => {
-        this.router.navigate([this.NEXT_STATUS, this.gameName]);
+        this.router.navigate([this.NEXT_STATUS, this.gameName], {skipLocationChange: true});
       });
   }
 }
