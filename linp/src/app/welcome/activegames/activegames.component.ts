@@ -40,7 +40,6 @@ export class ActivegamesComponent implements OnInit, OnDestroy {
   }
 
   public addFriend(game: Game) {
-    alert("to be implemented");
     event.stopPropagation();
   }
 

@@ -44,9 +44,6 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
     const isDevelopmentEnv = this.windowRef.nativeWindow.location.host.includes('localhost');
     const currentRouteName = this.route.snapshot.url[0].path;
 
-    this.firebaseGameService.observeCurrentPlayersFriendslist()
-      .subscribe(friendList => this.friendList = friendList);
-
     this.firebaseGameService.observeGame(this.gameName)
       .takeUntil(this.ngUnsubscribe)
       .subscribe(game => {
@@ -62,6 +59,8 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
         // rewrite. warning about infinite loop
         if (this.isGameDataFetchedFlag === false) {
           this.gamePlayerAction();
+          this.firebaseGameService.observeCurrentPlayersFriendslist()
+          .subscribe(friendList => this.friendList = friendList);
         }
       });
   }

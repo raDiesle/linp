@@ -70,8 +70,8 @@ import {SecondguessrulesComponent} from './gamerules/secondguessrules/secondgues
 import {ShortdescriptionComponent} from './welcome/shortdescription/shortdescription.component';
 import {GameslistComponent} from './joingame/gameslist/gameslist.component';
 import {AddfriendsfromgamesComponent} from './welcome/friendlist/addfriendsfromgames/addfriendsfromgames.component';
-import {SwipeoptionsComponent} from './widgets/swipeoptions/swipeoptions.component';
-import {SwipeoptionsService} from "./widgets/swipeoptions/swipeoptions.service";
+
+import { AngularSvgIconModule } from 'angular-svg-icon';
 
 export function windowFactory() {
   return window;
@@ -87,7 +87,7 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
   ],
   // signInSuccessUrl: '/',
   method: AuthMethods.Popup,
-//TODO  tos: '<your-tos-link>',
+// TODO  tos: '<your-tos-link>',
   credentialHelper: CredentialHelper.None
 };
 
@@ -136,8 +136,7 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     SecondguessrulesComponent,
     ShortdescriptionComponent,
     GameslistComponent,
-    AddfriendsfromgamesComponent,
-    SwipeoptionsComponent
+    AddfriendsfromgamesComponent
   ],
   entryComponents: [
     ActionguideComponent,
@@ -245,6 +244,8 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     ShareModule.forRoot(),
     ShareButtonModule.forRoot(),
 
+    AngularSvgIconModule,
+
     BrowserModule,
     HttpClientModule,
     HttpModule, // TODO still needed?
@@ -258,7 +259,7 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
   ],
   // missingTranslation: MissingTranslationStrategy.Error,
   providers: [AuthGuard, FirebaseGameService, GuessService, GamelobbyComponent,
-    PreparegameComponent, LinpCardsModelService, SwipeoptionsService, WindowRef,
+    PreparegameComponent, LinpCardsModelService, WindowRef,
     {provide: ErrorHandler, useClass: CustomErrorHandler}
   ],
   bootstrap: [AppComponent]

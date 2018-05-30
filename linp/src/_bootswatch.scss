@@ -13,6 +13,9 @@
       fill: $value;
     }
   }
+  &-white {
+    fill: white;
+  }
 }
 
 $web-font-path: "https://fonts.googleapis.com/css?family=Lato:300,400,700" !default;

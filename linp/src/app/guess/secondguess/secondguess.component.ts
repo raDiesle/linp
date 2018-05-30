@@ -54,7 +54,7 @@ export class SecondguessComponent implements OnInit, OnDestroy {
       .takeUntil(this.ngUnsubscribe)
       .subscribe((gamePlayrs: GamePlayer[]) => {
         this.gamePlayers = gamePlayrs;
-      
+    
         this.waitingGamePlayerNames = this.gamePlayers.filter(player => player.status !== this.PLAYER_STATUS_AFTER_ACTION)
         .map(player => player.name);
 

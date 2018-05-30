@@ -4,7 +4,7 @@
 <div [hidden]="gamePlayers === undefined">
   <span id="savedResponseFlag" class="d-none" *ngIf="savedResponseFlag"></span>
 
-  <app-actionguide [waitingGamePlayerNames]="waitingGamePlayerNames" *ngIf="isloggedInPlayerDidGuess === false"></app-actionguide>
+  <app-actionguide [waitingGamePlayerNames]="waitingGamePlayerNames" [hidden]="isloggedInPlayerDidGuess === false"></app-actionguide>
 
 
   <div class="card pb-3" [hidden]="isloggedInPlayerDidGuess === true">

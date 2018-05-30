@@ -36,7 +36,7 @@
       </div>
     </div>
   </div>
-  <div class="card-footer text-center" i18n="@@friendlist.sendinvitation">
+  <div class="card-footer text-center  d-flex align-items-center flex-column" i18n="@@friendlist.sendinvitation">
 
     <!--
     <a class="btn btn-primary btn-block" href="assets/addfriend.png">
@@ -58,6 +58,25 @@
       </div>
     </div>
 -->
+
+<button class="btn btn-primary" id="addFriendList" i18n="@@gamelobby.invitefriends.add"
+  routerLink="/addfriendsfromgames"
+>
+  <svg-icon src="person_add" class="fill-white"></svg-icon>
+  <div>Add friends<br>from game</div>
+</button>
+
+<br>
+<br>
+<button class="btn btn-primary btn-block d-flex justify-content-between" id="addFriendList" i18n="@@gamelobby.invitefriends.add"
+  routerLink="/addfriendsfromgames"
+>
+  <svg-icon src="person_add" class="fill-white"></svg-icon>
+  <span>Add friends from game</span>
+  <span>&nbsp;</span>
+</button>
+
+or<br>
     Send invitation link to friends:
     <div class="container">
       <div class="row d-flex justify-content-between">
