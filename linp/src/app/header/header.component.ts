@@ -1,9 +1,7 @@
 import {FirebaseGameService} from './../services/firebasegame.service';
 import {Component, Inject, Input, OnInit, ViewChild} from '@angular/core';
 import {WindowRef} from '../WindowRef';
-import {ActionguideService} from '../services/actionguide.service';
 import {NgbModal, NgbPopover} from '@ng-bootstrap/ng-bootstrap';
-import {ActionguidemodalComponent} from '../widgets/actionguidemodal/actionguidemodal.component';
 import {NavigationEnd, Router} from '@angular/router';
 import {GamerulesComponent} from '../gamerules/gamerules.component';
 
@@ -22,7 +20,6 @@ export class HeaderComponent implements OnInit {
   private lastVersion = 0;
 
   constructor(@Inject(WindowRef) private windowRef: WindowRef,
-              private actionGuide: ActionguideService,
               private modalService: NgbModal,
               private firebaseGameService: FirebaseGameService,
               private router: Router
@@ -36,12 +33,6 @@ export class HeaderComponent implements OnInit {
       .subscribe(event => {
         this.showBackLink = event.url.includes('/welcome') === false && event.url !== '/';
       });
-
-    this.actionGuide.actionDone.subscribe((gamePlayers) => {
-      this.helpPop.close();
-      const actionGuideInstance = this.modalService.open(ActionguidemodalComponent, {centered: true, size: 'lg'});
-      actionGuideInstance.componentInstance.gamePlayers = gamePlayers;
-    });
 
     this.firebaseGameService.fetchNewHtmlVersionStatus()
       .subscribe(currentVersion => {

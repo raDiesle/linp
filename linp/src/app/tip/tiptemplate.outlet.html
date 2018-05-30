@@ -4,28 +4,12 @@
 <div [hidden]="gamePlayers === undefined">
 
   <span id="savedResponseFlag" class="d-none" *ngIf="savedResponseFlag"></span>
-  <div class="card">
-    <div class="card-header text-center">
-      <h2>Give {{isSecondtip ? 'second' : 'first'}}
-        <span i18n="@@tiptemplate.word">code word</span>
-      </h2>
-    </div>
-    <div class="card-body">
-      <ng-template #isWaiting>
-        <div class="pb-2" *ngIf="isPlayersTurnForAuthUser === false">
-          <div class="row align-items-center">
-            <div class="col-9 pr-0">
-              Waiting for
-              <strong>{{currentPlayer?.name}}</strong> to give {{isSecondtip ? 'second' : 'first'}} word.
-            </div>
-            <div class="col-3 pl-0 text-right">
-              <img src="assets/agent_small.jpg">
-            </div>
-          </div>
-        </div>
-      </ng-template>
+  
+  <app-actionguide [waitingGamePlayerNames]="[currentPlayer?.name]" *ngIf="isPlayersTurnForAuthUser === false"></app-actionguide>
 
-      <div class="pt-3" #isTurn *ngIf="isPlayersTurnForAuthUser else isWaiting">
+  <div class="card">
+    <div class="card-body">
+      <div class="pt-3" #isTurn *ngIf="isPlayersTurnForAuthUser">
         <div class="row" id="yourTurn">
           <div class="col-6 offset-3 text-center">
             <h3 class="card-title" i18n="@@tiptemplate.header">
@@ -77,7 +61,7 @@
             <div class="col-4">
               &nbsp;
             </div>
-            <div class="col-4 small" i18n="@@tiptemplate.word1">
+            <div class="col-4 small bg-primary progress-bar-striped progress-bar-animated" i18n="@@tiptemplate.word1">
               1st word
             </div>
             <div class="col-4 small" i18n="@@tiptemplate.word2">
@@ -93,10 +77,13 @@
             <div class="col-4">
               {{gamePlayer.name}}
             </div>
-            <div class="col-4" [ngClass]="{
-                  'border border-primary' : isSecondtip === false && gamePlayer ===  currentPlayer && show$
-                }">
-              <span class="badge badge-info w-100" [hidden]="!gamePlayer.firstSynonym">
+            <div class="col-4" >
+              <span class="badge w-100" [ngClass]="{
+                'bg-primary progress-bar-striped progress-bar-animated' : isSecondtip === false && gamePlayer ===  currentPlayer && show$
+              }">
+              &nbsp;
+            </span>
+              <span class="badge badge-success w-100" [hidden]="!gamePlayer.firstSynonym">
                 {{gamePlayer.firstSynonym}}
               </span>
             </div>
@@ -111,8 +98,7 @@
         </li>
       </ul>
     </div>
-
+  </div>
     <br>
 
   </div>
-</div>

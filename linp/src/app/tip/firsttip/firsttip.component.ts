@@ -6,7 +6,6 @@ import {GamePlayer, GamePlayerStatus} from 'app/models/game';
 import {Subject} from 'rxjs/Subject';
 import {FirebaseGameService} from '../../services/firebasegame.service';
 import {AngularFireAuth} from 'angularfire2/auth';
-import {ActionguideService} from '../../services/actionguide.service';
 
 @Component({
   selector: 'app-firsttip',
@@ -39,8 +38,7 @@ export class FirsttipComponent implements OnInit, OnDestroy {
               private router: Router,
               public db: AngularFirestore,
               public afAuth: AngularFireAuth,
-              private firebaseGameService: FirebaseGameService,
-              private actionguideService: ActionguideService) {
+              private firebaseGameService: FirebaseGameService) {
   }
 
   ngOnInit() {
@@ -72,9 +70,6 @@ export class FirsttipComponent implements OnInit, OnDestroy {
         });
 
         this.isPlayersTurnForAuthUser = this.currentPlayer.uid === this.loggedInGamePlayer.uid;
-        if (this.isPlayersTurnForAuthUser === false) {
-          this.actionguideService.triggerActionDone(this.gamePlayers);
-        }
       });
 
     Observable.timer(0, 1000).subscribe(number => {

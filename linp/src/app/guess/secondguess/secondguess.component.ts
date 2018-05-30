@@ -6,7 +6,6 @@ import {GuessService} from '../guess.service';
 import {Observable} from 'rxjs/Observable';
 import {Subject} from 'rxjs/Subject';
 import {FirebaseGameService} from '../../services/firebasegame.service';
-import {ActionguideService} from '../../services/actionguide.service';
 
 const tipDBkey = 'secondTeamTip';
 
@@ -29,7 +28,8 @@ export class SecondguessComponent implements OnInit, OnDestroy {
   public isloggedInPlayerDidGuess = false;
   public savedResponseFlag = false;
   public isSecondGuess = true;
-  public isOnlyOnePlayerLeftForAction = false;
+
+  public waitingGamePlayerNames: string[] = [];
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   private isBlinkTickerShown$: boolean;
@@ -38,8 +38,7 @@ export class SecondguessComponent implements OnInit, OnDestroy {
               private router: Router,
               public db: AngularFirestore,
               public guessService: GuessService,
-              private firebaseGameService: FirebaseGameService,
-              private actionguideService: ActionguideService) {
+              private firebaseGameService: FirebaseGameService) {
   }
 
   ngOnInit() {
@@ -55,7 +54,9 @@ export class SecondguessComponent implements OnInit, OnDestroy {
       .takeUntil(this.ngUnsubscribe)
       .subscribe((gamePlayrs: GamePlayer[]) => {
         this.gamePlayers = gamePlayrs;
-        this.isOnlyOnePlayerLeftForAction = gamePlayrs.filter(player => player.status !== this.PLAYER_STATUS_AFTER_ACTION).length <= 1;
+      
+        this.waitingGamePlayerNames = this.gamePlayers.filter(player => player.status !== this.PLAYER_STATUS_AFTER_ACTION)
+        .map(player => player.name);
 
         const isSwitchGameStatus = gamePlayrs.every(gamePlayers => gamePlayers.status === this.PLAYER_STATUS_AFTER_ACTION);
         if (isSwitchGameStatus) {
@@ -70,10 +71,6 @@ export class SecondguessComponent implements OnInit, OnDestroy {
 
         if (this.isloggedInPlayerDidGuess === false) {
           this.selectedGamePlayers[0] = this.loggedInGamePlayer;
-        }
-
-        if (this.isloggedInPlayerDidGuess === true) {
-          this.actionguideService.triggerActionDone(this.gamePlayers);
         }
       });
 

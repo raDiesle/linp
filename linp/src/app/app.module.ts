@@ -58,8 +58,7 @@ import {MaintenanceComponent} from './welcome/maintenance/maintenance.component'
 import {GameprogressComponent} from './widgets/gameprogress/gameprogress.component';
 import {ScorecardComponent} from './evaluation/scorecard/scorecard.component';
 import {NextbuttonComponent} from './evaluation/nextbutton/nextbutton.component';
-import {ActionguideService} from './services/actionguide.service';
-import {ActionguidemodalComponent} from './widgets/actionguidemodal/actionguidemodal.component';
+import {ActionguideComponent} from './widgets/actionguide/actionguide.component';
 import {CustomErrorHandler} from './services/customerrorhandler';
 import {BasicrulesComponent} from './gamerules/basicrules/basicrules.component';
 import {GamelobbyrulesComponent} from './gamerules/gamelobbyrules/gamelobbyrules.component';
@@ -127,7 +126,7 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     GameprogressComponent,
     ScorecardComponent,
     NextbuttonComponent,
-    ActionguidemodalComponent,
+    ActionguideComponent,
     BasicrulesComponent,
     GamelobbyrulesComponent,
     FirsttiprulesComponent,
@@ -141,7 +140,7 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     SwipeoptionsComponent
   ],
   entryComponents: [
-    ActionguidemodalComponent,
+    ActionguideComponent,
     GamerulesComponent,
     ActivegamesComponent,
     FriendlistComponent
@@ -259,7 +258,7 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
   ],
   // missingTranslation: MissingTranslationStrategy.Error,
   providers: [AuthGuard, FirebaseGameService, GuessService, GamelobbyComponent,
-    PreparegameComponent, LinpCardsModelService, ActionguideService, SwipeoptionsService, WindowRef,
+    PreparegameComponent, LinpCardsModelService, SwipeoptionsService, WindowRef,
     {provide: ErrorHandler, useClass: CustomErrorHandler}
   ],
   bootstrap: [AppComponent]

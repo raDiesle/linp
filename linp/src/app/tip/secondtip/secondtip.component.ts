@@ -4,7 +4,6 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {GamePlayer, GamePlayerStatus} from 'app/models/game';
 import {Subject} from 'rxjs/Subject';
 import {FirebaseGameService} from '../../services/firebasegame.service';
-import {ActionguideService} from '../../services/actionguide.service';
 
 
 @Component({
@@ -21,7 +20,7 @@ export class SecondtipComponent implements OnInit, OnDestroy {
   readonly NEXT_PAGE = 'secondguess';
   readonly SYNONYM_KEY = 'secondSynonym';
 
-  gamePlayers: GamePlayer[];
+  public gamePlayers: GamePlayer[];
   gameName: string;
   public savedResponseFlag = false;
   public isPlayersTurnForAuthUser = false;
@@ -33,8 +32,7 @@ export class SecondtipComponent implements OnInit, OnDestroy {
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              private firebaseGameService: FirebaseGameService,
-              private actionguideService: ActionguideService) {
+              private firebaseGameService: FirebaseGameService) {
   }
 
   ngOnInit() {
@@ -62,9 +60,6 @@ export class SecondtipComponent implements OnInit, OnDestroy {
           return gamePlayer.uid === this.firebaseGameService.getAuthUid();
         });
         this.isPlayersTurnForAuthUser = this.currentPlayer.uid === this.loggedInGamePlayer.uid;
-        if (this.isPlayersTurnForAuthUser === false) {
-          this.actionguideService.triggerActionDone(this.gamePlayers);
-        }
       });
 
     Observable.timer(0, 1000).subscribe(number => {

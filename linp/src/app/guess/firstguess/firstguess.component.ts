@@ -1,4 +1,3 @@
-import { ActionguideService } from './../../services/actionguide.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AngularFirestore } from 'angularfire2/firestore';
@@ -19,6 +18,7 @@ export class FirstguessComponent implements OnInit, OnDestroy {
 
   selectedGamePlayers: GamePlayer[] = [];
   gamePlayers: GamePlayer[];
+  public waitingGamePlayerNames: string[] = [];
   public loggedInGamePlayer: GamePlayer;
 
   readonly PLAYER_STATUS_AFTER_ACTION: GamePlayerStatus = 'FIRST_GUESS_GIVEN';
@@ -29,7 +29,7 @@ export class FirstguessComponent implements OnInit, OnDestroy {
 
   public savedResponseFlag = false;
   public isloggedInPlayerDidGuess = false;
-  public isOnlyOnePlayerLeftForAction = false;
+
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   private isBlinkTickerShown$: boolean;
 
@@ -37,8 +37,7 @@ export class FirstguessComponent implements OnInit, OnDestroy {
     private router: Router,
     public db: AngularFirestore,
     public guessService: GuessService,
-    private firebaseGameService: FirebaseGameService,
-    private actionguideService: ActionguideService) {
+    private firebaseGameService: FirebaseGameService) {
   }
 
   ngOnInit() {
@@ -54,7 +53,10 @@ export class FirstguessComponent implements OnInit, OnDestroy {
       .takeUntil(this.ngUnsubscribe)
       .subscribe((gamePlayers: GamePlayer[]) => {
         this.gamePlayers = gamePlayers;
-        this.isOnlyOnePlayerLeftForAction = gamePlayers.filter(player => player.status !== this.PLAYER_STATUS_AFTER_ACTION).length <= 1;
+      
+           
+        this.waitingGamePlayerNames = this.gamePlayers.filter(player => player.status !== this.PLAYER_STATUS_AFTER_ACTION)
+        .map(player => player.name);
 
         const isGameStatusSwitch = gamePlayers.every(gamePlayer => gamePlayer.status === this.PLAYER_STATUS_AFTER_ACTION);
         if (isGameStatusSwitch) {
@@ -70,9 +72,6 @@ export class FirstguessComponent implements OnInit, OnDestroy {
           this.selectedGamePlayers[0] = this.loggedInGamePlayer;
         }
 
-        if (this.isloggedInPlayerDidGuess === true) {
-          this.actionguideService.triggerActionDone(this.gamePlayers);
-        }
       });
 
     Observable.timer(0, 1000)
