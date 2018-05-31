@@ -63,6 +63,9 @@ $headings-margin-bottom: 0.2em !default;
 
 $text-muted: rgba(255, 255, 255, .4) !default;
 
+// Grid
+//$grid-gutter-width: 10px !default;
+
 // Tables
 
 $table-accent-bg: rgba($white, .05) !default;
@@ -134,7 +137,7 @@ $popover-header-bg: $table-hover-bg !default;
 
 // List group
 
-//$list-group-item-padding-y:         .75rem !default;
+$list-group-item-padding-y:         .75rem !default;
 //$list-group-item-padding-x: .45rem !default;
 
 $list-group-bg: $gray-500 !default;
