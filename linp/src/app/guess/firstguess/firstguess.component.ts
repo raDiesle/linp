@@ -53,8 +53,7 @@ export class FirstguessComponent implements OnInit, OnDestroy {
       .takeUntil(this.ngUnsubscribe)
       .subscribe((gamePlayers: GamePlayer[]) => {
         this.gamePlayers = gamePlayers;
-      
-           
+
         this.waitingGamePlayerNames = this.gamePlayers.filter(player => player.status !== this.PLAYER_STATUS_AFTER_ACTION)
         .map(player => player.name);
 

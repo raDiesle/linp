@@ -13,7 +13,7 @@
         <div class="row" id="yourTurn">
           <div class="col-6 offset-3 text-center">
             <h3 class="card-title" i18n="@@tiptemplate.header">
-              It's your turn,
+              It's your turn
               <span class="badge badge-primary">
                       {{loggedInGamePlayer?.questionmarkOrWord === '?' ? 'Solo Agent' : 'Twin Agent'}}
               </span>
@@ -56,43 +56,52 @@
       </div>
 
       <ul class="list-group list-group-flush">
-        <li class="list-group-item disabled">
-          <div class="row text-center">
+        <li class="list-group-item list-group-item-light mb-1 py-1 text-center">
+          <div class="row align-items-center">
             <div class="col-4">
               &nbsp;
             </div>
-            <div class="col-4 small bg-primary progress-bar-striped progress-bar-animated" i18n="@@tiptemplate.word1">
+            <div class="col-4 small" i18n="@@tiptemplate.word1">
+              <!-- [ngClass]="{
+            'bg-primary progress-bar-striped progress-bar-animated': isSecondtip === false,
+            'bg-success': isSecondtip === true
+          }" -->
               1st word
             </div>
             <div class="col-4 small" i18n="@@tiptemplate.word2">
-              2nd word
+              <!-- [ngClass]="{
+              'border-left' : isSecondtip,
+              'bg-primary progress-bar-striped progress-bar-animated': isSecondtip === true
+            }" -->
+              <span>2nd word</span>
             </div>
           </div>
         </li>
-        <li class="list-group-item" [ngClass]="{
+        <li class="list-group-item mt-1" [ngClass]="{
                 'list-group-item-success' : gamePlayer.status === NEXT_STATUS,
                 'disabled' : gamePlayer !== currentPlayer
-                }" *ngFor="let gamePlayer of gamePlayers">
+                }" *ngFor="let gamePlayer of gamePlayers; index as $index">
           <div class="row">
             <div class="col-4">
-              {{gamePlayer.name}}
+              {{$index + 1}}. {{gamePlayer.name}}
             </div>
-            <div class="col-4" >
-              <span class="badge w-100" [ngClass]="{
-                'bg-primary progress-bar-striped progress-bar-animated' : isSecondtip === false && gamePlayer ===  currentPlayer && show$
-              }">
-              &nbsp;
-            </span>
-              <span class="badge badge-success w-100" [hidden]="!gamePlayer.firstSynonym">
-                {{gamePlayer.firstSynonym}}
-              </span>
+            <div class="col-4 text-center" [ngClass]="{              
+              'progress-bar-striped progress-bar-animated' : !isSecondtip && gamePlayer === currentPlayer || (!isSecondtip && !gamePlayer.firstSynonym),                
+              'bg-success': gamePlayer.firstSynonym,              
+              'bg-primary': !isSecondtip && gamePlayer === currentPlayer
+            }" >
+                {{gamePlayer.firstSynonym}}              
             </div>
-            <div class="col-4" [ngClass]="{
-                'border border-primary' : isSecondtip && gamePlayer === currentPlayer && show$
+            <div class="col-4 text-center" [ngClass]="{
+              'border-left' : isSecondtip,  
+              'progress-bar-striped progress-bar-animated' : isSecondtip && gamePlayer === currentPlayer || (isSecondtip && !gamePlayer.secondSynonym),                
+              'bg-success': isSecondtip && gamePlayer.secondSynonym,
+              'bg-primary': isSecondtip && gamePlayer === currentPlayer
               }">
-              <span class="text-center badge badge-info w-100" [hidden]="!gamePlayer.secondSynonym">
-                {{gamePlayer.secondSynonym}}
-              </span>
+              <!-- 'border border-success': isSecondtip && gamePlayer === currentPlayer && show$, -->
+              
+              {{gamePlayer.secondSynonym}}
+       
             </div>
           </div>
         </li>
