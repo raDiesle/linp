@@ -9,9 +9,8 @@
   <div class="card pb-3" [hidden]="isloggedInPlayerDidGuess === true">
     <div class="card-body">
       <div class="card-subtitle h2 mt-3 mb-2">
-
         <div class="d-flex justify-content-center text-center">
-          <div [hidden]="loggedInGamePlayer?.questionmarkOrWord === '?'">
+          <ng-container *ngIf="loggedInGamePlayer?.questionmarkOrWord !== '?'">
             <div>
               <svg-icon src="supervisor_account" class="fill-white d-block"></svg-icon>
               Twin Agent
@@ -20,14 +19,12 @@
               <svg-icon src="vpn_key" class="fill-white d-block"></svg-icon>
               {{loggedInGamePlayer?.questionmarkOrWord}}
             </div>
-          </div>
+          </ng-container>
           <div [hidden]="loggedInGamePlayer?.questionmarkOrWord !== '?'">
             <svg-icon src="person_outline" class="fill-white d-block"></svg-icon>
             Single Agent
           </div>
         </div>
-
-
       </div>
 
       <div class="pt-4 text-center">

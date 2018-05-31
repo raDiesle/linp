@@ -11,21 +11,33 @@
     <div class="card-body">
       <div class="pt-3" #isTurn *ngIf="isPlayersTurnForAuthUser">
         <div class="row" id="yourTurn">
-          <div class="col-6 offset-3 text-center">
-            <h3 class="card-title" i18n="@@tiptemplate.header">
-              It's your turn
-              <span class="badge badge-primary">
-                      {{loggedInGamePlayer?.questionmarkOrWord === '?' ? 'Solo Agent' : 'Twin Agent'}}
-              </span>
-            </h3>
+          <div class="col-8 text-center">
+            
+              <div class="d-flex justify-content-center text-center">
+                <ng-container *ngIf="loggedInGamePlayer?.questionmarkOrWord !== '?'">
+                  <div>
+                    <svg-icon src="supervisor_account" class="fill-white d-block"></svg-icon>
+                    Twin Agent
+                  </div>
+                  <div class="pl-5">
+                    <svg-icon src="vpn_key" class="fill-white d-block"></svg-icon>
+                    {{loggedInGamePlayer?.questionmarkOrWord}}
+                  </div>
+                </ng-container>
+                <div [hidden]="loggedInGamePlayer?.questionmarkOrWord !== '?'">
+                  <svg-icon src="person_outline" class="fill-white d-block"></svg-icon>
+                  Single Agent
+                </div>
+              </div>
+              
           </div>
-          <div class="col-3 text-right">
+          <div class="col-4 text-right">
             <img src="assets/whisper_small.jpg">
           </div>
         </div>
 
         <form novalidate #giveSynonymForm="ngForm">
-          <div class="form-group text-left">
+          <div class="form-group text-left pt-3">
             <label for="synonymTxt">
               <ng-container *ngIf="loggedInGamePlayer?.questionmarkOrWord === '?'">
                 <p i18n="@@tiptemplate.hint1">
@@ -33,16 +45,24 @@
                 </p>
               </ng-container>
               <ng-container *ngIf="loggedInGamePlayer?.questionmarkOrWord !== '?'" i18n="@@tiptemplate.partner.hint">
-                Give your {{isSecondtip ? 'second' : 'first' }} code word for
+                <!-- Give your {{isSecondtip ? 'second' : 'first' }} code word for 
                 <span class="badge badge-primary">
                     {{loggedInGamePlayer?.questionmarkOrWord}}
                   </span>
-                <p>Choose a word, so that your twin partner can identify you, but other agents don't know your twin partner.</p>
+                  -->
+                
+                <br>
+                <svg-icon src="thumb_up" class="svg-small fill-success align-bottom"></svg-icon> Twin Agent is able to identify you
+                <br>                  
+                <svg-icon src="thumb_down" class="svg-small fill-danger align-bottom"></svg-icon> Twin Agent pairing too obvious for others   
+                <br>
               </ng-container>
             </label>
             <div>
               <input type="text" class="form-control" [ngClass]="{'is-invalid' : synonymInput?.dirty && synonymInput.errors?.required}"
-                     id="synonymTxt" [(ngModel)]="synonym" #synonymInput="ngModel" name="synonym" required>
+                     id="synonymTxt" [(ngModel)]="synonym" #synonymInput="ngModel" name="synonym" required
+                     placeholder="Code word association to secret word"
+                     >
               <div *ngIf="synonymInput?.dirty && synonymInput.errors?.required" i18n="@@tiptemplate.required">
                 Provide your code word
               </div>
@@ -50,7 +70,7 @@
           </div>
           <button id="sendSynonym" class="btn btn-primary btn-block my-2" [disabled]="synonymInput.invalid" (click)="sendSynonym()"
                   i18n="@@tiptemplate.send">
-            Whisper to all
+            Save
           </button>
         </form>
       </div>
@@ -82,17 +102,17 @@
                 'disabled' : gamePlayer !== currentPlayer
                 }" *ngFor="let gamePlayer of gamePlayers; index as $index">
           <div class="row">
-            <div class="col-4">
+            <div class="col-4 px-1">
               {{$index + 1}}. {{gamePlayer.name}}
             </div>
-            <div class="col-4 text-center" [ngClass]="{              
+            <div class="col-4 px-1 text-center" [ngClass]="{              
               'progress-bar-striped progress-bar-animated' : !isSecondtip && gamePlayer === currentPlayer || (!isSecondtip && !gamePlayer.firstSynonym),                
               'bg-success': gamePlayer.firstSynonym,              
               'bg-primary': !isSecondtip && gamePlayer === currentPlayer
             }" >
                 {{gamePlayer.firstSynonym}}              
             </div>
-            <div class="col-4 text-center" [ngClass]="{
+            <div class="col-4 px-1 text-center" [ngClass]="{
               'border-left' : isSecondtip,  
               'progress-bar-striped progress-bar-animated' : isSecondtip && gamePlayer === currentPlayer || (isSecondtip && !gamePlayer.secondSynonym),                
               'bg-success': isSecondtip && gamePlayer.secondSynonym,

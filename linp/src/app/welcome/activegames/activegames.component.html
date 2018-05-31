@@ -36,7 +36,7 @@
                 No games require your action
               </div>
             </div>
-            <button id="gamename_{{game.name}}" class="list-group-item list-group-item-action list-group-item-primary mt-1" role="button"
+            <button id="gamename_{{game.name}}" class="list-group-item list-group-item-action list-group-item-primary px-2 mt-1" role="button"
                     *ngFor="let game of games" (click)="onSelectGameToJoin(game.name)"
             >
               <!-- (addFriendCallback)="addFriend(game)"
@@ -60,7 +60,7 @@
               Waiting for others
             </h3>
             <div class="list-group">
-              <button id="gamename_{{game.name}}" class="list-group-item list-group-item-action list-group-item-light mt-1" role="button"
+              <button id="gamename_{{game.name}}" class="list-group-item list-group-item-action list-group-item-light px-2 mt-1" role="button"
                       *ngFor="let game of passiveGames" (click)="onSelectGameToJoin(game.name)">
                 <div class="row">
                   <div class="col-6">
