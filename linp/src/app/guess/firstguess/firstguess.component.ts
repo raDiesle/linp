@@ -67,7 +67,7 @@ export class FirstguessComponent implements OnInit, OnDestroy {
         });
         this.isloggedInPlayerDidGuess = this.loggedInGamePlayer.status === this.PLAYER_STATUS_AFTER_ACTION;
 
-        if (this.isloggedInPlayerDidGuess === false) {
+        if (this.isloggedInPlayerDidGuess === false && this.loggedInGamePlayer.questionmarkOrWord !== '?') {
           this.selectedGamePlayers[0] = this.loggedInGamePlayer;
         }
 
@@ -80,7 +80,7 @@ export class FirstguessComponent implements OnInit, OnDestroy {
   }
 
   onTeamPlayerGuessSelected(clickedGamePlayer): void {
-    this.selectedGamePlayers = this.guessService.onTeamPlayerGuessSelected(this.selectedGamePlayers, clickedGamePlayer);
+    this.selectedGamePlayers = this.guessService.onTeamPlayerGuessSelected(this.selectedGamePlayers, clickedGamePlayer, this.loggedInGamePlayer);
   }
 
   public saveTeamTip(): void {

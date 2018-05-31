@@ -69,7 +69,7 @@ export class SecondguessComponent implements OnInit, OnDestroy {
         this.loggedInGamePlayer = loggedInGamePlayer;
         this.isloggedInPlayerDidGuess = loggedInGamePlayer.status === this.PLAYER_STATUS_AFTER_ACTION;
 
-        if (this.isloggedInPlayerDidGuess === false) {
+        if (this.isloggedInPlayerDidGuess === false && this.loggedInGamePlayer.questionmarkOrWord !== '?') {
           this.selectedGamePlayers[0] = this.loggedInGamePlayer;
         }
       });
@@ -111,7 +111,7 @@ export class SecondguessComponent implements OnInit, OnDestroy {
       }
     }
 
-    this.selectedGamePlayers = this.guessService.onTeamPlayerGuessSelected(this.selectedGamePlayers, clickedGamePlayer);
+    this.selectedGamePlayers = this.guessService.onTeamPlayerGuessSelected(this.selectedGamePlayers, clickedGamePlayer, this.loggedInGamePlayer);
   }
 
   public saveTeamTip(): void {

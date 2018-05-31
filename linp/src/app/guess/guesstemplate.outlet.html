@@ -8,32 +8,32 @@
 
   <div class="card pb-3" [hidden]="isloggedInPlayerDidGuess === true">
     <div class="card-body">
-      <div class="card-subtitle h2 mt-3 mb-2 text-center">
-        <span class="mt-3" i18n="@@guesstemplate.yourword">
-          It's your turn
-        </span>
+      <div class="card-subtitle h2 mt-3 mb-2 text-center">        
+          You are
         <span [hidden]="loggedInGamePlayer?.questionmarkOrWord === '?'">
           <span class="badge badge-info">
             Twin Agent
           </span>
-          with code word
+          <div>
+            with secret word
+          </div>
           <span class="badge badge-info">{{loggedInGamePlayer?.questionmarkOrWord}}</span>
         </span>
         <span [hidden]="loggedInGamePlayer?.questionmarkOrWord !== '?'">
           <span class="badge badge-info">Single Agent</span>
         </span>
-        <div class="pt-3">
+        <div class="pt-4">
           Who might be Twin Agents?
         </div>
       </div>
 
-      <div class="card-text py-3 h3 text-center border border-info" [hidden]="selectedGamePlayers.length !== 2 || (selectedGamePlayers[0].uid === loggedInGamePlayer.uid) || (selectedGamePlayers[1].uid === loggedInGamePlayer.uid) ">
-        Identify your Twin Agent either in 1st or 2nd guess give highest score.
+      <div class="card-text py-3 h3 text-center border border-info" [hidden]="loggedInGamePlayer?.questionmarkOrWord === '?' || selectedGamePlayers.length !== 2 || (selectedGamePlayers[0].uid === loggedInGamePlayer.uid) || (selectedGamePlayers[1].uid === loggedInGamePlayer.uid) ">
+        Sure to take risk not guess on you and Twin Agent?
       </div>
 
       <button id="saveGuessBtn" class="card-link btn btn-block btn-success my-2" [disabled]="selectedGamePlayers.length < 2" (click)="saveTeamTip()"
         i18n="@@guesstemplate.savebutton">
-        Save
+        Save guess secretly
       </button>
 
       <div class="list-group">
@@ -55,7 +55,7 @@
                     'active' : selectedGamePlayers.indexOf(gamePlayer) !== -1,
                     'list-group-item-action' : selectedGamePlayers.length <= 2,
                     'bg-halfheight' : isSecondGuess && selectedGamePlayers.indexOf(gamePlayer) === -1 && (loggedInGamePlayer.firstTeamTip.firstPartner.uid === gamePlayer.uid || loggedInGamePlayer.firstTeamTip.secondPartner.uid === gamePlayer.uid),
-                    'disabled' : (this.playerUidToDisableForSelection === gamePlayer.uid || selectedGamePlayers.length >= 2)
+                    'disabled' : (this.playerUidToDisableForSelection === gamePlayer.uid || selectedGamePlayers.length >= 2) || (loggedInGamePlayer.questionmarkOrWord === '?' && gamePlayer.uid === loggedInGamePlayer.uid)
                   }" (click)="onTeamPlayerGuessSelected(gamePlayer)">
           <div class="row" placement="top" ngbTooltip="You can't select exact same twin partners than in 1st guess" [disableTooltip]="playerUidToDisableForSelection !== gamePlayer.uid || selectedGamePlayers.length > 2">
             <div class="col-4">

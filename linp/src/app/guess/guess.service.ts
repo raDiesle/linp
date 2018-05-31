@@ -1,17 +1,20 @@
-import {Injectable} from '@angular/core';
-import {GamePlayer, GamePlayerStatus, TeamTip} from '../models/game';
-import {AngularFirestore} from 'angularfire2/firestore';
-import {FirebaseGameService} from '../services/firebasegame.service';
+import { Injectable } from '@angular/core';
+import { GamePlayer, GamePlayerStatus, TeamTip } from '../models/game';
+import { AngularFirestore } from 'angularfire2/firestore';
+import { FirebaseGameService } from '../services/firebasegame.service';
 
 @Injectable()
 export class GuessService {
 
   constructor(public db: AngularFirestore,
-              private firebaseGameService: FirebaseGameService) {
+    private firebaseGameService: FirebaseGameService) {
   }
 
   // simplify
-  public onTeamPlayerGuessSelected(selectedPlayers, clickedGamePlayer) {
+  public onTeamPlayerGuessSelected(selectedPlayers: GamePlayer[], clickedGamePlayer: GamePlayer, loggedInGamePlayer: GamePlayer) {
+    if (loggedInGamePlayer.questionmarkOrWord === '?' && loggedInGamePlayer.uid === clickedGamePlayer.uid) {
+      return selectedPlayers;
+    }
     const isPlayerSelectedNew = selectedPlayers.indexOf(clickedGamePlayer) === -1;
     if (isPlayerSelectedNew) {
       const wasMaxPlayersForTeamSelectedAlready = selectedPlayers.length >= 2;
@@ -27,9 +30,9 @@ export class GuessService {
   }
 
   public saveTeamTip(gameName: string,
-                     selectedGamePlayers: GamePlayer[],
-                     tipDBkey: string,
-                     gamePlayerStatus: GamePlayerStatus): Promise<any> {
+    selectedGamePlayers: GamePlayer[],
+    tipDBkey: string,
+    gamePlayerStatus: GamePlayerStatus): Promise<any> {
     // move to model
     const requestModel = this.createGuessModel(selectedGamePlayers, tipDBkey);
     requestModel.status = gamePlayerStatus;
