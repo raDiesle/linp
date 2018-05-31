@@ -1,6 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {ErrorHandler, NgModule} from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, NG_VALIDATORS} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
@@ -19,7 +19,7 @@ import {FirsttipComponent} from './tip/firsttip/firsttip.component';
 import {FirstguessComponent} from './guess/firstguess/firstguess.component';
 import {SearchFilterPipe} from './joingame/gamelistsearch.pipe';
 import {GamelobbyComponent} from './gamelobby/gamelobby.component';
-import {SinglewordonlyvalidatorDirective} from './tip/singlewordonly_depre/singlewordonlyvalidator.directive';
+import {SinglewordonlyvalidatorDirective} from './tip/singlewordonly/singlewordonlyvalidator.directive';
 import {FadeComponent} from './widgets/fade/fade.component';
 import {WaitingdotsComponent} from './widgets/waitingdots/waitingdots.component';
 import {WordsdrumrollComponent} from './widgets/wordsdrumroll/wordsdrumroll.component';
@@ -72,6 +72,7 @@ import {GameslistComponent} from './joingame/gameslist/gameslist.component';
 import {AddfriendsfromgamesComponent} from './welcome/friendlist/addfriendsfromgames/addfriendsfromgames.component';
 
 import { AngularSvgIconModule } from 'angular-svg-icon';
+import { SamewordasbeforevalidatorDirective } from './tip/secondtip/samewordasbeforevalidator.directive';
 
 export function windowFactory() {
   return window;
@@ -101,7 +102,6 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     SecondtipComponent,
     SearchFilterPipe,
     GamelobbyComponent,
-    SinglewordonlyvalidatorDirective,
     FadeComponent,
     WaitingdotsComponent,
     WordsdrumrollComponent,
@@ -136,7 +136,9 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     SecondguessrulesComponent,
     ShortdescriptionComponent,
     GameslistComponent,
-    AddfriendsfromgamesComponent
+    AddfriendsfromgamesComponent,
+    SamewordasbeforevalidatorDirective,
+    SinglewordonlyvalidatorDirective
   ],
   entryComponents: [
     ActionguideComponent,
