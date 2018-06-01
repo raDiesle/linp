@@ -3,35 +3,27 @@
 
 <app-nextbutton [isRealCalculatedHack]="isRealCalculatedHack" [gameRound]="gameRound"></app-nextbutton>
 
-<div class="card bg-primary mt-4">
+<div class="card mt-4" *ngFor="let gamePlayer of gamePlayerContainer?.QUESTIONMARK; first as isFirst;">
   <div class="card-header">
-    <strong i18n="@@evaluation.questionmark">Double Agent</strong><span *ngIf="gamePlayerContainer?.QUESTIONMARK.length > 1">s</span>
+    <app-rolekey [gamePlayer]="gamePlayer"></app-rolekey>
   </div>
   <div class="card-body">
-    <div [ngClass]="{'pt-4': isFirst === false}" *ngFor="let gamePlayer of gamePlayerContainer?.QUESTIONMARK; first as isFirst;">
-      <app-scorecard [gamePlayer]="gamePlayer"></app-scorecard>
-    </div>
+    <app-scorecard [gamePlayer]="gamePlayer"></app-scorecard>
   </div>
 </div>
 
-<div class="card bg-primary mt-4">
-  <div class="card-header strong">
-    <strong i18n="@@evaluation.partner">Partner Agents</strong>
-  </div>
-  <div class="card-body">
-    <div *ngFor="let gamePlayer of gamePlayerContainer?.WORD; index as $index; first as isFirst; even as isEven;">
-      <div *ngIf="isEven">
-        <h3 class="text-white" [ngClass]="{'pt-4': isFirst === false}">
-          {{gamePlayer.questionmarkOrWord}}
-        </h3>
-        <div class="border border-primar p-2">
-          <app-scorecard [gamePlayer]="gamePlayer"></app-scorecard>
-          <app-scorecard [gamePlayer]="gamePlayerContainer?.WORD[$index+1]"></app-scorecard>
-        </div>
-      </div>
+
+<ng-container *ngFor="let gamePlayer of gamePlayerContainer?.WORD; index as $index; first as isFirst; even as isEven;">
+  <div class="card mt-4" *ngIf="isEven">
+    <div class="card-header">
+      <app-rolekey [gamePlayer]="gamePlayer"></app-rolekey>
+    </div>
+    <div class="card-body">      
+        <app-scorecard [gamePlayer]="gamePlayer"></app-scorecard>
+        <app-scorecard [gamePlayer]="gamePlayerContainer?.WORD[$index+1]"></app-scorecard>
     </div>
   </div>
-</div>
+</ng-container>
 
 <br>
 <app-nextbutton [isRealCalculatedHack]="isRealCalculatedHack" [gameRound]="gameRound"></app-nextbutton>

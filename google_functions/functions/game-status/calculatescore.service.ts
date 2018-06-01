@@ -38,9 +38,11 @@ export class CalculatescoreService {
 
     private isCorrectGuessOfTeamPartners(currentGamePlayer: GamePlayer, firstGuessGamePlayer: GamePlayer, secondGuessGamePlayer: GamePlayer) {
         const guessedHimselfAsFirstPartner = currentGamePlayer.uid === firstGuessGamePlayer.uid;
-        const otherPartner = guessedHimselfAsFirstPartner ? secondGuessGamePlayer : firstGuessGamePlayer;
-        const isFoundPartnerBySecondGuess = this.isOtherPlayerGuessedAsTeamCorrect(otherPartner, currentGamePlayer, 'secondTeamTip');
+        const otherPartner = guessedHimselfAsFirstPartner ? firstGuessGamePlayer : secondGuessGamePlayer;
+
         const isFoundPartnerByFirstGuess = this.isOtherPlayerGuessedAsTeamCorrect(otherPartner, currentGamePlayer, 'firstTeamTip');
+        const isFoundPartnerBySecondGuess = this.isOtherPlayerGuessedAsTeamCorrect(otherPartner, currentGamePlayer, 'secondTeamTip');
+        
         const isCorrectMatchWithPartner = isFoundPartnerByFirstGuess || isFoundPartnerBySecondGuess;
         return isCorrectMatchWithPartner;
     }
@@ -48,16 +50,16 @@ export class CalculatescoreService {
     private isOtherPlayerGuessedAsTeamCorrect(otherPartner: GamePlayer,
                                               currentGamePlayer: GamePlayer,
                                               firstOrSecondTeamTip: 'firstTeamTip' | 'secondTeamTip') {
+    
+        const andHimToBeHisPartner = 
+            currentGamePlayer.uid === otherPartner[firstOrSecondTeamTip].firstPartner.uid
+         || currentGamePlayer.uid === otherPartner[firstOrSecondTeamTip].secondPartner.uid;
+        
+        const andHimself = 
+            otherPartner.uid === otherPartner[firstOrSecondTeamTip].firstPartner.uid
+         || otherPartner.uid === otherPartner[firstOrSecondTeamTip].secondPartner.uid;
 
-        const thePartnerAlsoSelectedHimTeamguess = otherPartner[firstOrSecondTeamTip].firstPartner.uid === currentGamePlayer.uid;
-        const andHimToBeHisPartner = thePartnerAlsoSelectedHimTeamguess
-            || currentGamePlayer.uid === otherPartner[firstOrSecondTeamTip].secondPartner.uid;
-        const andHimself = otherPartner.uid === otherPartner[firstOrSecondTeamTip].firstPartner.uid
-            || otherPartner.uid === otherPartner[firstOrSecondTeamTip].secondPartner.uid;
-
-        const isOtherPlayerGuessedAsTeamCorrect = (thePartnerAlsoSelectedHimTeamguess
-            && andHimToBeHisPartner
-            && andHimself);
+        const isOtherPlayerGuessedAsTeamCorrect = (andHimToBeHisPartner && andHimself);
         return isOtherPlayerGuessedAsTeamCorrect;
     }
 

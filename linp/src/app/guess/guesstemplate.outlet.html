@@ -8,24 +8,8 @@
 
   <div class="card pb-3" [hidden]="isloggedInPlayerDidGuess === true">
     <div class="card-body">
-      <div class="card-subtitle h2 mt-3 mb-2">
-        <div class="d-flex justify-content-center text-center">
-          <ng-container *ngIf="loggedInGamePlayer?.questionmarkOrWord !== '?'">
-            <div>
-              <svg-icon src="supervisor_account" class="fill-white d-block"></svg-icon>
-              Twin Agent
-            </div>
-            <div class="pl-5">
-              <svg-icon src="vpn_key" class="fill-white d-block"></svg-icon>
-              {{loggedInGamePlayer?.questionmarkOrWord}}
-            </div>
-          </ng-container>
-          <div [hidden]="loggedInGamePlayer?.questionmarkOrWord !== '?'">
-            <svg-icon src="person_outline" class="fill-white d-block"></svg-icon>
-            Single Agent
-          </div>
-        </div>
-      </div>
+      
+      <app-rolekey [gamePlayer]="loggedInGamePlayer"></app-rolekey>
 
       <div class="pt-4 text-center">
         Who might be Twin Agents?

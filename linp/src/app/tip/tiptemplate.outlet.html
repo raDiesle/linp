@@ -4,35 +4,16 @@
 <div [hidden]="gamePlayers === undefined">
 
   <span id="savedResponseFlag" class="d-none" *ngIf="savedResponseFlag"></span>
+  <span class="d-none" id="yourTurn"></span>
 
   <app-actionguide [waitingGamePlayerNames]="[currentPlayer?.name]" *ngIf="isPlayersTurnForAuthUser === false"></app-actionguide>
 
   <div class="card">
     <div class="card-body">
       <div class="pt-2" #isTurn *ngIf="isPlayersTurnForAuthUser">
-        <div class="row" id="yourTurn">
-          <div class="col-8 text-center">
-            <div class="d-flex justify-content-center text-center">
-              <ng-container *ngIf="loggedInGamePlayer?.questionmarkOrWord !== '?'">
-                <div>
-                  <svg-icon src="supervisor_account" class="fill-white d-block"></svg-icon>
-                  Twin Agent
-                </div>
-                <div class="pl-5">
-                  <svg-icon src="vpn_key" class="fill-white d-block"></svg-icon>
-                  {{loggedInGamePlayer?.questionmarkOrWord}}
-                </div>
-              </ng-container>
-              <div [hidden]="loggedInGamePlayer?.questionmarkOrWord !== '?'">
-                <svg-icon src="person_outline" class="fill-white d-block"></svg-icon>
-                Single Agent
-              </div>
-            </div>
-          </div>
-          <div class="col-4 text-right">
-            <img src="assets/whisper_small.jpg">
-          </div>
-        </div>
+        
+
+        <app-rolekey [gamePlayer]="loggedInGamePlayer"></app-rolekey>
 
         <form novalidate #giveSynonymForm="ngForm">
           <div class="form-group text-left pt-3">

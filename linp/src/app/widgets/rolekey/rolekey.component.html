@@ -1,0 +1,25 @@
+<div class="row">
+    <div class="col-12 text-center">
+      <div class="d-flex justify-content-center text-center">
+        <ng-container *ngIf="gamePlayer?.questionmarkOrWord !== '?'">
+          <div>
+            <svg-icon src="supervisor_account" class="fill-white d-block"></svg-icon>
+            Twin Agent
+          </div>
+          <div class="pl-5">
+            <svg-icon src="vpn_key" class="fill-white d-block"></svg-icon>
+            {{gamePlayer?.questionmarkOrWord}}
+          </div>
+        </ng-container>
+        <div [hidden]="gamePlayer?.questionmarkOrWord !== '?'">
+          <svg-icon src="person_outline" class="fill-white d-block"></svg-icon>
+          Single Agent
+        </div>
+      </div>
+    </div>
+    <!--
+    <div class="col-4 text-right">
+      <img src="assets/whisper_small.jpg">
+    </div>
+    -->
+  </div>

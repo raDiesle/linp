@@ -73,6 +73,7 @@ import {AddfriendsfromgamesComponent} from './welcome/friendlist/addfriendsfromg
 
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { SamewordasbeforevalidatorDirective } from './tip/secondtip/samewordasbeforevalidator.directive';
+import { RolekeyComponent } from './widgets/rolekey/rolekey.component';
 
 export function windowFactory() {
   return window;
@@ -138,7 +139,8 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     GameslistComponent,
     AddfriendsfromgamesComponent,
     SamewordasbeforevalidatorDirective,
-    SinglewordonlyvalidatorDirective
+    SinglewordonlyvalidatorDirective,
+    RolekeyComponent
   ],
   entryComponents: [
     ActionguideComponent,

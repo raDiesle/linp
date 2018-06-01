@@ -1,27 +1,24 @@
-<div *ngIf="gamePlayer">
-  <h5 class="d-flex justify-content-between align-items-center" [ngClass]="{'mt-3' : gamePlayer.questionmarkOrWord !== '?'}">
+<div>
+  <h2 class="d-flex justify-content-between align-items-center" [ngClass]="{'mt-3' : gamePlayer.questionmarkOrWord !== '?'}">
+    <span class="pl-4">&nbsp;</span>
     {{gamePlayer.name}}
-    <span class="badge badge-primary badge-pill" [ngClass]="{'badge-success' : gamePlayer?.pointsScored.total > 0,
+    <span class="badge badge-pill" [ngClass]="{'badge-success' : gamePlayer?.pointsScored.total > 0,
               'badge-primary' : gamePlayer?.pointsScored.total === 0,
               'badge-danger' : gamePlayer?.pointsScored.total < 0}">
       {{gamePlayer.pointsScored.total}}
     </span>
-  </h5>
+  </h2>
   <div class="list-group list-group-flush">
     <div class="list-group-item">
-      <div class="row text-center">
-        <div class="col-3" i18n-ngbTooltip="@@scorecard.words.tooltip" ngbTooltip="Given words" i18n="@@scorecard.words">
+      <div class="row">
+        <div class="col-3 text-dark" i18n-ngbTooltip="@@scorecard.words.tooltip" ngbTooltip="Given words" i18n="@@scorecard.words">
           Words
         </div>
-        <div class="col-4">
-          <span class="badge badge-primary w-100">
+        <div class="col-4">          
             {{gamePlayer.firstSynonym}}
-          </span>
         </div>
         <div class="col-4">
-          <span class="badge badge-primary w-100">
             {{gamePlayer.secondSynonym}}
-          </span>
         </div>
         <div class="col-1 p-0 text-right">
           &nbsp;
@@ -31,18 +28,14 @@
 
     <div class="list-group-item">
       <div class="row">
-        <div class="col-3" i18n-ngbTooltip="@@scorecard.givenwords.tooltip" ngbTooltip="Given words" i18n="@@scorecard.givenwords">
+        <div class="col-3 text-dark" i18n-ngbTooltip="@@scorecard.givenwords.tooltip" ngbTooltip="Given words" i18n="@@scorecard.givenwords">
           1. Guess
         </div>
-        <div class="col-4 text-center">
-          <span class="badge badge-primary w-100">
+        <div class="col-4">
             {{gamePlayer.firstTeamTip?.firstPartner?.name}}
-          </span>
         </div>
         <div class="col-4">
-          <span class="badge badge-primary w-100">
             {{gamePlayer.firstTeamTip?.secondPartner?.name}}
-          </span>
         </div>
 
         <div class="col-1 p-0 text-right">
@@ -57,18 +50,14 @@
 
     <div class="list-group-item">
       <div class="row">
-        <div class="col-3" i18n-ngbTooltip="@@scorecard.secondguess.tooltip" ngbTooltip="second guess" i18n="@@scorecard.secondguess">
+        <div class="col-3 text-dark" i18n-ngbTooltip="@@scorecard.secondguess.tooltip" ngbTooltip="second guess" i18n="@@scorecard.secondguess">
           2. Guess
         </div>
         <div class="col-4">
-          <span class="badge badge-primary w-100">
             {{gamePlayer.secondTeamTip?.firstPartner?.name}}
-          </span>
         </div>
         <div class="col-4">
-          <span class="badge badge-primary w-100">
             {{gamePlayer.secondTeamTip?.secondPartner.name}}
-          </span>
         </div>
         <div class="col-1 p-0 text-right">
           <span class="badge badge-pill" [ngClass]="{'badge-success' : gamePlayer.pointsScored.secondTeamTip > 0,
@@ -82,7 +71,7 @@
 
     <div class="list-group-item">
       <div class="row">
-        <div class="col-3">
+        <div class="col-3 text-dark">
           <span *ngIf="gamePlayer.questionmarkOrWord === '?'" i18n-ngbTooltip="@@scorecard.indirect1.tooltip"
                 ngbTooltip="You identified other teams +2 or you successful bluffed, so others guessed on you, having a real word +1"
                 i18n="@@scorecard.indirect1">
