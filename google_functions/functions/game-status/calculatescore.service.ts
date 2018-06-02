@@ -21,10 +21,12 @@ export class CalculatescoreService {
         if (identifiedOtherTeamCorrect) {
             firstGuessGamePlayer.pointsScored.indirect -= 1;
             firstGuessGamePlayer.pointsScored.total -= 1;
+            firstGuessGamePlayer.fakedOrUncovered.push(currentGamePlayer.name);
 
             secondGuessGamePlayer.pointsScored.indirect -= 1;
             secondGuessGamePlayer.pointsScored.total -= 1;
-
+            secondGuessGamePlayer.fakedOrUncovered.push(currentGamePlayer.name);            
+            
             return 2;
         }
 
@@ -71,11 +73,13 @@ export class CalculatescoreService {
             firstGuessGamePlayer.pointsScored.indirect += 1;
             firstGuessGamePlayer.pointsScored.total += 1;
             pointsForChoosingQuestionmark -= 1;
+            firstGuessGamePlayer.fakedOrUncovered.push(currentGamePlayer.name);
         }
         if (secondGuessGamePlayer.questionmarkOrWord === QUESTION_MARK) {
             secondGuessGamePlayer.pointsScored.indirect += 1;
             secondGuessGamePlayer.pointsScored.total += 1;
             pointsForChoosingQuestionmark -= 1;
+            secondGuessGamePlayer.fakedOrUncovered.push(currentGamePlayer.name);
         }
 
         return pointsForChoosingQuestionmark;

@@ -96,11 +96,18 @@ export class EvaluationComponent implements OnInit {
     const questionmarkPlayers = gamePlayers.filter(gamePlayer => gamePlayer.questionmarkOrWord === '?');
     const wordPlayers = gamePlayers.filter(gamePlayer => gamePlayer.questionmarkOrWord !== '?').sort(this.sortByWord);
     this.numberOfQuestionmarks = questionmarkPlayers.length;
+
     // this.gamePlayers = gamePlayers.sort(this.sortByWord);
     this.gamePlayerContainer = {
       'QUESTIONMARK': questionmarkPlayers,
       'WORD': wordPlayers
     };
+  }
+
+  private arrayContainsArray (superset, subset) {
+    return subset.every(function (value) {
+      return (superset.indexOf(value) >= 0);
+    });
   }
 
   private sortByWord(a, b) {

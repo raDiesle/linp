@@ -1,23 +1,14 @@
 <div>
-  <h2 class="d-flex justify-content-between align-items-center" [ngClass]="{'mt-3' : gamePlayer.questionmarkOrWord !== '?'}">
-    <span class="pl-4">&nbsp;</span>
-    {{gamePlayer.name}}
-    <span class="badge badge-pill" [ngClass]="{'badge-success' : gamePlayer?.pointsScored.total > 0,
-              'badge-primary' : gamePlayer?.pointsScored.total === 0,
-              'badge-danger' : gamePlayer?.pointsScored.total < 0}">
-      {{gamePlayer.pointsScored.total}}
-    </span>
-  </h2>
   <div class="list-group list-group-flush">
     <div class="list-group-item">
       <div class="row">
-        <div class="col-3 text-dark" i18n-ngbTooltip="@@scorecard.words.tooltip" ngbTooltip="Given words" i18n="@@scorecard.words">
+        <div class="col-3 px-1 text-dark" i18n-ngbTooltip="@@scorecard.words.tooltip" ngbTooltip="Given words" i18n="@@scorecard.words">
           Words
         </div>
-        <div class="col-4">          
+        <div class="col-4 px-1">          
             {{gamePlayer.firstSynonym}}
         </div>
-        <div class="col-4">
+        <div class="col-4 px-1">
             {{gamePlayer.secondSynonym}}
         </div>
         <div class="col-1 p-0 text-right">
@@ -28,14 +19,14 @@
 
     <div class="list-group-item">
       <div class="row">
-        <div class="col-3 text-dark" i18n-ngbTooltip="@@scorecard.givenwords.tooltip" ngbTooltip="Given words" i18n="@@scorecard.givenwords">
-          1. Guess
+        <div class="col-3 px-1 text-dark" i18n-ngbTooltip="@@scorecard.givenwords.tooltip" ngbTooltip="Given words" i18n="@@scorecard.givenwords">
+          1st Guess
         </div>
-        <div class="col-4">
-            {{gamePlayer.firstTeamTip?.firstPartner?.name}}
+        <div class="col-4 px-1">
+          {{gamePlayer.firstTeamTip?.firstPartner?.name}}
         </div>
-        <div class="col-4">
-            {{gamePlayer.firstTeamTip?.secondPartner?.name}}
+        <div class="col-4 px-1">
+          {{gamePlayer.firstTeamTip?.secondPartner?.name}}
         </div>
 
         <div class="col-1 p-0 text-right">
@@ -50,13 +41,13 @@
 
     <div class="list-group-item">
       <div class="row">
-        <div class="col-3 text-dark" i18n-ngbTooltip="@@scorecard.secondguess.tooltip" ngbTooltip="second guess" i18n="@@scorecard.secondguess">
-          2. Guess
+        <div class="col-3 px-1 text-dark" i18n-ngbTooltip="@@scorecard.secondguess.tooltip" ngbTooltip="second guess" i18n="@@scorecard.secondguess">
+          2nd Guess
         </div>
-        <div class="col-4">
+        <div class="col-4 px-1">
             {{gamePlayer.secondTeamTip?.firstPartner?.name}}
         </div>
-        <div class="col-4">
+        <div class="col-4 px-1">
             {{gamePlayer.secondTeamTip?.secondPartner.name}}
         </div>
         <div class="col-1 p-0 text-right">
@@ -69,31 +60,7 @@
       </div>
     </div>
 
-    <div class="list-group-item">
-      <div class="row">
-        <div class="col-3 text-dark">
-          <span *ngIf="gamePlayer.questionmarkOrWord === '?'" i18n-ngbTooltip="@@scorecard.indirect1.tooltip"
-                ngbTooltip="You identified other teams +2 or you successful bluffed, so others guessed on you, having a real word +1"
-                i18n="@@scorecard.indirect1">
-            Indirect Points
-          </span>
-          <span *ngIf="gamePlayer.questionmarkOrWord !== '?'" i18n-ngbTooltip="@@scorecard.indirect2.tooltip"
-                ngbTooltip="Others identified you and your partner (-1) or you identified other teams (+1)"
-                i18n="@@scorecard.indirect2">
-            Indirect Points
-          </span>
-        </div>
-        <div class="col-8">
-          &nbsp;
-        </div>
-        <div class="col-1 p-0 text-right">
-          <span class="badge badge-pill" [ngClass]="{'badge-success' : gamePlayer.pointsScored.indirect > 0,
-              'badge-primary' : gamePlayer.pointsScored.indirect === 0,
-              'badge-danger' : gamePlayer.pointsScored.indirect < 0}">
-            {{gamePlayer.pointsScored.indirect}}
-          </span>
-        </div>
-      </div>
-    </div>
+  
+
   </div>
 </div>

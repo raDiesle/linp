@@ -3,24 +3,22 @@
 
 <app-nextbutton [isRealCalculatedHack]="isRealCalculatedHack" [gameRound]="gameRound"></app-nextbutton>
 
-
 <div class="card">
   <div class="card-body">
-
     <app-chat [currentGamePlayer]="currentGamePlayer"></app-chat>
   </div>
 </div>
 
-
 <div class="card mt-4" *ngFor="let gamePlayer of gamePlayerContainer?.QUESTIONMARK; first as isFirst;">
   <div class="card-header">
     <app-rolekey [gamePlayer]="gamePlayer"></app-rolekey>
-  </div>
+  </div>  
   <div class="card-body">
+    <app-playersum [gamePlayer]="gamePlayer"></app-playersum>
+    <app-fakeoruncovered [gamePlayer]="gamePlayer"></app-fakeoruncovered>
     <app-scorecard [gamePlayer]="gamePlayer"></app-scorecard>
   </div>
 </div>
-
 
 <ng-container *ngFor="let gamePlayer of gamePlayerContainer?.WORD; index as $index; first as isFirst; even as isEven;">
   <div class="card mt-4" *ngIf="isEven">
@@ -28,7 +26,10 @@
       <app-rolekey [gamePlayer]="gamePlayer"></app-rolekey>
     </div>
     <div class="card-body">
+      <app-fakeoruncovered [gamePlayer]="gamePlayer"></app-fakeoruncovered>
+      <app-playersum [gamePlayer]="gamePlayer"></app-playersum>
       <app-scorecard [gamePlayer]="gamePlayer"></app-scorecard>
+      <app-playersum [gamePlayer]="gamePlayerContainer?.WORD[$index+1]"></app-playersum>
       <app-scorecard [gamePlayer]="gamePlayerContainer?.WORD[$index+1]"></app-scorecard>
     </div>
   </div>

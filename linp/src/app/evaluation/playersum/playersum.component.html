@@ -1,0 +1,9 @@
+<h2 class="d-flex justify-content-between align-items-center" [ngClass]="{'mt-3' : gamePlayer.questionmarkOrWord !== '?'}">
+    <span class="pl-4">&nbsp;</span>
+    {{gamePlayer.name}}
+    <span class="badge badge-pill" [ngClass]="{'badge-success' : gamePlayer?.pointsScored.total > 0,
+              'badge-primary' : gamePlayer?.pointsScored.total === 0,
+              'badge-danger' : gamePlayer?.pointsScored.total < 0}">
+      {{gamePlayer.pointsScored.total}}
+    </span>
+  </h2>

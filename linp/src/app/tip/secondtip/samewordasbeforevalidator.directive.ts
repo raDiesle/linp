@@ -5,10 +5,12 @@ import { AbstractControl, NG_VALIDATORS, Validator, ValidatorFn } from '@angular
 export function SamewordasbeforeValidator(getFirstSynonym): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } => {
     const firstSynonym = getFirstSynonym();
-    if (!control.value) {
+
+    if (!control.value || firstSynonym === '') {
       return null;
     }
     const invalid = { 'samewordasbeforevalidator': 'not same word again' };
+
     return control.value.includes(firstSynonym) === false ? null : invalid;
   };
 }

@@ -45,9 +45,9 @@ export class GameStatusTrigger {
                         return this.evaluate.performAllEvaluateStatusAction(game, name)                           
                         .then(() => {
                                 return Promise.all([
-                                    this.updateFirstPlayerToActionRequired(name),
+                                    this.updateAllPlayersToActionRequired(name),
                                     this.preparegame.perform(game, name)
-                                ])
+                                ]);
                             });
                     },
                 };

@@ -73,7 +73,7 @@ export class Evaluate {
             batch.update(gameRef, {
                 pointsScored: gameUpdateRequest.pointsScored[key],
                 // obsolete
-                totalRanking: gameUpdateRequest[key].totalRanking
+                totalRanking: gameUpdateRequest[key].totalRanking                
             });
         });
 
@@ -91,6 +91,7 @@ export class Evaluate {
         gamePlayerKeys.forEach(gamePlayerKey => {
             const gamePlayer = gamePlayers[gamePlayerKey];
             gamePlayer.pointsScored = gameUpdateRequest.pointsScored[gamePlayerKey];
+            //gamePlayer.fakedOrUncovered = gameUpdateRequest[gamePlayerKey].fakedOrUncovered;
             evaluationSummary.push(gamePlayer);
 
             pointsScoredTotal[gamePlayerKey] = {
@@ -127,6 +128,7 @@ export class Evaluate {
                 totalRounds: totalPoints
             };
             gamePlayer.pointsScored = initialPointsScored;
+            gamePlayer.fakedOrUncovered = [];
         }
         return gamePlayers;
     }
@@ -134,9 +136,9 @@ export class Evaluate {
     evaluateScores(gamePlayerKeys: string[], gamePlayersObjectResettedPoints: { [uid: string]: GamePlayer }): { [uid: string]: GamePlayer } {
         const gamePlayers = Object.assign({}, gamePlayersObjectResettedPoints);
         // Rewrite to not manipulate outer objects
-        for (const gamePlayerKey of gamePlayerKeys
-        ) {
+        for (const gamePlayerKey of gamePlayerKeys) {
             const gamePlayer = gamePlayers[gamePlayerKey];
+
 
             const scoreOfFirstGuess = this.calculateScoresOfGuess(gamePlayers, gamePlayer, gamePlayer.firstTeamTip);
             gamePlayer.pointsScored.firstTeamTip = scoreOfFirstGuess;
@@ -173,7 +175,9 @@ export class Evaluate {
             request.pointsScored[gamePlayerKey]['indirect'] = gamePlayers[gamePlayerKey].pointsScored.indirect;
             request.pointsScored[gamePlayerKey]['total'] = gamePlayers[gamePlayerKey].pointsScored.total;
             request.pointsScored[gamePlayerKey]['totalRounds'] = gamePlayers[gamePlayerKey].pointsScored.totalRounds;
+            
             request[gamePlayerKey] = {};
+            request[gamePlayerKey]['fakedOrUncovered'] = gamePlayers[gamePlayerKey].fakedOrUncovered;
             request[gamePlayerKey]['totalRanking'] = gamePlayers[gamePlayerKey].totalRanking;
         }
         return request;

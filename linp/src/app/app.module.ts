@@ -76,7 +76,9 @@ import { SamewordasbeforevalidatorDirective } from './tip/secondtip/samewordasbe
 import { RolekeyComponent } from './widgets/rolekey/rolekey.component';
 
 import {EmojiPickerModule} from 'ng-emoji-picker';
-import { ChatComponent } from './widgets/chat/chat.component'
+import { ChatComponent } from './widgets/chat/chat.component';
+import { FakeoruncoveredComponent } from './evaluation/fakeoruncovered/fakeoruncovered.component';
+import { PlayersumComponent } from './evaluation/playersum/playersum.component'
 
 export function windowFactory() {
   return window;
@@ -144,7 +146,9 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     SamewordasbeforevalidatorDirective,
     SinglewordonlyvalidatorDirective,
     RolekeyComponent,
-    ChatComponent
+    ChatComponent,
+    FakeoruncoveredComponent,
+    PlayersumComponent
   ],
   entryComponents: [
     ActionguideComponent,

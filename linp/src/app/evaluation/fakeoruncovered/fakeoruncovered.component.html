@@ -1,0 +1,36 @@
+<div class="list-group list-group-flush">
+  <div class="list-group-item">
+    <div class="row">
+      <div class="col-11 px-1">
+        <span *ngIf="gamePlayer.questionmarkOrWord === '?'" i18n-ngbTooltip="@@scorecard.indirect1.tooltip" ngbTooltip="You identified other teams +2 or you successful bluffed, so others guessed on you, having a real word +1"
+          i18n="@@scorecard.indirect1">
+          <span class="text-dark">
+            Faked others &nbsp;&nbsp;
+          </span>
+          <span *ngFor="let faked of gamePlayer.fakedOrUncovered; last as $last">
+            {{faked}}{{$last ? '' : ', '}}
+          </span>
+          <span *ngIf="gamePlayer?.fakedOrUncovered?.length === 0">none</span>
+        </span>
+        <span *ngIf="gamePlayer.questionmarkOrWord !== '?'" i18n-ngbTooltip="@@scorecard.indirect2.tooltip" ngbTooltip="Others identified you and your partner (-1) or you identified other teams (+1)"
+          i18n="@@scorecard.indirect2">
+          <span class="text-dark">
+            Uncovered by &nbsp;&nbsp;
+          </span>
+          <span *ngFor="let uncovered of gamePlayer.fakedOrUncovered; last as $last">
+            {{uncovered}}{{$last ? '' : ', '}}
+          </span>
+          <span *ngIf="gamePlayer?.fakedOrUncovered?.length === 0">none</span>
+        </span>
+      </div>
+
+      <div class="col-1 p-0 text-right">
+        <span class="badge badge-pill" [ngClass]="{'badge-success' : gamePlayer.pointsScored.indirect > 0,
+            'badge-primary' : gamePlayer.pointsScored.indirect === 0,
+            'badge-danger' : gamePlayer.pointsScored.indirect < 0}">
+          {{gamePlayer.pointsScored.indirect}}
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

@@ -49,6 +49,7 @@ export interface GamePlayer {
   secondTeamTip?: TeamTip;
   pointsScored?: PointsScored;
   totalRanking?: number;
+  fakedOrUncovered?: string[];
 }
 
 // unused

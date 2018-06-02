@@ -3,14 +3,14 @@
     <strong>{{chat.from}}:</strong> {{chat.msg}}
   </div>
   <div class="row no-gutters pt-2">
+    <div class="col-1">
+        <button class="btn btn-light form-control" (click)="openPopup()">:)</button>
+      </div>
     <div class="col-10">
-      <emoji-input [(model)]="newChatMessage" autofocus="true" inputClass="form-control" searchClass="form-control" [popupAnchor]="'bottom'"
+      <emoji-input [(model)]="newChatMessage" autofocus="true" inputClass="form-control" [popupAnchor]="'bottom'"
         (setPopupAction)="setPopupAction($event)">
       </emoji-input>
-    </div>
-    <div class="col-1">
-      <button class="btn btn-light form-control" (click)="openPopup()">:)</button>
-    </div>
+    </div>    
     <div class="col-1">
       <button class="btn btn-primary form-control" (click)="sendChat()">
         >
