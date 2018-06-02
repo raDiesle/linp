@@ -122,6 +122,12 @@ this.iconReg.addSvg('thumb_up',
 	C7.22,7.95,7,8.45,7,9v10c0,1.1,0.9,2,2,2h9c0.83,0,1.54-0.5,1.84-1.22l3.02-7.05C22.95,12.5,23,12.26,23,12V10z"/>
 </svg>`);
 
+this.iconReg.addSvg('send',
+`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+    <path d="M0 0h24v24H0z" fill="none"/>
+</svg>`);
+
 
     /* tslint:enable */
   }

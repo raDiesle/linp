@@ -1,11 +1,11 @@
-import {Injectable} from '@angular/core';
-import {AngularFirestore} from 'angularfire2/firestore';
-import {Game, GamePlayer, GamePlayerStatus, GameStatus} from 'app/models/game';
-import {Observable} from 'rxjs/Observable';
+import { Injectable } from '@angular/core';
+import { AngularFirestore } from 'angularfire2/firestore';
+import { Game, GamePlayer, GamePlayerStatus, GameStatus } from 'app/models/game';
+import { Observable } from 'rxjs/Observable';
 import * as firebase from 'firebase';
-import {AngularFireAuth} from 'angularfire2/auth';
-import {ActivePlayerGame, PlayerFriendlist, PlayerProfile} from 'app/models/player';
-import {LANGUAGE} from '../models/context';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { ActivePlayerGame, PlayerFriendlist, PlayerProfile } from 'app/models/player';
+import { LANGUAGE } from '../models/context';
 
 @Injectable()
 export class FirebaseGameService {
@@ -183,6 +183,26 @@ export class FirebaseGameService {
       .valueChanges();
   }
 
+  public addChat(gameName: string, message: string, currentPlayerName: string): Promise<any> {
+    return this.db
+      .collection<Game>('games')
+      .doc(gameName)
+      .collection('chats')
+      .add({
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        from: currentPlayerName,
+        msg: message
+      });
+  }
+
+  public observeGameChats(gameName: string): Observable<GamePlayer[]> {
+    return this.db
+      .collection<Game>('games')
+      .doc(gameName)
+      .collection('chats', ref => ref.orderBy('timestamp', 'asc'))
+      .valueChanges();
+  }
+
   public observeLoggedInGamePlayer(gameName: string): Observable<GamePlayer> {
     return this.db
       .collection<Game>('games')
@@ -220,7 +240,7 @@ export class FirebaseGameService {
     return this.db
       .collection<Game>('games')
       .doc(gameName)
-      .update(<{ [status: string]: GameStatus }>{status: newStatus});
+      .update(<{ [status: string]: GameStatus }>{ status: newStatus });
   }
 
   public updateGameVisibility(isPrivate: boolean, gameName: string): Promise<void> {
@@ -241,14 +261,14 @@ export class FirebaseGameService {
       .doc(gameName)
       .collection('players')
       .doc(authUser)
-      .update(<{ [status: string]: GamePlayerStatus }>{status: status});
+      .update(<{ [status: string]: GamePlayerStatus }>{ status: status });
   }
 
   public addLoggedInPlayerToGame(gameName: string): Promise<[[void, void], void]> {
     // TODO might be reduced to call
     const uid = this.afAuth.auth.currentUser.uid;
     return Promise.all([this.observeGame(gameName).first().toPromise(),
-      this.observeLoggedInPlayerProfile().first().toPromise()])
+    this.observeLoggedInPlayerProfile().first().toPromise()])
       .then(responses => {
         const game = responses[0] as Game;
         // not needed

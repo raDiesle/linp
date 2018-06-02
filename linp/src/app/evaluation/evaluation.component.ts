@@ -7,8 +7,6 @@ import {HttpClient} from '@angular/common/http';
 import {FirebaseGameService} from '../services/firebasegame.service';
 import {Subject} from 'rxjs/Subject';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-
-
 @Component({
   selector: 'app-evaluation',
   templateUrl: './evaluation.component.html',
@@ -26,9 +24,12 @@ export class EvaluationComponent implements OnInit {
 
   // readonly PREV_PLAYER_STATUS: GamePlayerStatus = 'SECOND_GUESS_GIVEN';
 
+  public currentGamePlayer: GamePlayer;
+
   gameName: string;
   // gamePlayers: GamePlayer[] = [];
   gamePlayerContainer: any;
+
   @ViewChild('t') public tooltip: NgbTooltip;
   public gameRound = 0;
   // deprecated
@@ -45,12 +46,14 @@ export class EvaluationComponent implements OnInit {
 
   ngOnInit() {
     this.gameName = this.route.snapshot.paramMap.get('gamename');
+
     // deprecated
     this.isRealCalculatedHack = true;
 
     this.firebaseGameService.observeLoggedInGamePlayer(this.gameName)
       .takeUntil(this.ngUnsubscribe)
       .subscribe(gamePlayer => {
+        this.currentGamePlayer = gamePlayer;
         if (gamePlayer.status === 'CHECKED_EVALUATION') {
           this.router.navigate(['/' + this.NEXT_STATUS, this.gameName], {skipLocationChange: true});
           return;
@@ -72,6 +75,7 @@ export class EvaluationComponent implements OnInit {
         }
       });
   }
+
 
 
   /*

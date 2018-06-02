@@ -27,8 +27,9 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.isDevelopmentEnv = this.windowRef.nativeWindow.location.host.includes('localhost');
-
+    this.isDevelopmentEnv = this.windowRef.nativeWindow.location.host.includes('localhost')
+          || this.windowRef.nativeWindow.location.host.includes('192.168');
+    
     this.router.events.filter((event: any) => event instanceof NavigationEnd)
       .subscribe(event => {
         this.showBackLink = event.url.includes('/welcome') === false && event.url !== '/';

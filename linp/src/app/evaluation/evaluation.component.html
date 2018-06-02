@@ -3,6 +3,15 @@
 
 <app-nextbutton [isRealCalculatedHack]="isRealCalculatedHack" [gameRound]="gameRound"></app-nextbutton>
 
+
+<div class="card">
+  <div class="card-body">
+
+    <app-chat [currentGamePlayer]="currentGamePlayer"></app-chat>
+  </div>
+</div>
+
+
 <div class="card mt-4" *ngFor="let gamePlayer of gamePlayerContainer?.QUESTIONMARK; first as isFirst;">
   <div class="card-header">
     <app-rolekey [gamePlayer]="gamePlayer"></app-rolekey>
@@ -18,9 +27,9 @@
     <div class="card-header">
       <app-rolekey [gamePlayer]="gamePlayer"></app-rolekey>
     </div>
-    <div class="card-body">      
-        <app-scorecard [gamePlayer]="gamePlayer"></app-scorecard>
-        <app-scorecard [gamePlayer]="gamePlayerContainer?.WORD[$index+1]"></app-scorecard>
+    <div class="card-body">
+      <app-scorecard [gamePlayer]="gamePlayer"></app-scorecard>
+      <app-scorecard [gamePlayer]="gamePlayerContainer?.WORD[$index+1]"></app-scorecard>
     </div>
   </div>
 </ng-container>

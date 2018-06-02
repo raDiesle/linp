@@ -15,7 +15,7 @@
     "pree2e": "webdriver-manager update",
     "e2e": "ng e2e",
     "deploy": "firebase deploy",
-    "testc": "testcafe \"chrome --start-fullscreen\" tests/firstSyn*Spec.js",
+    "testc": "testcafe \"chrome --start-fullscreen\" tests/evaluation*Spec.js",
     "i18n": "ng xi18n --i18nFormat=xlf2 --outputPath src/locale --outFile messages.en.xlf",
     "webpack-defaults": "webpack-defaults"
   },
@@ -48,6 +48,7 @@
     "font-awesome": "^4.7.0",
     "hammerjs": "^2.0.8",
     "mini-css-extract-plugin": "^0.4.0",
+    "ng-emoji-picker": "^1.2.4",
     "npm": "^6.1.0",
     "rxjs": "^6.1.0",
     "rxjs-compat": "^6.1.0",

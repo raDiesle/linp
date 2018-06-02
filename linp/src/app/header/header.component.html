@@ -25,8 +25,8 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 -->
-    <div class="collapse navbar-collapse text-center" [ngbCollapse]="isMenuCollapsed" id="navbarSupportedContent" *ngIf="isDevelopmentEnv">
-      <ul class="navbar-nav mr-auto" (click)="isMenuCollapsed=!isMenuCollapsed">
+    <div class="collapse navbar-collapse text-center" [ngbCollapse]="false" id="navbarSupportedContent" *ngIf="isDevelopmentEnv">
+      <ul class="navbar-nav mr-auto flex-row" (click)="isMenuCollapsed=!isMenuCollapsed">
         <li class="nav-item">
           <a id="welcome" class="nav-link" style="color: #4e5d6c" routerLink="/welcome">
             Home

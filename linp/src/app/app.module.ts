@@ -75,6 +75,9 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
 import { SamewordasbeforevalidatorDirective } from './tip/secondtip/samewordasbeforevalidator.directive';
 import { RolekeyComponent } from './widgets/rolekey/rolekey.component';
 
+import {EmojiPickerModule} from 'ng-emoji-picker';
+import { ChatComponent } from './widgets/chat/chat.component'
+
 export function windowFactory() {
   return window;
 }
@@ -140,7 +143,8 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     AddfriendsfromgamesComponent,
     SamewordasbeforevalidatorDirective,
     SinglewordonlyvalidatorDirective,
-    RolekeyComponent
+    RolekeyComponent,
+    ChatComponent
   ],
   entryComponents: [
     ActionguideComponent,
@@ -249,6 +253,7 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     ShareButtonModule.forRoot(),
 
     AngularSvgIconModule,
+    EmojiPickerModule,
 
     BrowserModule,
     HttpClientModule,

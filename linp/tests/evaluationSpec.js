@@ -13,6 +13,7 @@ fixture `EvaluationGameSpec`
   })
   .afterEach(async t => {
     await t
+    .debug()
       .click('#simulation')
       .typeText('#gameName', gameName)
       .click('#deleteBtn')
@@ -40,7 +41,7 @@ test('EvaluationGame', async t => {
     .click('#welcome')
     .click('#gamename_' + gameName)
     .expect(getLocation()).contains(PREV_PAGE)
-    .click('#guess_playerA')
+    .click('#guess_playerB')
     .click('#guess_playerE')
     .click('#saveGuessBtn')
     .expect(Selector('#savedResponseFlag').exists).ok()
@@ -58,7 +59,8 @@ test('EvaluationGame', async t => {
     .click('#gamename_' + gameName)
     .expect(getLocation()).contains(CURRENT_PAGE)
     .click('#finalizeRoundButton')
-    .expect(getLocation()).contains(NEXT_PAGE);
+    .expect(getLocation()).contains(NEXT_PAGE)
+    .debug();
 
   await t
     .useRole(testHelper.playerB)

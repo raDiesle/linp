@@ -72,20 +72,20 @@ export const EvaluationMock = function (players, gameName: string) {
         name: players.playerA.name
       },
       secondPartner: {
-        uid: players.playerF.uid,
-        name: players.playerF.name
+        uid: players.playerD.uid,
+        name: players.playerD.name
       }
     },
     secondSynonym: 'SecondSynB',
     // correct
     secondTeamTip: {
       firstPartner: {
-        uid: players.playerD.uid,
-        name: players.playerD.name
+        uid: players.playerB.uid,
+        name: players.playerB.name
       },
       secondPartner: {
-        uid: players.playerE.uid,
-        name: players.playerE.name
+        uid: players.playerC.uid,
+        name: players.playerC.name
       }
     },
     pointsScored: {
@@ -118,8 +118,8 @@ export const EvaluationMock = function (players, gameName: string) {
     // correct
     secondTeamTip: {
       firstPartner: {
-        uid: players.playerA.uid,
-        name: players.playerA.name
+        uid: players.playerD.uid,
+        name: players.playerD.name
       },
       secondPartner: {
         uid: players.playerE.uid,
