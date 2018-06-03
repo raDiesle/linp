@@ -206,7 +206,6 @@ export class FirebaseGameService {
   }
 
   public observeLoggedInGamePlayer(gameName: string): Observable<GamePlayer> {
-    console.log(this.afAuth.auth.currentUser.uid);
     return this.db
       .collection<Game>('games')
       .doc(gameName)

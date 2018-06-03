@@ -3,27 +3,21 @@
 
 <div [hidden]="gamePlayers === undefined">
   <span id="savedResponseFlag" class="d-none" *ngIf="savedResponseFlag"></span>
-
   <app-actionguide [waitingGamePlayerNames]="waitingGamePlayerNames" [hidden]="isloggedInPlayerDidGuess === false"></app-actionguide>
 
   <div class="card pb-3" [hidden]="isloggedInPlayerDidGuess === true">
     <div class="card-body">
-      
       <app-rolekey [gamePlayer]="loggedInGamePlayer"></app-rolekey>
-
       <div class="pt-4 text-center">
         Who might be Twin Agents?
       </div>
-
       <div class="card-text py-3 h3 text-center border border-info" [hidden]="loggedInGamePlayer?.questionmarkOrWord === '?' || selectedGamePlayers.length !== 2 || (selectedGamePlayers[0].uid === loggedInGamePlayer.uid) || (selectedGamePlayers[1].uid === loggedInGamePlayer.uid) ">
         Sure to take risk not guess on you and Twin Agent?
       </div>
-
       <button id="saveGuessBtn" class="card-link btn btn-block btn-success my-2" [disabled]="selectedGamePlayers.length < 2" (click)="saveTeamTip()"
         i18n="@@guesstemplate.savebutton">
         Save
       </button>
-
       <div class="list-group">
         <div class="list-group-item list-group-item-light mb-1 py-1 text-center">
           <div class="row align-items-center">

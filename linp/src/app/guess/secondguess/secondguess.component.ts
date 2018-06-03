@@ -73,11 +73,6 @@ export class SecondguessComponent implements OnInit, OnDestroy {
           this.selectedGamePlayers[0] = this.loggedInGamePlayer;
         }
       });
-
-    Observable.timer(0, 1000)
-      .subscribe(number => {
-        this.isBlinkTickerShown$ = number % 2 === 0;
-      });
   }
 
   onTeamPlayerGuessSelected(clickedGamePlayer): void {

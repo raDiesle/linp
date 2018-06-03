@@ -1,16 +1,24 @@
 <div>
-  <div *ngFor="let chat of chats">
-    <strong>{{chat.from}}:</strong> {{chat.msg}}
+  <div class="text-center">
+    <svg-icon src="history" class="svg-small align-bottom" (click)="loadMore()" [ngClass]="disableLoadMore ? 'fill-secondary' : 'fill-primary'"></svg-icon>
   </div>
+  <table class="table-sm">
+    <tr class="small align-top" *ngFor="let chat of chats; index as $index;">
+      <td class="py-0">
+        {{chat.from}}:
+      </td>
+      <td class="py-0 pl-0">
+        {{chat.msg}}
+      </td>
+  </table>
   <div class="row no-gutters pt-2">
     <div class="col-1">
-        <button class="btn btn-light form-control" (click)="openPopup()">:)</button>
-      </div>
+      <button class="btn btn-light form-control" (click)="openPopup()">:)</button>
+    </div>
     <div class="col-10">
-      <emoji-input [(model)]="newChatMessage" autofocus="true" inputClass="form-control" [popupAnchor]="'bottom'"
-        (setPopupAction)="setPopupAction($event)">
+      <emoji-input [(model)]="newChatMessage" autofocus="false" inputClass="form-control" [popupAnchor]="'bottom'" (setPopupAction)="setPopupAction($event)">
       </emoji-input>
-    </div>    
+    </div>
     <div class="col-1">
       <button class="btn btn-primary form-control" (click)="sendChat()">
         >

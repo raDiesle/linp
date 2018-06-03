@@ -34,10 +34,6 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
- 
- 
- //   this.gameName = this.route.snapshot.paramMap.get('gamename') as GameStatus;
-    
     this.isDevelopmentEnv = this.windowRef.nativeWindow.location.host.includes('localhost')
           || this.windowRef.nativeWindow.location.host.includes('192.168');
 

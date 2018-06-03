@@ -21,7 +21,7 @@ export class SecondtipComponent implements OnInit, OnDestroy {
   public gamePlayers: GamePlayer[];
   private gameName: string;
   public savedResponseFlag = false;
-  public isPlayersTurnForAuthUser = false;
+  public isPlayersTurnForAuthUser = null;
 
   // @input
   private synonym: string;

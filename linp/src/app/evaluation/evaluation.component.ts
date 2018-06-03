@@ -24,14 +24,14 @@ export class EvaluationComponent implements OnInit {
 
   // readonly PREV_PLAYER_STATUS: GamePlayerStatus = 'SECOND_GUESS_GIVEN';
 
-  public currentGamePlayer: GamePlayer;
+  public loggedinGamePlayer: GamePlayer;
 
   gameName: string;
   // gamePlayers: GamePlayer[] = [];
   gamePlayerContainer: any;
 
   @ViewChild('t') public tooltip: NgbTooltip;
-  public gameRound = 0;
+
   // deprecated
   public isRealCalculatedHack = false;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
@@ -53,7 +53,7 @@ export class EvaluationComponent implements OnInit {
     this.firebaseGameService.observeLoggedInGamePlayer(this.gameName)
       .takeUntil(this.ngUnsubscribe)
       .subscribe(gamePlayer => {
-        this.currentGamePlayer = gamePlayer;
+        this.loggedinGamePlayer = gamePlayer;
       });
 /*
         if (gamePlayer.status === 'CHECKED_EVALUATION') {
@@ -74,14 +74,11 @@ export class EvaluationComponent implements OnInit {
                 return;
               }
 
-              this.gameRound = game.round;
               this.dataSetup(game.evaluationSummary);
             });
       //  }
      // });
   }
-
-
 
   /*
   this.firebaseGameService.observeGamePlayers(this.gameName)

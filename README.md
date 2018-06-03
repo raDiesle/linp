@@ -15,6 +15,7 @@ linq clone app
 * https://coryrylan.com/blog/deploy-angular-cli-apps-to-firebase
 * 9fwPJ3l8KYIv
 * https://github.com/twbs/bootstrap/releases
+* Loading Indicator: https://codepen.io/zessx/pen/RNPKKK
 
 
 Material

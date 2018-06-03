@@ -1,19 +1,8 @@
-<span id="isRealCalculatedHack" class="d-none" *ngIf="isRealCalculatedHack"></span>
-<div class="card border-dark">
-
+<div class="card">
   <div class="card-body">
-    <h4 class="text-center">
-      <ng-container i18n="@@nextbutton.header1">Round</ng-container>
-      {{gameRound}}
-      <ng-container i18n="@@nextbutton.header2">finished</ng-container>
-    </h4>
-    <button id="finalizeRoundButton" class="btn btn-primary btn-block mb-2" (click)="navigateToFinalizeRound()" *ngIf="isRealCalculatedHack"
+    <button id="finalizeRoundButton" class="btn btn-primary btn-block mb-2" (click)="navigateToFinalizeRound()"
             i18n="@@nextbutton.next.button">
       Next
     </button>
   </div>
-  <span class="badge badge-warning" *ngIf="isRealCalculatedHack === false">
-    <span i18n="@@nextbutton.loading">Calculating Scores</span>
-    <app-waitingdots></app-waitingdots>
-  </span>
 </div>

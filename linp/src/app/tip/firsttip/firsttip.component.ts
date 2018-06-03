@@ -18,12 +18,10 @@ export class FirsttipComponent implements OnInit, OnDestroy {
 
   readonly NEXT_STATUS: GamePlayerStatus = 'FIRST_SYNONYM_GIVEN';
 
-  public isPlayersTurnForAuthUser = false;
+  public isPlayersTurnForAuthUser: boolean = null;
 
   public gamePlayers: GamePlayer[];
   private gameName: GameStatus;
-  // @input
-
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 

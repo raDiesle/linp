@@ -1,24 +1,25 @@
 <app-gameprogress parent="3" child="5"></app-gameprogress>
 
 <div [hidden]="gamePlayers === undefined">
-
   <br>
-
-  <div class="card border-dark">
+  <div class="card">
     <div class="card-body">
-      <button id="startNextRound" class="btn btn-primary btn-block my-3" (click)="startNextRound()" i18n="@@finalizeround.next">
+      <button id="startNextRound" class="btn btn-primary btn-block" (click)="startNextRound()" i18n="@@finalizeround.next">
         Next
       </button>
-
-      <app-chat></app-chat>
+      <app-chat [loggedinGamePlayerName]="loggedinGamePlayerName"></app-chat>
     </div>
   </div>
-
   <br>
 
   <div class="card">
     <div class="card-header text-center">
       <strong i18n="@@finalizeround.title">Game Summary</strong>
+      <h4 class="text-center">
+          <ng-container i18n="@@nextbutton.header1">Round</ng-container>
+          {{gameRound}}
+          <ng-container i18n="@@nextbutton.header2">finished</ng-container>
+        </h4>
     </div>
     <div class="card-body">
       <span id="savedResponseFlag" class="d-none" *ngIf="savedResponseFlag"></span>

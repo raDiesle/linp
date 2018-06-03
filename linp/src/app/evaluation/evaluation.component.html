@@ -1,11 +1,10 @@
 <app-gameprogress parent="3" child="5"></app-gameprogress>
 <br>
-
-<app-nextbutton [isRealCalculatedHack]="isRealCalculatedHack" [gameRound]="gameRound"></app-nextbutton>
+<app-nextbutton [loggedInPlayerCurrentStatus]="loggedinGamePlayer?.status"></app-nextbutton>
 
 <div class="card">
   <div class="card-body">
-    <app-chat [currentGamePlayer]="currentGamePlayer"></app-chat>
+    <app-chat [loggedinGamePlayerName]="loggedinGamePlayer?.name"></app-chat>
   </div>
 </div>
 
@@ -36,5 +35,5 @@
 </ng-container>
 
 <br>
-<app-nextbutton [isRealCalculatedHack]="isRealCalculatedHack" [gameRound]="gameRound"></app-nextbutton>
+<app-nextbutton [loggedInPlayerCurrentStatus]="loggedinGamePlayer?.status"></app-nextbutton>
 <br>

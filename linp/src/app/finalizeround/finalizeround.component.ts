@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FirebaseGameService} from '../services/firebasegame.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {GamePlayer, GameTotalPoints} from 'app/models/game';
+import { GamePlayer, GameTotalPoints, GamePlayerStatus } from 'app/models/game';
 import {Subject} from 'rxjs/Subject';
 
 @Component({
@@ -11,13 +11,19 @@ import {Subject} from 'rxjs/Subject';
 })
 export class FinalizeroundComponent implements OnInit, OnDestroy {
 
+  public gameRound: number;
   public gamePlayers: GamePlayer[] = [];
 
-  readonly NEXT_PLAYER_STATUS = 'READY_FOR_NEXT_GAME';
+  private readonly NEXT_PLAYER_STATUS = 'READY_FOR_NEXT_GAME';
+  private readonly PREV_STATUS = 'CHECKED_EVALUATION';
 
   public isGamePlayerReadyForNextGame = false;
   public scores: GameTotalPoints[] = [];
+
+  public loggedinGamePlayerName: string;
+  public loggedinGamePlayerStatus: GamePlayerStatus;
   public savedResponseFlag = false;
+
   private gameName: string;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
@@ -32,9 +38,12 @@ export class FinalizeroundComponent implements OnInit, OnDestroy {
     this.firebaseGameService.observeGame(this.gameName)
       .takeUntil(this.ngUnsubscribe)
       .subscribe(game => {
+        this.gameRound = game.round;
+        /*
         if (game.status !== 'evaluation') {
           this.router.navigate(['/' + game.status, this.gameName], {skipLocationChange: true});
         }
+        */
 
         for (const uid in game.pointsScoredTotal) {
           if (game.pointsScoredTotal.hasOwnProperty(uid)) {
@@ -49,23 +58,23 @@ export class FinalizeroundComponent implements OnInit, OnDestroy {
       .subscribe(gamePlayers => {
         this.gamePlayers = gamePlayers;
 
-        const loggedInPlayer = this.gamePlayers.find(gamePlayer => {
+        const loggedinGamePlayer = this.gamePlayers.find(gamePlayer => {
           return gamePlayer.uid === this.firebaseGameService.authUserUid;
         });
-
-        this.isGamePlayerReadyForNextGame = loggedInPlayer.status === this.NEXT_PLAYER_STATUS;
+        this.loggedinGamePlayerName = loggedinGamePlayer.name;
+        this.loggedinGamePlayerStatus = loggedinGamePlayer.status;
       });
   }
 
   startNextRound() {
-    if (this.isGamePlayerReadyForNextGame === true) {
-      this.router.navigate(['/' + 'firsttip', this.gameName], {skipLocationChange: true});
-    } else {
+    if (this.loggedinGamePlayerStatus === this.PREV_STATUS) {
       this.firebaseGameService.updateCurrentGamePlayerStatus(this.gameName, this.NEXT_PLAYER_STATUS)
         .then(() => {
           this.savedResponseFlag = true;
           this.router.navigate(['/' + 'firsttip', this.gameName], {skipLocationChange: true});
-        })
+        });
+    } else {
+      this.router.navigate(['/' + 'firsttip', this.gameName], {skipLocationChange: true});
     }
   }
 
