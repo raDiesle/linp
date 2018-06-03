@@ -16,7 +16,7 @@
       <button class="btn btn-light form-control" (click)="openPopup()">:)</button>
     </div>
     <div class="col-10">
-      <emoji-input [(model)]="newChatMessage" autofocus="false" inputClass="form-control" [popupAnchor]="'bottom'" (setPopupAction)="setPopupAction($event)">
+      <emoji-input [(model)]="newChatMessage" inputClass="form-control" [popupAnchor]="'bottom'" (setPopupAction)="setPopupAction($event)">
       </emoji-input>
     </div>
     <div class="col-1">

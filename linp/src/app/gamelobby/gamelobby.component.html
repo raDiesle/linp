@@ -70,19 +70,19 @@
       <div class="text-center" *ngIf="gamePlayers.length <= 3">
         <span class="align-top">at least {{4 - gamePlayers.length}}</span>
         <span class="align-top" i18n="@@gamelobby.missingplayers2">
-            player</span>
+          player</span>
         <span [hidden]="4 - gamePlayers.length <= 1">s</span>
         <span class="align-top" i18n="@@gamelobby.missingplayers3">
-            required
-          </span>
+          required
+        </span>
       </div>
 
       <hr>
 
       <div class="d-flex">
-      <span class="align-top mr-auto">
-        Players can join game:
-      </span>
+        <span class="align-top mr-auto">
+          Players can join game:
+        </span>
 
         <span class="ml-auto" [disableTooltip]="loggedInPlayerIsHost" ngbTooltip="Only be set by game host">
           <span (click)="loggedInPlayerIsHost && switchGameVisibilityToPrivate(true)">
@@ -92,16 +92,15 @@
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                   <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
                   />
-                  <path d="M0 0h24v24H0z" fill="none"/>
+                  <path d="M0 0h24v24H0z" fill="none" />
                 </svg>
               </span>
 
               <span [hidden]="!isPrivate">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                  <path
-                    d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm0-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                  <path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm0-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
                   />
-                  <path d="M0 0h24v24H0z" fill="none"/>
+                  <path d="M0 0h24v24H0z" fill="none" />
                 </svg>
               </span>
             </span>
@@ -115,24 +114,22 @@
               Got it
             </button>
           </ng-template>
-          <span placement="left" (click)="loggedInPlayerIsHost && switchGameVisibilityToPrivate(false)"
-                [disablePopover]="showPublicVisibilityTooltipChanged === false"
-                popoverTitle="Visibility switched" [ngbPopover]="switchedPublicVisibilityContent" #publicPopover="ngbPopover">
+          <span placement="left" (click)="loggedInPlayerIsHost && switchGameVisibilityToPrivate(false)" [disablePopover]="showPublicVisibilityTooltipChanged === false"
+            popoverTitle="Visibility switched" [ngbPopover]="switchedPublicVisibilityContent" #publicPopover="ngbPopover">
             <span class="align-top">Public</span>
             <span class="pl-1 pr-2" [ngClass]="loggedInPlayerIsHost ? 'fill-primary' : 'fill-muted'">
               <span [hidden]="!isPrivate">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                   <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
                   />
-                  <path d="M0 0h24v24H0z" fill="none"/>
+                  <path d="M0 0h24v24H0z" fill="none" />
                 </svg>
               </span>
               <span [hidden]="isPrivate">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                  <path
-                    d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm0-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                  <path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm0-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
                   />
-                  <path d="M0 0h24v24H0z" fill="none"/>
+                  <path d="M0 0h24v24H0z" fill="none" />
                 </svg>
               </span>
             </span>
@@ -142,7 +139,7 @@
       </div>
 
       <button id="gamestatusButton" (click)="startGame()" class="btn btn-block my-1" [ngClass]="gamePlayers.length < 4 ? 'btn-primary' : 'btn-success'"
-              [disabled]="gamePlayers.length < 4 || loggedInPlayerIsHost === false">
+        [disabled]="gamePlayers.length < 4 || loggedInPlayerIsHost === false">
         <div *ngIf="gamePlayers.length <= 3" i18n="@@gamelobby.missingplayers1" ngbTooltip="Linp can be played with 5-8 players">
           <strong>
             Start game
@@ -170,15 +167,14 @@
         <ng-container *ngFor="let gamePlayer of gamePlayers; let idx = index;">
           <div class="list-group-item d-flex">
             <span class="svg-small fill-primary align-bottom mr-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                  <path fill="none" d="M0 0h24v24H0V0z"/>
-                  <path
-                    d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"/>
-                  <path fill="none" d="M0 0h24v24H0z"/>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <path fill="none" d="M0 0h24v24H0V0z" />
+                <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
+                />
+                <path fill="none" d="M0 0h24v24H0z" />
               </svg>
             </span>
             <strong id="gamePlayers_{{idx}}">
-
               {{gamePlayer.name}}
             </strong>
             <span class="badge badge-primary ml-auto" *ngIf="gamePlayer.isHost" i18n="@@gamelobby.host">
@@ -187,6 +183,14 @@
           </div>
         </ng-container>
       </div>
+    </div>
+  </div>
+  <br>
+
+  <div class="card">
+    <div class="card-body">
+      <div class="text-center"><h3>Chat</h3></div>
+      <app-chat [loggedinGamePlayerName]="loggedInUser?.name"></app-chat>
     </div>
   </div>
   <br>
