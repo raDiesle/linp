@@ -333,7 +333,7 @@ export class SimulationComponent implements OnInit, OnDestroy {
       cards.push(singleCard);
 
       this.db.collection('words')
-        .doc('de')
+        .doc('en')
         .collection('cards')
         .add(singleCard);
       // wtf
@@ -341,7 +341,7 @@ export class SimulationComponent implements OnInit, OnDestroy {
     }
 
     this.db.collection('words')
-      .doc('de')
+      .doc('en')
       .set({size: cards.length});
 
 

@@ -99,7 +99,7 @@ export class Preparegame {
 
         let questionmarkOrWordPool: { value: string }[] = Array(numberOfQuestionMarks).fill(QUESTIONMARK_ROLE);
 
-        const language = 'de';
+        const language = 'en';
         const pathOrRef = '/words/size/' + language;
 
         return admin.firestore()

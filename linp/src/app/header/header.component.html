@@ -21,7 +21,7 @@
       You are offlane
     </ngb-alert>
     -->
-    <div class="collapse navbar-collapse text-center" [ngbCollapse]="true" id="navbarSupportedContent" *ngIf="isDevelopmentEnv">
+    <div class="collapse navbar-collapse text-center" [ngbCollapse]="false" id="navbarSupportedContent" *ngIf="isDevelopmentEnv">
       <ul class="navbar-nav mr-auto flex-row" (click)="isMenuCollapsed=!isMenuCollapsed">
         <li class="nav-item">
           <a id="welcome" class="nav-link" style="color: #4e5d6c" routerLink="/welcome">
