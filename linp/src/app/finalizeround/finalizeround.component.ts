@@ -24,7 +24,7 @@ export class FinalizeroundComponent implements OnInit, OnDestroy {
   public loggedinGamePlayerStatus: GamePlayerStatus;
   public savedResponseFlag = false;
   public noEvaluationDataAvailable: boolean = null;
-  private gameName: string;
+  public gameName: string;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor(private route: ActivatedRoute,
