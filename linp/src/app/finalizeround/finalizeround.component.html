@@ -9,6 +9,8 @@
       <button id="startNextRound" class="btn btn-primary btn-block my-3" (click)="startNextRound()" i18n="@@finalizeround.next">
         Next
       </button>
+
+      <app-chat></app-chat>
     </div>
   </div>
 
@@ -22,31 +24,31 @@
       <span id="savedResponseFlag" class="d-none" *ngIf="savedResponseFlag"></span>
 
       <ul class="list-group list-group-flush">
-        <li class="list-group-item disabled text-muted d-flex justify-content-between align-items-center">
+        <li class="list-group-item disabled text-muted">
           <div class="row">
-            <div class="col-2 text-center" i18n="@@finalizeround.rank">
+            <div class="col-3 text-center" i18n="@@finalizeround.rank">
               Rank
             </div>
-            <div class="col-8 text-center" i18n="@@finalizeround.player">
+            <div class="col-6 text-center" i18n="@@finalizeround.player">
               Player
             </div>
-            <div class="col-2 text-center" i18n="@@finalizeround.points">
+            <div class="col-3 text-center" i18n="@@finalizeround.points">
               Points
             </div>
           </div>
         </li>
 
-        <li class="list-group-item h5" *ngFor="let score of scores">
+        <li class="list-group-item h2" *ngFor="let score of scores">
           <div class="row">
-            <div class="col-2">
+            <div class="col-3">
               <span class="badge badge-warning">
                 {{score.ranking}}
               </span>
             </div>
-            <div class="col-8 text-center">
+            <div class="col-6 text-center">
               {{score.name}}
             </div>
-            <div class="col-2 text-right">
+            <div class="col-3 text-right">
               <span class="badge badge-pill" [ngClass]="{'badge-success' : score.points > 0,
                     'badge-primary' : score.points === 0,
                     'badge-danger' : score.points < 0}">

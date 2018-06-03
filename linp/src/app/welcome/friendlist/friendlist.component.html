@@ -29,7 +29,7 @@
       <div *ngIf="friendlist === null">
         <app-waitingdots></app-waitingdots>
       </div>
-      <div class="alert alert-warning text-center" *ngIf="friendlist !== null && friendlist?.length === 0">
+      <div class="alert alert-warning text-center" *ngIf="friendlist !== null && friendlist.length === 0">
         <div class="alert-heading h3" i18n="@@friendlist.nofriends.header">
           You don't have friends yet.
         </div>
@@ -37,28 +37,6 @@
     </div>
   </div>
   <div class="card-footer text-center  d-flex align-items-center flex-column" i18n="@@friendlist.sendinvitation">
-
-    <!--
-    <a class="btn btn-primary btn-block" href="assets/addfriend.png">
-      Add friends from current games: Swipe
-    </a>
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col">
-          <hr>
-        </div>
-        <div class="col-xs-auto text-center">
-          <span class="align-middle font-weight-light">
-            or
-          </span>
-        </div>
-        <div class="col">
-          <hr>
-        </div>
-      </div>
-    </div>
--->
-
     <button class="btn btn-primary btn-block d-flex justify-content-between" id="addfriendsfromgames" i18n="@@gamelobby.invitefriends.add"
       routerLink="/addfriendsfromgames" skipLocationChange>
       <svg-icon src="group_add" class="svg-small fill-white align-bottom"></svg-icon>

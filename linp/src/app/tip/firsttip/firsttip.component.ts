@@ -1,8 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Observable} from 'rxjs/Rx';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AngularFirestore} from 'angularfire2/firestore';
-import {GamePlayer, GamePlayerStatus} from 'app/models/game';
+import {GamePlayer, GamePlayerStatus, GameStatus} from 'app/models/game';
 import {Subject} from 'rxjs/Subject';
 import {FirebaseGameService} from '../../services/firebasegame.service';
 import {AngularFireAuth} from 'angularfire2/auth';
@@ -16,19 +15,15 @@ export class FirsttipComponent implements OnInit, OnDestroy {
   public loggedInGamePlayer: GamePlayer;
 
   public isSecondtip = false;
-  readonly NEXT_PAGE = 'firstguess';
-  readonly NEXT_STATUS: GamePlayerStatus = 'FIRST_SYNONYM_GIVEN';
-  readonly SYNONYM_KEY = 'firstSynonym';
 
-  public show$: boolean;
+  readonly NEXT_STATUS: GamePlayerStatus = 'FIRST_SYNONYM_GIVEN';
 
   public isPlayersTurnForAuthUser = false;
-  public savedResponseFlag = false;
 
-  gamePlayers: GamePlayer[];
-  gameName: string;
+  public gamePlayers: GamePlayer[];
+  private gameName: GameStatus;
   // @input
-  private synonym: string;
+
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
@@ -42,7 +37,7 @@ export class FirsttipComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.gameName = this.route.snapshot.paramMap.get('gamename');
+    this.gameName = this.route.snapshot.paramMap.get('gamename') as GameStatus;
 
     this.firebaseGameService.observeGame(this.gameName)
       .takeUntil(this.ngUnsubscribe)
@@ -68,25 +63,9 @@ export class FirsttipComponent implements OnInit, OnDestroy {
         this.loggedInGamePlayer = this.gamePlayers.find(gamePlayer => {
           return gamePlayer.uid === this.firebaseGameService.getAuthUid();
         });
-
         this.isPlayersTurnForAuthUser = this.currentPlayer.uid === this.loggedInGamePlayer.uid;
       });
 
-    Observable.timer(0, 1000).subscribe(number => {
-      this.show$ = number % 2 === 0;
-    });
-  }
-
-  sendSynonym() {
-    const firstOrSecondGamePlayerUpdate = {
-      status: this.NEXT_STATUS
-    };
-    firstOrSecondGamePlayerUpdate[this.SYNONYM_KEY] = this.synonym;
-
-    this.firebaseGameService.sendSynonym(firstOrSecondGamePlayerUpdate, this.gameName)
-      .then(() => {
-        this.savedResponseFlag = true;
-      });
   }
 
   ngOnDestroy() {

@@ -1,0 +1,52 @@
+<span id="savedResponseFlag" class="d-none" *ngIf="savedResponseFlag"></span>
+<div class="card">
+  <div class="card-body">
+    <div class="pt-2">
+      <app-rolekey [gamePlayer]="loggedInGamePlayer"></app-rolekey>
+      <form novalidate #giveSynonymForm="ngForm">
+        <div class="form-group text-left pt-3">
+          <label for="synonymTxt">
+            <ng-container *ngIf="loggedInGamePlayer?.questionmarkOrWord === '?'">
+              <p i18n="@@tiptemplate.hint1">
+                Try to confuse others to come up with a code word, where agents think you are a twin partner.
+              </p>
+              <div class="py-1">
+                <svg-icon src="thumb_up" class="svg-small fill-success align-bottom"></svg-icon>
+                Agents think you are a Twin Agent
+                <br>
+                <svg-icon src="thumb_down" class="svg-small fill-danger align-bottom"></svg-icon>
+                Agents know you faked your word
+              </div>
+            </ng-container>
+            <ng-container *ngIf="loggedInGamePlayer?.questionmarkOrWord !== '?'" i18n="@@tiptemplate.partner.hint">
+              <div class="py-1">
+                <svg-icon src="thumb_up" class="svg-small fill-success align-bottom"></svg-icon> Twin Agent is able to identify you
+                <br>
+                <svg-icon src="thumb_down" class="svg-small fill-danger align-bottom"></svg-icon> Twin Agent pairing too obvious for others
+              </div>
+            </ng-container>
+          </label>
+          <div>
+            <input type="text" class="form-control" [ngClass]="{'is-invalid' : synonymInput?.dirty && synonymInput.errors?.required}"
+              id="synonymTxt" [(ngModel)]="synonym" #synonymInput="ngModel" name="synonym" required placeholder="Code word association to secret word"
+              singlewordonlyvalidator minlength="3" maxlength="25" samewordasbeforevalidator firstSynonym="{{loggedInGamePlayer.firstSynonym}}">
+            <div class="text-danger" *ngIf="synonymInput.invalid && (synonymInput.dirty || synonymInput.touched)">
+              <span [hidden]="!synonymInput.errors.singlewordonly" i18n="@@tiptemplate.singlewordonly">
+                Only one word is allowed. Don't cheat!
+              </span>
+              <span [hidden]="!synonymInput.errors.samewordasbeforevalidator" i18n="@@tiptemplate.samewordasbeforevalidator">
+                Using the same word is not allowed. Don't cheat!
+              </span>
+
+            </div>
+          </div>
+        </div>
+        <button id="sendSynonym" class="btn btn-primary btn-block my-2" [disabled]="synonymInput.invalid" (click)="sendSynonym()"
+          i18n="@@tiptemplate.send">
+          Save
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+<br>

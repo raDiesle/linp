@@ -13,7 +13,7 @@ import {WindowRef} from '../../WindowRef';
 })
 export class FriendlistComponent implements OnInit, OnDestroy {
 
-  public friendlist: PlayerFriendlist[] = [];
+  public friendlist: PlayerFriendlist[] = null;
   public friendsinvitationlink = '/';
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 

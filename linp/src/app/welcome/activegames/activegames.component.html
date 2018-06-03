@@ -60,13 +60,13 @@
               Waiting for others
             </h3>
             <div class="list-group">
-              <button id="gamename_{{game.name}}" class="list-group-item list-group-item-action list-group-item-light px-2 mt-1" role="button"
+              <button id="gamename_{{game.name}}" class="list-group-item list-group-item-action list-group-item-light mt-1" role="button"
                       *ngFor="let game of passiveGames" (click)="onSelectGameToJoin(game.name)">
                 <div class="row">
-                  <div class="col-6">
+                  <div class="col-5 px-1">
                     {{game.name}}
                   </div>
-                  <div class="col-6 text-right">
+                  <div class="col-7 px-1 text-right">
                     {{game.since | timeAgo}}
                   </div>
                 </div>

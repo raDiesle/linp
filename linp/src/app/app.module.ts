@@ -78,7 +78,8 @@ import { RolekeyComponent } from './widgets/rolekey/rolekey.component';
 import {EmojiPickerModule} from 'ng-emoji-picker';
 import { ChatComponent } from './widgets/chat/chat.component';
 import { FakeoruncoveredComponent } from './evaluation/fakeoruncovered/fakeoruncovered.component';
-import { PlayersumComponent } from './evaluation/playersum/playersum.component'
+import { PlayersumComponent } from './evaluation/playersum/playersum.component';
+import { TipyourturnComponent } from './tip/tipyourturn/tipyourturn.component'
 
 export function windowFactory() {
   return window;
@@ -148,7 +149,8 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     RolekeyComponent,
     ChatComponent,
     FakeoruncoveredComponent,
-    PlayersumComponent
+    PlayersumComponent,
+    TipyourturnComponent
   ],
   entryComponents: [
     ActionguideComponent,

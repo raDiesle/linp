@@ -83,11 +83,6 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
     this.showPublicVisibilityTooltipChanged = true;
   }
 
-  public ngOnDestroy() {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
-  }
-
   private gamePlayerAction(): void {
     // TODO refactor to add host at game creation
     this.isGameDataFetchedFlag = true;
@@ -108,6 +103,11 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
             });
         }
       });
+  }
+
+  public ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
 }

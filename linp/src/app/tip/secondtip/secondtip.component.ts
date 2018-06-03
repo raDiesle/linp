@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Observable} from 'rxjs/Rx';
+
 import {ActivatedRoute, Router} from '@angular/router';
 import {GamePlayer, GamePlayerStatus} from 'app/models/game';
 import {Subject} from 'rxjs/Subject';
@@ -17,14 +17,12 @@ export class SecondtipComponent implements OnInit, OnDestroy {
 
   public isSecondtip = true;
   readonly NEXT_STATUS: GamePlayerStatus = 'SECOND_SYNONYM_GIVEN';
-  readonly NEXT_PAGE = 'secondguess';
-  readonly SYNONYM_KEY = 'secondSynonym';
 
   public gamePlayers: GamePlayer[];
-  gameName: string;
+  private gameName: string;
   public savedResponseFlag = false;
   public isPlayersTurnForAuthUser = false;
-  public show$: boolean;
+
   // @input
   private synonym: string;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
@@ -60,22 +58,6 @@ export class SecondtipComponent implements OnInit, OnDestroy {
           return gamePlayer.uid === this.firebaseGameService.getAuthUid();
         });
         this.isPlayersTurnForAuthUser = this.currentPlayer.uid === this.loggedInGamePlayer.uid;
-      });
-
-    Observable.timer(0, 1000).subscribe(number => {
-      this.show$ = number % 2 === 0;
-    });
-  }
-
-  public sendSynonym() {
-    const firstOrSecondGamePlayerUpdate = {
-      status: this.NEXT_STATUS
-    };
-    firstOrSecondGamePlayerUpdate[this.SYNONYM_KEY] = this.synonym;
-
-    this.firebaseGameService.sendSynonym(firstOrSecondGamePlayerUpdate, this.gameName)
-      .then(() => {
-        this.savedResponseFlag = true;
       });
   }
 

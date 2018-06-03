@@ -1,7 +1,12 @@
-<div *ngIf="isLoggedIn; then isLoggedInContent else isNotLoggedInContent">
+<div [hidden]="isLoggedIn !== null">
+      <span class="spinner-double-section-far" style="  
+    position: absolute;
+    display: block;
+    top: 20%;
+    left: 42%;"></span>  
 </div>
 
-<ng-template #isNotLoggedInContent>
+<div *ngIf="isLoggedIn === false">
   <br>
   <app-shortdescription></app-shortdescription>
   <br>
@@ -14,9 +19,9 @@
     </div>
   </div>
   <br>
-</ng-template>
+</div>
 
-<ng-template #isLoggedInContent>
+<div *ngIf="isLoggedIn === true">
   <app-maintenance [hidden]="true"></app-maintenance>
   <br>
   <app-activegames></app-activegames>
@@ -25,5 +30,5 @@
   <br>
   <app-loggedinactions></app-loggedinactions>
   <br>
-</ng-template>
+</div>
 <br>

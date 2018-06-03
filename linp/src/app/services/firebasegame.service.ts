@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { Game, GamePlayer, GamePlayerStatus, GameStatus } from 'app/models/game';
-import { Observable } from 'rxjs/Observable';
+// import { Observable } from 'rxjs/Observable';
+import {Observable} from 'rxjs/Rx';
+
 import * as firebase from 'firebase';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { ActivePlayerGame, PlayerFriendlist, PlayerProfile } from 'app/models/player';
@@ -204,6 +206,7 @@ export class FirebaseGameService {
   }
 
   public observeLoggedInGamePlayer(gameName: string): Observable<GamePlayer> {
+    console.log(this.afAuth.auth.currentUser.uid);
     return this.db
       .collection<Game>('games')
       .doc(gameName)
