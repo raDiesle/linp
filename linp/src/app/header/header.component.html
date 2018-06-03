@@ -1,11 +1,13 @@
 <nav class="navbar navbar-dark bg-dark navbar-dark">
   <div class="align-middle">
+    <!--
     <svg-icon src="spy_header" class="fill-primary svg-small align-top" style="width:1.8rem" [hidden]="[null, true].includes(showBackLink)"></svg-icon>
-    <a routerLink="/welcome" [hidden]="showBackLink === false">
+    -->
+    <a routerLink="/welcome">
       <svg-icon src="home" class="svg-small align-bottom" [ngClass]="showBackLink ? 'fill-primary' : 'fill-secondary'"></svg-icon>
     </a>
     
-    <a class="pl-1" routerLink="/evaluation/{{gameName}}" [hidden]="showBackLink === false">
+    <a class="pl-1" routerLink="/finalizeround/{{gameName}}" [hidden]="showBackLink === false">
       <svg-icon src="bar_chart" class="svg-small align-bottom" [ngClass]="showBackLink ? 'fill-primary' : 'fill-secondary'"></svg-icon>
       </a>
     </div>

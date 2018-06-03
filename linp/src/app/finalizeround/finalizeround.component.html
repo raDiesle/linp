@@ -4,36 +4,44 @@
   <br>
   <div class="card">
     <div class="card-body">
-      <button id="startNextRound" class="btn btn-primary btn-block" (click)="startNextRound()" i18n="@@finalizeround.next">
-        Next
-      </button>
-      <app-chat [loggedinGamePlayerName]="loggedinGamePlayerName"></app-chat>
+      <div class="container-fluid">
+        <div class="row" [hidden]="noEvaluationDataAvailable === null">
+          <button class="btn btn-light col-4 text-center" routerLink="/evaluation/{{gameName}}" i18n="@@finalizeround.prev"
+          [hidden]="noEvaluationDataAvailable !== false"
+          >
+            Prev scores
+          </button>
+          <button id="startNextRound" class="btn btn-primary text-center" [ngClass]="noEvaluationDataAvailable ? 'col-12' : 'col-8 border-left'" (click)="startNextRound()" i18n="@@finalizeround.next">
+            Continue
+          </button>
+        </div>
+        <app-chat [loggedinGamePlayerName]="loggedinGamePlayerName"></app-chat>
+      </div>
     </div>
   </div>
   <br>
 
-  <div class="card">
+  <div class="card" [hidden]="[null, true].includes(noEvaluationDataAvailable)">
     <div class="card-header text-center">
-      <strong i18n="@@finalizeround.title">Game Summary</strong>
       <h4 class="text-center">
-          <ng-container i18n="@@nextbutton.header1">Round</ng-container>
-          {{gameRound}}
-          <ng-container i18n="@@nextbutton.header2">finished</ng-container>
-        </h4>
+        <span i18n="@@nextbutton.header1">Round</span>
+        {{gameRound}}
+        <span i18n="@@nextbutton.header2">finished</span>
+      </h4>
     </div>
     <div class="card-body">
       <span id="savedResponseFlag" class="d-none" *ngIf="savedResponseFlag"></span>
 
       <ul class="list-group list-group-flush">
-        <li class="list-group-item disabled text-muted">
+        <li class="list-group-item disabled text-muted small">
           <div class="row">
-            <div class="col-3 text-center" i18n="@@finalizeround.rank">
+            <div class="col-3" i18n="@@finalizeround.rank">
               Rank
             </div>
             <div class="col-6 text-center" i18n="@@finalizeround.player">
               Player
             </div>
-            <div class="col-3 text-center" i18n="@@finalizeround.points">
+            <div class="col-3 text-right" i18n="@@finalizeround.points">
               Points
             </div>
           </div>
@@ -59,6 +67,13 @@
           </div>
         </li>
       </ul>
+    </div>
+  </div>
+
+  <div class="card" [hidden]="noEvaluationDataAvailable !== true">
+    <div class="card-body text-center">
+      <h2 class="py-2">Game is in first round. </h2>
+      <h3 class="py-2">There is no summary from previous game available, yet.</h3>
     </div>
   </div>
 

@@ -46,14 +46,16 @@ export class SecondtipComponent implements OnInit, OnDestroy {
       .takeUntil(this.ngUnsubscribe)
       .subscribe(gamePlayers => {
         this.gamePlayers = gamePlayers;
-        const currentPlayer = this.gamePlayers.find(gamePlayer => {
-          return gamePlayer.status !== this.NEXT_STATUS;
+        const prevPlayerIndex = this.gamePlayers.findIndex(gamePlayer => {
+          return gamePlayer.status === 'SECOND_SYNONYM_GIVEN';
         });
-        const isNextGameStatus = this.currentPlayer === null;
-        if (isNextGameStatus) {
+        if (prevPlayerIndex === this.gamePlayers.length - 1) {
           return;
         }
-        this.currentPlayer = currentPlayer;
+        const firstPlayerIndex = 0;
+        const nextPlayerIndex = prevPlayerIndex === -1 ? firstPlayerIndex : prevPlayerIndex + 1;
+        this.currentPlayer = gamePlayers[nextPlayerIndex];
+
         this.loggedInGamePlayer = this.gamePlayers.find(gamePlayer => {
           return gamePlayer.uid === this.firebaseGameService.getAuthUid();
         });

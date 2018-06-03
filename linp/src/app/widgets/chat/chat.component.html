@@ -1,13 +1,13 @@
 <div>
   <div class="text-center">
-    <svg-icon src="history" class="svg-small align-bottom" (click)="loadMore()" [ngClass]="disableLoadMore ? 'fill-secondary' : 'fill-primary'"></svg-icon>
+    <svg-icon src="history" class="svg-small align-bottom" (click)="loadMore()" [ngClass]="disableLoadMore === false ? 'fill-primary' : 'fill-secondary'"></svg-icon>
   </div>
   <table class="table-sm">
     <tr class="small align-top" *ngFor="let chat of chats; index as $index;">
-      <td class="py-0">
-        {{chat.from}}:
+      <td class="font-weight-bold py-0 px-0">
+        {{chat.from}}:&nbsp;
       </td>
-      <td class="py-0 pl-0">
+      <td class="py-0 px-0">
         {{chat.msg}}
       </td>
   </table>

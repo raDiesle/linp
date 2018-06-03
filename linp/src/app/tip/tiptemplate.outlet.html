@@ -4,7 +4,6 @@
 <div [hidden]="gamePlayers === undefined">
 
   <span class="d-none" id="yourTurn"></span>
-
   <app-actionguide [waitingGamePlayerNames]="[currentPlayer?.name]" *ngIf="isPlayersTurnForAuthUser === false"></app-actionguide>
   <app-tipyourturn [loggedInGamePlayer]="loggedInGamePlayer" [isSecondtip]="isSecondtip" *ngIf="isPlayersTurnForAuthUser === true"></app-tipyourturn>
 

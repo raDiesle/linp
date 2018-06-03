@@ -1,39 +1,53 @@
 <app-gameprogress parent="3" child="5"></app-gameprogress>
 <br>
-<app-nextbutton [loggedInPlayerCurrentStatus]="loggedinGamePlayer?.status"></app-nextbutton>
 
-<div class="card">
-  <div class="card-body">
-    <app-chat [loggedinGamePlayerName]="loggedinGamePlayer?.name"></app-chat>
+<div class="card" [hidden]="noEvaluationDataAvailable !== true">
+  <div class="card-body text-center">
+    <h2 class="py-2">Game is in first round. </h2>
+    <h3 class="py-2">There is no summary from previous game available, yet.</h3>
+
+    <button routerLink="/gamelobby/{{gameName}}" class="btn btn-primary btn-block">
+      Continue
+    </button>
   </div>
 </div>
 
-<div class="card mt-4" *ngFor="let gamePlayer of gamePlayerContainer?.QUESTIONMARK; first as isFirst;">
-  <div class="card-header">
-    <app-rolekey [gamePlayer]="gamePlayer"></app-rolekey>
-  </div>  
-  <div class="card-body">
-    <app-playersum [gamePlayer]="gamePlayer"></app-playersum>
-    <app-fakeoruncovered [gamePlayer]="gamePlayer"></app-fakeoruncovered>
-    <app-scorecard [gamePlayer]="gamePlayer"></app-scorecard>
-  </div>
-</div>
+<div [hidden]="noEvaluationDataAvailable !== false">
+  <app-nextbutton [loggedInPlayerCurrentStatus]="loggedinGamePlayer?.status"></app-nextbutton>
 
-<ng-container *ngFor="let gamePlayer of gamePlayerContainer?.WORD; index as $index; first as isFirst; even as isEven;">
-  <div class="card mt-4" *ngIf="isEven">
+  <div class="card">
+    <div class="card-body">
+      <app-chat [loggedinGamePlayerName]="loggedinGamePlayer?.name"></app-chat>
+    </div>
+  </div>
+
+  <div class="card mt-4" *ngFor="let gamePlayer of gamePlayerContainer?.QUESTIONMARK; first as isFirst;">
     <div class="card-header">
       <app-rolekey [gamePlayer]="gamePlayer"></app-rolekey>
     </div>
     <div class="card-body">
-      <app-fakeoruncovered [gamePlayer]="gamePlayer"></app-fakeoruncovered>
       <app-playersum [gamePlayer]="gamePlayer"></app-playersum>
+      <app-fakeoruncovered [gamePlayer]="gamePlayer"></app-fakeoruncovered>
       <app-scorecard [gamePlayer]="gamePlayer"></app-scorecard>
-      <app-playersum [gamePlayer]="gamePlayerContainer?.WORD[$index+1]"></app-playersum>
-      <app-scorecard [gamePlayer]="gamePlayerContainer?.WORD[$index+1]"></app-scorecard>
     </div>
   </div>
-</ng-container>
 
-<br>
-<app-nextbutton [loggedInPlayerCurrentStatus]="loggedinGamePlayer?.status"></app-nextbutton>
-<br>
+  <ng-container *ngFor="let gamePlayer of gamePlayerContainer?.WORD; index as $index; first as isFirst; even as isEven;">
+    <div class="card mt-4" *ngIf="isEven">
+      <div class="card-header">
+        <app-rolekey [gamePlayer]="gamePlayer"></app-rolekey>
+      </div>
+      <div class="card-body">
+        <app-fakeoruncovered [gamePlayer]="gamePlayer"></app-fakeoruncovered>
+        <app-playersum [gamePlayer]="gamePlayer"></app-playersum>
+        <app-scorecard [gamePlayer]="gamePlayer"></app-scorecard>
+        <app-playersum [gamePlayer]="gamePlayerContainer?.WORD[$index+1]"></app-playersum>
+        <app-scorecard [gamePlayer]="gamePlayerContainer?.WORD[$index+1]"></app-scorecard>
+      </div>
+    </div>
+  </ng-container>
+
+  <br>
+  <app-nextbutton [loggedInPlayerCurrentStatus]="loggedinGamePlayer?.status"></app-nextbutton>
+  <br>
+</div>

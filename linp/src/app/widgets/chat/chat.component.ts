@@ -14,7 +14,7 @@ export class ChatComponent implements OnInit {
   public chats: any; // TODO
   private allChatsCache: any;
   private pageCount = 1;
-  public disableLoadMore = false;
+  public disableLoadMore: boolean = null;
   readonly offset = 4;
 
   @Input()

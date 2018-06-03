@@ -1,11 +1,11 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
-  
+
   <style type="text/css">
-  
-   app-root:empty::after {
+    app-root:empty::after {
       content: 'Loading LINP game …';
       width: 200px;
       height: 200px;
@@ -18,259 +18,138 @@
     }
 
 
-  .spinner-section-far,
-.spinner-double-section-far,
-.spinner-section-out,
-.spinner-double-section-out,
-.spinner-section-in,
-.spinner-double-section-in,
-.spinner-section,
-.spinner-double-section,
-.spinner-huge-wave-in,
-.spinner-huge-wave-out,
-.spinner-double-wave-in,
-.spinner-double-wave-out,
-.spinner-wave-in,
-.spinner-wave-out,
-.spinner-dot-out,
-.spinner-double-dot-out,
-.spinner-dot-stick,
-.spinner-double-dot-stick,
-.spinner-dot-in,
-.spinner-double-dot-in {
-  display: block;
-  float: left;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  border: 3.125px solid #aaa;
-  animation: spinner 1.2s linear infinite;
-}
+    .spinner-section-far,
+    .spinner-double-section-far,
+    .spinner-section-out,
+    .spinner-double-section-out,
+    .spinner-section-in,
+    .spinner-double-section-in,
+    .spinner-section,
+    .spinner-double-section {
+      display: block;
+      float: left;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 3.125px solid #aaa;
+      animation: spinner 1.2s linear infinite;
+    }
 
-@keyframes spinner {
-  0% {
-    transform: rotate(0);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
+    @keyframes spinner {
+      0% {
+        transform: rotate(0);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
 
-.spinner-dot-out,
-.spinner-double-dot-out,
-.spinner-dot-stick,
-.spinner-double-dot-stick,
-.spinner-dot-in,
-.spinner-double-dot-in {
-  position: relative;
-}
-.spinner-dot-out:before,
-.spinner-double-dot-out:before,
-.spinner-dot-stick:before,
-.spinner-double-dot-stick:before,
-.spinner-dot-in:before,
-.spinner-dot-out:after,
-.spinner-double-dot-out:after,
-.spinner-dot-stick:after,
-.spinner-double-dot-stick:after,
-.spinner-dot-in:after,
-.spinner-double-dot-in:before,
-.spinner-double-dot-in:after {
-  content: "";
-  position: absolute;
-  top: 6.25px;
-  left: 21.875px;
-  width: 6.25px;
-  height: 6.25px;
-  border-radius: 50%;
-  background: tomato;
-}
-.spinner-dot-out:after,
-.spinner-double-dot-out:after,
-.spinner-dot-stick:after,
-.spinner-double-dot-stick:after,
-.spinner-dot-in:after,
-.spinner-double-dot-in:after {
-  top: auto;
-  bottom: 6.25px;
-}
+    /* Sections */
 
-.spinner-dot-in:after {
-  display: none;
-}
+    .spinner-section-far,
+    .spinner-double-section-far,
+    .spinner-section-out,
+    .spinner-double-section-out,
+    .spinner-section-in,
+    .spinner-double-section-in,
+    .spinner-section,
+    .spinner-double-section {
+      position: relative;
+    }
 
-.spinner-dot-stick:before,
-.spinner-dot-stick:after,
-.spinner-double-dot-stick:before,
-.spinner-double-dot-stick:after {
-  top: -6.25px;
-}
-.spinner-dot-stick:after,
-.spinner-double-dot-stick:after {
-  top: auto;
-  bottom: -6.25px;
-}
+    .spinner-section-far:before,
+    .spinner-double-section-far:before,
+    .spinner-section-out:before,
+    .spinner-double-section-out:before,
+    .spinner-section-in:before,
+    .spinner-double-section-in:before,
+    .spinner-section:before,
+    .spinner-section-far:after,
+    .spinner-double-section-far:after,
+    .spinner-section-out:after,
+    .spinner-double-section-out:after,
+    .spinner-section-in:after,
+    .spinner-double-section-in:after,
+    .spinner-section:after,
+    .spinner-double-section:before,
+    .spinner-double-section:after {
+      content: "";
+      position: absolute;
+      top: -3.125px;
+      left: -3.125px;
+      display: block;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 3.125px solid transparent;
+      border-top-color: tomato;
+    }
 
-.spinner-dot-stick:after {
-  display: none;
-}
+    .spinner-section-far:after,
+    .spinner-double-section-far:after,
+    .spinner-section-out:after,
+    .spinner-double-section-out:after,
+    .spinner-section-in:after,
+    .spinner-double-section-in:after,
+    .spinner-section:after,
+    .spinner-double-section:after {
+      border-top-color: transparent;
+      border-bottom-color: tomato;
+    }
 
-.spinner-dot-out:before,
-.spinner-dot-out:after,
-.spinner-double-dot-out:before,
-.spinner-double-dot-out:after {
-  top: -12.5px;
-}
-.spinner-dot-out:after,
-.spinner-double-dot-out:after {
-  top: auto;
-  bottom: -12.5px;
-}
+    .spinner-section:after {
+      display: none;
+    }
 
-.spinner-dot-out:after {
-  display: none;
-}
+    .spinner-section-in:before,
+    .spinner-section-in:after,
+    .spinner-double-section-in:before,
+    .spinner-double-section-in:after {
+      top: 0;
+      left: 0;
+      width: 43.75px;
+      height: 43.75px;
+    }
 
+    .spinner-section-in:after {
+      display: none;
+    }
 
-.spinner-wave-out {
-  box-shadow: -1.5625px -1.5625px 0 1.5625px tomato;
-}
+    .spinner-section-out:before,
+    .spinner-section-out:after,
+    .spinner-double-section-out:before,
+    .spinner-double-section-out:after {
+      top: -6.25px;
+      left: -6.25px;
+      width: 56.25px;
+      height: 56.25px;
+    }
 
-.spinner-wave-in {
-  box-shadow: inset -1.5625px -1.5625px 0 1.5625px tomato;
-}
+    .spinner-section-out:after {
+      display: none;
+    }
 
-.spinner-double-wave-out {
-  box-shadow: -1.5625px -1.5625px 0 1.5625px tomato, 1.5625px 1.5625px 0 1.5625px tomato;
-}
+    .spinner-section-far:before,
+    .spinner-section-far:after,
+    .spinner-double-section-far:before,
+    .spinner-double-section-far:after {
+      top: -9.375px;
+      left: -9.375px;
+      width: 62.5px;
+      height: 62.5px;
+    }
 
-.spinner-double-wave-in {
-  box-shadow: inset -1.5625px -1.5625px 0 1.5625px tomato, inset 1.5625px 1.5625px 0 1.5625px tomato;
-}
-
-.spinner-huge-wave-out {
-  box-shadow: -1.5625px -1.5625px 0 6.25px tomato;
-}
-
-.spinner-huge-wave-in {
-  box-shadow: inset -1.5625px -1.5625px 0 6.25px tomato;
-}
-
-
-.spinner-section-far,
-.spinner-double-section-far,
-.spinner-section-out,
-.spinner-double-section-out,
-.spinner-section-in,
-.spinner-double-section-in,
-.spinner-section,
-.spinner-double-section {
-  position: relative;
-}
-.spinner-section-far:before,
-.spinner-double-section-far:before,
-.spinner-section-out:before,
-.spinner-double-section-out:before,
-.spinner-section-in:before,
-.spinner-double-section-in:before,
-.spinner-section:before,
-.spinner-section-far:after,
-.spinner-double-section-far:after,
-.spinner-section-out:after,
-.spinner-double-section-out:after,
-.spinner-section-in:after,
-.spinner-double-section-in:after,
-.spinner-section:after,
-.spinner-double-section:before,
-.spinner-double-section:after {
-  content: "";
-  position: absolute;
-  top: -3.125px;
-  left: -3.125px;
-  display: block;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  border: 3.125px solid transparent;
-  border-top-color: tomato;
-}
-.spinner-section-far:after,
-.spinner-double-section-far:after,
-.spinner-section-out:after,
-.spinner-double-section-out:after,
-.spinner-section-in:after,
-.spinner-double-section-in:after,
-.spinner-section:after,
-.spinner-double-section:after {
-  border-top-color: transparent;
-  border-bottom-color: tomato;
-}
-
-.spinner-section:after {
-  display: none;
-}
-
-.spinner-section-in:before,
-.spinner-section-in:after,
-.spinner-double-section-in:before,
-.spinner-double-section-in:after {
-  top: 0;
-  left: 0;
-  width: 43.75px;
-  height: 43.75px;
-}
-
-.spinner-section-in:after {
-  display: none;
-}
-
-.spinner-section-out:before,
-.spinner-section-out:after,
-.spinner-double-section-out:before,
-.spinner-double-section-out:after {
-  top: -6.25px;
-  left: -6.25px;
-  width: 56.25px;
-  height: 56.25px;
-}
-
-.spinner-section-out:after {
-  display: none;
-}
-
-.spinner-section-far:before,
-.spinner-section-far:after,
-.spinner-double-section-far:before,
-.spinner-double-section-far:after {
-  top: -9.375px;
-  left: -9.375px;
-  width: 62.5px;
-  height: 62.5px;
-}
-
-.spinner-section-far:after {
-  display: none;
-}
-
-/*
-body {
-  background: #303030;
-  overflow: hidden;
-}
-*/
-
-app-root {
-  width: 360px;
-  margin: 30px auto;
-}
+    .spinner-section-far:after {
+      display: none;
+    }
   </style>
 
-  <meta property="og:url" content="www.google.com"/>
-  <meta property="og:title" content="google"/>
-  <meta property="og:description" content="A site to make researches"/>
-  <meta property="og:image" content="google.png"/>
-  <meta property="n2s:via" content="Google"/>
-  <meta property="n2s:hashtags" content="Google"/>
+  <meta property="og:url" content="www.google.com" />
+  <meta property="og:title" content="google" />
+  <meta property="og:description" content="A site to make researches" />
+  <meta property="og:image" content="google.png" />
+  <meta property="n2s:via" content="Google" />
+  <meta property="n2s:hashtags" content="Google" />
 
   <title>Linp</title>
   <base href="/">
@@ -278,20 +157,17 @@ app-root {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
+
 <body>
 
-
-
-<app-root>
+  <app-root>
     <span class="spinner-double-section-far" style="  
     position: absolute;
     display: block;
     top: 20%;
-    left: 42%;"></span>
-</app-root>
+    left: 42%;">LINP</span>
+  </app-root>
 
-
-  
-    
 </body>
+
 </html>

@@ -1,10 +1,10 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {AngularFirestore} from 'angularfire2/firestore';
-import {GamePlayer, GamePlayerStatus, GameStatus} from 'app/models/game';
-import {Subject} from 'rxjs/Subject';
-import {FirebaseGameService} from '../../services/firebasegame.service';
-import {AngularFireAuth} from 'angularfire2/auth';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AngularFirestore } from 'angularfire2/firestore';
+import { GamePlayer, GamePlayerStatus, GameStatus } from 'app/models/game';
+import { Subject } from 'rxjs/Subject';
+import { FirebaseGameService } from '../../services/firebasegame.service';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 @Component({
   selector: 'app-firsttip',
@@ -14,7 +14,7 @@ import {AngularFireAuth} from 'angularfire2/auth';
 export class FirsttipComponent implements OnInit, OnDestroy {
   public loggedInGamePlayer: GamePlayer;
 
-  public isSecondtip = false;
+  public isSecondtip: boolean = null;
 
   readonly NEXT_STATUS: GamePlayerStatus = 'FIRST_SYNONYM_GIVEN';
 
@@ -28,14 +28,16 @@ export class FirsttipComponent implements OnInit, OnDestroy {
   private currentPlayer: GamePlayer;
 
   constructor(private route: ActivatedRoute,
-              private router: Router,
-              public db: AngularFirestore,
-              public afAuth: AngularFireAuth,
-              private firebaseGameService: FirebaseGameService) {
+    private router: Router,
+    public db: AngularFirestore,
+    public afAuth: AngularFireAuth,
+    private firebaseGameService: FirebaseGameService) {
   }
 
   ngOnInit() {
     this.gameName = this.route.snapshot.paramMap.get('gamename') as GameStatus;
+    const gameStatus: GameStatus = this.route.snapshot.url[0].path as GameStatus;
+    this.isSecondtip = gameStatus === 'secondtip';
 
     this.firebaseGameService.observeGame(this.gameName)
       .takeUntil(this.ngUnsubscribe)
@@ -43,27 +45,28 @@ export class FirsttipComponent implements OnInit, OnDestroy {
         if (game.status === 'evaluation' || game.status === 'finalizeround') {
           return;
         }
-        this.router.navigate(['/' + game.status, this.gameName], {skipLocationChange: true});
+        this.router.navigate(['/' + game.status, this.gameName], { skipLocationChange: true });
       });
 
     this.firebaseGameService.observeGamePlayers(this.gameName)
       .takeUntil(this.ngUnsubscribe)
       .subscribe(gamePlayers => {
         this.gamePlayers = gamePlayers;
-        this.currentPlayer = this.gamePlayers.find(gamePlayer => {
-          return gamePlayer.status !== this.NEXT_STATUS;
+        const prevPlayerIndex = this.gamePlayers.findIndex(gamePlayer => {
+          return gamePlayer.status === 'FIRST_SYNONYM_GIVEN';
         });
-        const isNextGameStatusSwitch = this.currentPlayer === null;
-        if (isNextGameStatusSwitch) {
+        if (prevPlayerIndex === this.gamePlayers.length - 1) {
           return;
         }
+        const firstPlayerIndex = 0;
+        const nextPlayerIndex = prevPlayerIndex === -1 ? firstPlayerIndex : prevPlayerIndex + 1;
+        this.currentPlayer = gamePlayers[nextPlayerIndex];
 
         this.loggedInGamePlayer = this.gamePlayers.find(gamePlayer => {
           return gamePlayer.uid === this.firebaseGameService.getAuthUid();
         });
         this.isPlayersTurnForAuthUser = this.currentPlayer.uid === this.loggedInGamePlayer.uid;
       });
-
   }
 
   ngOnDestroy() {

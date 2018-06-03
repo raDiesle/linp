@@ -23,7 +23,7 @@ export class FinalizeroundComponent implements OnInit, OnDestroy {
   public loggedinGamePlayerName: string;
   public loggedinGamePlayerStatus: GamePlayerStatus;
   public savedResponseFlag = false;
-
+  public noEvaluationDataAvailable: boolean = null;
   private gameName: string;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
@@ -39,6 +39,11 @@ export class FinalizeroundComponent implements OnInit, OnDestroy {
       .takeUntil(this.ngUnsubscribe)
       .subscribe(game => {
         this.gameRound = game.round;
+
+        this.noEvaluationDataAvailable = game.round === 0  && [null, undefined].includes(game.evaluationSummary);
+        if (this.noEvaluationDataAvailable) {
+          return;
+        }
         /*
         if (game.status !== 'evaluation') {
           this.router.navigate(['/' + game.status, this.gameName], {skipLocationChange: true});
