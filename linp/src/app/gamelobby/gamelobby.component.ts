@@ -29,6 +29,7 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   private hostPlayer: GamePlayer;
+  public loggedInUser: GamePlayer;
   private clickedStartButton = false;
 
   constructor(private router: Router,
@@ -92,10 +93,10 @@ export class GamelobbyComponent implements OnInit, OnDestroy {
       .subscribe((gamePlayers: GamePlayer[]) => {
         this.gamePlayers = gamePlayers;
         this.hostPlayer = gamePlayers.find(gamePlayr => gamePlayr.isHost);
-        const loggedInUser = gamePlayers.find(gamePlayr => gamePlayr.uid === this.firebaseGameService.getAuthUid());
-        this.loggedInPlayerIsHost = loggedInUser && loggedInUser.isHost;
+        this.loggedInUser = gamePlayers.find(gamePlayr => gamePlayr.uid === this.firebaseGameService.getAuthUid());
+        this.loggedInPlayerIsHost = this.loggedInUser && this.loggedInUser.isHost;
 
-        const isAlreadyJoined = loggedInUser !== undefined;
+        const isAlreadyJoined = this.loggedInUser !== undefined;
         if (isAlreadyJoined === false) {
           this.firebaseGameService.addLoggedInPlayerToGame(this.gameName)
             .then(() => {
