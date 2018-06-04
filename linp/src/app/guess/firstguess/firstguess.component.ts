@@ -72,11 +72,6 @@ export class FirstguessComponent implements OnInit, OnDestroy {
         }
 
       });
-
-    Observable.timer(0, 1000)
-      .subscribe(number => {
-        this.isBlinkTickerShown$ = number % 2 === 0;
-      });
   }
 
   onTeamPlayerGuessSelected(clickedGamePlayer): void {

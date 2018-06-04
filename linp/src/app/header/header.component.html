@@ -6,7 +6,7 @@
     <a routerLink="/welcome">
       <svg-icon src="home" class="svg-small align-bottom" [ngClass]="showBackLink ? 'fill-primary' : 'fill-secondary'"></svg-icon>
     </a>
-    
+    <!-- TODO show only on game pages -->
     <a class="pl-1" routerLink="/finalizeround/{{gameName}}" [hidden]="showBackLink === false">
       <svg-icon src="bar_chart" class="svg-small align-bottom" [ngClass]="showBackLink ? 'fill-primary' : 'fill-secondary'"></svg-icon>
       </a>

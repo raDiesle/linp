@@ -12,6 +12,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
   styleUrls: ['./firsttip.component.css']
 })
 export class FirsttipComponent implements OnInit, OnDestroy {
+
   public loggedInGamePlayer: GamePlayer;
 
   public isSecondtip: boolean = null;
@@ -51,15 +52,15 @@ export class FirsttipComponent implements OnInit, OnDestroy {
     this.firebaseGameService.observeGamePlayers(this.gameName)
       .takeUntil(this.ngUnsubscribe)
       .subscribe(gamePlayers => {
-        this.gamePlayers = gamePlayers;
-        const prevPlayerIndex = this.gamePlayers.findIndex(gamePlayer => {
-          return gamePlayer.status === 'FIRST_SYNONYM_GIVEN';
-        });
-        if (prevPlayerIndex === this.gamePlayers.length - 1) {
-          return;
+        // Hack of some unknown bug, jumps into twice
+        if (gamePlayers.length === 1) {
+          return
         }
-        const firstPlayerIndex = 0;
-        const nextPlayerIndex = prevPlayerIndex === -1 ? firstPlayerIndex : prevPlayerIndex + 1;
+        this.gamePlayers = gamePlayers;
+
+        const nextPlayerIndex = this.gamePlayers.findIndex(gamePlayer => {
+          return gamePlayer.status !== 'FIRST_SYNONYM_GIVEN';
+        });
         this.currentPlayer = gamePlayers[nextPlayerIndex];
 
         this.loggedInGamePlayer = this.gamePlayers.find(gamePlayer => {

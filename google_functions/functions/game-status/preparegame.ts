@@ -1,3 +1,4 @@
+import { LANGUAGE } from './../../../linp/src/app/models/context';
 import * as admin from 'firebase-admin';
 import { Game, GamePlayer, PlayerRolesCounts } from '../../../linp/src/app/models/game';
 import * as firebase from 'firebase';
@@ -39,7 +40,7 @@ export class Preparegame {
 
                 return resetPromise.then(() => {
                     console.log("assign");
-                    return this.assignRolesOrWords(gamePlayers, gameName);
+                    return this.assignRolesOrWords(gamePlayers, gameName, game.language);
                 });
             });
         return promise;
@@ -71,7 +72,7 @@ export class Preparegame {
         return requestModel;
     }
 
-    assignRolesOrWords(gamePlayers: GamePlayer[], gameName: string): Promise<any> {
+    assignRolesOrWords(gamePlayers: GamePlayer[], gameName: string, language: LANGUAGE): Promise<any> {
         const gamePlayerKeys = Object.keys(gamePlayers);
         const gamePlayerSize = gamePlayerKeys.length;
 
@@ -86,10 +87,10 @@ export class Preparegame {
         };
         const gameRolesWrittenPromise = this.writeRolesRequiredToGame(rolesInformation, gameName);
 
-        return Promise.all([gameRolesWrittenPromise, this.fetchWordsAndAssignRoles(rolesInformation, gamePlayers, gameName)]);
+        return Promise.all([gameRolesWrittenPromise, this.fetchWordsAndAssignRoles(rolesInformation, gamePlayers, gameName, language)]);
     }
 
-    private fetchWordsAndAssignRoles(rolesInformation: PlayerRolesCounts, gamePlayers: GamePlayer[], gameName: string): Promise<void> {
+    private fetchWordsAndAssignRoles(rolesInformation: PlayerRolesCounts, gamePlayers: GamePlayer[], gameName: string, language: LANGUAGE): Promise<void> {
         const numberOfQuestionMarks = rolesInformation.questionmark;
         const numberOfWordsNeeded: number = rolesInformation.words;
 
@@ -99,7 +100,6 @@ export class Preparegame {
 
         let questionmarkOrWordPool: { value: string }[] = Array(numberOfQuestionMarks).fill(QUESTIONMARK_ROLE);
 
-        const language = 'en';
         const pathOrRef = '/words/size/' + language;
 
         return admin.firestore()

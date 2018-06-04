@@ -46,6 +46,7 @@ export class EvaluationComponent implements OnInit {
   ngOnInit() {
     this.gameName = this.route.snapshot.paramMap.get('gamename');
 
+    // might refactor to rely on auth user
     this.firebaseGameService.observeLoggedInGamePlayer(this.gameName)
       .takeUntil(this.ngUnsubscribe)
       .subscribe(gamePlayer => {

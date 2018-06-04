@@ -1,14 +1,15 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { GamePlayer } from 'app/models/game';
 import { FirebaseGameService } from 'app/services/firebasegame.service';
 import { ActivatedRoute } from '@angular/router';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss']
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, OnDestroy {
 
   public newChatMessage;
   public chats: any; // TODO
@@ -16,6 +17,8 @@ export class ChatComponent implements OnInit {
   private pageCount = 1;
   public disableLoadMore: boolean = null;
   readonly offset = 4;
+
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   @Input()
   private loggedinGamePlayerName: string;
@@ -55,6 +58,11 @@ export class ChatComponent implements OnInit {
   public sendChat() {
     this.firebaseGameService.addChat(this.gameName, this.newChatMessage, this.loggedinGamePlayerName);
     this.newChatMessage = '';
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
 }

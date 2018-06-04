@@ -1,8 +1,8 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FirebaseGameService} from '../services/firebasegame.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import { GamePlayer, GameTotalPoints, GamePlayerStatus } from 'app/models/game';
-import {Subject} from 'rxjs/Subject';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FirebaseGameService } from '../services/firebasegame.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { GamePlayer, GameTotalPoints, GamePlayerStatus, GameStatus } from 'app/models/game';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'app-finalizeround',
@@ -13,9 +13,6 @@ export class FinalizeroundComponent implements OnInit, OnDestroy {
 
   public gameRound: number;
   public gamePlayers: GamePlayer[] = [];
-
-  private readonly NEXT_PLAYER_STATUS = 'READY_FOR_NEXT_GAME';
-  private readonly PREV_STATUS = 'CHECKED_EVALUATION';
 
   public isGamePlayerReadyForNextGame = false;
   public scores: GameTotalPoints[] = [];
@@ -28,8 +25,8 @@ export class FinalizeroundComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor(private route: ActivatedRoute,
-              private router: Router,
-              private firebaseGameService: FirebaseGameService) {
+    private router: Router,
+    private firebaseGameService: FirebaseGameService) {
   }
 
   ngOnInit() {
@@ -40,7 +37,7 @@ export class FinalizeroundComponent implements OnInit, OnDestroy {
       .subscribe(game => {
         this.gameRound = game.round;
 
-        this.noEvaluationDataAvailable = game.round === 0  && [null, undefined].includes(game.evaluationSummary);
+        this.noEvaluationDataAvailable = game.round === 0 && [null, undefined].includes(game.evaluationSummary);
         if (this.noEvaluationDataAvailable) {
           return;
         }
@@ -72,15 +69,16 @@ export class FinalizeroundComponent implements OnInit, OnDestroy {
   }
 
   startNextRound() {
-    if (this.loggedinGamePlayerStatus === this.PREV_STATUS) {
-      this.firebaseGameService.updateCurrentGamePlayerStatus(this.gameName, this.NEXT_PLAYER_STATUS)
-        .then(() => {
-          this.savedResponseFlag = true;
-          this.router.navigate(['/' + 'firsttip', this.gameName], {skipLocationChange: true});
-        });
-    } else {
-      this.router.navigate(['/' + 'firsttip', this.gameName], {skipLocationChange: true});
+    let promise = Promise.resolve();
+    if (this.loggedinGamePlayerStatus === 'CHECKED_EVALUATION') {
+      promise = this.firebaseGameService.updateCurrentGamePlayerStatus(this.gameName, 'READY_FOR_NEXT_GAME')
+      this.ngOnDestroy();
     }
+    promise.then(() => {
+      this.savedResponseFlag = true;
+      const nextStatus: GameStatus = 'firsttip';
+      this.router.navigate(['/' + nextStatus , this.gameName], { skipLocationChange: true });
+    });
   }
 
   getSortedScore(scores) {

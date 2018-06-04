@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { GamePlayer } from 'app/models/game';
+import { GamePlayer, GamePlayerSummary } from 'app/models/game';
 
 @Component({
   selector: 'app-fakeoruncovered',
@@ -9,7 +9,7 @@ import { GamePlayer } from 'app/models/game';
 export class FakeoruncoveredComponent implements OnInit {
 
   @Input()
-  public gamePlayer: GamePlayer;
+  public gamePlayer: GamePlayerSummary;
 
   constructor() { }
 

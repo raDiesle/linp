@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { GamePlayer, GamePlayerStatus, GameStatus } from 'app/models/game';
 import { ActivatedRoute } from '@angular/router';
 import { FirebaseGameService } from 'app/services/firebasegame.service';
@@ -8,7 +8,7 @@ import { FirebaseGameService } from 'app/services/firebasegame.service';
   templateUrl: './tipyourturn.component.html',
   styleUrls: ['./tipyourturn.component.scss']
 })
-export class TipyourturnComponent implements OnInit {
+export class TipyourturnComponent implements OnInit, OnDestroy {
 
   @Input()
   public loggedInGamePlayer: GamePlayer;
@@ -42,5 +42,9 @@ export class TipyourturnComponent implements OnInit {
       .then(() => {
         this.savedResponseFlag = true;
       });
+  }
+
+  ngOnDestroy(): void {
+    // no observers yet
   }
 }

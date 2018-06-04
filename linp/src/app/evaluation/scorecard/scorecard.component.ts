@@ -1,3 +1,4 @@
+import { GamePlayerSummary } from 'app/models/game';
 import {Component, Input, OnInit} from '@angular/core';
 import {GamePlayer} from '../../models/game';
 
@@ -9,7 +10,7 @@ import {GamePlayer} from '../../models/game';
 export class ScorecardComponent implements OnInit {
 
   @Input()
-  gamePlayer: GamePlayer;
+  public gamePlayer: GamePlayerSummary;
 
   constructor() {
   }

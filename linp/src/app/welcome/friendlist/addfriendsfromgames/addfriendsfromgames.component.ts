@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import { Component, Input, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {FirebaseGameService} from '../../../services/firebasegame.service';
 import {GamePlayer} from '../../../models/game';
@@ -11,16 +11,17 @@ import { ActivePlayerGame } from '../../../models/player';
   templateUrl: './addfriendsfromgames.component.html',
   styleUrls: ['./addfriendsfromgames.component.scss']
 })
-export class AddfriendsfromgamesComponent implements OnInit {
+export class AddfriendsfromgamesComponent implements OnInit, OnDestroy {
 
   public activePlayerGames: ActivePlayerGame[];
-  @Input() public gamePlayers: GamePlayer[];
+
+  @Input()
+  public gamePlayers: GamePlayer[];
   public activePlayerName: string;
 
   public friendList: GamePlayer[] = null;
   private loggedInGamePlayer: GamePlayer = null;
   private clickedOnceButton = false;
-
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
@@ -67,6 +68,11 @@ export class AddfriendsfromgamesComponent implements OnInit {
    // this.firebaseGameService.addCurrentUserAsFriendToOtherPlayer(friend.uid, this.loggedInGamePlayer.name);
     this.firebaseGameService.addFriendToCurrentUser(friendToAdd.uid, friendToAdd.name);
     this.friendList = this.friendList.filter(friend => friend.uid !== friendToAdd.uid);
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
 }

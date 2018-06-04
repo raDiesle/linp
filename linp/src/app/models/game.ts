@@ -36,6 +36,11 @@ export interface PointsScored {
   indirect: number;
 }
 
+export interface GamePlayerSummary extends GamePlayer {
+  pointsScored: PointsScored;
+  totalRanking: number;
+  fakedOrUncovered: string[];
+}
 export interface GamePlayer {
   uid?: string;
   pos?: number;
@@ -47,9 +52,6 @@ export interface GamePlayer {
   firstTeamTip?: TeamTip;
   secondSynonym?: string;
   secondTeamTip?: TeamTip;
-  pointsScored?: PointsScored;
-  totalRanking?: number;
-  fakedOrUncovered?: string[];
 }
 
 // unused

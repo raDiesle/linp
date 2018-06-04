@@ -6,8 +6,8 @@
     <div class="card-body">
       <div class="container-fluid">
         <div class="row" [hidden]="noEvaluationDataAvailable === null">
-          <button class="btn btn-light col-4 text-center" routerLink="/evaluation/{{gameName}}" i18n="@@finalizeround.prev"
-          [hidden]="noEvaluationDataAvailable !== false"
+          <button class="btn btn-light col-4 text-center" routerLink="/evaluation/{{gameName}}" skipLocationChange i18n="@@finalizeround.prev"
+          [hidden]="noEvaluationDataAvailable !== false" 
           >
             Prev scores
           </button>
