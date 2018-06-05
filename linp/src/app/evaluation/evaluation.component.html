@@ -15,12 +15,6 @@
 <div [hidden]="noEvaluationDataAvailable !== false">
   <app-nextbutton [loggedInPlayerCurrentStatus]="loggedinGamePlayer?.status"></app-nextbutton>
 
-  <div class="card">
-    <div class="card-body">
-      <app-chat [loggedinGamePlayerName]="loggedinGamePlayer?.name"></app-chat>
-    </div>
-  </div>
-
   <div class="card mt-4" *ngFor="let gamePlayer of gamePlayerContainer?.QUESTIONMARK; first as isFirst;">
     <div class="card-header">
       <app-rolekey [gamePlayer]="gamePlayer"></app-rolekey>

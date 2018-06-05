@@ -6,10 +6,7 @@
     <a routerLink="/welcome">
       <svg-icon src="home" class="svg-small align-bottom" [ngClass]="showBackLink ? 'fill-primary' : 'fill-secondary'"></svg-icon>
     </a>
-    <!-- TODO show only on game pages -->
-    <a class="pl-1" routerLink="/finalizeround/{{gameName}}" [hidden]="showBackLink === false">
-      <svg-icon src="bar_chart" class="svg-small align-bottom" [ngClass]="showBackLink ? 'fill-primary' : 'fill-secondary'"></svg-icon>
-      </a>
+   
     </div>
   <div class="mx-auto d-sm-flex d-block flex-sm-nowrap">
     <a class="navbar-brand" routerLink="/welcome">          
@@ -21,7 +18,7 @@
       You are offlane
     </ngb-alert>
     -->
-    <div class="collapse navbar-collapse text-center" [ngbCollapse]="false" id="navbarSupportedContent" *ngIf="isDevelopmentEnv">
+    <div class="collapse navbar-collapse text-center" [ngbCollapse]="true" id="navbarSupportedContent" *ngIf="isDevelopmentEnv">
       <ul class="navbar-nav mr-auto flex-row" (click)="isMenuCollapsed=!isMenuCollapsed">
         <li class="nav-item">
           <a id="welcome" class="nav-link" style="color: #4e5d6c" routerLink="/welcome">

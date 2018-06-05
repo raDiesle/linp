@@ -35,6 +35,9 @@ export class ChatComponent implements OnInit, OnDestroy {
       this.allChatsCache = chats;
       this.chats = this.paginate();
     });
+
+    this.firebaseGameService.observeLoggedInPlayerProfile()
+      .subscribe(gamePlayer => this.loggedinGamePlayerName = gamePlayer.name);
   }
 
   private paginate(): any {

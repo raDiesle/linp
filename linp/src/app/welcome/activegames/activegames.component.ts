@@ -17,8 +17,7 @@ export class ActivegamesComponent implements OnInit, OnDestroy {
   public games: ActivePlayerGame[] = null;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
-  constructor(public router: Router,
-              private route: ActivatedRoute,
+  constructor(private route: ActivatedRoute,
               private firebaseGameService: FirebaseGameService) {
   }
 
@@ -33,18 +32,6 @@ export class ActivegamesComponent implements OnInit, OnDestroy {
           game.isActionRequired ? this.games.push(game) : this.passiveGames.push(game);
         });
       });
-  }
-
-  onSelectGameToJoin(gameName: string): void {
-    this.router.navigate([<GameStatus>'gamelobby', gameName], {skipLocationChange: true});
-  }
-
-  public addFriend(game: Game) {
-    event.stopPropagation();
-  }
-
-  public cancelOptions() {
-    event.stopPropagation();
   }
 
   ngOnDestroy() {

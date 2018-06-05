@@ -9,8 +9,7 @@
           No games yet
         </div>
         <p class="card-text pt-2">
-          <button id="joingameBtn" type="button" class="btn btn-primary btn-block" routerLink="/joingame" skipLocationChange
-                  i18n="@@loggedinactions.joinpublic">
+          <button id="joingameBtn" type="button" class="btn btn-primary btn-block" routerLink="/joingame" skipLocationChange i18n="@@loggedinactions.joinpublic">
             Join game
           </button>
           <button type="button" class="btn btn-primary btn-block" routerLink="/creategame" skipLocationChange i18n="@@loggedinactions.creategame">
@@ -36,21 +35,7 @@
                 No games require your action
               </div>
             </div>
-            <button id="gamename_{{game.name}}" class="list-group-item list-group-item-action list-group-item-primary px-2 mt-1" role="button"
-                    *ngFor="let game of games" (click)="onSelectGameToJoin(game.name)"
-            >
-              <!-- (addFriendCallback)="addFriend(game)"
-                    (deleteCallback)="cancelOptions()"
-                    app-swipeoptions -->
-              <div class="row">
-                <div class="col-6">
-                  {{game.name}}
-                </div>
-                <div class="col-6 text-right">
-                  {{game.since | timeAgo}}
-                </div>
-              </div>
-            </button>
+            <app-gamelist [games]="games" [isPrimary]="true"></app-gamelist>
           </div>
           <div class="pt-3">
             <div [hidden]="games !== null">
@@ -59,19 +44,7 @@
             <h3 [hidden]="games === null" i18n="@@tiptemplate.waiting.title">
               Waiting for others
             </h3>
-            <div class="list-group">
-              <button id="gamename_{{game.name}}" class="list-group-item list-group-item-action list-group-item-light mt-1" role="button"
-                      *ngFor="let game of passiveGames" (click)="onSelectGameToJoin(game.name)">
-                <div class="row">
-                  <div class="col-5 px-1">
-                    {{game.name}}
-                  </div>
-                  <div class="col-7 px-1 text-right">
-                    {{game.since | timeAgo}}
-                  </div>
-                </div>
-              </button>
-            </div>
+            <app-gamelist [games]="passiveGames" [isPrimary]="false"></app-gamelist>
           </div>
 
           <div *ngIf="games !== null && games.length === 0 && passiveGames.length === 0">

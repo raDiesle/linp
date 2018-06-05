@@ -6,16 +6,15 @@
     <div class="card-body">
       <div class="container-fluid">
         <div class="row" [hidden]="noEvaluationDataAvailable === null">
-          <button class="btn btn-light col-4 text-center" routerLink="/evaluation/{{gameName}}" skipLocationChange i18n="@@finalizeround.prev"
-          [hidden]="noEvaluationDataAvailable !== false" 
-          >
-            Prev scores
+          <button class="btn btn-light col-5 text-center" routerLink="/evaluation/{{gameName}}" skipLocationChange i18n="@@finalizeround.prev"
+            [hidden]="noEvaluationDataAvailable !== false">
+            Previous scores
           </button>
-          <button id="startNextRound" class="btn btn-primary text-center" [ngClass]="noEvaluationDataAvailable ? 'col-12' : 'col-8 border-left'" (click)="startNextRound()" i18n="@@finalizeround.next">
-            Continue
+          <button id="startNextRound" class="btn btn-primary text-center" [ngClass]="noEvaluationDataAvailable ? 'col-12' : 'col-7 border-left'"
+            (click)="startNextRound()" i18n="@@finalizeround.next">
+            Play
           </button>
         </div>
-        <app-chat [loggedinGamePlayerName]="loggedinGamePlayerName"></app-chat>
       </div>
     </div>
   </div>
