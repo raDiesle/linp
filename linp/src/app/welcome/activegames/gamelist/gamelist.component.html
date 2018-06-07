@@ -1,10 +1,9 @@
-
 <ng-container *ngFor="let game of games">
-
   <div class="btn-group mt-1 d-flex">
-    <button id="gamename_{{game.name}}" class="btn py-2 w-100 d-flex" [ngClass]="isPrimary ? 'btn-primary' : 'btn-light'" type="button" (click)="onSelectGameToJoin(game.name)">
-     <strong class="mr-auto">{{game.name}}</strong>
-     <span>{{game.since | timeAgo}}</span>
+    <button id="gamename_{{game.name}}" class="btn py-2 w-100 d-flex" [ngClass]="isPrimary ? 'btn-primary' : 'btn-light'" type="button"
+      (click)="onSelectGameToJoin(game.name)">
+      <strong class="mr-auto">{{game.name}}</strong>
+      <span>{{game.since | timeAgo}}</span>
     </button>
     <div class="btn-group" aria-label="Game actions" placement="left" ngbDropdown>
       <button type="button" class="btn btn-danger dropdown-toggle-split" ngbDropdownToggle></button>
@@ -14,18 +13,14 @@
           <span>Scores</span>
         </button>
         <button class="dropdown-item" routerLink="/chat/{{game.name}}" skipLocationChange>
-          <svg-icon src="chat_button_outline" class="svg-small align-bottom pr-1 fill-primary" ></svg-icon>
+          <svg-icon src="chat_button_outline" class="svg-small align-bottom pr-1 fill-primary"></svg-icon>
           Chat
         </button>
         <button class="dropdown-item" routerLink="/addfriendsfromgames" skipLocationChange>
-          <svg-icon src="group_add" class="svg-small align-bottom pr-1 fill-primary" ></svg-icon>
+          <svg-icon src="group_add" class="svg-small align-bottom pr-1 fill-primary"></svg-icon>
           Add as friend
         </button>
       </div>
-  
     </div>
   </div>
-
-
-
 </ng-container>

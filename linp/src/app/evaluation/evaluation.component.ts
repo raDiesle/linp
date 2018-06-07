@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth/auth';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AngularFirestore } from 'angularfire2/firestore';
@@ -12,7 +12,8 @@ import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './evaluation.component.html',
   styleUrls: ['./evaluation.component.css']
 })
-export class EvaluationComponent implements OnInit {
+export class EvaluationComponent implements OnInit, OnDestroy {
+
 
   public noEvaluationDataAvailable: boolean = null;
   numberOfQuestionmarks: number;
@@ -51,21 +52,24 @@ export class EvaluationComponent implements OnInit {
       .takeUntil(this.ngUnsubscribe)
       .subscribe(gamePlayer => {
         this.loggedinGamePlayer = gamePlayer;
+/*
+        if (gamePlayer.status === 'CHECKED_EVALUATION') {
+          this.router.navigate(['/' + this.NEXT_STATUS, this.gameName], { skipLocationChange: true });
+          this.ngOnDestroy();
+          return;
+        } else if (gamePlayer.status === 'READY_FOR_NEXT_GAME') {
+          this.router.navigate(['/' + this.NEXT_NEXT_STATUS, this.gameName], { skipLocationChange: true });
+          this.ngOnDestroy();
+          return;
+        }
+        */
       });
-    /*
-            if (gamePlayer.status === 'CHECKED_EVALUATION') {
-              this.router.navigate(['/' + this.NEXT_STATUS, this.gameName], {skipLocationChange: true});
-              return;
-            } else if (gamePlayer.status === 'READY_FOR_NEXT_GAME') {
-              this.router.navigate(['/' + this.NEXT_NEXT_STATUS, this.gameName], {skipLocationChange: true});
-              return;
-            } else {
-              */
+
     this.firebaseGameService.observeGame(this.gameName)
       .takeUntil(this.ngUnsubscribe)
       .subscribe(game => {
 
-        this.noEvaluationDataAvailable = game.round === 0  && [null, undefined].includes(game.evaluationSummary);
+        this.noEvaluationDataAvailable = game.round === 0 && [null, undefined].includes(game.evaluationSummary);
         if (this.noEvaluationDataAvailable) {
           return;
         }
@@ -110,6 +114,11 @@ export class EvaluationComponent implements OnInit {
     }
     // same names
     return 0;
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
 }

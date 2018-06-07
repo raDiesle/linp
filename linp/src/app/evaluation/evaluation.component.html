@@ -1,13 +1,13 @@
 <app-gameprogress parent="3" child="5"></app-gameprogress>
 <br>
 
+<!-- actually not needed -->
 <div class="card" [hidden]="noEvaluationDataAvailable !== true">
   <div class="card-body text-center">
     <h2 class="py-2">Game is in first round. </h2>
     <h3 class="py-2">There is no summary from previous game available, yet.</h3>
-
-    <button class="btn btn-primary btn-block" routerLink="/gamelobby/{{gameName}}" skipLocationChange >
-      Continue
+    <button class="btn btn-primary" routerLink="/gamelobby/{{gameName}}" skipLocationChange>
+      Continue game
     </button>
   </div>
 </div>

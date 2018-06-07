@@ -8,11 +8,11 @@
         <div class="row" [hidden]="noEvaluationDataAvailable === null">
           <button class="btn btn-light col-5 text-center" routerLink="/evaluation/{{gameName}}" skipLocationChange i18n="@@finalizeround.prev"
             [hidden]="noEvaluationDataAvailable !== false">
-            Previous scores
+            <svg-icon src="chevron_right" class="svg-small fill-white align-bottom"></svg-icon> Previous scores
           </button>
           <button id="startNextRound" class="btn btn-primary text-center" [ngClass]="noEvaluationDataAvailable ? 'col-12' : 'col-7 border-left'"
             (click)="startNextRound()" i18n="@@finalizeround.next">
-            Play
+            Continue game <svg-icon src="chevron_left" class="svg-small fill-white align-bottom"></svg-icon>
           </button>
         </div>
       </div>

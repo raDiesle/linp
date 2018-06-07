@@ -16,6 +16,8 @@ export class NextbuttonComponent implements OnInit, OnDestroy {
 
   gameName: string;
 
+  public isFirstTimeVisitingPage: boolean = null;
+
   @Input()
   gameRound: number;
 
@@ -35,11 +37,12 @@ export class NextbuttonComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.gameName = this.route.snapshot.paramMap.get('gamename');
+    this.isFirstTimeVisitingPage = this.loggedInPlayerCurrentStatus === 'SECOND_GUESS_GIVEN';
   }
 
   navigateToFinalizeRound() {
     let promise = Promise.resolve();
-    if (this.loggedInPlayerCurrentStatus === 'SECOND_GUESS_GIVEN') {
+    if (this.isFirstTimeVisitingPage) {
       promise = this.firebaseGameService.updateGamePlayerStatus(
         this.firebaseGameService.authUserUid,
         this.gameName,
