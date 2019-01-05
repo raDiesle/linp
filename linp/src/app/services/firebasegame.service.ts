@@ -142,7 +142,7 @@ export class FirebaseGameService {
     return this.db
       .collection<Game>('players')
       .doc(uid)
-      .collection<ActivePlayerGame>('activegames')
+      .collection<ActivePlayerGame>('activegames', ref => ref.orderBy('since'))
       .valueChanges()
   }
 

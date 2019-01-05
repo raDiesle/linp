@@ -5,7 +5,7 @@
       <button id="finalizeRoundButton" class="btn btn-primary mb-2" [ngClass]="isFirstTimeVisitingPage === true ? 'col-12' : 'col-6 border-right'" (click)="navigateToFinalizeRound()" i18n="@@nextbutton.next.button">
         Go to ranking <svg-icon src="chevron_left" class="svg-small fill-white align-bottom"></svg-icon>
       </button>
-      <button id="finalizeRoundButton" class="btn btn-light col-6 mb-2" i18n="@@nextbutton.next.button" [hidden]="[true, null].includes(isFirstTimeVisitingPage)" routerLink="/gamelobby/{{gameName}}" skipLocationChange>
+      <button id="finalizeRoundButton" class="btn btn-light col-6 mb-2" i18n="@@nextbutton.next.button" [hidden]="[true, null].includes(isFirstTimeVisitingPage)" (click)="continueGame()">
         Continue game <svg-icon src="last_page" class="svg-small fill-white align-bottom"></svg-icon>
       </button>
     </div>

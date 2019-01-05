@@ -80,7 +80,7 @@ import { ChatComponent } from './widgets/chat/chat.component';
 import { FakeoruncoveredComponent } from './evaluation/fakeoruncovered/fakeoruncovered.component';
 import { PlayersumComponent } from './evaluation/playersum/playersum.component';
 import { TipyourturnComponent } from './tip/tipyourturn/tipyourturn.component';
-import { GamelistComponent } from './welcome/activegames/gamelist/gamelist.component'
+import { GamelistComponent } from './welcome/activegames/gamelist/gamelist.component';
 
 export function windowFactory() {
   return window;

@@ -14,7 +14,7 @@ import { Subject } from 'rxjs/Subject';
 })
 export class NextbuttonComponent implements OnInit, OnDestroy {
 
-  gameName: string;
+  public gameName: string;
 
   public isFirstTimeVisitingPage: boolean = null;
 
@@ -24,7 +24,6 @@ export class NextbuttonComponent implements OnInit, OnDestroy {
   @Input()
   private loggedInPlayerCurrentStatus: GamePlayerStatus;
 
-  readonly NEXT_STATUS: GameStatus = 'finalizeround';
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor(private route: ActivatedRoute,
@@ -40,18 +39,24 @@ export class NextbuttonComponent implements OnInit, OnDestroy {
     this.isFirstTimeVisitingPage = this.loggedInPlayerCurrentStatus === 'SECOND_GUESS_GIVEN';
   }
 
-  navigateToFinalizeRound() {
+  public navigateToFinalizeRound() {
     let promise = Promise.resolve();
     if (this.isFirstTimeVisitingPage) {
       promise = this.firebaseGameService.updateGamePlayerStatus(
         this.firebaseGameService.authUserUid,
         this.gameName,
         'CHECKED_EVALUATION');
-        this.ngOnDestroy();
+      this.ngOnDestroy();
     }
     promise.then(() => {
-      this.router.navigate([this.NEXT_STATUS, this.gameName], { skipLocationChange: true });
+      const NEXT_STATUS: GameStatus = 'finalizeround';
+      this.router.navigate([NEXT_STATUS, this.gameName], { skipLocationChange: true });
     });
+  }
+
+  public continueGame() {
+    const nextNextPage: GameStatus = 'firsttip';
+    this.router.navigate([nextNextPage, this.gameName], { skipLocationChange: true });
   }
 
   ngOnDestroy(): void {
