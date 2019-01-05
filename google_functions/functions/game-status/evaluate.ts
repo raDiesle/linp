@@ -2,7 +2,7 @@ import { CalculatescoreService } from './calculatescore.service';
 import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin';
 import {
-    Game, GamePlayer, GameTotalPoints, PointsScored, TeamTip
+    Game, GamePlayer, GameTotalPoints, GamePlayerSummary, PointsScored, TeamTip
 } from '../../../linp/src/app/models/game';
 import { WriteResult } from '@google-cloud/firestore';
 
@@ -30,7 +30,7 @@ export class Evaluate {
 
                 const gamePlayers: GamePlayer[] = gamePlayersResult.docs.map(gamePlayer => gamePlayer.data());
                 const gamePlayerKeys: string[] = gamePlayers.map(gamePlayer => gamePlayer.uid);
-                const gamePlayersObjectOriginal: { [uid: string]: GamePlayer } = this.arrayToObject(gamePlayers);
+                const gamePlayersObjectOriginal: { [uid: string]: GamePlayerSummary } = this.arrayToObject(gamePlayers);
 
                 // move to other page
                 const gamePlayersObjectResettedPoints = this.resetPoints(gamePlayerKeys, gamePlayersObjectOriginal);
@@ -39,7 +39,7 @@ export class Evaluate {
                 // obsolete for players
                 gamePlayersObject = this.addTotalPoints(gamePlayerKeys, gamePlayersObject);
                 // obsolete for players
-                gamePlayersObject = this.addRanking(gamePlayerKeys, gamePlayersObject, gamePlayers);
+                gamePlayersObject = this.addRanking(gamePlayerKeys, gamePlayersObject, gamePlayers as GamePlayerSummary[]);
                 // TODO make it obsolete
                 const gameUpdateRequest: any = this.getScoresDbStructureRequest(gameName, gamePlayerKeys, gamePlayersObject);
 
@@ -52,7 +52,7 @@ export class Evaluate {
             });
     }
 
-    private addTotalPoints(gamePlayerKeys: string[], gamePlayersInput: { [p: string]: GamePlayer }): { [p: string]: GamePlayer } {
+    private addTotalPoints(gamePlayerKeys: string[], gamePlayersInput: { [p: string]: GamePlayerSummary }): { [p: string]: GamePlayerSummary } {
         const gamePlayersObject = Object.assign({}, gamePlayersInput);
         for (const gamePlayerKey of gamePlayerKeys) {
             const gamePlayer = gamePlayersObject[gamePlayerKey];
@@ -81,7 +81,7 @@ export class Evaluate {
     }
 
     private updateGame(gamePlayerKeys: string[],
-        gamePlayers: { [p: string]: GamePlayer },
+        gamePlayers: { [p: string]: GamePlayerSummary },
         round: number,
         gameName: string,
         gameUpdateRequest: any): Promise<WriteResult> {
@@ -113,7 +113,7 @@ export class Evaluate {
             .update(gameRequest)
     }
 
-    resetPoints(gamePlayerKeys: string[], gamePlayersInput: { [uid: string]: GamePlayer }): { [uid: string]: GamePlayer } {
+    resetPoints(gamePlayerKeys: string[], gamePlayersInput: { [uid: string]: GamePlayerSummary }): { [uid: string]: GamePlayerSummary } {
         const gamePlayers = Object.assign({}, gamePlayersInput);
         for (const gamePlayerKey of gamePlayerKeys) {
             const gamePlayer = gamePlayers[gamePlayerKey];
@@ -133,7 +133,7 @@ export class Evaluate {
         return gamePlayers;
     }
 
-    evaluateScores(gamePlayerKeys: string[], gamePlayersObjectResettedPoints: { [uid: string]: GamePlayer }): { [uid: string]: GamePlayer } {
+    evaluateScores(gamePlayerKeys: string[], gamePlayersObjectResettedPoints: { [uid: string]: GamePlayerSummary }): { [uid: string]: GamePlayerSummary } {
         const gamePlayers = Object.assign({}, gamePlayersObjectResettedPoints);
         // Rewrite to not manipulate outer objects
         for (const gamePlayerKey of gamePlayerKeys) {
@@ -151,8 +151,8 @@ export class Evaluate {
         return gamePlayers;
     }
 
-    calculateScoresOfGuess(gamePlayers: { [uid: string]: GamePlayer },
-        currentGamePlayer: GamePlayer,
+    calculateScoresOfGuess(gamePlayers: { [uid: string]: GamePlayerSummary },
+        currentGamePlayer: GamePlayerSummary,
         teamTip: TeamTip): number {
         const firstTeamPlayer = gamePlayers[teamTip.firstPartner.uid];
         const secondTeamPlayer = gamePlayers[teamTip.secondPartner.uid];
@@ -161,7 +161,7 @@ export class Evaluate {
 
     private getScoresDbStructureRequest(gameName: string,
         gamePlayerKeys: string[],
-        gamePlayers: { [p: string]: GamePlayer }) {
+        gamePlayers: { [p: string]: GamePlayerSummary }) {
         const request: any = {
             pointsScored: {} as any,
             totalRanking: 0 as number
@@ -184,8 +184,8 @@ export class Evaluate {
     }
 
     private addRanking(gamePlayerKeys: string[],
-        gamePlayersInput: { [p: string]: GamePlayer },
-        gamePlayers: GamePlayer[]): { [p: string]: GamePlayer } {
+        gamePlayersInput: { [p: string]: GamePlayerSummary },
+        gamePlayers: GamePlayerSummary[]): { [p: string]: GamePlayerSummary } {
 
         const gamePlayersObject = Object.assign({}, gamePlayersInput);
         gamePlayers.sort((a, b) => {

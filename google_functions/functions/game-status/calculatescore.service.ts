@@ -1,11 +1,12 @@
-import {GamePlayer} from '../../../linp/src/app/models/game';
+import {GamePlayer, GamePlayerSummary} from '../../../linp/src/app/models/game';
 
 export class CalculatescoreService {
 
     constructor() {
     }
 
-    calculateScoreForOneGuess(currentGamePlayer: GamePlayer, firstGuessGamePlayer: GamePlayer, secondGuessGamePlayer: GamePlayer): number {
+    calculateScoreForOneGuess(currentGamePlayer: GamePlayerSummary, firstGuessGamePlayer: GamePlayerSummary, secondGuessGamePlayer: GamePlayerSummary): number {
+    
 
         const currentPlayerQuestionScore = this.performQuestionmarkRule(firstGuessGamePlayer, currentGamePlayer, secondGuessGamePlayer);
         if (currentPlayerQuestionScore < 0) {
@@ -65,7 +66,7 @@ export class CalculatescoreService {
         return isOtherPlayerGuessedAsTeamCorrect;
     }
 
-    private performQuestionmarkRule(firstGuessGamePlayer: GamePlayer, currentGamePlayer: GamePlayer, secondGuessGamePlayer: GamePlayer) {
+    private performQuestionmarkRule(firstGuessGamePlayer: GamePlayerSummary, currentGamePlayer: GamePlayerSummary, secondGuessGamePlayer: GamePlayerSummary) {
         let pointsForChoosingQuestionmark = 0;
 
         const QUESTION_MARK = '?';
